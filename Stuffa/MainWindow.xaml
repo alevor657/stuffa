@@ -5,13 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="525">
+        Title="MainWindow">
     <Grid Margin="0,0,0.4,-0.2">
-        <ListBox x:Name="list" HorizontalAlignment="Left" Height="158" Margin="78,60,0,0" VerticalAlignment="Top" Width="215" SelectionChanged="ListBox_SelectionChanged"/>
-        <TextBlock x:Name="text" HorizontalAlignment="Left" Margin="78,223,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="215" Height="78"/>
-        <MediaElement x:Name="player"   LoadedBehavior="Manual" HorizontalAlignment="Left" Height="158" Margin="360,60,0,0" VerticalAlignment="Top" Width="102"/>
+        <ListBox x:Name="list" HorizontalAlignment="Left" Height="158" Margin="78,60,0,0" VerticalAlignment="Top" SelectionChanged="ListBox_SelectionChanged"/>
+        <TextBlock x:Name="text" HorizontalAlignment="Left" Margin="78,223,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="78"><InlineUIContainer>
+                <TextBox x:Name="textBox1" Height="23" TextWrapping="Wrap" Text="TextBox" Width="120"/>
+            </InlineUIContainer></TextBlock>
+        <MediaElement x:Name="player"   LoadedBehavior="Manual" HorizontalAlignment="Left" Height="158" Margin="415,207,0,0" VerticalAlignment="Top" Width="102"/>
         <Button Content="play/pause" HorizontalAlignment="Left" Margin="374,124,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <Slider x:Name="progresBar" HorizontalAlignment="Left" Margin="44,336,0,0" VerticalAlignment="Top" Height="9" RenderTransformOrigin="0.5,0.5" Width="442">
+        <Slider x:Name="progresBar" Margin="43,402,398.2,0" VerticalAlignment="Top" Height="25" RenderTransformOrigin="0.5,0.5" ValueChanged="progresBar_ValueChanged">
             <Slider.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1"/>
@@ -21,6 +23,20 @@
                 </TransformGroup>
             </Slider.RenderTransform>
         </Slider>
+        <DockPanel HorizontalAlignment="Stretch" Height="20" LastChildFill="False" VerticalAlignment="Top">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File" Click="MenuItem_Click">
+                    <MenuItem Header="_New" />
+                    <MenuItem Header="_Open Song" Click="open_song_click"/>
+                    <MenuItem Header="_Save" />
+                    <Separator />
+                    <MenuItem Header="_Exit" />
+                </MenuItem>
+            </Menu>
+
+        </DockPanel>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="78,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+        <Label x:Name="label" Content="Tid: " HorizontalAlignment="Left" Margin="361,403,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
