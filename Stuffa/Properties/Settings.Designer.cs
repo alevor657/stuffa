@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Stuffa.Properties
+namespace WpfApp2.Properties
 {
 
 

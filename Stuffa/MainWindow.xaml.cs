@@ -17,7 +17,7 @@ using System.Collections;
 
 
 
-namespace WpfApp2
+namespace Stuffa
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -46,7 +46,7 @@ namespace WpfApp2
         {
             //gets the file name
             list.Items.Add(System.IO.Path.GetFileNameWithoutExtension(path));
-            // Console.WriteLine("Processed file '{0}'.", path);
+           // Console.WriteLine("Processed file '{0}'.", path);
         }
 
         public MainWindow()
@@ -55,7 +55,8 @@ namespace WpfApp2
 
             ProcessDirectory("E:\\grupp.proj\\YTExampleMusik", list);
 
-
+            progresBar.Value = 0.5;
+         
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -81,9 +82,9 @@ namespace WpfApp2
         {
 
 
-            if (isPlaying)
+            if(isPlaying)
             {
-
+               
                 player.Pause();
                 isPlaying = false;
             }
@@ -92,11 +93,11 @@ namespace WpfApp2
                 player.Play();
                 isPlaying = true;
             }
+            
+             
+            
 
-
-
-
-
+            
         }
     }
 }
