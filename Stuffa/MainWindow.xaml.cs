@@ -31,7 +31,7 @@ namespace Stuffa
         public static void ProcessDirectory(string targetDirectory, ListBox list)
         {
             // Process the list of files found in the directory.
-            string[] fileEntries = Directory.GetFiles(targetDirectory);
+            try {string[] fileEntries = Directory.GetFiles(targetDirectory);
             foreach (string fileName in fileEntries)
                 ProcessFile(fileName, list);
 
@@ -39,6 +39,7 @@ namespace Stuffa
             string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
             foreach (string subdirectory in subdirectoryEntries)
                 ProcessDirectory(subdirectory, list);
+                } catch {}
         }
 
         // Insert logic for processing found files here.
