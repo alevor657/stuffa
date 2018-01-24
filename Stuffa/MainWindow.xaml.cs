@@ -120,7 +120,7 @@ namespace Stuffa
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
             dlg.DefaultExt = ".mp3";
-            dlg.Filter = "MP3 Files (*.mp3)|*.mp3| FLAC Files (*.flac)|*.flac";
+            dlg.Filter = "MP3 Files (*.mp3)|*.mp3|M4A Files (*.m4a)|*.m4a|FLAC Files (*.flac)|*.flac";
 
             // Display OpenFileDialog by calling ShowDialog method 
             Nullable<bool> result = dlg.ShowDialog();
