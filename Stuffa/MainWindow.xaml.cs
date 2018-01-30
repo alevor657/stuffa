@@ -14,8 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Collections;
-
-
+using System.Threading;
+using WpfApp2;
 
 namespace Stuffa
 {
@@ -24,22 +24,22 @@ namespace Stuffa
     /// </summary>
     public partial class MainWindow : Window
     {
-        bool isPlaying = false;
+        static bool isPlaying = false;
         Music[] songs = new Music[3];
         // Process all files in the directory passed in, recurse on any directories 
         // that are found, and process the files they contain.
         public static void ProcessDirectory(string targetDirectory, ListBox list)
         {
             // Process the list of files found in the directory.
-            try {string[] fileEntries = Directory.GetFiles(targetDirectory);
-            foreach (string fileName in fileEntries)
-                ProcessFile(fileName, list);
+            try { string[] fileEntries = Directory.GetFiles(targetDirectory);
+                foreach (string fileName in fileEntries)
+                    ProcessFile(fileName, list);
 
-            // Recurse into subdirectories of this directory.
-            string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
-            foreach (string subdirectory in subdirectoryEntries)
-                ProcessDirectory(subdirectory, list);
-                } catch {}
+                // Recurse into subdirectories of this directory.
+                string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
+                foreach (string subdirectory in subdirectoryEntries)
+                    ProcessDirectory(subdirectory, list);
+            } catch { }
         }
 
         // Insert logic for processing found files here.
@@ -47,16 +47,41 @@ namespace Stuffa
         {
             //gets the file name
             list.Items.Add(path);
-           // Console.WriteLine("Processed file '{0}'.", path);
+            // Console.WriteLine("Processed file '{0}'.", path);
         }
+
+        public  void pausePlay()
+        {
+            
+                if (isPlaying)
+                {
+
+                    player.Pause();
+                    isPlaying = false;
+                }
+                else
+                {
+                    player.Play();
+                    isPlaying = true;
+                }
+            
+        }
+
+       
+
+
 
         public MainWindow()
         {
+            Thread.CurrentThread.Name = "parent";
             InitializeComponent();
 
             ProcessDirectory("C:\\Users\\Fredrik\\source\\repos\\stuffa\\Musik\\", list);
 
             progresBar.Value = 0.5;
+            /*Thread serverThread = new Thread(startServer);
+            serverThread.Start();*/
+
          
         }
 
@@ -84,21 +109,13 @@ namespace Stuffa
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+       
+
+        public void Button_Click(object sender, RoutedEventArgs e)
         {
 
-
-            if(isPlaying)
-            {
-               
-                player.Pause();
-                isPlaying = false;
-            }
-            else
-            {
-                player.Play();
-                isPlaying = true;
-            }
+            pausePlay();
+            
             
              
             
@@ -142,6 +159,17 @@ namespace Stuffa
         private void progresBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
 
+        }
+
+        private void connect_Click(object sender, RoutedEventArgs e)
+        {
+            Server server = new Server();
+            string message = server.startServer();
+            if (message == "P")
+            {
+
+                pausePlay();
+            }
         }
     }
 }
