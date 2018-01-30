@@ -67,6 +67,24 @@ namespace Stuffa
             
         }
 
+        public void pausePlayServer()
+        {
+            this.Dispatcher.Invoke(() => { pausePlay(); });
+        }
+
+        public void startServer()
+        {
+            Server server = new Server();
+            while (true)
+            {
+                string message = server.startServer();
+                if (message == "P")
+                {
+
+                    pausePlayServer();
+                }
+            }
+        }
        
 
 
@@ -79,8 +97,8 @@ namespace Stuffa
             ProcessDirectory("C:\\Users\\Fredrik\\source\\repos\\stuffa\\Musik\\", list);
 
             progresBar.Value = 0.5;
-            /*Thread serverThread = new Thread(startServer);
-            serverThread.Start();*/
+            Thread serverThread = new Thread(startServer);
+            serverThread.Start();
 
          
         }
@@ -161,15 +179,6 @@ namespace Stuffa
 
         }
 
-        private void connect_Click(object sender, RoutedEventArgs e)
-        {
-            Server server = new Server();
-            string message = server.startServer();
-            if (message == "P")
-            {
-
-                pausePlay();
-            }
-        }
+       
     }
 }

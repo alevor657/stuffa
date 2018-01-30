@@ -37,7 +37,6 @@
         </DockPanel>
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="78,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
         <Label x:Name="label" Content="Tid: " HorizontalAlignment="Left" Margin="361,403,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="connect" Content="connect" HorizontalAlignment="Left" Margin="475,124,0,0" VerticalAlignment="Top" Width="75" Click="connect_Click"/>
 
     </Grid>
 </Window>
