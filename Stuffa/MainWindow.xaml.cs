@@ -16,6 +16,7 @@ using System.IO;
 using System.Collections;
 using System.Threading;
 using WpfApp2;
+using Newtonsoft.Json;
 
 namespace Stuffa
 {
@@ -179,6 +180,37 @@ namespace Stuffa
 
         }
 
-       
+        private void save_Click(object sender, RoutedEventArgs e)
+        {
+            List<string> musicTracks = new List<string>();
+            foreach(var i in list.Items)
+            {
+                musicTracks.Add(i.ToString());
+            }
+            // package Newtonsoft.Json (Json.Net) need to be installed. 
+            // to install go to "project" > "manage NuGet packages..." > "Brows" > type "Newtonsoft.Json" / "Json.Net" > "install"
+            string json = JsonConvert.SerializeObject(musicTracks.ToArray());
+            System.IO.File.WriteAllText(@"D:\path8ihbjhgnbbv.txt", json);
+
+
+        }
+
+        private void load_Click(object sender, RoutedEventArgs e)
+        {
+            //List<string> musicTracks = new List<string>();
+
+            using (StreamReader r = new StreamReader(@"D:\path8ihbjhgnbbv.txt"))
+            {
+                string json = r.ReadToEnd();
+                List<string> musicTracks = JsonConvert.DeserializeObject<List<string>>(json);
+
+                foreach (string i in musicTracks.ToArray())
+                {
+                    list.Items.Add(i);
+
+                }
+            }
+            
+        }
     }
 }
