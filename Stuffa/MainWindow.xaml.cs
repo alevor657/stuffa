@@ -18,6 +18,8 @@ using System.Threading;
 using WpfApp2;
 using Newtonsoft.Json;
 
+
+
 namespace Stuffa
 {
     /// <summary>
@@ -111,14 +113,27 @@ namespace Stuffa
             // Denna funkar bara efter att man har lagt till  en ny låt - därför utkommenterad
             //textBox.Text = "Path: " + songs[0].path + " Title: " + songs[0].name;
             TagLib.File tagFile = TagLib.File.Create(path);
-            string artist = tagFile.Tag.JoinedPerformers;
-            string album = tagFile.Tag.JoinedAlbumArtists;
             string songName = tagFile.Tag.Title;
             var length = tagFile.Properties.Duration;
 
+
+            //get BPM
+            // instantiate the Application object
+
+            dynamic shell = Activator.CreateInstance(Type.GetTypeFromProgID("Shell.Application"));
+
+            // get the folder and the child
+            var folder = shell.NameSpace(System.IO.Path.GetDirectoryName(path));
+            var item = folder.ParseName(System.IO.Path.GetFileName(path));
+
+            // get the item's property by it's canonical name. doc says it's a string
+            string bpm = item.ExtendedProperty("System.Music.BeatsPerMinute");
+            Console.WriteLine(bpm);
+            //get BPM
+
             label.Content = length;
 
-            text.Text = path + "\n\nmusik grupp: " + artist + " Album: " + album + " Title: " + songName;
+            text.Text = path + "\n\n" +  "Title: " + songName + "\nBPM: " + bpm;
 
             player.Source = new Uri(path, UriKind.RelativeOrAbsolute);
 
