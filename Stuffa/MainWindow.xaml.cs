@@ -99,6 +99,7 @@ namespace Stuffa
 
             progresBar.Value = 0.5;
             Thread serverThread = new Thread(startServer);
+            serverThread.IsBackground = true;
             serverThread.Start();
 
          
