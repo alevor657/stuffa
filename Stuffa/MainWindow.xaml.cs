@@ -97,7 +97,9 @@ namespace Stuffa
             Thread.CurrentThread.Name = "parent";
             InitializeComponent();
 
-            ProcessDirectory("C:\\Users\\Fredrik\\source\\repos\\stuffa\\Musik\\", list);
+            string path = System.Reflection.Assembly.GetEntryAssembly().Location;
+            Console.WriteLine(path);
+            ProcessDirectory(path + "\\..\\..\\..\\..\\Musik", list);
 
             progresBar.Value = 0.5;
             Thread serverThread = new Thread(startServer);
