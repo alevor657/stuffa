@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow">
     <Grid Margin="0,0,0.4,-0.2">
-        <ListBox x:Name="list" HorizontalAlignment="Left" Height="158" Margin="78,60,0,0" VerticalAlignment="Top" SelectionChanged="ListBox_SelectionChanged"/>
+        <ListBox x:Name="list" MouseDoubleClick="ListBox_MouseDoubleClick" HorizontalAlignment="Left" Height="158" Margin="78,60,0,0" VerticalAlignment="Top" SelectionChanged="ListBox_SelectionChanged"/>
         <TextBlock x:Name="text" HorizontalAlignment="Left" Margin="78,223,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="78"><InlineUIContainer>
                 <TextBox x:Name="textBox1" Height="23" TextWrapping="Wrap" Text="TextBox" Width="120"/>
             </InlineUIContainer></TextBlock>

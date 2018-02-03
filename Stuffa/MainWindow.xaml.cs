@@ -31,18 +31,71 @@ namespace Stuffa
         Music[] songs = new Music[3];
         // Process all files in the directory passed in, recurse on any directories 
         // that are found, and process the files they contain.
-        public static void ProcessDirectory(string targetDirectory, ListBox list)
+
+        public static void loadPlaylist(string path, ListBox list)
+        {
+            using (StreamReader r = new StreamReader(@path))
+            {
+                string json = r.ReadToEnd();
+                List<string> musicTracks = JsonConvert.DeserializeObject<List<string>>(json);
+
+                list.Items.Clear();
+
+
+                foreach (string i in musicTracks.ToArray())
+                {
+                    list.Items.Add(i);
+
+                }
+            }
+        }
+
+
+        public static void ProcessDirectory(string targetDirectory, ListBox list, string[] fileTypes, int cap)
         {
             // Process the list of files found in the directory.
-            try { string[] fileEntries = Directory.GetFiles(targetDirectory);
+            try
+            {
+                string[] fileEntries = Directory.GetFiles(targetDirectory);
                 foreach (string fileName in fileEntries)
-                    ProcessFile(fileName, list);
+                {
+                    for(int i = 0; i < cap; i++)
+                    {
+                        if(fileName.EndsWith(fileTypes[i]))
+                        {
+                            ProcessFile(fileName, list);
 
+                        }
+                    }
+                }
+
+                /*
                 // Recurse into subdirectories of this directory.
                 string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
                 foreach (string subdirectory in subdirectoryEntries)
-                    ProcessDirectory(subdirectory, list);
-            } catch { }
+                    ProcessDirectoryMusic(subdirectory, list);*/
+            }
+            catch { }
+        }
+
+
+        public static void ProcessDirectoryJson(string targetDirectory, ListBox list)
+        {
+            string[] fileTypes = new string[1];
+            fileTypes[0] = ".txt";
+
+            ProcessDirectory(targetDirectory, list, fileTypes, 1);
+        }
+
+        public static void ProcessDirectoryMusic(string targetDirectory, ListBox list)
+        {
+
+            string[] fileTypes = new string[2];
+            fileTypes[0] = ".mp3";
+            fileTypes[1] = ".m4a";
+
+            ProcessDirectory(targetDirectory, list, fileTypes, 2);
+
         }
 
         // Insert logic for processing found files here.
@@ -53,21 +106,21 @@ namespace Stuffa
             // Console.WriteLine("Processed file '{0}'.", path);
         }
 
-        public  void pausePlay()
+        public void pausePlay()
         {
-            
-                if (isPlaying)
-                {
 
-                    player.Pause();
-                    isPlaying = false;
-                }
-                else
-                {
-                    player.Play();
-                    isPlaying = true;
-                }
-            
+            if (isPlaying)
+            {
+
+                player.Pause();
+                isPlaying = false;
+            }
+            else
+            {
+                player.Play();
+                isPlaying = true;
+            }
+
         }
 
         public void pausePlayServer()
@@ -83,12 +136,13 @@ namespace Stuffa
                 string message = server.startServer();
                 if (message == "P")
                 {
-
                     pausePlayServer();
                 }
+                this.Dispatcher.Invoke(() => { /*serverMessage.Text = "message from  server: " + message;*/ });
+
             }
         }
-       
+
 
 
 
@@ -98,66 +152,117 @@ namespace Stuffa
             InitializeComponent();
 
             string path = System.Reflection.Assembly.GetEntryAssembly().Location;
+
+            int pos = path.LastIndexOf('\\');
+            path = path.Substring(0, pos);
+
+            pos = path.LastIndexOf('\\');
+            path = path.Substring(0, pos);
+
+            pos = path.LastIndexOf('\\');
+            path = path.Substring(0, pos);
+
+            pos = path.LastIndexOf('\\');
+            path = path.Substring(0, pos);
+
             Console.WriteLine(path);
-            ProcessDirectory(path + "\\..\\..\\..\\..\\Musik", list);
+            ProcessDirectoryJson(path + "\\Musik", list);
 
             progresBar.Value = 0.5;
             Thread serverThread = new Thread(startServer);
             serverThread.IsBackground = true;
             serverThread.Start();
 
-         
+
+
+
         }
+
+
+      
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string path = list.SelectedItem.ToString();
-            // Denna funkar bara efter att man har lagt till  en ny låt - därför utkommenterad
-            //textBox.Text = "Path: " + songs[0].path + " Title: " + songs[0].name;
-            TagLib.File tagFile = TagLib.File.Create(path);
-            string songName = tagFile.Tag.Title;
-            var length = tagFile.Properties.Duration;
+            if (list.SelectedItem != null)
+            {
+                int errNr = 0;
+                string path = list.SelectedItem.ToString();
+                Console.WriteLine("file: " + path);
+                if (path.EndsWith(".txt"))
+                {
+
+                }
+                else
+                {
+                    try
+                    {
+                        errNr++;//1
+                        TagLib.File tagFile = TagLib.File.Create(path);
+                        errNr++;//2
+                        string songName = tagFile.Tag.Title;
+                        errNr++;//3
+                        var length = tagFile.Properties.Duration;
+                        errNr++;//4
 
 
-            //get BPM
-            // instantiate the Application object
+                        //get BPM
+                        // instantiate the Application object
 
-            dynamic shell = Activator.CreateInstance(Type.GetTypeFromProgID("Shell.Application"));
+                        dynamic shell = Activator.CreateInstance(Type.GetTypeFromProgID("Shell.Application"));
+                        errNr++;//5
 
-            // get the folder and the child
-            var folder = shell.NameSpace(System.IO.Path.GetDirectoryName(path));
-            var item = folder.ParseName(System.IO.Path.GetFileName(path));
+                        // get the folder and the child
+                        var folder = shell.NameSpace(System.IO.Path.GetDirectoryName(path));
+                        errNr++;//6
+                        var item = folder.ParseName(System.IO.Path.GetFileName(path));
+                        errNr++;
 
-            // get the item's property by it's canonical name. doc says it's a string
-            string bpm = item.ExtendedProperty("System.Music.BeatsPerMinute");
-            Console.WriteLine(bpm);
-            //get BPM
+                        // get the item's property by it's canonical name. doc says it's a string
+                        string bpm = item.ExtendedProperty("System.Music.BeatsPerMinute");
+                        errNr++;
+                        Console.WriteLine(bpm);
+                        errNr++;
+                        //get BPM
 
-            label.Content = length;
+                        label.Content = length;
+                        errNr++;
 
-            text.Text = path + "\n\n" +  "Title: " + songName + "\nBPM: " + bpm;
+                        text.Text = path + "\n\n" + "Title: " + songName + "\nBPM: " + bpm;
+                        errNr++;
 
-            player.Source = new Uri(path, UriKind.RelativeOrAbsolute);
+                        player.Source = new Uri(path, UriKind.RelativeOrAbsolute);
+                        errNr++;
 
 
-            player.Play();
-            isPlaying = true;
+                        player.Play();
+                        errNr++;
+                        isPlaying = true;
+                        errNr++;
+                    }
+                    catch
+                    {
+                        Console.WriteLine(errNr);
+                    }
+                }
+                // Denna funkar bara efter att man har lagt till  en ny låt - därför utkommenterad
+                //textBox.Text = "Path: " + songs[0].path + " Title: " + songs[0].name;
+            }
 
 
         }
 
-       
+
 
         public void Button_Click(object sender, RoutedEventArgs e)
         {
 
             pausePlay();
-            
-            
-             
-            
 
-            
+
+
+
+
+
         }
 
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -169,7 +274,7 @@ namespace Stuffa
         {
 
         }
- 
+
         private void open_song_click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -184,12 +289,14 @@ namespace Stuffa
             // Get the selected file name and display in a TextBox 
             if (result == true)
             {
+
                 // Open document 
                 string filename = dlg.FileName;
                 list.Items.Add(filename);
                 textBox1.Text = filename;
 
                 songs[0] = new Music(filename, System.IO.Path.GetFileNameWithoutExtension(filename));
+
             }
         }
 
@@ -201,7 +308,7 @@ namespace Stuffa
         private void save_Click(object sender, RoutedEventArgs e)
         {
             List<string> musicTracks = new List<string>();
-            foreach(var i in list.Items)
+            foreach (var i in list.Items)
             {
                 musicTracks.Add(i.ToString());
             }
@@ -217,6 +324,8 @@ namespace Stuffa
         {
             //List<string> musicTracks = new List<string>();
 
+            loadPlaylist(list.SelectedItem.ToString(), list);
+            /*
             using (StreamReader r = new StreamReader(@"D:\path8ihbjhgnbbv.txt"))
             {
                 string json = r.ReadToEnd();
@@ -227,8 +336,14 @@ namespace Stuffa
                     list.Items.Add(i);
 
                 }
-            }
-            
+            }*/
+
+        }
+
+        private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            loadPlaylist(list.SelectedItem.ToString(), list);
+
         }
     }
 }
