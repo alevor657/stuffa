@@ -26,7 +26,11 @@
         <DockPanel HorizontalAlignment="Stretch" Height="20" LastChildFill="False" VerticalAlignment="Top">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File" Click="MenuItem_Click">
-                    <MenuItem Header="_New" />
+                    <MenuItem Header="_New playlist"  Margin="0,0,-0.2,0">
+                        <TextBox x:Name="playlistName" Height="23" TextWrapping="Wrap" Text="NoName" Width="112"/>
+                        <Button  x:Name="newPlaylistButton" Content="create" Click="newPlaylist" />
+                    </MenuItem>
+
                     <MenuItem Header="_Open Song" Click="open_song_click"/>
                     <MenuItem Header="_Save" />
                     <Separator />

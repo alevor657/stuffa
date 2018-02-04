@@ -17,6 +17,7 @@ using System.Collections;
 using System.Threading;
 using WpfApp2;
 using Newtonsoft.Json;
+using Microsoft.VisualBasic;
 
 
 
@@ -286,7 +287,7 @@ namespace Stuffa
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void open_song_click(object sender, RoutedEventArgs e)
@@ -379,6 +380,8 @@ namespace Stuffa
             rightClick.Items.Clear();
             rightClick.Items.Add("X");
             rightClick.Items.Add("remove");
+            rightClick.Items.Add("add song to...");
+
         }
 
         private void RightClickBoxHandler(object sender, SelectionChangedEventArgs e)
@@ -404,6 +407,13 @@ namespace Stuffa
             
         }
 
-       
+        private void newPlaylist(object sender, RoutedEventArgs e)
+        {
+           
+            string path = getPlaylistsPath();
+
+            Console.WriteLine(path +"\\" + playlistName.Text + ".txt");
+            System.IO.File.WriteAllText(@path + "\\" +  playlistName.Text + ".txt", "[]");
+        }
     }
 }
