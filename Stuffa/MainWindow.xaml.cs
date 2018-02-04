@@ -52,7 +52,7 @@ namespace Stuffa
             }
         }
 
-        public static void goToPlaylists(ListBox list)
+        public static string getPlaylistsPath()
         {
             string path = System.Reflection.Assembly.GetEntryAssembly().Location;
 
@@ -68,8 +68,13 @@ namespace Stuffa
             pos = path.LastIndexOf('\\');
             path = path.Substring(0, pos);
 
-            Console.WriteLine(path);
-            ProcessDirectoryJson(path + "\\Musik", list);
+            path += "\\Musik";
+            return path;
+        }
+        public static void goToPlaylists(ListBox list)
+        {
+
+            ProcessDirectoryJson(getPlaylistsPath(), list);
         }
         public static void ProcessDirectory(string targetDirectory, ListBox list, string[] fileTypes, int cap)
         {
@@ -332,8 +337,10 @@ namespace Stuffa
         private void load_Click(object sender, RoutedEventArgs e)
         {
             //List<string> musicTracks = new List<string>();
-
-            loadPlaylist(list.SelectedItem.ToString(), list);
+            if (list.SelectedItem.ToString() != null)
+            {
+                loadPlaylist(list.SelectedItem.ToString(), list);
+            }
             /*
             using (StreamReader r = new StreamReader(@"D:\path8ihbjhgnbbv.txt"))
             {
