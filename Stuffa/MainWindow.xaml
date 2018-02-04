@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow">
     <Grid Margin="0,0,0.4,-0.2">
-        <ListBox x:Name="list" MouseDoubleClick="ListBox_MouseDoubleClick" HorizontalAlignment="Left" Height="158" Margin="78,60,0,0" VerticalAlignment="Top" SelectionChanged="ListBox_SelectionChanged"/>
+        <ListBox x:Name="list" MouseDoubleClick="ListBox_MouseDoubleClick" MouseLeftButtonUp="ListBox_mouseLeft"  MouseRightButtonUp="ListBox_mouseRight"  HorizontalAlignment="Left" Height="158" Margin="78,60,0,0" VerticalAlignment="Top"  SelectionChanged="ListBox_SelectionChanged"/>
         <TextBlock x:Name="text" HorizontalAlignment="Left" Margin="78,223,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="78"><InlineUIContainer>
                 <TextBox x:Name="textBox1" Height="23" TextWrapping="Wrap" Text="TextBox" Width="120"/>
             </InlineUIContainer></TextBlock>
@@ -39,6 +39,7 @@
         <Label x:Name="label" Content="Tid: " HorizontalAlignment="Left" Margin="361,403,0,0" VerticalAlignment="Top"/>
         <Button x:Name="save" Content="save" HorizontalAlignment="Left" Margin="537,124,0,0" VerticalAlignment="Top" Width="75" Click="save_Click"/>
         <Button x:Name="load" Content="load" HorizontalAlignment="Left" Margin="537,148,0,0" VerticalAlignment="Top" Width="75" Click="load_Click"/>
+        <ListBox x:Name="rightClick" Visibility="Hidden" SelectionChanged="RightClickBoxHandler" HorizontalAlignment="Left" Height="100" Margin="640,379,0,0" VerticalAlignment="Top" Width="100"/>
 
     </Grid>
 </Window>

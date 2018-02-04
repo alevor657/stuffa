@@ -40,7 +40,9 @@ namespace Stuffa
                 List<string> musicTracks = JsonConvert.DeserializeObject<List<string>>(json);
 
                 list.Items.Clear();
-
+                list.Items.Add("back");
+                
+                
 
                 foreach (string i in musicTracks.ToArray())
                 {
@@ -50,7 +52,25 @@ namespace Stuffa
             }
         }
 
+        public static void goToPlaylists(ListBox list)
+        {
+            string path = System.Reflection.Assembly.GetEntryAssembly().Location;
 
+            int pos = path.LastIndexOf('\\');
+            path = path.Substring(0, pos);
+
+            pos = path.LastIndexOf('\\');
+            path = path.Substring(0, pos);
+
+            pos = path.LastIndexOf('\\');
+            path = path.Substring(0, pos);
+
+            pos = path.LastIndexOf('\\');
+            path = path.Substring(0, pos);
+
+            Console.WriteLine(path);
+            ProcessDirectoryJson(path + "\\Musik", list);
+        }
         public static void ProcessDirectory(string targetDirectory, ListBox list, string[] fileTypes, int cap)
         {
             // Process the list of files found in the directory.
@@ -84,11 +104,14 @@ namespace Stuffa
             string[] fileTypes = new string[1];
             fileTypes[0] = ".txt";
 
+            list.Items.Clear();
+
             ProcessDirectory(targetDirectory, list, fileTypes, 1);
         }
 
         public static void ProcessDirectoryMusic(string targetDirectory, ListBox list)
         {
+            list.Items.Clear();
 
             string[] fileTypes = new string[2];
             fileTypes[0] = ".mp3";
@@ -151,22 +174,7 @@ namespace Stuffa
             Thread.CurrentThread.Name = "parent";
             InitializeComponent();
 
-            string path = System.Reflection.Assembly.GetEntryAssembly().Location;
-
-            int pos = path.LastIndexOf('\\');
-            path = path.Substring(0, pos);
-
-            pos = path.LastIndexOf('\\');
-            path = path.Substring(0, pos);
-
-            pos = path.LastIndexOf('\\');
-            path = path.Substring(0, pos);
-
-            pos = path.LastIndexOf('\\');
-            path = path.Substring(0, pos);
-
-            Console.WriteLine(path);
-            ProcessDirectoryJson(path + "\\Musik", list);
+            goToPlaylists(list);
 
             progresBar.Value = 0.5;
             Thread serverThread = new Thread(startServer);
@@ -188,9 +196,10 @@ namespace Stuffa
                 int errNr = 0;
                 string path = list.SelectedItem.ToString();
                 Console.WriteLine("file: " + path);
+                
                 if (path.EndsWith(".txt"))
                 {
-
+                   
                 }
                 else
                 {
@@ -342,8 +351,52 @@ namespace Stuffa
 
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            loadPlaylist(list.SelectedItem.ToString(), list);
+            if(list.SelectedItem.ToString() == "back")
+            {
+                goToPlaylists(list);
+            }
+            else if (list.SelectedItem.ToString().EndsWith(".txt"))
+            {
+                loadPlaylist(list.SelectedItem.ToString(), list);
+
+            }
 
         }
+
+        public void RightClickBox()
+        {
+            rightClick.Visibility = Visibility.Visible;
+
+            Point p = Mouse.GetPosition(Application.Current.MainWindow);
+            rightClick.Margin = new Thickness(p.X, p.Y, 0, 0);
+            rightClick.Items.Clear();
+            rightClick.Items.Add("X");
+            rightClick.Items.Add("remove");
+        }
+
+        private void RightClickBoxHandler(object sender, SelectionChangedEventArgs e)
+        {
+            rightClick.Visibility = Visibility.Hidden;
+
+           
+        }
+
+        private void ListBox_mouseLeft(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine("mouse down");
+
+            rightClick.Visibility = Visibility.Hidden;
+
+        }
+
+        private void ListBox_mouseRight(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine("mouse down");
+           
+            RightClickBox();
+            
+        }
+
+       
     }
 }
