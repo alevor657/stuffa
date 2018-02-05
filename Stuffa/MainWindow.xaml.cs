@@ -33,6 +33,8 @@ namespace Stuffa
         // Process all files in the directory passed in, recurse on any directories 
         // that are found, and process the files they contain.
 
+
+        //search the given list using ToString
         public static void searchList(ListBox list, int startPos, string searchString)
         {
             for(int i = startPos; i < list.Items.Count; ++i)
@@ -45,18 +47,24 @@ namespace Stuffa
             }
         }
 
+        //loads a playlist given path and ListBox
         public static void loadPlaylist(string path, ListBox list)
         {
+            //opening the file
             using (StreamReader r = new StreamReader(@path))
             {
+                //get JSONm object as string
                 string json = r.ReadToEnd();
+                //convert JSON string to a List array of strings
                 List<string> musicTracks = JsonConvert.DeserializeObject<List<string>>(json);
 
+                //clearing the list
                 list.Items.Clear();
+                //adding back button to go back to playlist
                 list.Items.Add("back");
                 
                 
-
+                //for every music. create a new line in the list
                 foreach (string i in musicTracks.ToArray())
                 {
                     Music newMusic = new Music(i);
@@ -66,6 +74,7 @@ namespace Stuffa
             }
         }
 
+        //get the path to the playlists, this is lokated in the folder "Musik"
         public static string getPlaylistsPath()
         {
             string path = System.Reflection.Assembly.GetEntryAssembly().Location;
@@ -85,24 +94,34 @@ namespace Stuffa
             path += "\\Musik";
             return path;
         }
+
+        //go to all playlists
         public static void goToPlaylists(ListBox list)
         {
 
             ProcessDirectoryJson(getPlaylistsPath(), list);
         }
-        public static void ProcessDirectory(string targetDirectory, ListBox list, string[] fileTypes, int cap)
+
+        //get all files that is of type "fileTypes" in the directory "TargetDirectory"
+        public static List<String> ProcessDirectory(string targetDirectory, ListBox list, string[] fileTypes, int cap)
         {
+            List<string> files = new List<string>();
             // Process the list of files found in the directory.
             try
             {
+                //get all files in directory
                 string[] fileEntries = Directory.GetFiles(targetDirectory);
+
+                //for each file in directory
                 foreach (string fileName in fileEntries)
                 {
+                    //check if file ends with the specified "fileTypes"
                     for(int i = 0; i < cap; i++)
                     {
                         if(fileName.EndsWith(fileTypes[i]))
                         {
-                            ProcessFile(fileName, list);
+                            //add file to list
+                            files.Add(fileName);
 
                         }
                     }
@@ -115,9 +134,10 @@ namespace Stuffa
                     ProcessDirectoryMusic(subdirectory, list);*/
             }
             catch { }
+            return files;
         }
 
-
+        //get JSON files (txt) and show them on list
         public static void ProcessDirectoryJson(string targetDirectory, ListBox list)
         {
             string[] fileTypes = new string[1];
@@ -125,9 +145,11 @@ namespace Stuffa
 
             list.Items.Clear();
 
-            ProcessDirectory(targetDirectory, list, fileTypes, 1);
+
+            ProcessPlaylist(ProcessDirectory(targetDirectory, list, fileTypes, 1), list);
         }
 
+        // get .mp3 and .m4a files and show them on list
         public static void ProcessDirectoryMusic(string targetDirectory, ListBox list)
         {
             list.Items.Clear();
@@ -135,19 +157,34 @@ namespace Stuffa
             string[] fileTypes = new string[2];
             fileTypes[0] = ".mp3";
             fileTypes[1] = ".m4a";
-
-            ProcessDirectory(targetDirectory, list, fileTypes, 2);
+            //this line first takes all the matching files in the funktion ProcessDirectory
+            //then it adds the musik to the list in processMusic
+            processMusic(ProcessDirectory(targetDirectory, list, fileTypes, 2), list);
 
         }
 
-        // Insert logic for processing found files here.
-        public static void ProcessFile(string path, ListBox list)
+        //inset List/paths into list
+        public static void ProcessPlaylist(List<string> paths, ListBox list)
         {
-            //gets the file name
-            list.Items.Add(path);
-            // Console.WriteLine("Processed file '{0}'.", path);
+            
+            
+            for (int i = 0; i < paths.Count; ++i)
+            {
+                list.Items.Add(new Playlist(paths[i]));
+            }
         }
 
+        //insert List/paths into list
+        public static void processMusic(List<string> paths, ListBox list)
+        {
+            for(int i = 0; i < paths.Capacity; ++i)
+            {
+                list.Items.Add(new Music(paths[i]));
+            }
+          
+        }
+
+        //pause the player
         public void pausePlay()
         {
 
@@ -216,8 +253,8 @@ namespace Stuffa
                 int errNr = 0;
                 string name = list.SelectedItem.ToString();
                 Console.WriteLine("file: " + name);
-                
-                if (name.EndsWith(".txt"))
+
+                if (false) //TODO: if it is a playlist 
                 {
                    
                 }
@@ -324,7 +361,7 @@ namespace Stuffa
 
                 // Open document 
                 string filename = dlg.FileName;
-                list.Items.Add(filename);
+                list.Items.Add(new Music(filename));
                 textBox1.Text = filename;
 
                 songs[0] = new Music(filename);
@@ -380,9 +417,10 @@ namespace Stuffa
             {
                 goToPlaylists(list);
             }
-            else if (list.SelectedItem.ToString().EndsWith(".txt"))
+            else //TODO: check if of type playlist
             {
-                loadPlaylist(list.SelectedItem.ToString(), list);
+                Playlist p = list.Items[list.SelectedIndex] as Playlist;
+                loadPlaylist(p.getFullPath(), list);
 
             }
 

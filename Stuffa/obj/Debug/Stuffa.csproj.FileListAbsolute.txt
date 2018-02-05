@@ -34,3 +34,5 @@ C:\Users\Fredrik\Source\Repos\stuffa\Stuffa\obj\Debug\Stuffa.csproj.GenerateReso
 C:\Users\Fredrik\Source\Repos\stuffa\Stuffa\obj\Debug\Stuffa.csproj.CoreCompileInputs.cache
 C:\Users\Fredrik\Source\Repos\stuffa\Stuffa\obj\Debug\WpfApp2.exe
 C:\Users\Fredrik\Source\Repos\stuffa\Stuffa\obj\Debug\WpfApp2.pdb
+E:\grupp.proj\stuffa\Stuffa\bin\Debug\Newtonsoft.Json.dll
+E:\grupp.proj\stuffa\Stuffa\bin\Debug\Newtonsoft.Json.xml
