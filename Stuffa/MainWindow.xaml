@@ -5,11 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
-        Title="MainWindow">
+        Title="MainWindow" Background="#c0d5e5">
+    
     <Grid Margin="0,0,0.4,-0.2">
+        
         <ListBox x:Name="list" MouseDoubleClick="ListBox_MouseDoubleClick" MouseLeftButtonUp="ListBox_mouseLeft"  MouseRightButtonUp="ListBox_mouseRight"  HorizontalAlignment="Left" Height="158" Margin="78,60,0,0" VerticalAlignment="Top"  SelectionChanged="ListBox_SelectionChanged"/>
         <TextBlock x:Name="text" HorizontalAlignment="Left" Margin="78,223,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="78"><InlineUIContainer>
-                <TextBox x:Name="textBox1" Height="23" TextWrapping="Wrap" Text="TextBox" Width="120"/>
+                <TextBox x:Name="textBox1" Height="23" TextWrapping="Wrap" Text="TextBox" Width="120" />
             </InlineUIContainer></TextBlock>
         <MediaElement  x:Name="player"   LoadedBehavior="Manual" HorizontalAlignment="Left" Height="158" Margin="415,207,0,0" VerticalAlignment="Top" Width="102"/>
         <Button Content="play/pause" HorizontalAlignment="Left" Margin="374,124,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>

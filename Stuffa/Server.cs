@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WpfApp2
 {
-    
+    var dataFromMobile = dataReceived;
 
     class Server
     {
@@ -37,6 +37,7 @@ namespace WpfApp2
             //---convert the data received into a string---
             string dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead);
             Console.WriteLine("Received : " + dataReceived);
+            return dataReceived;
 
             //---write back the text to the client---
             Console.WriteLine("Sending back : " + dataReceived);

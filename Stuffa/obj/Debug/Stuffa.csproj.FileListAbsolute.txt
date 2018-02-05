@@ -34,3 +34,10 @@ C:\Users\Fredrik\Source\Repos\stuffa\Stuffa\obj\Debug\Stuffa.csproj.GenerateReso
 C:\Users\Fredrik\Source\Repos\stuffa\Stuffa\obj\Debug\Stuffa.csproj.CoreCompileInputs.cache
 C:\Users\Fredrik\Source\Repos\stuffa\Stuffa\obj\Debug\WpfApp2.exe
 C:\Users\Fredrik\Source\Repos\stuffa\Stuffa\obj\Debug\WpfApp2.pdb
+C:\Users\ylvar\Source\Repos\stuffa\Stuffa\obj\Debug\Stuffa.csprojResolveAssemblyReference.cache
+C:\Users\ylvar\Source\Repos\stuffa\Stuffa\obj\Debug\MainWindow.g.cs
+C:\Users\ylvar\Source\Repos\stuffa\Stuffa\obj\Debug\App.g.cs
+C:\Users\ylvar\Source\Repos\stuffa\Stuffa\obj\Debug\WpfApp2_MarkupCompile.cache
+C:\Users\ylvar\Source\Repos\stuffa\Stuffa\obj\Debug\WpfApp2_MarkupCompile.lref
+C:\Users\ylvar\Source\Repos\stuffa\Stuffa\obj\Debug\WpfApp2.exe
+C:\Users\ylvar\Source\Repos\stuffa\Stuffa\obj\Debug\WpfApp2.pdb
