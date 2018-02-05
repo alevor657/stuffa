@@ -33,6 +33,18 @@ namespace Stuffa
         // Process all files in the directory passed in, recurse on any directories 
         // that are found, and process the files they contain.
 
+        public static void searchList(ListBox list, int startPos, string searchString)
+        {
+            for(int i = startPos; i < list.Items.Count; ++i)
+            {
+                if(!list.Items[i].ToString().Contains(searchString))
+                {
+                    list.Items.RemoveAt(i);
+                    --i;
+                }
+            }
+        }
+
         public static void loadPlaylist(string path, ListBox list)
         {
             using (StreamReader r = new StreamReader(@path))
@@ -47,7 +59,8 @@ namespace Stuffa
 
                 foreach (string i in musicTracks.ToArray())
                 {
-                    list.Items.Add(i);
+                    Music newMusic = new Music(i);
+                    list.Items.Add(newMusic);
 
                 }
             }
@@ -180,6 +193,7 @@ namespace Stuffa
             Thread.CurrentThread.Name = "parent";
             InitializeComponent();
 
+
             goToPlaylists(list);
 
             progresBar.Value = 0.5;
@@ -200,10 +214,10 @@ namespace Stuffa
             if (list.SelectedItem != null)
             {
                 int errNr = 0;
-                string path = list.SelectedItem.ToString();
-                Console.WriteLine("file: " + path);
+                string name = list.SelectedItem.ToString();
+                Console.WriteLine("file: " + name);
                 
-                if (path.EndsWith(".txt"))
+                if (name.EndsWith(".txt"))
                 {
                    
                 }
@@ -211,6 +225,8 @@ namespace Stuffa
                 {
                     try
                     {
+                        Music music = list.SelectedItem as Music;
+                        string path = music.getFullPath();
                         errNr++;//1
                         TagLib.File tagFile = TagLib.File.Create(path);
                         errNr++;//2
@@ -292,6 +308,7 @@ namespace Stuffa
 
         private void open_song_click(object sender, RoutedEventArgs e)
         {
+
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
             dlg.DefaultExt = ".mp3";
@@ -310,7 +327,7 @@ namespace Stuffa
                 list.Items.Add(filename);
                 textBox1.Text = filename;
 
-                songs[0] = new Music(filename, System.IO.Path.GetFileNameWithoutExtension(filename));
+                songs[0] = new Music(filename);
 
             }
         }
@@ -414,6 +431,11 @@ namespace Stuffa
 
             Console.WriteLine(path +"\\" + playlistName.Text + ".txt");
             System.IO.File.WriteAllText(@path + "\\" +  playlistName.Text + ".txt", "[]");
+        }
+
+        private void searchButton(object sender, RoutedEventArgs e)
+        {
+            searchList(list, 1, searchField.Text);
         }
     }
 }
