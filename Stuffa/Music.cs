@@ -16,7 +16,7 @@ namespace Stuffa
         {
 
         }
-
+        
         public Music(string fullPath)
         {
             int pathPos = fullPath.LastIndexOf("\\");

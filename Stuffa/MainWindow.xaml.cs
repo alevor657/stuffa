@@ -250,7 +250,7 @@ namespace Stuffa
         {
             if (list.SelectedItem != null)
             {
-                int errNr = 0;
+                
                 string name = list.SelectedItem.ToString();
                 Console.WriteLine("file: " + name);
 
@@ -263,53 +263,40 @@ namespace Stuffa
                     try
                     {
                         Music music = list.SelectedItem as Music;
+                        //get path to file
                         string path = music.getFullPath();
-                        errNr++;//1
+                        
                         TagLib.File tagFile = TagLib.File.Create(path);
-                        errNr++;//2
                         string songName = tagFile.Tag.Title;
-                        errNr++;//3
                         var length = tagFile.Properties.Duration;
-                        errNr++;//4
 
 
                         //get BPM
                         // instantiate the Application object
 
                         dynamic shell = Activator.CreateInstance(Type.GetTypeFromProgID("Shell.Application"));
-                        errNr++;//5
 
                         // get the folder and the child
                         var folder = shell.NameSpace(System.IO.Path.GetDirectoryName(path));
-                        errNr++;//6
                         var item = folder.ParseName(System.IO.Path.GetFileName(path));
-                        errNr++;
 
                         // get the item's property by it's canonical name. doc says it's a string
                         string bpm = item.ExtendedProperty("System.Music.BeatsPerMinute");
-                        errNr++;
                         Console.WriteLine(bpm);
-                        errNr++;
                         //get BPM
 
                         label.Content = length;
-                        errNr++;
 
                         text.Text = path + "\n\n" + "Title: " + songName + "\nBPM: " + bpm;
-                        errNr++;
 
                         player.Source = new Uri(path, UriKind.RelativeOrAbsolute);
-                        errNr++;
 
 
                         player.Play();
-                        errNr++;
                         isPlaying = true;
-                        errNr++;
                     }
                     catch
                     {
-                        Console.WriteLine(errNr);
                     }
                 }
                 // Denna funkar bara efter att man har lagt till  en ny låt - därför utkommenterad
@@ -325,12 +312,6 @@ namespace Stuffa
         {
 
             pausePlay();
-
-
-
-
-
-
         }
 
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -366,6 +347,8 @@ namespace Stuffa
 
                 songs[0] = new Music(filename);
 
+                //TODO: save to file
+
             }
         }
 
@@ -376,6 +359,7 @@ namespace Stuffa
 
         private void save_Click(object sender, RoutedEventArgs e)
         {
+            /*// TODO: make automatic
             List<string> musicTracks = new List<string>();
             foreach (var i in list.Items)
             {
@@ -384,7 +368,7 @@ namespace Stuffa
             // package Newtonsoft.Json (Json.Net) need to be installed. 
             // to install go to "project" > "manage NuGet packages..." > "Brows" > type "Newtonsoft.Json" / "Json.Net" > "install"
             string json = JsonConvert.SerializeObject(musicTracks.ToArray());
-            System.IO.File.WriteAllText(@"D:\path8ihbjhgnbbv.txt", json);
+            System.IO.File.WriteAllText(@"D:\path8ihbjhgnbbv.txt", json);*/
 
 
         }
