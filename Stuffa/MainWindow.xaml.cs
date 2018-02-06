@@ -29,7 +29,8 @@ namespace Stuffa
     public partial class MainWindow : Window
     {
         static bool isPlaying = false;
-        Music[] songs = new Music[3];
+        static Playlist curentPlaylist;
+        //Music[] songs = new Music[3];
         // Process all files in the directory passed in, recurse on any directories 
         // that are found, and process the files they contain.
 
@@ -48,30 +49,24 @@ namespace Stuffa
         }
 
         //loads a playlist given path and ListBox
-        public static void loadPlaylist(string path, ListBox list)
+        public static void LoadCurentPlaylist(ListBox list)
         {
-            //opening the file
-            using (StreamReader r = new StreamReader(@path))
+            
+            curentPlaylist.loadMusic();
+
+
+            List<Music> toAdd = curentPlaylist.getMusic();
+
+            list.Items.Clear();
+            list.Items.Add("back");
+
+            foreach(Music i in toAdd)
             {
-                //get JSONm object as string
-                string json = r.ReadToEnd();
-                //convert JSON string to a List array of strings
-                List<string> musicTracks = JsonConvert.DeserializeObject<List<string>>(json);
-
-                //clearing the list
-                list.Items.Clear();
-                //adding back button to go back to playlist
-                list.Items.Add("back");
-                
-                
-                //for every music. create a new line in the list
-                foreach (string i in musicTracks.ToArray())
-                {
-                    Music newMusic = new Music(i);
-                    list.Items.Add(newMusic);
-
-                }
+                list.Items.Add(i);
             }
+
+
+
         }
 
         //get the path to the playlists, this is lokated in the folder "Musik"
@@ -326,7 +321,7 @@ namespace Stuffa
 
         private void open_song_click(object sender, RoutedEventArgs e)
         {
-
+            //TODO: redirect to Playlist
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
             dlg.DefaultExt = ".mp3";
@@ -345,9 +340,9 @@ namespace Stuffa
                 list.Items.Add(new Music(filename));
                 textBox1.Text = filename;
 
-                songs[0] = new Music(filename);
+                //songs[0] = new Music(filename);
 
-                //TODO: save to file
+                //TODO: 
 
             }
         }
@@ -378,7 +373,9 @@ namespace Stuffa
             //List<string> musicTracks = new List<string>();
             if (list.SelectedItem.ToString() != null)
             {
-                loadPlaylist(list.SelectedItem.ToString(), list);
+                curentPlaylist = list.SelectedItem as Playlist;
+                LoadCurentPlaylist(list);
+                curPlaylistBox.Text = curentPlaylist.ToString();
             }
             /*
             using (StreamReader r = new StreamReader(@"D:\path8ihbjhgnbbv.txt"))
@@ -397,15 +394,26 @@ namespace Stuffa
 
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if(list.SelectedItem.ToString() == "back")
+            try
             {
-                goToPlaylists(list);
-            }
-            else //TODO: check if of type playlist
-            {
-                Playlist p = list.Items[list.SelectedIndex] as Playlist;
-                loadPlaylist(p.getFullPath(), list);
+                Playlist selected = list.SelectedItem as Playlist;
+                if (list.SelectedItem.ToString() == "back")
+                {
+                    goToPlaylists(list);
+                    curPlaylistBox.Text = "";
 
+                }
+                else if (selected != null)  //TODO: check if of type playlist
+                {
+                    curentPlaylist = list.Items[list.SelectedIndex] as Playlist;
+                    LoadCurentPlaylist(list);
+                    curPlaylistBox.Text = curentPlaylist.ToString();
+
+
+                }
+            }
+            catch {
+                Console.WriteLine("please click on a object");
             }
 
         }

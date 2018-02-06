@@ -39,7 +39,7 @@
             </Menu>
 
         </DockPanel>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="78,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+        <TextBox x:Name="curPlaylistBox" HorizontalAlignment="Left" Height="23" Margin="78,25,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
         <Label x:Name="label" Content="Tid: " HorizontalAlignment="Left" Margin="361,403,0,0" VerticalAlignment="Top"/>
         <Button x:Name="save" Content="save" HorizontalAlignment="Left" Margin="537,124,0,0" VerticalAlignment="Top" Width="75" Click="save_Click"/>
         <Button x:Name="load" Content="load" HorizontalAlignment="Left" Margin="537,148,0,0" VerticalAlignment="Top" Width="75" Click="load_Click"/>

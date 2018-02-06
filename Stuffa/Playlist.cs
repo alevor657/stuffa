@@ -18,11 +18,13 @@ namespace WpfApp2
 
         public Playlist()
         {
-
+            this.music = new List<Stuffa.Music>();
         }
 
         public Playlist(string fullPath)
         {
+            this.music = new List<Stuffa.Music>();
+
             int pathPos = fullPath.LastIndexOf("\\");
             int fileTypePos = fullPath.LastIndexOf(".");
             if (pathPos > 0 && fileTypePos > 0)
@@ -115,23 +117,30 @@ namespace WpfApp2
 
         public void loadMusic()
         {
-            using (StreamReader r = new StreamReader(@path))
+            try
             {
-                //get JSONm object as string
-                string json = r.ReadToEnd();
-                //convert JSON string to a List array of strings
-                List<string> musicTracks = JsonConvert.DeserializeObject<List<string>>(json);
-
-                //remove any old data
-                music.Clear();
-
-                //for every music. add to music
-                foreach (string i in musicTracks.ToArray())
+                using (StreamReader r = new StreamReader(@getFullPath()))
                 {
-                    Music newMusic = new Music(i);
-                    music.Add(newMusic);
+                    //get JSONm object as string
+                    string json = r.ReadToEnd();
+                    //convert JSON string to a List array of strings
+                    List<string> musicTracks = JsonConvert.DeserializeObject<List<string>>(json);
 
+                    //remove any old data
+                    music.Clear();
+
+                    //for every music. add to music
+                    foreach (string i in musicTracks.ToArray())
+                    {
+                        Music newMusic = new Music(i);
+                        music.Add(newMusic);
+
+                    }
                 }
+            }
+            catch
+            {
+                Console.WriteLine("could not acces text files on " + path);
             }
         }
 
@@ -157,7 +166,9 @@ namespace WpfApp2
                 return this.path + "\\" + this.name + this.filetype;
 
             }
+            
         }
+
 
     }
 }
