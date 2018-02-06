@@ -8,15 +8,28 @@ namespace Stuffa
 {
     class Music
     {
-        public string path;
-        public string name;
-        public string filetype;
+        private string path;
+        private string name;
+        private string filetype;
+        private int BPM;
+        private string artist;
 
         public Music()
         {
 
         }
         
+        public int getBPM()
+        {
+            return this.BPM;
+        }
+
+        public string getArtist()
+        {
+            return this.artist;
+        }
+        
+
         public Music(string fullPath)
         {
             int pathPos = fullPath.LastIndexOf("\\");
@@ -28,6 +41,13 @@ namespace Stuffa
                 this.filetype = fullPath.Substring(fileTypePos);
 
             }
+            
+            try //TODO: if BPM/artist not exist put in 0
+            {
+                this.loadBPM();
+                this.loadArtist();
+            }
+            catch { }
         }
 
         public Music(string path, string name, string filetype)
@@ -67,6 +87,24 @@ namespace Stuffa
             {
                 return this.path + "\\" + this.name + this.filetype;
             }
+        }
+
+        public void loadArtist()
+        {
+            TagLib.File tagFile = TagLib.File.Create(getFullPath());
+            this.artist = tagFile.Tag.FirstAlbumArtist;
+        }
+
+        public void loadBPM()
+        {
+            dynamic shell = Activator.CreateInstance(Type.GetTypeFromProgID("Shell.Application"));
+
+            // get the folder and the child
+            var folder = shell.NameSpace(System.IO.Path.GetDirectoryName(path));
+            var item = folder.ParseName(System.IO.Path.GetFileName(path));
+
+            // get the item's property by it's canonical name. doc says it's a string
+            this.BPM = item.ExtendedProperty("System.Music.BeatsPerMinute");
         }
     }
 }

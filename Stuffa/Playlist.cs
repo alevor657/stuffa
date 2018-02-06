@@ -11,19 +11,42 @@ namespace WpfApp2
 {
     class Playlist
     {
+        private List<Tuple<int, int>> BPM;
+        private List<Tuple<string, int>> artists;
         private string path;
         private string name;
         private string filetype;
         private List<Stuffa.Music> music;
 
+        
+
+        private void sortBPM()
+        {
+            //sorting with an avrige of O(n log(n))?    (list.Sort is n logn)
+            //sorting on BPM
+            BPM = BPM.OrderBy(e => e.Item1).ToList();
+        }
+
+        private void sortArtists()
+        {
+            //sorting with an avrige of O(n log(n))?    (list.Sort is n logn)
+            //sorting on BPM
+            artists = artists.OrderBy(e => e.Item1).ToList();
+        }
+
+
         public Playlist()
         {
             this.music = new List<Stuffa.Music>();
+            this.BPM = new List<Tuple<int, int>>();
+            this.artists = new List<Tuple<string, int>>();
         }
 
         public Playlist(string fullPath)
         {
             this.music = new List<Stuffa.Music>();
+            this.BPM = new List<Tuple<int, int>>();
+            this.artists = new List<Tuple<string, int>>();
 
             int pathPos = fullPath.LastIndexOf("\\");
             int fileTypePos = fullPath.LastIndexOf(".");
@@ -167,6 +190,31 @@ namespace WpfApp2
 
             }
             
+        }
+
+
+        private void loadBPM()
+        {
+            BPM.Clear();
+            int index = 0;
+            foreach (Music i in music)
+            {
+                BPM.Add(Tuple.Create<int, int>(i.getBPM(), index));
+                index++;
+            }
+        }
+
+        private void loadArtists()
+        {
+            artists.Clear();
+
+            int index = 0;
+
+            foreach (Music i in music)
+            {
+                artists.Add(Tuple.Create<string, int>(i.getArtist(), index));
+                index++;
+            }
         }
 
 
