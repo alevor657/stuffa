@@ -331,6 +331,11 @@ namespace Stuffa
 
         private void open_song_click(object sender, RoutedEventArgs e)
         {
+            if(curentPlaylist != null)
+            {
+                curentPlaylist.loadNewMusic();
+            }
+            /*
             //TODO: redirect to Playlist
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
@@ -354,7 +359,7 @@ namespace Stuffa
 
                 //TODO: 
 
-            }
+            }*/
         }
 
         private void progresBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

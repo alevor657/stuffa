@@ -188,7 +188,7 @@ namespace WpfApp2
             return retVal;
         }
 
-        public bool loadNewMusic(string path)
+        public bool loadNewMusic()
         {
             bool retVal = false;
             try
@@ -197,6 +197,7 @@ namespace WpfApp2
 
                 dlg.DefaultExt = ".mp3";
                 dlg.Filter = "MP3 Files (*.mp3)|*.mp3|M4A Files (*.m4a)|*.m4a|FLAC Files (*.flac)|*.flac";
+                dlg.Multiselect = true;
 
                 // Display OpenFileDialog by calling ShowDialog method 
                 Nullable<bool> result = dlg.ShowDialog();
@@ -207,19 +208,26 @@ namespace WpfApp2
                 {
 
                     // Open document 
-                    string musicPath = dlg.FileName;
+                    string[] musicPaths = dlg.FileNames;
 
                     //check if music allready added
-                    foreach (Music i in music)
+                    foreach (string musicPath in musicPaths)
                     {
-                        if(i.getFullPath() == musicPath)
+                        bool add = true;
+                        foreach (Music i in music)
                         {
-                            return false;
+                            if (i.getFullPath() == musicPath)
+                            {
+                                add = false;
+                            }
+                        }
+                        if (add)
+                        {
+                            music.Add(new Music(musicPath));
                         }
                     }
 
                     //add to array
-                    music.Add(new Music(musicPath));
 
 
                     //save to file
