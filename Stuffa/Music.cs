@@ -100,11 +100,28 @@ namespace Stuffa
             dynamic shell = Activator.CreateInstance(Type.GetTypeFromProgID("Shell.Application"));
 
             // get the folder and the child
-            var folder = shell.NameSpace(System.IO.Path.GetDirectoryName(path));
-            var item = folder.ParseName(System.IO.Path.GetFileName(path));
+            var folder = shell.NameSpace(System.IO.Path.GetDirectoryName(getFullPath()));
+            var item = folder.ParseName(System.IO.Path.GetFileName(getFullPath()));
 
             // get the item's property by it's canonical name. doc says it's a string
-            this.BPM = item.ExtendedProperty("System.Music.BeatsPerMinute");
+            string stringBPM = item.ExtendedProperty("System.Music.BeatsPerMinute");
+
+            int comma = stringBPM.LastIndexOf('.');
+            if(comma < 0)
+            {
+                comma = stringBPM.LastIndexOf(',');
+            }
+
+            int n;
+            bool isNumeric = int.TryParse(stringBPM.Substring(0, comma), out n);
+            if (isNumeric)
+            {
+                BPM = n;
+            }
+            else
+            {
+                BPM = -1;
+            }
         }
     }
 }

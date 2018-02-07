@@ -69,6 +69,16 @@ namespace Stuffa
 
         }
 
+        private static void showMusic(List<Music> music, ListBox list)
+        {
+            list.Items.Clear();
+            list.Items.Add("back");
+            foreach (Music i in music)
+            {
+                list.Items.Add(i);
+            }
+        }
+
         //get the path to the playlists, this is lokated in the folder "Musik"
         public static string getPlaylistsPath()
         {
@@ -154,7 +164,7 @@ namespace Stuffa
             fileTypes[1] = ".m4a";
             //this line first takes all the matching files in the funktion ProcessDirectory
             //then it adds the musik to the list in processMusic
-            processMusic(ProcessDirectory(targetDirectory, list, fileTypes, 2), list);
+            showMusic(ProcessDirectory(targetDirectory, list, fileTypes, 2), list);
 
         }
 
@@ -170,7 +180,7 @@ namespace Stuffa
         }
 
         //insert List/paths into list
-        public static void processMusic(List<string> paths, ListBox list)
+        public static void showMusic(List<string> paths, ListBox list)
         {
             for(int i = 0; i < paths.Capacity; ++i)
             {
@@ -463,9 +473,19 @@ namespace Stuffa
             System.IO.File.WriteAllText(@path + "\\" +  playlistName.Text + ".txt", "[]");
         }
 
-        private void searchButton(object sender, RoutedEventArgs e)
+        private void searchBPMButton(object sender, RoutedEventArgs e)
         {
-            searchList(list, 1, searchField.Text);
+
+            int n;
+            bool isNumeric = int.TryParse(searchFieldBPM.Text, out n);
+            if (isNumeric && curentPlaylist != null)
+            {
+                curentPlaylist.loadBPM();
+
+                showMusic(curentPlaylist.searchBPM(n), list);
+
+                
+            }
         }
     }
 }

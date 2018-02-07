@@ -34,6 +34,115 @@ namespace WpfApp2
             artists = artists.OrderBy(e => e.Item1).ToList();
         }
 
+        //whnen one instance of the BPM is found, find all the other ones near it matching the value on position pos
+        private List<int> getBPMpos(int pos)
+        {
+            List<int> ret = new List<int>();
+            int BPMserach = BPM[pos].Item1;
+            ret.Add(BPM[pos].Item2);
+
+
+            for (int i = pos - 1; i > 0; i--)
+            {
+                if (BPM[i].Item1 == BPMserach)
+                {
+                    //put the index in ret
+                    ret.Add(BPM[i].Item2);
+                }
+                else
+                {
+                    //end loop
+                    i = 0;
+                }
+
+            }
+            ret.Reverse();
+
+            for (int i = pos + 1; i < BPM.Count; i++)
+            {
+                if (BPM[i].Item1 == BPMserach)
+                {
+                    //put the index in ret
+                    ret.Add(BPM[i].Item2);
+                }
+                else
+                {
+                    //end loop
+                    i = BPM.Count;
+                }
+
+            }
+
+            return ret;
+
+
+        }
+
+        private List<int> getBPMpos(int BPMsearch, int startPos, int endPos)
+        {if (startPos < endPos)
+            {
+                int startVal = this.BPM[startPos].Item1;
+                int endVal = this.BPM[endPos].Item1;
+
+
+                if (startVal == BPMsearch)
+                {
+                    return getBPMpos(startPos);
+                }
+                else if (endVal == BPMsearch)
+                {
+                    return getBPMpos(endPos);
+                }
+                else
+                {
+                    int middlePos = (startPos + endPos) / 2;
+                    int middleVal = this.BPM[middlePos].Item1;
+                    if (middleVal == BPMsearch)
+                    {
+                        return getBPMpos(middlePos);
+
+                    }
+                    else if (middleVal > BPMsearch)
+                    {
+                        return this.getBPMpos(BPMsearch, startPos + 1, middlePos - 1);
+
+
+                    }
+                    else
+                    {
+                        return this.getBPMpos(BPMsearch, middlePos + 1, endPos - 1);
+
+                    }
+
+                }
+            }
+            else
+            {
+                List<int> ret = new List<int>();
+
+                if (startPos == endPos)
+                {
+                    if(BPM[endPos].Item1 == BPMsearch)
+                    {
+                        ret.Add(BPM[endPos].Item2);
+                    }
+                }
+                return ret;
+            }
+
+        }
+
+        public List<Music> searchBPM(int nr)
+        {
+            List<Music> ret = new List<Music>();
+            List<int> indexes = getBPMpos(nr, 0, BPM.Count-1);
+            foreach (int i in indexes)
+            {
+                ret.Add(music[i]);
+            }
+            return ret;
+        }
+
 
         public Playlist()
         {
@@ -193,7 +302,7 @@ namespace WpfApp2
         }
 
 
-        private void loadBPM()
+        public void loadBPM()
         {
             BPM.Clear();
             int index = 0;
@@ -202,9 +311,10 @@ namespace WpfApp2
                 BPM.Add(Tuple.Create<int, int>(i.getBPM(), index));
                 index++;
             }
+            sortBPM();
         }
 
-        private void loadArtists()
+        public void loadArtists()
         {
             artists.Clear();
 
@@ -215,6 +325,7 @@ namespace WpfApp2
                 artists.Add(Tuple.Create<string, int>(i.getArtist(), index));
                 index++;
             }
+            sortArtists();
         }
 
 
