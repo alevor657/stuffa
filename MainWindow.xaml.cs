@@ -92,10 +92,10 @@ namespace Stuffa
 
             pos = path.LastIndexOf('\\');
             path = path.Substring(0, pos);
-
+            /*
             pos = path.LastIndexOf('\\');
             path = path.Substring(0, pos);
-
+            */
             path += "\\Musik";
             return path;
         }

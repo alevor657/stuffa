@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IdSharp.Common">
+      <HintPath>IdSharp.Tagging\IdSharp.Tagging\bin\Debug\IdSharp.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IdSharp.Tagging">
+      <HintPath>IdSharp.Tagging\IdSharp.Tagging\bin\Debug\IdSharp.Tagging.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -60,6 +66,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="zlib.net">
+      <HintPath>IdSharp.Tagging\IdSharp.Tagging\bin\Debug\zlib.net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

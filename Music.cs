@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IdSharp.Tagging.ID3v2;
 
 namespace Stuffa
 {
@@ -97,6 +98,55 @@ namespace Stuffa
 
         public void loadBPM()
         {
+            IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
+            
+            string bpmString = fileInfo.BPM;
+            int trueBpm = 0;
+            if (bpmString != null)
+            {
+                if (bpmString.Length > 3)
+                {
+                    int ind = bpmString.LastIndexOf('.');
+                    string subString1;
+                    string subString2 = "";
+                    if (ind > 0)
+                    {
+                        subString1 = bpmString.Substring(0, ind);
+                        trueBpm = Convert.ToInt32(subString1);
+                        subString2 = bpmString.Substring(ind + 1);
+                        int test = Convert.ToInt32(subString2);
+                        if (test > 49)
+                        {
+                            trueBpm++;
+                        }
+                    }
+                    else
+                    {
+                        ind = bpmString.LastIndexOf(',');
+                        if (ind > 0)
+                        {
+                            subString1 = bpmString.Substring(0, ind);
+                            trueBpm = Convert.ToInt32(subString1);
+                            subString2 = bpmString.Substring(ind + 1);
+                            int test = Convert.ToInt32(subString2);
+                            if (test > 49)
+                            {
+                                trueBpm++;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    trueBpm = Convert.ToInt32(bpmString);
+                }
+                BPM = trueBpm;
+            }
+            else
+            {
+                BPM = 0;
+            }
+            /*
             dynamic shell = Activator.CreateInstance(Type.GetTypeFromProgID("Shell.Application"));
 
             // get the folder and the child
@@ -121,7 +171,7 @@ namespace Stuffa
             else
             {
                 BPM = -1;
-            }
+            }*/
         }
     }
 }
