@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp2", "WpfApp2\WpfApp2.csproj", "{529AA712-17F7-4C81-ADE9-4CBA78DB0AC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stuffa", "Stuffa.csproj", "{529AA712-17F7-4C81-ADE9-4CBA78DB0AC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {AB986507-9B97-47B0-9FB2-D2329FD72DA9}
+		SolutionGuid = {A02B5E06-AA7B-45A6-BFD2-7CC7B016B905}
 	EndGlobalSection
 EndGlobal
