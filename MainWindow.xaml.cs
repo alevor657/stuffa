@@ -240,11 +240,13 @@ namespace Stuffa
             goToPlaylists(list);
 
             progresBar.Value = 0.5;
-            Thread serverThread = new Thread(startServer);
-            serverThread.IsBackground = true;
-            serverThread.Start();
+            //Thread serverThread = new Thread(SocketServer.Server.init);
+            //serverThread.IsBackground = true;
+            //serverThread.Start();
 
-            SocketServer.Server.init();
+            SocketServer.Server.init(this);
+
+
 
 
         }
