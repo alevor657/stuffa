@@ -59,7 +59,7 @@ namespace SocketServer
 
         public static void pausePlay()
         {
-            mainWin.pausePlay();
+            mainWin.pausePlayServer();
         }
 
     }
