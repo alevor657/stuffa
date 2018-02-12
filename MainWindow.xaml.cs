@@ -485,12 +485,21 @@ namespace Stuffa
             bool isNumeric = int.TryParse(searchFieldBPM.Text, out n);
             if (isNumeric && curentPlaylist != null)
             {
-                curentPlaylist.loadBPM();
+                //curentPlaylist.loadBPM();
 
                 showMusic(curentPlaylist.searchBPM(n), list);
 
                 
             }
+        }
+
+        private void searchTitlesButton(object sender, RoutedEventArgs e)
+        {
+            if (curentPlaylist != null)
+            {
+                showMusic(curentPlaylist.searchTitles(searchFieldTitle.Text), list);
+            }
+
         }
     }
 }

@@ -13,6 +13,8 @@ namespace WpfApp2
     {
         private List<Tuple<int, int>> BPM;
         private List<Tuple<string, int>> artists;
+        private List<Tuple<string, int>> titles;
+
         private string path;
         private string name;
         private string filetype;
@@ -25,6 +27,10 @@ namespace WpfApp2
             //sorting with an avrige of O(n log(n))?    (list.Sort is n logn)
             //sorting on BPM
             BPM = BPM.OrderBy(e => e.Item1).ToList();
+        }
+        private void sortTitles()
+        {
+            this.titles = titles.OrderBy(e => e.Item1).ToList();
         }
 
         private void sortArtists()
@@ -41,7 +47,7 @@ namespace WpfApp2
             int BPMserach = BPM[pos].Item1;
             ret.Add(BPM[pos].Item2);
 
-
+            //go back in list to find other values
             for (int i = pos - 1; i > 0; i--)
             {
                 if (BPM[i].Item1 == BPMserach)
@@ -58,6 +64,7 @@ namespace WpfApp2
             }
             ret.Reverse();
 
+            //go forward in list to find other values
             for (int i = pos + 1; i < BPM.Count; i++)
             {
                 if (BPM[i].Item1 == BPMserach)
@@ -134,6 +141,11 @@ namespace WpfApp2
 
         public List<Music> searchBPM(int nr)
         {
+            if (BPM.Count == 0)
+            {
+                loadBPM();
+            }
+            
             List<Music> ret = new List<Music>();
             List<int> indexes = getBPMpos(nr, 0, BPM.Count-1);
             foreach (int i in indexes)
@@ -143,12 +155,64 @@ namespace WpfApp2
             return ret;
         }
 
+        public List<Music> searchTitles(string search)
+        {
+            if(this.titles.Count == 0)
+            {
+                loadTitles();
+            }
+
+            List<Music> ret = new List<Music>();
+            List<int> indexes = similarSentence(titles, search);
+            foreach(int i in indexes)
+            {
+                ret.Add(music[i]);
+            }
+            return ret;
+        }
+
+        private  List<int> similarSentence(List<Tuple<string, int>> container, string search)
+        {
+            List<int> ret = new List<int>();
+            foreach(string i in search.Split(' '))
+            {
+                foreach (int k in similarWords(container, i))
+                {
+                    int pos = ret.IndexOf(k);
+                    if (pos >= 0)
+                    {
+                        ret.RemoveAt(pos);
+                        ret.Insert(0, k);
+
+                    }
+                    else
+                    {
+                        ret.Add(k);
+                    }
+                }
+            }
+            return ret;
+        }
+
+        private List<int> similarWords(List<Tuple<string, int>> container, string search)
+        {
+            List<int> ret = new List<int>();
+            foreach(Tuple<string, int> i in container)
+            {
+                if(i.Item1.Contains(search))
+                    {
+                    ret.Add(i.Item2);
+                }
+            }
+            return ret;
+        }
 
         public Playlist()
         {
             this.music = new List<Stuffa.Music>();
             this.BPM = new List<Tuple<int, int>>();
             this.artists = new List<Tuple<string, int>>();
+            this.titles = new List<Tuple<string, int>>();
         }
 
         public Playlist(string fullPath)
@@ -156,6 +220,7 @@ namespace WpfApp2
             this.music = new List<Stuffa.Music>();
             this.BPM = new List<Tuple<int, int>>();
             this.artists = new List<Tuple<string, int>>();
+            this.titles = new List<Tuple<string, int>>();
 
             int pathPos = fullPath.LastIndexOf("\\");
             int fileTypePos = fullPath.LastIndexOf(".");
@@ -310,7 +375,7 @@ namespace WpfApp2
         }
 
 
-        public void loadBPM()
+        private void loadBPM()
         {
             BPM.Clear();
             int index = 0;
@@ -320,6 +385,24 @@ namespace WpfApp2
                 index++;
             }
             sortBPM();
+        }
+
+        private void loadTitles()
+        {
+            titles.Clear();
+            int index = 0;
+            foreach(Music i in music)
+            {
+                string[] words = i.getTitle().Split(' ');
+                foreach(string word in words)
+                {
+                    titles.Add(Tuple.Create<string, int>(word, index));
+
+                }
+                index++;
+            }
+            sortTitles();
+            
         }
 
         public void loadArtists()
