@@ -232,6 +232,7 @@ namespace Stuffa
 
         public MainWindow()
         {
+            
             Thread.CurrentThread.Name = "parent";
             InitializeComponent();
 
@@ -243,7 +244,7 @@ namespace Stuffa
             serverThread.IsBackground = true;
             serverThread.Start();
 
-
+            SocketServer.Server.init();
 
 
         }

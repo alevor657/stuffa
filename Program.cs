@@ -27,10 +27,11 @@ namespace SocketServer
         }
     }
 
-    public class Program
+    public class Server
     {
-        /*
-        public static void Main(string[] args)
+        
+        //public static void Main(string[] args)
+        public static void init()
         {
             var wssv = new WebSocketServer(8080);
             wssv.AddWebSocketService<Handler>("/remote");
@@ -38,8 +39,8 @@ namespace SocketServer
             Console.WriteLine($"Listening on {wssv.Address}:{wssv.Port}");
             foreach (var path in wssv.WebSocketServices.Paths)
                 Console.WriteLine("- {0}", path);
-            Console.ReadKey(true);
-            wssv.Stop();
-        }*/
+            //Console.ReadKey(true);
+            //wssv.Stop();
+        }
     }
 }
