@@ -28,38 +28,44 @@ namespace Stuffa
     /// </summary>
     public partial class MainWindow : Window
     {
+        //deaclear variables
         static bool isPlaying = false;
         static Playlist curentPlaylist;
-        //Music[] songs = new Music[3];
-        // Process all files in the directory passed in, recurse on any directories 
-        // that are found, and process the files they contain.
+        
 
 
         //search the given list using ToString
         public static void searchList(ListBox list, int startPos, string searchString)
         {
+            // for every item in list starting with posision startPos
             for(int i = startPos; i < list.Items.Count; ++i)
             {
+                // if the item does not contain the searchString
                 if(!list.Items[i].ToString().Contains(searchString))
                 {
+                    // remove unwanted items
                     list.Items.RemoveAt(i);
+                    // decrease i
                     --i;
                 }
             }
         }
 
-        //loads a playlist given path and ListBox
+        //loads current playlist into ListBox
         public static void LoadCurentPlaylist(ListBox list)
         {
-            
+            //tell currentPlaylist to get all the music
             curentPlaylist.loadMusic();
 
-
+            //get all music from currentPlayliist
             List<Music> toAdd = curentPlaylist.getMusic();
-
+            
+            //remove all old items from the ListBox item
             list.Items.Clear();
+            // add the "back" button first on the list
             list.Items.Add("back");
-
+            
+            // add every Music to the list
             foreach(Music i in toAdd)
             {
                 list.Items.Add(i);
@@ -68,11 +74,15 @@ namespace Stuffa
 
 
         }
-
+        
+        //insert the given List of music into the given ListBox
         private static void showMusic(List<Music> music, ListBox list)
         {
+            // remove all old items from ListBox
             list.Items.Clear();
+            // add back button
             list.Items.Add("back");
+            // inser desired items
             foreach (Music i in music)
             {
                 list.Items.Add(i);
@@ -82,8 +92,10 @@ namespace Stuffa
         //get the path to the playlists, this is lokated in the folder "Musik"
         public static string getPlaylistsPath()
         {
+            // get the path to the current executing file
             string path = System.Reflection.Assembly.GetEntryAssembly().Location;
-
+            
+            // fix so the path leads to the folder "Music"
             int pos = path.LastIndexOf('\\');
             path = path.Substring(0, pos);
 
@@ -100,14 +112,14 @@ namespace Stuffa
             return path;
         }
 
-        //go to all playlists
+        // view all the playlists
         public static void goToPlaylists(ListBox list)
         {
 
             ProcessDirectoryJson(getPlaylistsPath(), list);
         }
 
-        //get all files that is of type "fileTypes" in the directory "TargetDirectory"
+        //get the path to all files that is of type "fileTypes" in the directory "TargetDirectory"
         public static List<String> ProcessDirectory(string targetDirectory, ListBox list, string[] fileTypes, int cap)
         {
             List<string> files = new List<string>();
@@ -142,23 +154,27 @@ namespace Stuffa
             return files;
         }
 
-        //get JSON files (txt) and show them on list
+        //get JSON files (.txt) and show them as Playlists on the given ListBox
         public static void ProcessDirectoryJson(string targetDirectory, ListBox list)
         {
+            // get only .txt files
             string[] fileTypes = new string[1];
             fileTypes[0] = ".txt";
-
+            
+            // clear the given ListBox
             list.Items.Clear();
 
-
+            // get all the files in targetDirecctory withs ends with .txt and show them as Playlists
             ProcessPlaylist(ProcessDirectory(targetDirectory, list, fileTypes, 1), list);
         }
 
         // get .mp3 and .m4a files and show them on list
         public static void ProcessDirectoryMusic(string targetDirectory, ListBox list)
         {
+            // remove all old items
             list.Items.Clear();
 
+            // get only .mp3 and .m4a files
             string[] fileTypes = new string[2];
             fileTypes[0] = ".mp3";
             fileTypes[1] = ".m4a";
@@ -168,7 +184,7 @@ namespace Stuffa
 
         }
 
-        //inset List/paths into list
+        //inset Playlist(s) into ListBox
         public static void ProcessPlaylist(List<string> paths, ListBox list)
         {
             
@@ -179,7 +195,7 @@ namespace Stuffa
             }
         }
 
-        //insert List/paths into list
+        //insert one or more Music into ListBox
         public static void showMusic(List<string> paths, ListBox list)
         {
             for(int i = 0; i < paths.Capacity; ++i)
@@ -189,7 +205,7 @@ namespace Stuffa
           
         }
 
-        //pause the player
+        //pause or Play the mediaElement
         public void pausePlay()
         {
 
@@ -206,12 +222,13 @@ namespace Stuffa
             }
 
         }
-
+        
+        //ToDo uppdate/remove
         public void pausePlayServer()
         {
             this.Dispatcher.Invoke(() => { pausePlay(); });
         }
-
+        //ToDo uppdate/remove
         public void startServer()
         {
             Server server = new Server();
@@ -229,16 +246,18 @@ namespace Stuffa
 
 
 
-
+        //main function
         public MainWindow()
         {
+            // give this thread a name 
             Thread.CurrentThread.Name = "parent";
             InitializeComponent();
 
-
+            // show all playlists
             goToPlaylists(list);
 
             progresBar.Value = 0.5;
+            //start a temporary server until better is developed TODO: Update/remove
             Thread serverThread = new Thread(startServer);
             serverThread.IsBackground = true;
             serverThread.Start();
@@ -249,8 +268,9 @@ namespace Stuffa
         }
 
 
-      
+        //here follows all buttons
 
+        // when user selects another element in  list
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (list.SelectedItem != null)
@@ -267,6 +287,7 @@ namespace Stuffa
                 {
                     try
                     {
+                        //convert selected item to Music
                         Music music = list.SelectedItem as Music;
                         //get path to file
                         string path = music.getFullPath();
@@ -276,7 +297,7 @@ namespace Stuffa
                         var length = tagFile.Properties.Duration;
 
 
-                        //get BPM
+                        //get BPM   TODO: change getBPM to better one
                         // instantiate the Application object
 
                         dynamic shell = Activator.CreateInstance(Type.GetTypeFromProgID("Shell.Application"));
@@ -312,7 +333,7 @@ namespace Stuffa
         }
 
 
-
+        // pause play button
         public void Button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -328,7 +349,8 @@ namespace Stuffa
         {
             
         }
-
+        
+        // open file explorer and get new awzome music
         private void open_song_click(object sender, RoutedEventArgs e)
         {
             if(curentPlaylist != null)
@@ -366,10 +388,10 @@ namespace Stuffa
         {
 
         }
-
+        
         private void save_Click(object sender, RoutedEventArgs e)
         {
-            /*// TODO: make automatic
+            /*
             List<string> musicTracks = new List<string>();
             foreach (var i in list.Items)
             {
@@ -382,7 +404,7 @@ namespace Stuffa
 
 
         }
-
+        // load the selected playlist if the user dont want to dubbleclick
         private void load_Click(object sender, RoutedEventArgs e)
         {
             //List<string> musicTracks = new List<string>();
@@ -406,7 +428,8 @@ namespace Stuffa
             }*/
 
         }
-
+        
+        // if user doubleclick on list element. then go into playlist och back to playlists or nothing
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -432,7 +455,7 @@ namespace Stuffa
             }
 
         }
-
+        // when user right click in list show options
         public void RightClickBox()
         {
             rightClick.Visibility = Visibility.Visible;
