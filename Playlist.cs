@@ -11,28 +11,37 @@ namespace WpfApp2
 {
     class Playlist
     {
+        
+        // sorted lists decleared. first item is BPM value/artist/title second value is index refering to index to songs
         private List<Tuple<int, int>> BPM;
         private List<Tuple<string, int>> artists;
         private List<Tuple<string, int>> titles;
-
+        
+        //ex: path = E:/dir/
         private string path;
+        //ex: this_is_a_song
         private string name;
+        //ex .mp3
         private string filetype;
+        
+        //all the music in the playlist
         private List<Stuffa.Music> music;
 
         
-
+        //sort all BPM in BPM list
         private void sortBPM()
         {
-            //sorting with an avrige of O(n log(n))?    (list.Sort is n logn)
+            //sorting with an avrige of O(n log(n))?    (list.Sort is (n log(n)))
             //sorting on BPM
             BPM = BPM.OrderBy(e => e.Item1).ToList();
         }
+        //sort all titles in titles list
         private void sortTitles()
         {
+            //sort the musics titles
             this.titles = titles.OrderBy(e => e.Item1).ToList();
         }
-
+        //sort all Artist in artist list
         private void sortArtists()
         {
             //sorting with an avrige of O(n log(n))?    (list.Sort is n logn)
@@ -43,13 +52,17 @@ namespace WpfApp2
         //whnen one instance of the BPM is found, find all the other ones near it matching the value on position pos
         private List<int> getBPMpos(int pos)
         {
+            // return value
             List<int> ret = new List<int>();
+            //get the vaule we are searching for
             int BPMserach = BPM[pos].Item1;
+            //add the BPM we are searching for to the return variable 
             ret.Add(BPM[pos].Item2);
 
             //go back in list to find other values
-            for (int i = pos - 1; i > 0; i--)
+            for (int i = pos - 1; i >= 0; i--)
             {
+                // if BPM[i] conntains the same value we are searching for
                 if (BPM[i].Item1 == BPMserach)
                 {
                     //put the index in ret
@@ -57,11 +70,13 @@ namespace WpfApp2
                 }
                 else
                 {
-                    //end loop
-                    i = 0;
+                    //end loop if the value is not the one we are looking for
+                    // ceep in mind this is a sorted list
+                    i = -1;
                 }
 
             }
+            //revers return list to get the value in the correct order
             ret.Reverse();
 
             //go forward in list to find other values
@@ -84,7 +99,8 @@ namespace WpfApp2
 
 
         }
-
+        // gets all indexes for the given BPM. Binary search.
+        // TODO: change to (if posible) "this.BPM.binarySearch(....);"
         private List<int> getBPMpos(int BPMsearch, int startPos, int endPos)
         {if (startPos < endPos)
             {
@@ -138,49 +154,70 @@ namespace WpfApp2
             }
 
         }
-
+        //get a list of music given the BPM
         public List<Music> searchBPM(int nr)
         {
+            //if the BPM list is empty
             if (BPM.Count == 0)
-            {
+            {  
+                //fill the BPM list with all the music´s BPM
                 loadBPM();
             }
             
+            //  defining return value
             List<Music> ret = new List<Music>();
+            //get every index of music containing the BPM
             List<int> indexes = getBPMpos(nr, 0, BPM.Count-1);
+            //for every index...
             foreach (int i in indexes)
             {
+                //... add the music on the given index in the music list;
                 ret.Add(music[i]);
             }
             return ret;
         }
 
+        //search a given title
         public List<Music> searchTitles(string search)
         {
+            // if the titles list is empty
             if(this.titles.Count == 0)
             {
+                // fill the titles list with all the titles
                 loadTitles();
             }
 
+            // define return value
             List<Music> ret = new List<Music>();
             List<int> indexes = similarSentence(titles, search);
+            //for every index...
             foreach(int i in indexes)
             {
+                //...add the music on index
                 ret.Add(music[i]);
             }
             return ret;
         }
 
+        //returns a list of indexes witch corresponds to music where some part or the hole search string is defined
+        //this function orders the indexes based on the amount matched in the container
         private  List<int> similarSentence(List<Tuple<string, int>> container, string search)
         {
+            // define return value
             List<int> ret = new List<int>();
+            // split the search strin into words
             foreach(string i in search.Split(' '))
             {
+                // check if the search string word is in the container word
                 foreach (int k in similarWords(container, i))
                 {
+                    // check if there is allready the same index in ret
                     int pos = ret.IndexOf(k);
+                    // if there is, it means more words in the given index matches
                     if (pos >= 0)
                     {
+                        //move the index upp in the list giving it more priority
+                        //TODO: insert priority variable in ret and then order by priority
                         ret.RemoveAt(pos);
                         ret.Insert(0, k);
 
@@ -194,6 +231,8 @@ namespace WpfApp2
             return ret;
         }
 
+        //scheck if to words are similar
+        // TODO: give the words a score
         private List<int> similarWords(List<Tuple<string, int>> container, string search)
         {
             List<int> ret = new List<int>();
@@ -207,6 +246,7 @@ namespace WpfApp2
             return ret;
         }
 
+        // default contructor
         public Playlist()
         {
             this.music = new List<Stuffa.Music>();
@@ -215,6 +255,7 @@ namespace WpfApp2
             this.titles = new List<Tuple<string, int>>();
         }
 
+        // constructor that takes the hole path to the Playlist file. the path is a absulute path
         public Playlist(string fullPath)
         {
             this.music = new List<Stuffa.Music>();
@@ -232,13 +273,16 @@ namespace WpfApp2
 
             }
         }
-
+        
+        // save playlist to file
         public bool savePlaylist()
         {
+            // define return value
             bool retVal = false;
 
             try
             {
+                //save all musics absulute path
                 List<string> musicTracks = new List<string>();
                 foreach (Music i in music)
                 {
@@ -246,13 +290,15 @@ namespace WpfApp2
                 }
                 // package Newtonsoft.Json (Json.Net) need to be installed. 
                 // to install go to "project" > "manage NuGet packages..." > "Brows" > type "Newtonsoft.Json" / "Json.Net" > "install"
+                
+                // convert the musicTracks to a JSON object and save it ass a .txt file where this playlist file exists
                 string json = JsonConvert.SerializeObject(musicTracks.ToArray());
                 System.IO.File.WriteAllText(this.getFullPath(), json);
                 retVal = true;
             }catch { }
             return retVal;
         }
-
+        // open the explorer and save music to the given playlist
         public bool loadNewMusic()
         {
             bool retVal = false;
@@ -308,7 +354,7 @@ namespace WpfApp2
             }
             return retVal;
         }
-
+        // get music on given index
         public Music getMusic(int index)
         {
             Music ret = null;
@@ -319,7 +365,8 @@ namespace WpfApp2
             catch { }
             return ret;
         }
-
+        
+        // load the music specified in the Playlist file
         public void loadMusic()
         {
             try
@@ -359,7 +406,8 @@ namespace WpfApp2
             return this.name;
 
         }
-
+        
+        // return the path to the Playlist file
         public string getFullPath()
         {
             if(path.EndsWith("\\"))
@@ -375,8 +423,10 @@ namespace WpfApp2
         }
 
 
+        // insert the BPM and indexes in the BPM list inside this Playlist
         private void loadBPM()
         {
+            //clear any old 
             BPM.Clear();
             int index = 0;
             foreach (Music i in music)
