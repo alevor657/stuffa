@@ -335,7 +335,7 @@ namespace WpfApp2
                 if (nrOfElements > 561)
                 {
                     pos = TupleBinarySearch(container, search);
-                    searchArea = 250 + nrOfElements / 5;
+                    searchArea = 250 + nrOfElements / 20;
                 }
                 else
                 {
