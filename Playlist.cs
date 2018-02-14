@@ -327,84 +327,86 @@ namespace WpfApp2
                 }
 
             }
-            int nrOfElements = container.Count;
-            int searchArea;
-            int pos;
-            if(nrOfElements > 561)
+            if (search.Length > 2)
             {
-                pos = TupleBinarySearch(container, search);
-                searchArea = 250 + nrOfElements / 5;
-            }
-            else
-            {
-                pos = nrOfElements / 2;
-                searchArea = pos;
-            }
-            //get pos in List of where the item is or should be
-            for (int limit = 0; limit < searchArea; limit++)
-            {
-                int characters = search.Length;
-                string tempStr = search;
-                while(characters > 2)
+                int nrOfElements = container.Count;
+                int searchArea;
+                int pos;
+                if (nrOfElements > 561)
                 {
-                    if (pos+limit < container.Count && container[pos + limit].Item1.StartsWith(tempStr))
-                    {
-                        if (characters == search.Length)
-                        {
-                            ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters*3));
-
-                        }
-                        else
-                        {
-                            ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters));
-                        }
-                    }
-                    if (pos - limit > 0 && container[pos - limit].Item1.StartsWith(tempStr))
-                    {
-                        ret.Add(new Tuple<int, int>(container[pos - limit].Item2, characters));
-                    }
-                    characters--;
-                    tempStr = tempStr.Substring(0, characters);
+                    pos = TupleBinarySearch(container, search);
+                    searchArea = 250 + nrOfElements / 5;
                 }
-
-            }
-            for (int limit = 0; limit < searchArea; limit++)
-            {
-                string tempStr = search;
-                while (tempStr.Length - 2 > 0)
+                else
                 {
-
-                    if (pos + limit < container.Count && container[pos + limit].Item1.EndsWith(tempStr))
-                    {
-                        if (tempStr.Length == search.Length)
-                        {
-                            ret.Add(new Tuple<int, int>(container[pos + limit].Item2, search.Length * 3));
-
-                        }
-                        else
-                        {
-                            ret.Add(new Tuple<int, int>(container[pos + limit].Item2, search.Length));
-                        }
-                    }
-                    if (pos - limit > 0 && container[pos - limit].Item1.EndsWith(tempStr))
-                    {
-                        if (tempStr.Length == search.Length)
-                        {
-                            ret.Add(new Tuple<int, int>(container[pos + limit].Item2, search.Length * 3));
-
-                        }
-                        else
-                        {
-                            ret.Add(new Tuple<int, int>(container[pos - limit].Item2, search.Length));
-
-                        }
-                    }
-
-                    tempStr = tempStr.Substring(1);
+                    pos = nrOfElements / 2;
+                    searchArea = pos;
                 }
+                //get pos in List of where the item is or should be
+                for (int limit = 0; limit < searchArea; limit++)
+                {
+                    int characters = search.Length;
+                    string tempStr = search;
+                    while (characters > 2)
+                    {
+                        if (pos + limit < container.Count && container[pos + limit].Item1.StartsWith(tempStr))
+                        {
+                            if (characters == search.Length)
+                            {
+                                ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters * 3));
 
+                            }
+                            else
+                            {
+                                ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters));
+                            }
+                        }
+                        if (pos - limit > 0 && container[pos - limit].Item1.StartsWith(tempStr))
+                        {
+                            ret.Add(new Tuple<int, int>(container[pos - limit].Item2, characters));
+                        }
+                        characters--;
+                        tempStr = tempStr.Substring(0, characters);
+                    }
+
+                }
+                for (int limit = 0; limit < searchArea; limit++)
+                {
+                    string tempStr = search;
+                    while (tempStr.Length - 2 > 0)
+                    {
+
+                        if (pos + limit < container.Count && container[pos + limit].Item1.EndsWith(tempStr))
+                        {
+                            if (tempStr.Length == search.Length)
+                            {
+                                ret.Add(new Tuple<int, int>(container[pos + limit].Item2, search.Length * 3));
+
+                            }
+                            else
+                            {
+                                ret.Add(new Tuple<int, int>(container[pos + limit].Item2, search.Length));
+                            }
+                        }
+                        if (pos - limit > 0 && container[pos - limit].Item1.EndsWith(tempStr))
+                        {
+                            if (tempStr.Length == search.Length)
+                            {
+                                ret.Add(new Tuple<int, int>(container[pos + limit].Item2, search.Length * 3));
+
+                            }
+                            else
+                            {
+                                ret.Add(new Tuple<int, int>(container[pos - limit].Item2, search.Length));
+
+                            }
+                        }
+
+                        tempStr = tempStr.Substring(1);
+                    }
+
+                }
             }
-
 
             return ret;
         }
