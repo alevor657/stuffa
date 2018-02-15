@@ -16,6 +16,9 @@ namespace WpfApp2
         private List<Tuple<int, int>> BPM;
         private List<Tuple<string, int>> artists;
         private List<Tuple<string, int>> titles;
+
+        //seperators for words
+        private static Char[] seperators = new Char[] { ' ', '-', '_' };
         
         //ex: path = E:/dir/
         private string path;
@@ -250,6 +253,7 @@ namespace WpfApp2
             //for every index...
             foreach(Tuple<int, int> i in indexes)
             {
+                Console.WriteLine("search res: " + music[i.Item1] + " : " + i.Item2);
                 //...add the music on index
                 ret.Add(music[i.Item1]);
             }
@@ -262,79 +266,91 @@ namespace WpfApp2
         {
             // define return value
             List<Tuple<int, int>> ret = new List<Tuple<int, int>>();
+
+
             // split the search strin into words
-            foreach(string i in search.Split(' '))
+            foreach(string i in search.Split(seperators))
             {
                 // check if the search string word is in the container word
                 foreach (Tuple<int, int> k in similarWords(container, i))
                 {
-                    // check if there is allready the same index in ret
-                    int pos = ret.IndexOf(k);
-                    // if there is, it means more words in the given index matches
-                    if (pos >= 0)
-                    {
-                        //move the index upp in the list giving it more priority
-                        //TODO: insert priority variable in ret and then order by priority
-                        ret.RemoveAt(pos);
-                        ret.Insert(0, k);
-
-                    }
-                    else
-                    {
-                        ret.Add(k);
-                    }
+                    ret.Add(k);
                 }
             }
+            ret = groupByFirstTupleAndAddSecond(ret);
             return ret;
         }
 
+        //group for exaple indexes and add there scors
         private List<Tuple<int, int>> groupByFirstTupleAndAddSecond(List<Tuple<int, int>> container)
         {
+            //define return value
             List<Tuple<int, int>> ret = new List<Tuple<int, int>>();
+
+            // while there are more elements in the container
             while(container.Count >0)
             {
+                //take the first elements first Tuple and search for that
                 int searchfor = container[0].Item1;
+                // secondTuple is for adding together the second Tuple in the container wherever the variable "searchfor" is found
                 int secondTuple = container[0].Item2;
+                //remove found search values
                 container.RemoveAt(0);
                 for(int i = 0; i < container.Count; ++i)
                 {
+                    //go throu the intire container to search for similar "searcfor"
                     if(container[i].Item1 == searchfor)
                     {
+                        //when found similar "searchfor". add to secondTupler and remove element from container
                         secondTuple += container[i].Item2;
                         container.RemoveAt(i);
                         --i;
                     }
                 }
+                //add the thing to the return value
+                ret.Add(new Tuple<int, int>(searchfor, secondTuple));
             }
 
+            //order by the second Tuple decending
             ret = ret.OrderBy(e => e.Item2).ToList();
+            ret.Reverse();
 
             return ret;
 
         }
 
         //scheck if to words are similar
-        //the first Tuple value is the items index the second is the score
+        //the first Tuple value in the return is the items index the second is the score
         private List<Tuple<int, int>> similarWords(List<Tuple<string, int>> container, string search)
         {
+            //define return value
             List<Tuple<int, int>> ret = new List<Tuple<int, int>>();
+
+            //check if any of the strings in container contains the search word
+            //linear time
             foreach(Tuple<string, int> i in container)
             {
-                if(i.Item1.Contains(search))
-                    {
-                    Tuple<int, int> test = new Tuple<int, int>(i.Item2, 1);
-                    ret.Add(new Tuple<int, int>(i.Item2, 3));
+                if(i.Item1 == search)
+                {
+                    Console.WriteLine("searched for \"" + search + "\" found in: \"" + i.Item1 + "\"");
+                    ret.Add(new Tuple<int, int>(i.Item2, 6));
                 }
 
             }
+
+            // binary search time to execute (almoste 5% linear)
             if (search.Length > 2)
             {
                 int nrOfElements = container.Count;
                 int searchArea;
                 int pos;
+                //if the container have fewer than 561 element search throu all elements
+                // to see if it starts or ends with the beginning or end of the search string
                 if (nrOfElements > 561)
                 {
+                    //get the pos thre the search word is or sould be in the container
                     pos = TupleBinarySearch(container, search);
+                    // search only 250 + 5% of all the elements
                     searchArea = 250 + nrOfElements / 20;
                 }
                 else
@@ -342,7 +358,8 @@ namespace WpfApp2
                     pos = nrOfElements / 2;
                     searchArea = pos;
                 }
-                //get pos in List of where the item is or should be
+
+                //checks every element in range if they match the criterias
                 for (int limit = 0; limit < searchArea; limit++)
                 {
                     int characters = search.Length;
@@ -353,17 +370,32 @@ namespace WpfApp2
                         {
                             if (characters == search.Length)
                             {
+
+                                //searchword is exactly the same as the string we are evaluating. Give it then a higher score
                                 ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters * 3));
 
                             }
                             else
                             {
+                                //searchword only matches partly give a lover score
                                 ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters));
                             }
                         }
                         if (pos - limit > 0 && container[pos - limit].Item1.StartsWith(tempStr))
                         {
-                            ret.Add(new Tuple<int, int>(container[pos - limit].Item2, characters));
+                            if (characters == search.Length)
+                            {
+                                //searchword is exactly the same as the string we are evaluating. Give it then a higher score
+
+                                ret.Add(new Tuple<int, int>(container[pos - limit].Item2, characters * 3));
+
+                            }
+                            else
+                            {
+                                //searchword only matches partly give a lover score
+
+                                ret.Add(new Tuple<int, int>(container[pos - limit].Item2, characters));
+                            }
                         }
                         characters--;
                         tempStr = tempStr.Substring(0, characters);
@@ -378,28 +410,17 @@ namespace WpfApp2
 
                         if (pos + limit < container.Count && container[pos + limit].Item1.EndsWith(tempStr))
                         {
-                            if (tempStr.Length == search.Length)
-                            {
-                                ret.Add(new Tuple<int, int>(container[pos + limit].Item2, search.Length * 3));
 
-                            }
-                            else
-                            {
-                                ret.Add(new Tuple<int, int>(container[pos + limit].Item2, search.Length));
-                            }
+                            ret.Add(new Tuple<int, int>(container[pos + limit].Item2, search.Length));
+                            
+                           
                         }
                         if (pos - limit > 0 && container[pos - limit].Item1.EndsWith(tempStr))
                         {
-                            if (tempStr.Length == search.Length)
-                            {
-                                ret.Add(new Tuple<int, int>(container[pos + limit].Item2, search.Length * 3));
 
-                            }
-                            else
-                            {
-                                ret.Add(new Tuple<int, int>(container[pos - limit].Item2, search.Length));
+                            ret.Add(new Tuple<int, int>(container[pos - limit].Item2, search.Length));
 
-                            }
+                            
                         }
 
                         tempStr = tempStr.Substring(1);
@@ -608,10 +629,10 @@ namespace WpfApp2
             int index = 0;
             foreach(Music i in music)
             {
-                string[] words = i.getTitle().Split(' ');
+                string[] words = i.getTitle().Split(seperators);
                 foreach(string word in words)
                 {
-                    titles.Add(Tuple.Create<string, int>(word, index));
+                    titles.Add(Tuple.Create<string, int>(word.ToLower(), index));
 
                 }
                 index++;
