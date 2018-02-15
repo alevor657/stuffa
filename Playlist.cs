@@ -328,7 +328,7 @@ namespace WpfApp2
 
             //check if any of the strings in container contains the search word
             //linear time
-            foreach(Tuple<string, int> i in container)
+            /*foreach(Tuple<string, int> i in container)
             {
                 if(i.Item1 == search)
                 {
@@ -336,11 +336,10 @@ namespace WpfApp2
                     ret.Add(new Tuple<int, int>(i.Item2, 6));
                 }
 
-            }
+            }*/
 
             // binary search time to execute (almoste 5% linear)
-            if (search.Length > 2)
-            {
+
                 int nrOfElements = container.Count;
                 int searchArea;
                 int pos;
@@ -364,7 +363,7 @@ namespace WpfApp2
                 {
                     int characters = search.Length;
                     string tempStr = search;
-                    while (characters > 2)
+                    while (characters > 0)
                     {
                         if (pos + limit < container.Count && container[pos + limit].Item1.StartsWith(tempStr))
                         {
@@ -375,7 +374,7 @@ namespace WpfApp2
                                 ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters * 3));
 
                             }
-                            else
+                            else if(tempStr.Length > 2) //dont have a match if there is fewer than 3 matches on a long word
                             {
                                 //searchword only matches partly give a lover score
                                 ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters));
@@ -390,7 +389,7 @@ namespace WpfApp2
                                 ret.Add(new Tuple<int, int>(container[pos - limit].Item2, characters * 3));
 
                             }
-                            else
+                            else if (tempStr.Length > 2)
                             {
                                 //searchword only matches partly give a lover score
 
@@ -402,6 +401,8 @@ namespace WpfApp2
                     }
 
                 }
+            if (search.Length > 2)
+            {
                 for (int limit = 0; limit < searchArea; limit++)
                 {
                     string tempStr = search;
@@ -412,15 +413,15 @@ namespace WpfApp2
                         {
 
                             ret.Add(new Tuple<int, int>(container[pos + limit].Item2, search.Length));
-                            
-                           
+
+
                         }
                         if (pos - limit > 0 && container[pos - limit].Item1.EndsWith(tempStr))
                         {
 
                             ret.Add(new Tuple<int, int>(container[pos - limit].Item2, search.Length));
 
-                            
+
                         }
 
                         tempStr = tempStr.Substring(1);
@@ -428,6 +429,7 @@ namespace WpfApp2
 
                 }
             }
+            
 
             return ret;
         }
