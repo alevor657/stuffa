@@ -669,6 +669,14 @@ namespace WpfApp2
 
         }
 
+        //move music from index to new index
+        public void MoveMusic(int index, int newIndex)
+        {
+            Music toMv = music[index];
+            RemoveMusic(toMv);
+            music.Insert(newIndex, toMv);
+        }
+
         //kan ta bort fel låt om samma låt finns på flera ställe kanske
         public bool RemoveMusic(Music remove)
         {
