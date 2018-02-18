@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +9,9 @@ using Stuffa;
 
 namespace WpfApp2
 {
-    class Playlist
+    public class Playlist
     {
-        
+
         // sorted lists decleared. first item is BPM value/artist/title second value is index refering to index to songs
         private List<Tuple<int, int>> BPM;
         private List<Tuple<string, int>> artists;
@@ -19,18 +19,18 @@ namespace WpfApp2
 
         //seperators for words
         private static Char[] seperators = new Char[] { ' ', '-', '_' };
-        
+
         //ex: path = E:/dir/
         private string path;
         //ex: this_is_a_song
         private string name;
         //ex .mp3
         private string filetype;
-        
+
         //all the music in the playlist
         private List<Stuffa.Music> music;
 
-        
+
         //sort all BPM in BPM list
         private void sortBPM()
         {
@@ -53,7 +53,7 @@ namespace WpfApp2
         }
 
         //whnen one instance of the BPM is found, find all the other ones near it matching the value on position pos
-        private List<int> getBPMpos(int pos)
+        private List<int> getBPMpos(int pos, int range)
         {
             // return value
             List<int> ret = new List<int>();
@@ -66,7 +66,7 @@ namespace WpfApp2
             for (int i = pos - 1; i >= 0; i--)
             {
                 // if BPM[i] conntains the same value we are searching for
-                if (BPM[i].Item1 == BPMserach)
+                if (BPM[i].Item1 >= BPMserach - range)
                 {
                     //put the index in ret
                     ret.Add(BPM[i].Item2);
@@ -85,7 +85,7 @@ namespace WpfApp2
             //go forward in list to find other values
             for (int i = pos + 1; i < BPM.Count; i++)
             {
-                if (BPM[i].Item1 == BPMserach)
+                if (BPM[i].Item1 <= BPMserach + range)
                 {
                     //put the index in ret
                     ret.Add(BPM[i].Item2);
@@ -130,7 +130,7 @@ namespace WpfApp2
                     }
                     else if (search.CompareTo(middleVal) < 0)
                     {
-                        return this.TupleBinarySearchRecusuve(container, search, startPos +1 , middlePos -1);
+                        return this.TupleBinarySearchRecusuve(container, search, startPos + 1, middlePos - 1);
 
 
                     }
@@ -156,13 +156,14 @@ namespace WpfApp2
         //search binary on forst Tuple and get the position or where it should be
         private int TupleBinarySearch(List<Tuple<string, int>> container, string search)
         {
-            return TupleBinarySearchRecusuve(container, search, 0, container.Count -1);
+            return TupleBinarySearchRecusuve(container, search, 0, container.Count - 1);
         }
 
         // gets all indexes for the given BPM. Binary search.
         // TODO: change to (if posible) "this.BPM.binarySearch(....);"
-        private List<int> getBPMpos(int BPMsearch, int startPos, int endPos)
-        {if (startPos < endPos)
+        private List<int> getBPMpos(int BPMsearch, int startPos, int endPos, int range)
+        {
+            if (startPos < endPos)
             {
                 int startVal = this.BPM[startPos].Item1;
                 int endVal = this.BPM[endPos].Item1;
@@ -170,11 +171,11 @@ namespace WpfApp2
 
                 if (startVal == BPMsearch)
                 {
-                    return getBPMpos(startPos);
+                    return getBPMpos(startPos, range);
                 }
                 else if (endVal == BPMsearch)
                 {
-                    return getBPMpos(endPos);
+                    return getBPMpos(endPos, range);
                 }
                 else
                 {
@@ -182,18 +183,18 @@ namespace WpfApp2
                     int middleVal = this.BPM[middlePos].Item1;
                     if (middleVal == BPMsearch)
                     {
-                        return getBPMpos(middlePos);
+                        return getBPMpos(middlePos, range);
 
                     }
                     else if (middleVal > BPMsearch)
                     {
-                        return this.getBPMpos(BPMsearch, startPos + 1, middlePos - 1);
+                        return this.getBPMpos(BPMsearch, startPos + 1, middlePos - 1, range);
 
 
                     }
                     else
                     {
-                        return this.getBPMpos(BPMsearch, middlePos + 1, endPos - 1);
+                        return this.getBPMpos(BPMsearch, middlePos + 1, endPos - 1, range);
 
                     }
 
@@ -205,7 +206,7 @@ namespace WpfApp2
 
                 if (startPos == endPos)
                 {
-                    if(BPM[endPos].Item1 == BPMsearch)
+                    if (BPM[endPos].Item1 == BPMsearch)
                     {
                         ret.Add(BPM[endPos].Item2);
                     }
@@ -215,19 +216,19 @@ namespace WpfApp2
 
         }
         //get a list of music given the BPM
-        public List<Music> searchBPM(int nr)
+        public List<Music> searchBPM(int nr, int range = 0)
         {
             //if the BPM list is empty
             if (BPM.Count == 0)
-            {  
+            {
                 //fill the BPM list with all the music´s BPM
                 loadBPM();
             }
-            
+
             //  defining return value
             List<Music> ret = new List<Music>();
             //get every index of music containing the BPM
-            List<int> indexes = getBPMpos(nr, 0, BPM.Count-1);
+            List<int> indexes = getBPMpos(nr, 0, BPM.Count - 1, range);
             //for every index...
             foreach (int i in indexes)
             {
@@ -237,11 +238,35 @@ namespace WpfApp2
             return ret;
         }
 
+        //search a given artist
+        public List<Music> searchArtist(String search)
+        {
+            //if the artists are empty
+            if(this.artists.Count == 0)
+            {
+                //fill artists witch artists
+                loadArtists();
+            }
+
+            //define return value
+            List<Music> ret = new List<Music>();
+            List<Tuple<int, int>> indexes = similarSentence(artists, search);
+
+            //for every index
+            foreach(Tuple<int, int> i in indexes)
+            {
+                Console.WriteLine("search res: " + music[i.Item1].getArtist() + " : " + i.Item2);
+                // ... add the music on index
+                ret.Add(music[i.Item1]);
+            }
+            return ret;
+        }
+
         //search a given title
         public List<Music> searchTitles(string search)
         {
             // if the titles list is empty
-            if(this.titles.Count == 0)
+            if (this.titles.Count == 0)
             {
                 // fill the titles list with all the titles
                 loadTitles();
@@ -251,7 +276,7 @@ namespace WpfApp2
             List<Music> ret = new List<Music>();
             List<Tuple<int, int>> indexes = similarSentence(titles, search);
             //for every index...
-            foreach(Tuple<int, int> i in indexes)
+            foreach (Tuple<int, int> i in indexes)
             {
                 Console.WriteLine("search res: " + music[i.Item1] + " : " + i.Item2);
                 //...add the music on index
@@ -262,14 +287,15 @@ namespace WpfApp2
 
         //returns a list of indexes witch corresponds to music where some part or the hole search string is defined
         //this function orders the indexes based on the amount matched in the container
-        private  List<Tuple<int, int>> similarSentence(List<Tuple<string, int>> container, string search)
+        private List<Tuple<int, int>> similarSentence(List<Tuple<string, int>> container, string search)
         {
+
             // define return value
             List<Tuple<int, int>> ret = new List<Tuple<int, int>>();
 
-
+            search = search.ToLower();
             // split the search strin into words
-            foreach(string i in search.Split(seperators))
+            foreach (string i in search.Split(seperators))
             {
                 // check if the search string word is in the container word
                 foreach (Tuple<int, int> k in similarWords(container, i))
@@ -288,7 +314,7 @@ namespace WpfApp2
             List<Tuple<int, int>> ret = new List<Tuple<int, int>>();
 
             // while there are more elements in the container
-            while(container.Count >0)
+            while (container.Count > 0)
             {
                 //take the first elements first Tuple and search for that
                 int searchfor = container[0].Item1;
@@ -296,10 +322,10 @@ namespace WpfApp2
                 int secondTuple = container[0].Item2;
                 //remove found search values
                 container.RemoveAt(0);
-                for(int i = 0; i < container.Count; ++i)
+                for (int i = 0; i < container.Count; ++i)
                 {
                     //go throu the intire container to search for similar "searcfor"
-                    if(container[i].Item1 == searchfor)
+                    if (container[i].Item1 == searchfor)
                     {
                         //when found similar "searchfor". add to secondTupler and remove element from container
                         secondTuple += container[i].Item2;
@@ -335,72 +361,71 @@ namespace WpfApp2
                     Console.WriteLine("searched for \"" + search + "\" found in: \"" + i.Item1 + "\"");
                     ret.Add(new Tuple<int, int>(i.Item2, 6));
                 }
-
             }*/
 
             // binary search time to execute (almoste 5% linear)
 
-                int nrOfElements = container.Count;
-                int searchArea;
-                int pos;
-                //if the container have fewer than 561 element search throu all elements
-                // to see if it starts or ends with the beginning or end of the search string
-                if (nrOfElements > 561)
-                {
-                    //get the pos thre the search word is or sould be in the container
-                    pos = TupleBinarySearch(container, search);
-                    // search only 250 + 5% of all the elements
-                    searchArea = 250 + nrOfElements / 20;
-                }
-                else
-                {
-                    pos = nrOfElements / 2;
-                    searchArea = pos;
-                }
+            int nrOfElements = container.Count;
+            int searchArea;
+            int pos;
+            //if the container have fewer than 561 element search throu all elements
+            // to see if it starts or ends with the beginning or end of the search string
+            if (nrOfElements > 561)
+            {
+                //get the pos thre the search word is or sould be in the container
+                pos = TupleBinarySearch(container, search);
+                // search only 250 + 5% of all the elements
+                searchArea = 250 + nrOfElements / 20;
+            }
+            else
+            {
+                pos = nrOfElements / 2;
+                searchArea = pos;
+            }
 
-                //checks every element in range if they match the criterias
-                for (int limit = 0; limit < searchArea; limit++)
+            //checks every element in range if they match the criterias
+            for (int limit = 0; limit < searchArea; limit++)
+            {
+                int characters = search.Length;
+                string tempStr = search;
+                while (characters > 0)
                 {
-                    int characters = search.Length;
-                    string tempStr = search;
-                    while (characters > 0)
+                    if (pos + limit < container.Count && container[pos + limit].Item1.StartsWith(tempStr))
                     {
-                        if (pos + limit < container.Count && container[pos + limit].Item1.StartsWith(tempStr))
+                        if (characters == search.Length)
                         {
-                            if (characters == search.Length)
-                            {
 
-                                //searchword is exactly the same as the string we are evaluating. Give it then a higher score
-                                ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters * 3));
+                            //searchword is exactly the same as the string we are evaluating. Give it then a higher score
+                            ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters * 3));
 
-                            }
-                            else if(tempStr.Length > 2) //dont have a match if there is fewer than 3 matches on a long word
-                            {
-                                //searchword only matches partly give a lover score
-                                ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters));
-                            }
                         }
-                        if (pos - limit > 0 && container[pos - limit].Item1.StartsWith(tempStr))
+                        else if (tempStr.Length > 2) //dont have a match if there is fewer than 3 matches on a long word
                         {
-                            if (characters == search.Length)
-                            {
-                                //searchword is exactly the same as the string we are evaluating. Give it then a higher score
-
-                                ret.Add(new Tuple<int, int>(container[pos - limit].Item2, characters * 3));
-
-                            }
-                            else if (tempStr.Length > 2)
-                            {
-                                //searchword only matches partly give a lover score
-
-                                ret.Add(new Tuple<int, int>(container[pos - limit].Item2, characters));
-                            }
+                            //searchword only matches partly give a lover score
+                            ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters));
                         }
-                        characters--;
-                        tempStr = tempStr.Substring(0, characters);
                     }
+                    if (pos - limit > 0 && container[pos - limit].Item1.StartsWith(tempStr))
+                    {
+                        if (characters == search.Length)
+                        {
+                            //searchword is exactly the same as the string we are evaluating. Give it then a higher score
 
+                            ret.Add(new Tuple<int, int>(container[pos - limit].Item2, characters * 3));
+
+                        }
+                        else if (tempStr.Length > 2)
+                        {
+                            //searchword only matches partly give a lover score
+
+                            ret.Add(new Tuple<int, int>(container[pos - limit].Item2, characters));
+                        }
+                    }
+                    characters--;
+                    tempStr = tempStr.Substring(0, characters);
                 }
+
+            }
             if (search.Length > 2)
             {
                 for (int limit = 0; limit < searchArea; limit++)
@@ -429,7 +454,7 @@ namespace WpfApp2
 
                 }
             }
-            
+
 
             return ret;
         }
@@ -461,7 +486,7 @@ namespace WpfApp2
 
             }
         }
-        
+
         // save playlist to file
         public bool savePlaylist()
         {
@@ -478,12 +503,13 @@ namespace WpfApp2
                 }
                 // package Newtonsoft.Json (Json.Net) need to be installed. 
                 // to install go to "project" > "manage NuGet packages..." > "Brows" > type "Newtonsoft.Json" / "Json.Net" > "install"
-                
+
                 // convert the musicTracks to a JSON object and save it ass a .txt file where this playlist file exists
                 string json = JsonConvert.SerializeObject(musicTracks.ToArray());
                 System.IO.File.WriteAllText(this.getFullPath(), json);
                 retVal = true;
-            }catch { }
+            }
+            catch { }
             return retVal;
         }
         // open the explorer and save music to the given playlist
@@ -553,7 +579,7 @@ namespace WpfApp2
             catch { }
             return ret;
         }
-        
+
         // load the music specified in the Playlist file
         public void loadMusic()
         {
@@ -594,11 +620,11 @@ namespace WpfApp2
             return this.name;
 
         }
-        
+
         // return the path to the Playlist file
         public string getFullPath()
         {
-            if(path.EndsWith("\\"))
+            if (path.EndsWith("\\"))
             {
                 return this.path + this.name + this.filetype;
             }
@@ -607,7 +633,7 @@ namespace WpfApp2
                 return this.path + "\\" + this.name + this.filetype;
 
             }
-            
+
         }
 
 
@@ -629,10 +655,10 @@ namespace WpfApp2
         {
             titles.Clear();
             int index = 0;
-            foreach(Music i in music)
+            foreach (Music i in music)
             {
                 string[] words = i.getTitle().Split(seperators);
-                foreach(string word in words)
+                foreach (string word in words)
                 {
                     titles.Add(Tuple.Create<string, int>(word.ToLower(), index));
 
@@ -640,10 +666,44 @@ namespace WpfApp2
                 index++;
             }
             sortTitles();
-            
+
         }
 
-        public void loadArtists()
+        //kan ta bort fel låt om samma låt finns på flera ställe kanske
+        public bool RemoveMusic(Music remove)
+        {
+             List < Tuple<int, int> > indexes = similarSentence(titles, remove.getTitle());
+
+            bool ret = false;
+            
+            for(int i = 0; i < indexes.Count && !ret; i++)
+            {
+                if(music[indexes[i].Item1] == remove)
+                {
+                    music.RemoveAt(indexes[i].Item1);
+                    ret = true;
+                }
+            }
+
+            
+            if (!ret)
+            {
+                int i = 0;
+                foreach (Music m in music)
+                {
+                    
+                    if (m == remove)
+                    {
+                        music.RemoveAt(i);
+                        ret = true;
+                    }
+                    i++;
+                }
+            }
+            return ret;
+        }
+
+        private void loadArtists()
         {
             artists.Clear();
 
@@ -651,12 +711,100 @@ namespace WpfApp2
 
             foreach (Music i in music)
             {
-                artists.Add(Tuple.Create<string, int>(i.getArtist(), index));
+                string[] words = i.getArtist().Split(seperators);
+                foreach(string word in words)
+                {
+                    artists.Add(Tuple.Create<string, int>(word, index));
+                }
                 index++;
+
+
             }
             sortArtists();
         }
+        public void generateTestPlaylist()
+        {
+            // adding 20 0r 19 test music data
+            Music test = new Music();
+            test.generateTestData("C:\\music\\", "(12)_Black_Jack_-_Du_Vet", ".mp3", 100, "Black Jack", "Black Jack - Du Vet");
+            music.Add(test);
 
+            test = new Music();
+            test.generateTestData("C:\\music\\", "[16] Alla Tiders", ".m4a", 101, "Lasse", "Alla Tiders");
+            music.Add(test);
 
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01-Laleh-Elephant", ".m4a", 100, "Laleh", "Elephant");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01-Laleh-På-Gatan-Där-Jag-Bor", ".mp3", 0, "Laleh", "");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01-Millioner_röda-rosor", ".m4a", 0, "", "");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 Chandelier", ".m4a", 102, "Brittney", "Chandelier");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 Hurt 1", ".mp3", 104, "Finix", "Hurt");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 Hurt", ".mp3", 104, "finix", "Hurt");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 När filmen är slut", ".mp3", 99, "Jhonny", "När filmen är slut");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 När löven faller", ".mp3", 100, "Jhonny", "När löven faller");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 Somethings Got A Hold On Me", ".mp3", 109, "Brittney", "Something got a hold on me");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 Speaking Of Truth", ".m4a", 188, "Gurgle", "Speaking of Truth");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 spår 01 12", ".mp3", 99, "The amaxing", "Don`t hold me");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 spår 01 13", ".mp3", 97, "The amaxing", "Moving Up");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 Spår 01 14", ".mp3", 104, "The amaxing", "Song title");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 Spår 1 1", ".mp3", 106, "the amaxing", "Fell the rain");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 Spår 1", ".mp3", 104, "Rolex", "Never move");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 Spår 1 ", ".mp3", 109, "Rolex", "Tick, Tack");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 Till landet Ingenstans", ".mp3", 133, "Rymden", "Till landet ingenstans");
+            music.Add(test);
+
+            test = new Music();
+            test.generateTestData("C:\\music\\", "01 Try", ".m4a", 88, "Jos", "Try");
+            music.Add(test);
+
+        }
     }
 }

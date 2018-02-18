@@ -7,7 +7,7 @@ using IdSharp.Tagging.ID3v2;
 
 namespace Stuffa
 {
-    class Music
+    public class Music
     {
         private string path;
         private string name;
@@ -165,6 +165,15 @@ namespace Stuffa
             }
         }
 
+        public void generateTestData(string path, string name, string filetype, int BPM, string artist, string titel)
+        {
+            this.path = path;
+            this.name = name;
+            this.filetype = filetype;
+            this.BPM = BPM;
+            this.artist = artist;
+            this.title = titel;
+        }
        
     }
 }
