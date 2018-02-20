@@ -170,7 +170,7 @@ namespace Stuffa
             this.Dispatcher.Invoke(() => { pausePlay(); });
         }
 
-        public void startServer()
+        /*public void startServer()
         {
             Server server = new Server();
             while (true)
@@ -180,10 +180,10 @@ namespace Stuffa
                 {
                     pausePlayServer();
                 }
-                this.Dispatcher.Invoke(() => { /*serverMessage.Text = "message from  server: " + message;*/ });
-
+                this.Dispatcher.Invoke(() => { /*serverMessage.Text = "message from  server: " + message;*//* });
+                
             }
-        }
+        }*/
 
 
 
@@ -197,9 +197,10 @@ namespace Stuffa
             goToPlaylists(list);
 
             progresBar.Value = 0.5;
-            Thread serverThread = new Thread(startServer);
+            /*Thread serverThread = new Thread(startServer);
             serverThread.IsBackground = true;
             serverThread.Start();
+            */
 
 
 

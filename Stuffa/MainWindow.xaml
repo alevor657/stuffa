@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
-        Title="MainWindow" Background="#c0d5e5">
+        Title="MainWindow" 
+        Background="#c0d5e5">
     
     <Grid Margin="0,0,0.4,-0.2">
         
@@ -13,8 +14,8 @@
         <TextBlock x:Name="text" HorizontalAlignment="Left" Margin="78,223,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="78"><InlineUIContainer>
                 <TextBox x:Name="textBox1" Height="23" TextWrapping="Wrap" Text="TextBox" Width="120" />
             </InlineUIContainer></TextBlock>
-        <MediaElement  x:Name="player"   LoadedBehavior="Manual" HorizontalAlignment="Left" Height="158" Margin="415,207,0,0" VerticalAlignment="Top" Width="102"/>
-        <Button Content="play/pause" HorizontalAlignment="Left" Margin="374,124,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <MediaElement  x:Name="player"   LoadedBehavior="Manual" HorizontalAlignment="Left" Height="158" Margin="486,223,0,0" VerticalAlignment="Top" Width="102" RenderTransformOrigin="0.504,0.51"/>
+        <Button Content="play/pause" HorizontalAlignment="Left" Margin="486,135,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" RenderTransformOrigin="-2.109,11.24"/>
         <Slider x:Name="progresBar" Margin="43,402,398.2,0" VerticalAlignment="Top" Height="25" RenderTransformOrigin="0.5,0.5" ValueChanged="progresBar_ValueChanged">
             <Slider.RenderTransform>
                 <TransformGroup>
@@ -43,8 +44,10 @@
         </DockPanel>
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="78,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
         <Label x:Name="label" Content="Tid: " HorizontalAlignment="Left" Margin="361,403,0,0" VerticalAlignment="Top"/>
+        <!-- 
         <Button x:Name="save" Content="save" HorizontalAlignment="Left" Margin="537,124,0,0" VerticalAlignment="Top" Width="75" Click="save_Click"/>
         <Button x:Name="load" Content="load" HorizontalAlignment="Left" Margin="537,148,0,0" VerticalAlignment="Top" Width="75" Click="load_Click"/>
+        -->
         <ListBox x:Name="rightClick" Visibility="Hidden" SelectionChanged="RightClickBoxHandler" HorizontalAlignment="Left" Height="100" Margin="640,379,0,0" VerticalAlignment="Top" Width="100"/>
         <TextBox x:Name="searchField" HorizontalAlignment="Left" Height="23" Margin="93,379,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="search" Content="search" HorizontalAlignment="Left" Margin="218,383,0,0" VerticalAlignment="Top" Width="75" Click="searchButton"/>
