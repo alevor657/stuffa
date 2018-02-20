@@ -18,8 +18,7 @@ using System.Threading;
 using WpfApp2;
 using Newtonsoft.Json;
 using Microsoft.VisualBasic;
-
-
+using System.Windows.Threading;
 
 namespace Stuffa
 {
@@ -30,8 +29,11 @@ namespace Stuffa
     {
         //deaclear variables
         static bool isPlaying = false;
+        static bool mediaFileIsOpen = false;
         static Playlist curentPlaylist;
-        
+
+        DispatcherTimer songTimer = new DispatcherTimer();
+
 
 
         //search the given list using ToString
@@ -205,7 +207,9 @@ namespace Stuffa
           
         }
 
-        //pause or Play the mediaElement
+        //pause or Play the mediaElement -------------------- EVENTUELLT ONÖDIG
+
+
         public void pausePlay()
         {
 
@@ -256,15 +260,21 @@ namespace Stuffa
             // show all playlists
             goToPlaylists(list);
 
-            progresBar.Value = 0.5;
             //start a temporary server until better is developed TODO: Update/remove
             Thread serverThread = new Thread(startServer);
             serverThread.IsBackground = true;
             serverThread.Start();
 
+            songTimer.Interval = new TimeSpan(500);
+            songTimer.Tick += TimerTicker;
+        }
 
+        void TimerTicker(object sender, EventArgs e)
+        {
 
-
+            slider.Value = player.Position.TotalSeconds;
+            TimeSpan currentTime = new TimeSpan(0, player.Position.Duration().Minutes, player.Position.Duration().Seconds);
+            trackTime.Content = currentTime.ToString().Substring(3);
         }
 
 
@@ -296,30 +306,18 @@ namespace Stuffa
                         string songName = tagFile.Tag.Title;
                         var length = tagFile.Properties.Duration;
 
+                        //label.Content = length;
 
-                        //get BPM   TODO: change getBPM to better one
-                        // instantiate the Application object
-
-                        dynamic shell = Activator.CreateInstance(Type.GetTypeFromProgID("Shell.Application"));
-
-                        // get the folder and the child
-                        var folder = shell.NameSpace(System.IO.Path.GetDirectoryName(path));
-                        var item = folder.ParseName(System.IO.Path.GetFileName(path));
-
-                        // get the item's property by it's canonical name. doc says it's a string
-                        string bpm = item.ExtendedProperty("System.Music.BeatsPerMinute");
-                        Console.WriteLine(bpm);
-                        //get BPM
-
-                        label.Content = length;
-
-                        text.Text = path + "\n\n" + "Title: " + songName + "\nBPM: " + bpm;
+                        text.Text = path + "\n\n" + "Title: " + songName + "\nBPM: ";
 
                         player.Source = new Uri(path, UriKind.RelativeOrAbsolute);
 
 
                         player.Play();
+                        songTimer.Start();
                         isPlaying = true;
+                        BitmapImage image = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/pause-circle-outline.png", UriKind.RelativeOrAbsolute));
+                        playButton.Source = image;
                     }
                     catch
                     {
@@ -339,6 +337,31 @@ namespace Stuffa
 
             pausePlay();
         }
+        private void PlayButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (mediaFileIsOpen)
+            {
+                if (isPlaying)
+                {
+
+                    BitmapImage image = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/play-circle-outline.png", UriKind.RelativeOrAbsolute));
+                    playButton.Source = image;
+                    isPlaying = false;
+                    player.Pause();
+                    songTimer.Stop();
+
+                }
+                else
+                {
+
+                    BitmapImage image = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/pause-circle-outline.png", UriKind.RelativeOrAbsolute));
+                    playButton.Source = image;
+                    isPlaying = true;
+                    player.Play();
+                    songTimer.Start();
+                }
+            }
+        }
 
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -357,36 +380,11 @@ namespace Stuffa
             {
                 curentPlaylist.loadNewMusic();
             }
-            /*
-            //TODO: redirect to Playlist
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
-            dlg.DefaultExt = ".mp3";
-            dlg.Filter = "MP3 Files (*.mp3)|*.mp3|M4A Files (*.m4a)|*.m4a|FLAC Files (*.flac)|*.flac";
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            Nullable<bool> result = dlg.ShowDialog();
-
-
-            // Get the selected file name and display in a TextBox 
-            if (result == true)
-            {
-
-                // Open document 
-                string filename = dlg.FileName;
-                list.Items.Add(new Music(filename));
-                textBox1.Text = filename;
-
-                //songs[0] = new Music(filename);
-
-                //TODO: 
-
-            }*/
         }
 
-        private void progresBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
+            player.Position = TimeSpan.FromSeconds(slider.Value);
         }
         
         private void save_Click(object sender, RoutedEventArgs e)
@@ -524,5 +522,18 @@ namespace Stuffa
             }
 
         }
+
+        private void mediaOpen(object sender, RoutedEventArgs e)
+        {
+            mediaFileIsOpen = true;
+            TimeSpan ts = player.NaturalDuration.TimeSpan;
+            slider.Maximum = ts.TotalSeconds;
+            var openDuration = player.NaturalDuration.TimeSpan;
+            var theDuration = new TimeSpan(0, openDuration.Minutes, openDuration.Seconds);
+            durationLabel.Content = theDuration.ToString().Substring(3);
+
+
+        }
+
     }
 }

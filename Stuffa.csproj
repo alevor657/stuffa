@@ -35,10 +35,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IdSharp.Common">
-      <HintPath>IdSharp.Tagging\IdSharp.Tagging\bin\Debug\IdSharp.Common.dll</HintPath>
+      <HintPath>..\WpfApp1\WpfApp1\IdSharp.AudioInfo\bin\Debug\IdSharp.Common.dll</HintPath>
     </Reference>
     <Reference Include="IdSharp.Tagging">
-      <HintPath>IdSharp.Tagging\IdSharp.Tagging\bin\Debug\IdSharp.Tagging.dll</HintPath>
+      <HintPath>..\WpfApp1\WpfApp1\IdSharp.Tagging\bin\Debug\IdSharp.Tagging.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.3.1.953, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MaterialDesignThemes.2.3.1.953\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -67,7 +73,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="zlib.net">
-      <HintPath>IdSharp.Tagging\IdSharp.Tagging\bin\Debug\zlib.net.dll</HintPath>
+      <HintPath>..\WpfApp1\WpfApp1\IdSharp.Tagging\bin\Debug\zlib.net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +96,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="pause-circle-outline.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="play-circle-outline.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Music.cs" />
@@ -118,6 +132,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="play-circle-outline.png" />
+    <Resource Include="pause-circle-outline.png" />
+    <Content Include="pause-circle-outline.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
