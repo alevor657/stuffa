@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IdSharp.Tagging.ID3v2;
+using TagLib;
 
 namespace Stuffa
 {
@@ -108,7 +110,69 @@ namespace Stuffa
             }
             return this.title;
         }
-        
+
+        public bool setArtist(string n)
+        {
+            bool ret = true;
+            try
+            {
+                IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
+                fileInfo.Artist = n;
+                fileInfo.Save(getFullPath());
+
+            }
+            catch
+            {
+                Console.WriteLine("did not save BPM to ID3 tag\n" + getFullPath() + "\nif file is open, close it and try again");
+                ret = false;
+            }
+            return ret;
+        }
+
+        public bool setTitle(string n)
+        {
+            bool ret = true;
+
+            try
+            {
+                IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
+                fileInfo.Title = n;
+                fileInfo.Save(getFullPath());
+
+            }
+            catch
+            {
+                Console.WriteLine("did not save Title to ID3 tag\n" + getFullPath()+ "\nif file is open, close it and try again");
+                ret = false;
+
+            }
+            return ret;
+
+        }
+
+        public bool setBPM(string n)
+        {
+            bool ret = true;
+
+
+            try
+            {
+
+                IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
+                fileInfo.BPM = n;
+                fileInfo.Save(getFullPath());
+                
+            }
+            catch
+            {
+                Console.WriteLine("did not save BPM to ID3 tag\n" + getFullPath() + "\nif file is open, close it and try again");
+                ret = false;
+            }
+            return ret;
+
+
+        }
+
 
         public Music(string fullPath)
         {

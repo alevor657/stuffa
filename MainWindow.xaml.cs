@@ -35,6 +35,19 @@ namespace Stuffa
         DispatcherTimer songTimer = new DispatcherTimer();
 
 
+        //chenge BPM on current music
+        public void changeBPM(Music m, string bpm)
+        {
+            if(player.Source.ToString() == m.getFullPath())
+            {
+                player.Source = null;
+            }
+            if(!m.setBPM(bpm))
+            {
+                MessageBox.Show("Did not change BPM\nCheck if the file is open in another program\n" + m.getFullPath(), "open?",
+    MessageBoxButton.OK,  MessageBoxImage.Error);
+            }
+        }
 
         //search the given list using ToString
         public static void searchList(ListBox list, int startPos, string searchString)
@@ -267,6 +280,7 @@ namespace Stuffa
 
             songTimer.Interval = new TimeSpan(500);
             songTimer.Tick += TimerTicker;
+MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         void TimerTicker(object sender, EventArgs e)
@@ -339,8 +353,18 @@ namespace Stuffa
         }
         private void PlayButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            Music m = list.Items[1] as Music;
+
+            
+            player.Source = null;
+
+            m.setBPM("12");
+
             if (mediaFileIsOpen)
             {
+                
+
+                /*
                 if (isPlaying)
                 {
 
@@ -359,7 +383,7 @@ namespace Stuffa
                     isPlaying = true;
                     player.Play();
                     songTimer.Start();
-                }
+                }*/
             }
         }
 
