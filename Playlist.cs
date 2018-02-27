@@ -568,6 +568,115 @@ namespace WpfApp2
             }
             return retVal;
         }
+
+        public bool loadNewMusic(Music m)
+        {
+
+
+            return false;
+        }
+
+        private List<Music> addNotSameMusic(List<Music> search)
+        {
+            //define return value
+            List<Music> ret = new List<Music>();
+
+
+            List<Tuple<string, int>> container = new List<Tuple<string, int>>();
+            int index = 0;
+
+            //for every music in playlist
+            foreach(Music m in music)
+            {
+                // insert all music into container and index
+                container.Add(new Tuple<string, int>(m.getTitle(), index));
+                index++;
+            }
+
+            // sortera på musik titlar
+            container = container.OrderBy(e => e.Item1).ToList();
+
+            
+            foreach (Music s in search)
+            {
+                //get the postition of a title. This position is not garantid to contain the title name
+                int pos = TupleBinarySearch(container, s.getTitle());
+
+                // if the search result is a 100% match
+                if (container[pos].Item1 == s.getTitle())
+                {
+                    //go down in the sorted list and get all items with the right title
+                    for(int i = pos; i >= 0; i--)
+                    {
+                        //if the artist is the same too (or not defined "unknown")
+
+                        if (container[i].Item1 == s.getTitle() && (search[container[i].Item2].getArtist() == s.getArtist() || s.getArtist() == "unknown"))
+                        {
+                            
+                            // there is a dublet
+                            ret.Add(search[container[i].Item2]);
+                            i = -1;
+                            
+                        }
+                        else
+                        {
+                            music.Add(search[container[i].Item2]);
+                        }
+                        
+                    }
+                    //go up in the sorted list and get all items with the right title
+
+                    for (int i = pos +1; i < container.Count; i++)
+                    {
+                        if (container[i].Item1 == s.getTitle())
+                        {
+                            if (search[container[i].Item2].getArtist() == s.getArtist())
+                            {
+                                ret.Add(search[container[i].Item2]);
+                                i = container.Count;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            return ret;
+        }
+
+        //loads new music into the playlist given the paths to the music. returns list with not inserted music if not addAll is defined as "true"
+        public List<Music> loadNewMusic(List<string> paths, bool addAll = false)
+        {
+            // return value defiined
+            List<Music> same = new List<Music>();
+
+
+            List<Music> m = new List<Music>();
+
+            foreach (string path in paths)
+            {
+                m.Add(new Music(path));
+
+            }
+            if(addAll)
+            {
+                foreach(Music oneMusic in m)
+                {
+                    music.Add(oneMusic);
+                }
+            }
+            else
+            {
+                //if we shall not add all music. return the music that is not inserted
+                same = addNotSameMusic(m);
+            }
+
+
+
+            return same;
+
+        }
+
         // get music on given index
         public Music getMusic(int index)
         {
