@@ -1,4 +1,4 @@
-using System;
+using System; 
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -569,12 +569,6 @@ namespace WpfApp2
             return retVal;
         }
 
-        public bool loadNewMusic(Music m)
-        {
-
-
-            return false;
-        }
 
         private List<Music> addNotSameMusic(List<Music> search)
         {
@@ -647,7 +641,7 @@ namespace WpfApp2
         //loads new music into the playlist given the paths to the music. returns list with not inserted music if not addAll is defined as "true"
         public List<Music> loadNewMusic(List<string> paths, bool addAll = false)
         {
-            // return value defiined
+            // return value defined
             List<Music> same = new List<Music>();
 
 
@@ -714,8 +708,8 @@ namespace WpfApp2
                 }
             }
             catch
-            {
-                Console.WriteLine("could not acces text files on " + path);
+            { 
+                Console.WriteLine("could not acces text files on " + path + " or the file is not properly writen");
             }
         }
 
