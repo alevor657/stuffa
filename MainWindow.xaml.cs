@@ -556,7 +556,6 @@ MessageBoxButton.OK, MessageBoxImage.Error);
             var theDuration = new TimeSpan(0, openDuration.Minutes, openDuration.Seconds);
             durationLabel.Content = theDuration.ToString().Substring(3);
 
-
         }
 
     }
