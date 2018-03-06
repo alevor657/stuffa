@@ -533,8 +533,17 @@ namespace WpfApp2
                 {
 
                     // Open document 
-                    string[] musicPaths = dlg.FileNames;
+                    List<string> musicPaths = dlg.FileNames.ToList<string>();
 
+                    List<Music> notAdded = loadNewMusic(musicPaths, false);
+
+                    Console.WriteLine("not added: ");
+                    foreach (Music NA in notAdded)
+                    {
+                        Console.WriteLine(NA.ToString());
+                    }
+                    Console.WriteLine("----------");
+                    /*
                     //check if music allready added
                     foreach (string musicPath in musicPaths)
                     {
@@ -550,13 +559,13 @@ namespace WpfApp2
                         {
                             music.Add(new Music(musicPath));
                         }
-                    }
+                    }*/
 
                     //add to array
 
 
                     //save to file
-                    savePlaylist();
+                    //savePlaylist();
                     retVal = true;
 
                 }
@@ -599,28 +608,26 @@ namespace WpfApp2
                 // if the search result is a 100% match
                 if (container[pos].Item1 == s.getTitle())
                 {
+                    bool stop = false;
                     //go down in the sorted list and get all items with the right title
-                    for(int i = pos; i >= 0; i--)
+                    for(int i = pos; i >= 0 && !stop; i--)
                     {
                         //if the artist is the same too (or not defined "unknown")
 
-                        if (container[i].Item1 == s.getTitle() && (search[container[i].Item2].getArtist() == s.getArtist() || s.getArtist() == "unknown"))
+                        if (container[i].Item1 == s.getTitle() && (music[container[i].Item2].getArtist() == s.getArtist() || s.getArtist() == "unknown"))
                         {
                             
                             // there is a dublet
-                            ret.Add(search[container[i].Item2]);
-                            i = -1;
+                            ret.Add(s);
+                            stop = true; //stops the search
                             
                         }
-                        else
-                        {
-                            music.Add(search[container[i].Item2]);
-                        }
+                        
                         
                     }
                     //go up in the sorted list and get all items with the right title
 
-                    for (int i = pos +1; i < container.Count; i++)
+                    for (int i = pos +1; i < container.Count && !stop; i++)
                     {
                         if (container[i].Item1 == s.getTitle())
                         {
@@ -628,8 +635,14 @@ namespace WpfApp2
                             {
                                 ret.Add(search[container[i].Item2]);
                                 i = container.Count;
+                                stop = true;
                             }
+                            
                         }
+                    }
+                    if(!stop)
+                    {
+                        music.Add(s);
                     }
                 }
             }
