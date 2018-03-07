@@ -1,38 +1,33 @@
-﻿<Window x:Class="Stuffa.MainWindow"
+﻿<Window x:Name="window" x:Class="Stuffa.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp2"
-        mc:Ignorable="d"
-        Title="MainWindow"
+        xmlns:local="clr-namespace:DesignPrototype"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="900"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        TextElement.FontWeight="Regular"
-        TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal" 
-        TextOptions.TextRenderingMode="Auto"        
-        Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid Margin="0,0,0.4,-0.2">
-        <ListBox x:Name="list" MouseDoubleClick="ListBox_MouseDoubleClick" MouseLeftButtonUp="ListBox_mouseLeft"  MouseRightButtonUp="ListBox_mouseRight"  HorizontalAlignment="Left" Height="209.161" VerticalAlignment="Top"  SelectionChanged="ListBox_SelectionChanged" Width="270.169" Margin="0,48,0,0"/>
-        <TextBlock x:Name="text" HorizontalAlignment="Left" Margin="93,315,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="29"><InlineUIContainer>
-                <TextBox x:Name="textBox1" Height="23" TextWrapping="Wrap" Text="TextBox" Width="120"/>
-            </InlineUIContainer></TextBlock>
-        <MediaElement  x:Name="player"   LoadedBehavior="Manual" HorizontalAlignment="Left" Height="158" Margin="659.2,340,0,0" VerticalAlignment="Top" Width="102" MediaOpened="mediaOpen"/>
-        <Button Content="play/pause" HorizontalAlignment="Left" Margin="374,124,0,0" VerticalAlignment="Top" Width="115" Click="Button_Click"/>
-        <Slider x:Name="slider" Margin="54.694,444.391,386.506,0" VerticalAlignment="Top" Height="25" RenderTransformOrigin="0.5,0.5" ValueChanged="slider_ValueChanged">
-            <Slider.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="-1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Slider.RenderTransform>
-        </Slider>
-        <DockPanel HorizontalAlignment="Stretch" Height="20" LastChildFill="False" VerticalAlignment="Top">
-            <Menu DockPanel.Dock="Top" Height="27.844" Margin="0,0,-0.4,0" Background="#FF181818">
+        Background="#FF303030"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#RobotoLight" MinWidth="900" MinHeight="600" MaxWidth="2560" MaxHeight="1440" HorizontalContentAlignment="Center">
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            ResizeBorderThickness="5"
+            GlassFrameThickness="1"
+            CaptionHeight="3"
+            CornerRadius="25">
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+
+    <Grid x:Name="grid1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="80" Width="145*"/>
+            <ColumnDefinition MinWidth="527" Width="527*"/>
+        </Grid.ColumnDefinitions>
+        <DockPanel HorizontalAlignment="Stretch" Height="25" LastChildFill="False" VerticalAlignment="Top">
+            <Menu DockPanel.Dock="Top" Margin="0,0,-0.4,0" Background="#FF181818">
                 <MenuItem Header="_File&#xA;" Click="MenuItem_Click" Width="178" Height="27.844">
                     <MenuItem Header="_New playlist"  Margin="0,0,-0.2,0">
                         <TextBox x:Name="playlistName" Height="23" TextWrapping="Wrap" Text="NoName" Width="112"/>
@@ -45,17 +40,118 @@
                     <MenuItem Header="_Exit" />
                 </MenuItem>
             </Menu>
-
         </DockPanel>
-        <TextBox x:Name="curPlaylistBox" HorizontalAlignment="Left" Height="23" Margin="78,25,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-        <Label x:Name="durationLabel" Content="Time" HorizontalAlignment="Left" Margin="361,390,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.109,1.07"/>
-        <ListBox x:Name="rightClick" Visibility="Hidden" SelectionChanged="RightClickBoxHandler" HorizontalAlignment="Left" Height="100" Margin="640,379,0,0" VerticalAlignment="Top" Width="100"/>
-        <TextBox x:Name="searchFieldBPM" HorizontalAlignment="Left" Height="23" Margin="93,379,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="searchBPM" Content="search BPM" HorizontalAlignment="Left" Margin="218,374,0,0" VerticalAlignment="Top" Width="75" Click="searchBPMButton"/>
-        <TextBox x:Name="searchFieldTitle"  HorizontalAlignment="Left" Height="23" Margin="93,349,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="searchTitles" Content="search Titles" HorizontalAlignment="Left" Margin="218,340,0,0" VerticalAlignment="Top" Width="75" Click="searchTitlesButton"/>
-        <Label x:Name="trackTime" Content="aTime" HorizontalAlignment="Left" Margin="0,403,0,0" VerticalAlignment="Top"/>
-        <Image x:Name="playButton" HorizontalAlignment="Left" Height="48" Margin="0,433.6,0,0" VerticalAlignment="Top" Width="48" Source="play-circle-outline.png" MouseDown="PlayButton_MouseDown"/>
+        <Grid x:Name="grid2" MinWidth="145" MinHeight="{Binding ActualHeight, ElementName=grid1, Mode=Default}" Background="#FF1F1F1F" RenderTransformOrigin="0.5,0.5" MaxWidth="700">
+            <Grid x:Name="grid3" Height="125" Width="125" MinHeight="{Binding ActualHeight, ElementName=grid3}" Margin="10,234,10,10" VerticalAlignment="Bottom">
+                <Image MinWidth="{Binding ActualWidth, ElementName=grid3}" MinHeight="{Binding ActualWidth, ElementName=grid3}" Source="album_art_for_abysmii_s_cocentric_ley_lines__web_s_by_sylviaritter-d9tb9c8.png" Opacity="0.095">
+                    <Image.Effect>
+                        <BlurEffect/>
+                    </Image.Effect>
+                </Image>
+            </Grid>
+            <Label Content="Playlists" HorizontalAlignment="Center" VerticalAlignment="Top" Width="64.6" Height="29.2" Margin="60.868,70.667,67.002,0" SnapsToDevicePixels="True"/>
+            <ListBox x:Name="playlistList" MouseDoubleClick="ListBox_MouseDoubleClick" MouseLeftButtonUp="ListBox_mouseLeft"  MouseRightButtonUp="ListBox_mouseRight" Margin="10,104.867,10,170" MinHeight="{Binding Height, ElementName=grid2}" MinWidth="{Binding Width, ElementName=grid2, Mode=OneWay}" SelectedIndex="2"></ListBox>
+            <Button x:Name="button" Content="New Playlist" Margin="10,0,10,140" VerticalAlignment="Bottom" Height="25" FontSize="14" MinHeight="25" Grid.Row="1" MinWidth="{Binding Width, ElementName=grid1, Mode=OneWay}" Style="{DynamicResource MaterialDesignRaisedButton}" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch"/>
+            <!--<Image  Source="newPlaylist.png.png" Height="20.867" Margin="131.959,0,40.307,142" VerticalAlignment="Bottom"/>-->
+            <MediaElement  x:Name="player"   LoadedBehavior="Manual" HorizontalAlignment="Left" Height="71.9" Margin="137.608,431,0,0" VerticalAlignment="Top" Width="54.862" MediaOpened="mediaOpen"/>
+            <Label Content="Artist" HorizontalAlignment="Left" Margin="10,0,0,34.3" VerticalAlignment="Bottom" FontWeight="Normal" Width="53.85"/>
+            <Label Content="Album" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" FontWeight="Normal" Foreground="#DD9E9E9E" Height="24.3" Width="53.85"/>
+            <Label Content="BPM" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" FontWeight="Bold" Width="64.6" FontSize="20"/>
+            <Label Content="Title" HorizontalAlignment="Left" Margin="10,0,0,66.1" VerticalAlignment="Bottom" FontWeight="Bold" Width="122.608" FontSize="18"/>
+            <Border BorderBrush="#FF1F1F1F" BorderThickness="1" HorizontalAlignment="Left" Height="50" Margin="204.959,519,-0.834,0" VerticalAlignment="Top" Width="1.292" RenderTransformOrigin="0.5,0.5">
+            </Border>
+
+        </Grid>
+        <Grid Background="#FF1F1F1F" MinHeight="{Binding Height, ElementName=grid1, Mode=OneWay}" VerticalAlignment="Bottom" Height="50" Grid.Column="1">
+            <Grid HorizontalAlignment="Left" Width="110.067" Height="45" VerticalAlignment="Top">
+                <Image x:Name="playButton" Source="play-white.png" MouseUp="playButtonUp" UseLayoutRounding="True" Margin="32,0,36.067,0" Opacity="0.5">
+                    <Image.Effect>
+                        <DropShadowEffect ShadowDepth="0"/>
+                    </Image.Effect>
+                    <Image.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                            >
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseDown">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.25"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseUp">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.5"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Image.Triggers>
+                </Image>
+                <Image x:Name="nextSongButton" Source="next.png" UseLayoutRounding="True" Margin="67,0,0.067,0" Opacity="0.495">
+                    <Image.Effect>
+                        <DropShadowEffect ShadowDepth="0"/>
+                    </Image.Effect>
+                </Image>
+                <Image x:Name="previousSongButton" Source="previous.png.png" UseLayoutRounding="True" Margin="-4,0,70.067,-1" Opacity="0.495">
+                    <Image.Effect>
+                        <DropShadowEffect ShadowDepth="0"/>
+                    </Image.Effect>
+                </Image>
+                <Label x:Name="trackTime" Content="TrackTime" HorizontalAlignment="Left" Height="23" Margin="109.28,23,-104.213,-1" VerticalAlignment="Top" Width="105"/>
+                <Label x:Name="durationLabel" Content="TrackTime" HorizontalAlignment="Left" Height="23" Margin="624.28,23,-589.213,-1" VerticalAlignment="Top" Width="75"/>
+            </Grid>
+            <Slider x:Name="trackSlider" Margin="115.067,0,15,17.25" RenderTransformOrigin="0.5,0.5" Height="20.5" VerticalAlignment="Bottom" MinHeight="20" ValueChanged="trackSlider_ValueChanged">
+                <Slider.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1" ScaleX="1"/>
+                        <SkewTransform AngleY="0" AngleX="0"/>
+                        <RotateTransform Angle="0"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Slider.RenderTransform>
+            </Slider>
+        </Grid>
+
+        <Grid x:Name="mainContent" Grid.Column="1" Margin="0,0,0,50" MinWidth="{Binding Width, ElementName=mainContent, Mode=OneWay}" MinHeight="{Binding Height, ElementName=mainContent, Mode=OneWay}">
+            <!--<Border BorderThickness="10" BorderBrush="#FF008CFF"></Border>-->
+            <!--<Border BorderThickness="10" BorderBrush="Red"/>-->
+
+
+            <Grid HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="100" Background="#FF1F1F1F" MinWidth="100" MinHeight="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Image x:Name="closeButton" Grid.Column="2" Height="30" VerticalAlignment="Top" Source="close.png.png" MouseUp="closeUp" MouseEnter="closeEnter" MouseLeave="closeLeave" MouseDown="closeDown"/>
+                <Image Grid.Column="1" Height="30" VerticalAlignment="Top" Source="ic_open_in_new_white_48dp.png" MouseUp="maximizeUp"/>
+                <Image Grid.Column="0" Height="30" VerticalAlignment="Top" Source="ic_remove_white_48dp.png" MouseUp="minimizeUp"/>
+            </Grid>
+            <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect ExpandIn}">
+                <Frame x:Name="DynamicView" NavigationUIVisibility="Hidden" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="{Binding ActualWidth, ElementName=mainContent, Mode=OneTime}" MinHeight="{Binding ActualHeight, ElementName=mainContent, Mode=OneWay}"/>
+            </materialDesign:TransitioningContent>
+            <CheckBox HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Style="{DynamicResource ResourceKey=MaterialDesignHamburgerToggleButton}" Click="SettingsClick"/>
+        </Grid>
 
     </Grid>
 </Window>

@@ -35,10 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IdSharp.Common">
-      <HintPath>..\WpfApp1\WpfApp1\IdSharp.AudioInfo\bin\Debug\IdSharp.Common.dll</HintPath>
+      <HintPath>IdSharp.Tagging\IdSharp\IdSharp.Common.dll</HintPath>
     </Reference>
     <Reference Include="IdSharp.Tagging">
-      <HintPath>..\WpfApp1\WpfApp1\IdSharp.Tagging\bin\Debug\IdSharp.Tagging.dll</HintPath>
+      <HintPath>IdSharp.Tagging\IdSharp\IdSharp.Tagging.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
@@ -73,7 +73,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="zlib.net">
-      <HintPath>..\WpfApp1\WpfApp1\IdSharp.Tagging\bin\Debug\zlib.net.dll</HintPath>
+      <HintPath>IdSharp.Tagging\IdSharp\zlib.net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -82,8 +82,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Playlist.cs" />
+    <Compile Include="PlaylistView.xaml.cs">
+      <DependentUpon>PlaylistView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -103,6 +109,14 @@
     <Page Include="play-circle-outline.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PlaylistView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -146,8 +160,19 @@
     <Resource Include="right.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="pause-white.png" />
+    <Resource Include="previous.png.png" />
+    <Resource Include="play-white.png" />
     <Resource Include="play-circle-outline.png" />
     <Resource Include="pause-circle-outline.png" />
+    <Resource Include="close.png.png" />
+    <Resource Include="ic_open_in_new_white_48dp.png" />
+    <Resource Include="ic_remove_white_48dp.png" />
+    <Resource Include="ic_remove_white_48dp_2x.png" />
+    <Resource Include="ic_open_in_new_white_48dp_2x.png" />
+    <Resource Include="close-clicked.png" />
+    <Resource Include="close-hover.png" />
+    <Resource Include="next.png" />
     <Content Include="pause-circle-outline.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
