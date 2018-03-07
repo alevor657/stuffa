@@ -28,8 +28,52 @@ namespace Stuffa
             //if BPM is not jet loaded from memory
             if (BPM == -2)
             {
+                getData();
+            }
+            return this.BPM;
+        }
+
+        public string getArtist()
+        {
+            if (artist == null)
+            {
+                getData();
+            }
+            return this.artist;
+        }
+        public string getTitle()
+        {
+            if(title == null)
+            {
+                getData();
+
+            }
+            return this.title;
+        }
+
+        private void getData()
+        {
+
+            try
+            {
+                //get ID3 tag
                 IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
 
+                //load Title
+                this.title = fileInfo.Title;
+                if (title == null)
+                {
+                    title = name;
+                }
+
+                //load artist
+                this.artist = fileInfo.Artist;
+                if (this.artist == "")
+                {
+                    this.artist = "unknown";
+                }
+
+                //load BPM
                 string bpmString = fileInfo.BPM;
                 int trueBpm = 0;
                 if (bpmString != null)
@@ -77,38 +121,14 @@ namespace Stuffa
                     BPM = 0;
                 }
             }
-            return this.BPM;
-        }
-
-        public string getArtist()
-        {
-            if (artist == null)
+            catch
             {
-                IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
-
-                artist = fileInfo.Artist;
-                if(artist == "")
-                {
-                    artist = "unknown";
-                }
+                this.artist = "unknown";
+                this.title = "unknown";
+                this.BPM = -1;
+                Console.WriteLine("/!\\ unable to find ID3 tag for Music object\ncatch reached in function getData() in Music.cs");
             }
-            return this.artist;
-        }
-        public string getTitle()
-        {
-            if(title == null)
-            {
-                IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
 
-                this.title = fileInfo.Title;
-                Console.WriteLine(title);
-                if (title == null)
-                {
-                    title = name;
-                }
-
-            }
-            return this.title;
         }
 
         public bool setArtist(string n)
@@ -119,11 +139,12 @@ namespace Stuffa
                 IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
                 fileInfo.Artist = n;
                 fileInfo.Save(getFullPath());
+                this.artist = n;
 
             }
             catch
             {
-                Console.WriteLine("did not save BPM to ID3 tag\n" + getFullPath() + "\nif file is open, close it and try again");
+                Console.WriteLine("did not save artist to ID3 tag\n" + getFullPath() + "\nif file is open, close it and try again");
                 ret = false;
             }
             return ret;
@@ -138,6 +159,7 @@ namespace Stuffa
                 IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
                 fileInfo.Title = n;
                 fileInfo.Save(getFullPath());
+                this.title = n;
 
             }
             catch
@@ -161,11 +183,12 @@ namespace Stuffa
                 IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
                 fileInfo.BPM = n;
                 fileInfo.Save(getFullPath());
+                this.BPM = Int32.Parse(n);
                 
             }
             catch
             {
-                Console.WriteLine("did not save BPM to ID3 tag\n" + getFullPath() + "\nif file is open, close it and try again");
+                Console.WriteLine("did not save BPM to ID3 tag\n" + getFullPath() + "\n* if file is open, close it and try again\n* check that you enterd an integer");
                 ret = false;
             }
             return ret;

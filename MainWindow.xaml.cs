@@ -49,22 +49,6 @@ namespace Stuffa
             }
         }
 
-        //search the given list using ToString
-        public static void searchList(ListBox list, int startPos, string searchString)
-        {
-            // for every item in list starting with posision startPos
-            for(int i = startPos; i < list.Items.Count; ++i)
-            {
-                // if the item does not contain the searchString
-                if(!list.Items[i].ToString().Contains(searchString))
-                {
-                    // remove unwanted items
-                    list.Items.RemoveAt(i);
-                    // decrease i
-                    --i;
-                }
-            }
-        }
 
         //loads current playlist into ListBox
         public static void LoadCurentPlaylist(ListBox list)
@@ -280,7 +264,6 @@ namespace Stuffa
 
             songTimer.Interval = new TimeSpan(500);
             songTimer.Tick += TimerTicker;
-MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         void TimerTicker(object sender, EventArgs e)
@@ -353,18 +336,12 @@ MessageBoxButton.OK, MessageBoxImage.Error);
         }
         private void PlayButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Music m = list.Items[1] as Music;
-
-            
-            player.Source = null;
-
-            m.setBPM("12");
 
             if (mediaFileIsOpen)
             {
                 
 
-                /*
+                
                 if (isPlaying)
                 {
 
@@ -383,7 +360,7 @@ MessageBoxButton.OK, MessageBoxImage.Error);
                     isPlaying = true;
                     player.Play();
                     songTimer.Start();
-                }*/
+                }
             }
         }
 
