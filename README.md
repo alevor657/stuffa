@@ -6,5 +6,10 @@
 + Fredrik
 + Mattias
 
-#### We like to party and will not do this work, but instead use the budget to acquire cheap liquor.
-_P.S This was Kenneth Henningsson's idea_
+## Add IdSharp libraary
+1. Right click on the solution in Visual Studio
+2. Click Add, then pick Reference
+3. Click browse, then go to the IdSharp.Tagging folder in the solution
+4. Enter the IdSharp folder
+5. Add the 3 .dll files in that folder
+6. Profit!
