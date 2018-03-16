@@ -19,6 +19,7 @@ using WpfApp2;
 using Newtonsoft.Json;
 using Microsoft.VisualBasic;
 using System.Windows.Threading;
+using SocketServer;
 
 namespace Stuffa
 {
@@ -232,17 +233,9 @@ namespace Stuffa
         //ToDo uppdate/remove
         public void startServer()
         {
-            Server server = new Server();
-            while (true)
-            {
-                string message = server.startServer();
-                if (message == "P")
-                {
-                    pausePlayServer();
-                }
-                this.Dispatcher.Invoke(() => { /*serverMessage.Text = "message from  server: " + message;*/ });
 
-            }
+            SocketServer.Server.init();
+            
         }
 
 
@@ -257,10 +250,12 @@ namespace Stuffa
             // show all playlists
             goToPlaylists(list);
 
+            startServer();
+
             //start a temporary server until better is developed TODO: Update/remove
-            Thread serverThread = new Thread(startServer);
+            /*Thread serverThread = new Thread(startServer);
             serverThread.IsBackground = true;
-            serverThread.Start();
+            serverThread.Start();*/
 
             songTimer.Interval = new TimeSpan(500);
             songTimer.Tick += TimerTicker;
