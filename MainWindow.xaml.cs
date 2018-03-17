@@ -89,12 +89,10 @@ namespace Stuffa
             }
         }
 
-        //get the path to the playlists, this is lokated in the folder "Musik"
-        public static string getPlaylistsPath()
+        private static string getPath()
         {
-            // get the path to the current executing file
             string path = System.Reflection.Assembly.GetEntryAssembly().Location;
-            
+
             // fix so the path leads to the folder "Music"
             int pos = path.LastIndexOf('\\');
             path = path.Substring(0, pos);
@@ -104,12 +102,20 @@ namespace Stuffa
 
             pos = path.LastIndexOf('\\');
             path = path.Substring(0, pos);
-            /*
-            pos = path.LastIndexOf('\\');
-            path = path.Substring(0, pos);
-            */
-            path += "\\Musik";
             return path;
+        }
+
+        public static string getImgPath()
+        {
+
+            return getPath() + "\\img";
+        }
+
+        //get the path to the playlists, this is lokated in the folder "Musik"
+        public static string getPlaylistsPath()
+        {
+            ;
+            return getPath() +"\\Musik";
         }
 
         // view all the playlists
@@ -339,8 +345,8 @@ namespace Stuffa
                 
                 if (isPlaying)
                 {
-
-                    BitmapImage image = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/play-circle-outline.png", UriKind.RelativeOrAbsolute));
+                    
+                    BitmapImage image = new BitmapImage(new Uri(getImgPath() + "\\play-circle-outline.png", UriKind.RelativeOrAbsolute));
                     playButton.Source = image;
                     isPlaying = false;
                     player.Pause();
@@ -350,7 +356,7 @@ namespace Stuffa
                 else
                 {
 
-                    BitmapImage image = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/pause-circle-outline.png", UriKind.RelativeOrAbsolute));
+                    BitmapImage image = new BitmapImage(new Uri(getImgPath() + "\\pause-circle-outline.png", UriKind.RelativeOrAbsolute));
                     playButton.Source = image;
                     isPlaying = true;
                     player.Play();

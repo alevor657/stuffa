@@ -55,7 +55,7 @@
         <TextBox x:Name="searchFieldTitle"  HorizontalAlignment="Left" Height="23" Margin="93,349,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="searchTitles" Content="search Titles" HorizontalAlignment="Left" Margin="218,340,0,0" VerticalAlignment="Top" Width="75" Click="searchTitlesButton"/>
         <Label x:Name="trackTime" Content="aTime" HorizontalAlignment="Left" Margin="0,403,0,0" VerticalAlignment="Top"/>
-        <Image x:Name="playButton" HorizontalAlignment="Left" Height="48" Margin="0,433.6,0,0" VerticalAlignment="Top" Width="48" Source="play-circle-outline.png" MouseDown="PlayButton_MouseDown"/>
+        <Image x:Name="playButton" HorizontalAlignment="Left" Height="48" Margin="0,433.6,0,0" VerticalAlignment="Top" Width="48" Source="img/play-circle-outline.png" MouseDown="PlayButton_MouseDown"/>
 
     </Grid>
 </Window>
