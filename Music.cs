@@ -6,11 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using IdSharp.Tagging.ID3v2;
 using TagLib;
+using System.Windows.Controls;
 
 namespace Stuffa
 {
     public class Music
     {
+
+        MediaElement player = new MediaElement();
+        
         private string path;
         private string name;
         private string filetype;
@@ -21,6 +25,7 @@ namespace Stuffa
         public Music()
         {
             this.BPM = -2;
+            
         }
         
         public int getBPM()

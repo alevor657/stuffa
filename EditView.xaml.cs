@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stuffa;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,14 @@ namespace WpfApp2
     /// <summary>
     /// Interaction logic for PlaylistView.xaml
     /// </summary>
-    public partial class PlaylistView : Page
+    public partial class EditView : Page
     {
-        public PlaylistView()
+        public EditView()
         {
             InitializeComponent();
+            List<Music> songsInPlaylist = new List<Music>();
+            //songsInPlaylist.Add(new Music{ title = "Felix", artist= "Alexey", = "180"});
+            
         }
     }
 }

@@ -1,0 +1,97 @@
+﻿<Page x:Class="WpfApp2.EditView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp2"
+      mc:Ignorable="d" 
+      d:DesignHeight="424.5" d:DesignWidth="708"
+      Title="PlaylistView">
+
+    <Grid>
+        <!--<Border BorderBrush="#FF00FF46" BorderThickness="10" Margin="0,0,438,0"/>-->
+        <!--<Grid x:Name="mainContent" MinHeight="519" MinWidth="747">-->
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border BorderBrush="#FF1F1F1F" BorderThickness="5" Margin="0,10,351.5,10" Grid.Column="1" Width="1">
+            <Border.Effect>
+                <BlurEffect/>
+            </Border.Effect>
+        </Border>
+        <ListBox x:Name="currentPlaylist" HorizontalContentAlignment="Stretch" AllowDrop="True" Margin="10,107,5,0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding BPM}" />
+                        <TextBlock Grid.Column="1" Text="{Binding Title}" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="2" Text="{Binding Artist}"/>
+                    </Grid> 
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+            <ListBoxItem HorizontalContentAlignment="Stretch">
+                <Grid Margin="0,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                </Grid>
+
+            </ListBoxItem>
+            <ListBoxItem Content="Parade&#x9;&#x9;&#x9;&#x9;VINAI"/>
+        </ListBox>
+        <ListBox Grid.Column="1" Margin="10,139,10,0" AllowDrop="True" SelectedIndex="1" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Title}" />
+                        <TextBlock Grid.Column="1" Text="{Binding Artist}"/>
+                        <TextBlock Grid.Column="2" Text="{Binding BPM}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBoxItem Content="Just Dance                                          Lady Gaga"/>
+            <ListBoxItem Content="Solo Dance&#x9;&#x9;&#x9;  Martin Jensen"/>
+            <ListBoxItem Content="Dance All Night Long&#x9;&#x9;  Stuffa Orchestra"/>
+        </ListBox>
+        <TextBox Grid.Column="1" Height="50" Margin="10,37,10,0" TextWrapping="Wrap" Text="Dance" VerticalAlignment="Top" FontFamily="Roboto Light" FontWeight="Normal" Foreground="White"/>
+        <!--<Button Grid.Column="1" HorizontalAlignment="Left" Margin="313.5,10,0,0" VerticalAlignment="Top" Width="50" Style="{DynamicResource MaterialDesignFloatingActionDarkButton}" Height="50">
+            <Button.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="100"/>
+            </Button.Effect>
+            <StackPanel>
+                <Image Source="settings-white.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="39"/>
+            </StackPanel>
+        </Button>-->
+
+        <Label Content="Title" Grid.Column="1" Margin="13.167,97,275.153,0" VerticalAlignment="Top" Height="37" Width="65.68" FontSize="20"/>
+        <Label Content="Artist" Grid.Column="1" Margin="209.57,97,78.75,0" VerticalAlignment="Top" Height="37" Width="65.68" FontSize="20"/>
+        <Border BorderBrush="#FF191919" BorderThickness="5" Height="1" Margin="17,86,10,0" VerticalAlignment="Top">
+            <Border.Effect>
+                <BlurEffect/>
+            </Border.Effect>
+        </Border>
+        <Label Content="Best Songs" HorizontalAlignment="Center" Margin="61.088,5,51.088,0" VerticalAlignment="Top" FontSize="48" HorizontalContentAlignment="Center" FontFamily="Roboto Light" FontWeight="Normal" Height="67.6" Width="241.824"/>
+        <Border BorderBrush="#FF191919" BorderThickness="5" Height="1" Margin="13.167,101,10,0" VerticalAlignment="Top" Grid.Column="1">
+            <Border.Effect>
+                <BlurEffect/>
+            </Border.Effect>
+        </Border>
+        <!--</Grid>-->
+    </Grid>
+</Page>

@@ -30,7 +30,10 @@ namespace WpfApp2
         //all the music in the playlist
         private List<Stuffa.Music> music;
 
-
+        Playlist(string name, int blah)
+        {
+            this.name = name;
+        }
         //sort all BPM in BPM list
         private void sortBPM()
         {

@@ -20,9 +20,23 @@ namespace WpfApp2
     /// </summary>
     public partial class Settings : Page
     {
+
+        bool hej = false;
         public Settings()
         {
             InitializeComponent();
+        }
+
+        private void coolChecked(object sender, RoutedEventArgs e)
+        {
+            hej = true;
+            coolLabel.Content = "Mattias äter gröna bananer - " + hej;
+        }
+
+        private void coolUnchecked(object sender, RoutedEventArgs e)
+        {
+            hej = false;
+            coolLabel.Content = "Mattias äter FAKTISKT RÖDA bananer - " + hej;
         }
     }
 }
