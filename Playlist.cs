@@ -14,8 +14,9 @@ namespace WpfApp2
 
         // sorted lists decleared. first item is BPM value/artist/title second value is index refering to index to songs
         private List<Tuple<int, int>> BPM;
-        private List<Tuple<string, int>> artists;
-        private List<Tuple<string, int>> titles;
+        private List<Tuple<string, int>> artistsWords;
+        private List<Tuple<string, int>> titlesWords;
+        
 
         //seperators for words
         private static Char[] seperators = new Char[] { ' ', '-', '_' };
@@ -37,18 +38,18 @@ namespace WpfApp2
             //sorting on BPM
             BPM = BPM.OrderBy(e => e.Item1).ToList();
         }
-        //sort all titles in titles list
+        //sort all titlesWords in titlesWords list
         private void sortTitles()
         {
-            //sort the musics titles
-            this.titles = titles.OrderBy(e => e.Item1).ToList();
+            //sort the musics titlesWords
+            this.titlesWords = titlesWords.OrderBy(e => e.Item1).ToList();
         }
         //sort all Artist in artist list
         private void sortArtists()
         {
             //sorting with an avrige of O(n log(n))?    (list.Sort is n logn)
             //sorting on BPM
-            artists = artists.OrderBy(e => e.Item1).ToList();
+            artistsWords = artistsWords.OrderBy(e => e.Item1).ToList();
         }
 
         //whnen one instance of the BPM is found, find all the other ones near it matching the value on position pos
@@ -241,7 +242,7 @@ namespace WpfApp2
         public List<Music> searchArtist(String search)
         {
             //if the artists are empty
-            if(this.artists.Count == 0)
+            if(this.artistsWords.Count == 0)
             {
                 //fill artists witch artists
                 loadArtists();
@@ -249,7 +250,7 @@ namespace WpfApp2
 
             //define return value
             List<Music> ret = new List<Music>();
-            List<Tuple<int, int>> indexes = similarSentence(artists, search);
+            List<Tuple<int, int>> indexes = similarSentence(artistsWords, search);
 
             //for every index
             foreach(Tuple<int, int> i in indexes)
@@ -264,16 +265,16 @@ namespace WpfApp2
         //search a given title
         public List<Music> searchTitles(string search)
         {
-            // if the titles list is empty
-            if (this.titles.Count == 0)
+            // if the titlesWords list is empty
+            if (this.titlesWords.Count == 0)
             {
-                // fill the titles list with all the titles
+                // fill the titlesWords list with all the titlesWords
                 loadTitles();
             }
 
             // define return value
             List<Music> ret = new List<Music>();
-            List<Tuple<int, int>> indexes = similarSentence(titles, search);
+            List<Tuple<int, int>> indexes = similarSentence(titlesWords, search);
             //for every index...
             foreach (Tuple<int, int> i in indexes)
             {
@@ -463,8 +464,8 @@ namespace WpfApp2
         {
             this.music = new List<Stuffa.Music>();
             this.BPM = new List<Tuple<int, int>>();
-            this.artists = new List<Tuple<string, int>>();
-            this.titles = new List<Tuple<string, int>>();
+            this.artistsWords = new List<Tuple<string, int>>();
+            this.titlesWords = new List<Tuple<string, int>>();
         }
 
         // constructor that takes the hole path to the Playlist file. the path is a absulute path
@@ -472,8 +473,8 @@ namespace WpfApp2
         {
             this.music = new List<Stuffa.Music>();
             this.BPM = new List<Tuple<int, int>>();
-            this.artists = new List<Tuple<string, int>>();
-            this.titles = new List<Tuple<string, int>>();
+            this.artistsWords = new List<Tuple<string, int>>();
+            this.titlesWords = new List<Tuple<string, int>>();
 
             int pathPos = fullPath.LastIndexOf("\\");
             int fileTypePos = fullPath.LastIndexOf(".");
@@ -799,14 +800,14 @@ namespace WpfApp2
 
         private void loadTitles()
         {
-            titles.Clear();
+            titlesWords.Clear();
             int index = 0;
             foreach (Music i in music)
             {
                 string[] words = i.getTitle().Split(seperators);
                 foreach (string word in words)
                 {
-                    titles.Add(Tuple.Create<string, int>(word.ToLower(), index));
+                    titlesWords.Add(Tuple.Create<string, int>(word.ToLower(), index));
 
                 }
                 index++;
@@ -838,13 +839,25 @@ namespace WpfApp2
             }
         }
 
+        public bool RemoveMusic(int index)
+        {
+            bool ret = false;
+            if(index >= 0 && index < music.Count())
+            {
+                music.RemoveAt(index);
+                ret = true;
+            }
+            return ret;
+        }
+
         //kan ta bort fel låt om samma låt finns på flera ställe kanske
         public bool RemoveMusic(Music remove)
         {
-             List < Tuple<int, int> > indexes = similarSentence(titles, remove.getTitle());
+             List < Tuple<int, int> > indexes = similarSentence(titlesWords, remove.getTitle());
 
             bool ret = false;
             
+            //sök igenom alla resultat som givits av sökningen
             for(int i = 0; i < indexes.Count && !ret; i++)
             {
                 if(music[indexes[i].Item1] == remove)
@@ -854,27 +867,27 @@ namespace WpfApp2
                 }
             }
 
-            
+            //if it was not found in the smart search it searches throu the intire list of music. This is wery unlicly to happen.
             if (!ret)
             {
-                int i = 0;
-                foreach (Music m in music)
+                
+                for(int i = 0; i < music.Count; i++)
                 {
-                    
-                    if (m == remove)
+                    if (music[i] == remove)
                     {
                         music.RemoveAt(i);
                         ret = true;
                     }
                     i++;
                 }
+
             }
             return ret;
         }
 
         private void loadArtists()
         {
-            artists.Clear();
+            artistsWords.Clear();
 
             int index = 0;
 
@@ -883,7 +896,7 @@ namespace WpfApp2
                 string[] words = i.getArtist().Split(seperators);
                 foreach(string word in words)
                 {
-                    artists.Add(Tuple.Create<string, int>(word, index));
+                    artistsWords.Add(Tuple.Create<string, int>(word, index));
                 }
                 index++;
 
