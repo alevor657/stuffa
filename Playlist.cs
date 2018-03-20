@@ -30,7 +30,6 @@ namespace WpfApp2
         //all the music in the playlist
         private List<Stuffa.Music> music;
 
-
         //sort all BPM in BPM list
         private void sortBPM()
         {
@@ -584,69 +583,100 @@ namespace WpfApp2
             //define return value
             List<Music> ret = new List<Music>();
 
+            //if container have not been defined
 
             List<Tuple<string, int>> container = new List<Tuple<string, int>>();
             int index = 0;
 
             //for every music in playlist
-            foreach(Music m in music)
+            foreach (Music m in music)
             {
                 // insert all music into container and index
                 container.Add(new Tuple<string, int>(m.getTitle(), index));
                 index++;
             }
+            container = container.OrderBy(e => e.Item1).ToList();
+            
 
             // sortera på musik titlar
-            container = container.OrderBy(e => e.Item1).ToList();
 
-            
+            //if there are music in the playlist
+
+
+
             foreach (Music s in search)
             {
-                //get the postition of a title. This position is not garantid to contain the title name
-                int pos = TupleBinarySearch(container, s.getTitle());
-
-                // if the search result is a 100% match
-                if (container[pos].Item1 == s.getTitle())
+                //if the music does not exists (the ID3 tag is unacssesible)
+                if (s.getTitle() == "unknown" && s.getTitle() == "unknown" && s.getBPM() == -1)
                 {
-                    bool stop = false;
-                    //go down in the sorted list and get all items with the right title
-                    for(int i = pos; i >= 0 && !stop; i--)
-                    {
-                        //if the artist is the same too (or not defined "unknown")
+                    ret.Add(s);
+                }
+                else
+                {
 
-                        if (container[i].Item1 == s.getTitle() && (music[container[i].Item2].getArtist() == s.getArtist() || s.getArtist() == "unknown"))
-                        {
-                            
-                            // there is a dublet
-                            ret.Add(s);
-                            stop = true; //stops the search
-                            
-                        }
-                        
-                        
-                    }
-                    //go up in the sorted list and get all items with the right title
 
-                    for (int i = pos +1; i < container.Count && !stop; i++)
+
+
+                    if (container.Count != 0)
                     {
-                        if (container[i].Item1 == s.getTitle())
+                        //get the postition of a title. This position is not garantid to contain the title name
+                        int pos = TupleBinarySearch(container, s.getTitle());
+                        bool stop = false;
+
+                        // if the search result is a 100% match
+                        if (container[pos].Item1 == s.getTitle())
                         {
-                            if (search[container[i].Item2].getArtist() == s.getArtist())
+                            //go down in the sorted list and get all items with the right title
+                            for (int i = pos; i >= 0 && !stop; i--)
                             {
-                                ret.Add(search[container[i].Item2]);
-                                i = container.Count;
-                                stop = true;
+                                //if the artist is the same too (or not defined "unknown")
+
+                                if (container[i].Item1 == s.getTitle() && (music[container[i].Item2].getArtist() == s.getArtist() || s.getArtist() == "unknown"))
+                                {
+
+                                    // there is a dublet
+                                    ret.Add(s);
+                                    stop = true; //stops the search
+
+                                }
+
+
                             }
-                            
+                            //go up in the sorted list and get all items with the right title
+
+                            for (int i = pos + 1; i < container.Count && !stop; i++)
+                            {
+                                if (container[i].Item1 == s.getTitle())
+                                {
+                                    if (search[container[i].Item2].getArtist() == s.getArtist())
+                                    {
+                                        ret.Add(search[container[i].Item2]);
+                                        i = container.Count;
+                                        stop = true;
+                                    }
+
+                                }
+                            }
                         }
+                        if (!stop)
+                        {
+                            music.Add(s);
+
+                            container.Add(new Tuple<string, int>(s.getTitle(), index));
+                            index++;
+                        }
+
                     }
-                    if(!stop)
+
+                    else
                     {
                         music.Add(s);
+                        container.Add(new Tuple<string, int>(s.getTitle(), index));
+                        index++;
                     }
                 }
             }
-
+            
 
             return ret;
         }
