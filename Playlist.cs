@@ -16,7 +16,7 @@ namespace WpfApp2
         private List<Tuple<int, int>> BPM;
         private List<Tuple<string, int>> artistsWords;
         private List<Tuple<string, int>> titlesWords;
-        
+        private List<Tuple<string, int>> fullTitle; // used in precise searching (when user removes a song for example)
 
         //seperators for words
         private static Char[] seperators = new Char[] { ' ', '-', '_' };
@@ -285,6 +285,38 @@ namespace WpfApp2
             return ret;
         }
 
+        public List<Music> searchArtistAndTitle(String search)
+        {
+            //if the artists or titles are empty
+            if (this.artistsWords.Count == 0)
+            {
+                //fill artists witch artists
+                loadArtists();
+            }
+            if(this.titlesWords.Count == 0)
+            {
+                //fill the title list
+                loadTitles();
+            }
+
+            //define return value
+            List<Music> ret = new List<Music>();
+
+            List<Tuple<int, int>> indexes = similarSentence(artistsWords, search);
+            indexes.AddRange(similarSentence(titlesWords, search));
+            //get a combined score
+            indexes = groupByFirstTupleAndAddSecond(indexes);
+
+            //for every index
+            foreach (Tuple<int, int> i in indexes)
+            {
+                Console.WriteLine("search res: " + music[i.Item1].getArtist() + " : " + i.Item2);
+                // ... add the music on index
+                ret.Add(music[i.Item1]);
+            }
+            return ret;
+        }
+
         //returns a list of indexes witch corresponds to music where some part or the hole search string is defined
         //this function orders the indexes based on the amount matched in the container
         private List<Tuple<int, int>> similarSentence(List<Tuple<string, int>> container, string search)
@@ -425,7 +457,7 @@ namespace WpfApp2
                     tempStr = tempStr.Substring(0, characters);
                 }
 
-            }
+            }/*
             if (search.Length > 2)
             {
                 for (int limit = 0; limit < searchArea; limit++)
@@ -453,7 +485,7 @@ namespace WpfApp2
                     }
 
                 }
-            }
+            }*/
 
 
             return ret;
@@ -661,7 +693,20 @@ namespace WpfApp2
                         }
                         if (!stop)
                         {
+                            int i = music.Count;
                             music.Add(s);
+                            if (this.titlesWords != null)
+                            {
+                                this.addToTitleWordLists(s, i);
+                            }
+                            if (this.artistsWords != null)
+                            {
+                                addToArtistWordLists(s, i);
+                            }
+                            if (this.BPM != null)
+                            {
+                                addToBPMList(s, i);
+                            }
 
                             container.Add(new Tuple<string, int>(s.getTitle(), index));
                             index++;
@@ -671,7 +716,21 @@ namespace WpfApp2
 
                     else
                     {
+                        int i = music.Count;
                         music.Add(s);
+                        if (this.titlesWords != null)
+                        {
+                            this.addToTitleWordLists(s, i);
+                        }
+                        if (this.artistsWords != null)
+                        {
+                            addToArtistWordLists(s, i);
+                        }
+                        if (this.BPM != null)
+                        {
+                            addToBPMList(s, i);
+                        }
+
                         container.Add(new Tuple<string, int>(s.getTitle(), index));
                         index++;
                     }
@@ -681,6 +740,54 @@ namespace WpfApp2
 
             return ret;
         }
+
+        private void addToTitleWordLists(Music m, int index)
+        {
+            //define characters to split the string
+            char[] spliters = new char[3];
+            spliters[0] = ' ';
+            spliters[1] = '_';
+            spliters[2] = '-';
+
+            //for every word in the title insert it on right position in titleWords
+            
+            foreach (string s in m.getTitle().Split(spliters))
+            {
+                //get index at with to be inserted
+                int binarySearchIndex  = this.TupleBinarySearch(this.titlesWords, s);
+                //insert at given index
+                this.titlesWords.Insert(binarySearchIndex, new Tuple<string, int>(s, index));
+
+            }
+  
+
+        }
+
+        private void addToArtistWordLists(Music m, int index)
+        {
+            //define characters to split the string
+            char[] spliters = new char[3];
+            spliters[0] = ' ';
+            spliters[1] = '_';
+            spliters[2] = '-';
+
+            //for every word in the artists name insert it on right position in artistWord
+            foreach (string s in m.getArtist().Split(spliters))
+            {
+                //get index at with to be inserted
+                int binarySearchIndex = this.TupleBinarySearch(this.artistsWords, s);
+                //insert at given index
+                this.artistsWords.Insert(binarySearchIndex, new Tuple<string, int>(s, index));
+            }
+        }
+        private void addToBPMList(Music m, int index)
+        {
+
+            List<int> BPMpos = getBPMpos(m.getBPM(), 0);
+            this.BPM.Insert(BPMpos[0], new Tuple<int, int>(m.getBPM(), index));
+
+        }
+
 
         //loads new music into the playlist given the paths to the music. returns list with not inserted music if not addAll is defined as "true"
         public List<Music> loadNewMusic(List<string> paths, bool addAll = false)
@@ -698,10 +805,26 @@ namespace WpfApp2
             }
             if(addAll)
             {
+
                 foreach(Music oneMusic in m)
                 {
+                    int index = music.Count;
                     music.Add(oneMusic);
+                    if(this.titlesWords != null)
+                    {
+                        this.addToTitleWordLists(oneMusic, index);
+                    }
+                    if(this.artistsWords != null)
+                    {
+                        addToArtistWordLists(oneMusic, index);
+                    }
+                    if(this.BPM != null)
+                    {
+                        addToBPMList(oneMusic, index);
+                    }
                 }
+
+
             }
             else
             {
@@ -710,10 +833,12 @@ namespace WpfApp2
             }
 
 
-
+            savePlaylist();
             return same;
 
         }
+
+        
 
         // get music on given index
         public Music getMusic(int index)
@@ -836,7 +961,17 @@ namespace WpfApp2
                     music.RemoveAt(index);
 
                 }
+                emptyLists();
             }
+        }
+
+        //if the sorted list does not match up with the playlist reset them
+        private void emptyLists()
+        {
+            this.BPM = null;
+            this.titlesWords = null;
+            this.artistsWords = null;
+            this.fullTitle = null;
         }
 
         public bool RemoveMusic(int index)
