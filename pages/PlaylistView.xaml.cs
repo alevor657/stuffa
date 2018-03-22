@@ -24,23 +24,27 @@ namespace WpfApp2.pages
     public partial class PlaylistView : Page
     {
         Container container;
+        EditView ev;
         List<Playlist> pl;
-        public PlaylistView(Container c)
+        public PlaylistView(Container c, EditView ev)
         {
             InitializeComponent();
             container = c;
+            this.ev = ev;
 
             pl = new List<Playlist>();
             
             pl.Add(new Playlist("Best Songs", 0));
             pl.Add(new Playlist("Not my Best Songs", 1));
 
-            Music song1 = new Music("D:\\Nedladdningar\\Vicetone - Way Back(feat.Cozi Zuehlsdorff).mp3", "Way Back", "Vicetone", 108);
-            Music song2 = new Music("D:\\Nedladdningar\\Gustav_final.mp3", "Sök till styrelsen", "Gustav", 110);
+            //Music song1 = new Music("D:\\Nedladdningar\\Vicetone - Way Back(feat.Cozi Zuehlsdorff).mp3", "Way Back", "Vicetone", 108);
+            //Music song2 = new Music("D:\\Nedladdningar\\Gustav_final.mp3", "Gustavs Final", "Gustav", 110);
 
-            pl[0].addNewSong(song1);
-            pl[0].addNewSong(song2);
-            pl[1].addNewSong(song2);
+            //pl[0].addNewSong(song1);
+            //pl[0].addNewSong(song2);
+            //pl[1].addNewSong(song2);
+            pl[0].generateTestPlaylist();
+            pl[1].generateTestPlaylist();
             PlaylistList.Items.Add("Best Songs");
             PlaylistList.Items.Add("Not my Best Songs");
         }
@@ -65,7 +69,7 @@ namespace WpfApp2.pages
 
         private void PlaylistList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            ev.loadPlaylist(pl[PlaylistList.SelectedIndex].getAllMusic());
         }
     }
 }

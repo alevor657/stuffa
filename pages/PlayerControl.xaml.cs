@@ -169,5 +169,15 @@ namespace WpfApp2.pages
         {
             Player.Volume = VolumeSlider.Value;
         }
+
+        public void PlaySong(string path)
+        {
+            Player.Source = new Uri(path);
+            BitmapImage image = new BitmapImage(new Uri("../img/pause-white.png", UriKind.Relative));
+            playButton.Source = image;
+            isPlaying = true;
+            Player.Play();
+            songTimer.Start();
+        }
     }
 }
