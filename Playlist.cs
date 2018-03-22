@@ -530,11 +530,11 @@ namespace WpfApp2
         {
             bool didAdd = false;
 
-            //if(!music.Contains(song))
-            //{
+            if (!music.Contains(song))
+            {
                 music.Add(song);
                 didAdd = true;
-            //}
+            }
             return didAdd;
         }
 
