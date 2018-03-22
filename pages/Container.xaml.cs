@@ -24,18 +24,18 @@ namespace WpfApp2.pages
     {
 
         bool inSettings = false;
-
-        EditView ev = new EditView();
         PlayerControl pc = new PlayerControl();
+        EditView ev;
         Settings settings = new Settings();
         public Container()
         {
             Stuffa.MediaPlayer mp = new Stuffa.MediaPlayer(ev, pc);
 
             InitializeComponent();
+            ev = new EditView(pc);
             playerControl.Content = pc;
             DynamicView.Content = ev;
-            PlaylistView.Content = new PlaylistView(this);
+            PlaylistView.Content = new PlaylistView(this, ev);
         }
 
         private void settingsButtonUp(object sender, MouseButtonEventArgs e)
