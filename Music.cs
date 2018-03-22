@@ -10,7 +10,7 @@ using System.Windows.Controls;
 
 namespace Stuffa
 {
-    public class Music
+    public class Music : IEquatable<Music>
     {
 
         MediaElement player = new MediaElement();
@@ -224,6 +224,14 @@ namespace Stuffa
             this.filetype = filetype;
             this.BPM = -2;
         }
+
+        public Music(string path, string title, string artist, int bpm)
+        {
+            this.path = path;
+            this.title = title;
+            this.artist = artist;
+            this.BPM = bpm;
+        }
         public override string ToString()
         {
             return getTitle();
@@ -266,7 +274,17 @@ namespace Stuffa
             this.artist = artist;
             this.title = titel;
         }
-       
+
+        public bool Equals(Music other)
+        {
+            if (other == null)
+                return false;
+        
+            bool equals = false;
+            if (artist == other.artist && title == other.title)
+                equals = true;
+            return equals;
+        }
     }
 }
 

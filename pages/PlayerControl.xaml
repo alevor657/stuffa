@@ -1,0 +1,156 @@
+﻿<Page x:Class="WpfApp2.pages.PlayerControl"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp2"
+      mc:Ignorable="d"
+      Title="PlayerControl" MinHeight="100" MinWidth="900">
+
+    <Grid Background="#FF1F1F1F" Height="100" MinHeight="100">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="91*"/>
+            <ColumnDefinition Width="118*"/>
+            <ColumnDefinition Width="91*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="ArtistLabel" Content="Vicetone" Margin="0,35.45,103,38.688" VerticalAlignment="Center" FontWeight="Normal" Height="25.862" HorizontalAlignment="Right" Width="69.952" Opacity="0.8" ToolTip="Artist"/>
+        <Label x:Name="BpmLabel" Content="132" HorizontalAlignment="Right" Margin="0,0,77.852,10" VerticalAlignment="Bottom" Width="95.1" FontSize="20" Height="35.138" ToolTip="Beats Per Minute"/>
+        <ScrollViewer x:Name="TitleScrollView" Margin="104.736,10,0,54.55" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Width="118" ToolTip="Title">
+            <TextBlock x:Name="TitleLabel" FontWeight="Bold" FontSize="18" Foreground="White" Padding="0">
+        Way Back (feat. Cozi Zuehlsdorff)
+            </TextBlock>
+        </ScrollViewer>
+        <!--<TextBlock x:Name="TitleLabel" Content="Way Back" HorizontalAlignment="Left" Margin="100.048,9.577,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="122.608" FontSize="18" Height="34"/>-->
+        <Grid Grid.Column="1">
+            <Slider x:Name="trackSlider" Margin="10,0,10,12.673" RenderTransformOrigin="0.5,0.5" Height="20.917" VerticalAlignment="Bottom" MinHeight="20" ValueChanged="trackSlider_ValueChanged" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Maximum="204" MouseDown="trackSlider_MouseDown"/>
+            <Grid Height="54.749" Margin="0,10,0,0" Width="220" VerticalAlignment="Top" HorizontalAlignment="Center">
+
+                <Image x:Name="playButton" Source="../img/play-white.png" MouseUp="playButtonUp" UseLayoutRounding="True" Margin="67,0,63.334,-0.251" Opacity="0.75">
+                    <Image.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity">
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseDown">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.25"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseUp">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.75"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Image.Triggers>
+                </Image>
+                <Image x:Name="nextSongButton" Source="../img/next.png" UseLayoutRounding="True" Margin="159,0,0.334,-0.251" Opacity="0.495" MouseUp="loadSong">
+                    <Image.Effect>
+                        <DropShadowEffect ShadowDepth="0"/>
+                    </Image.Effect>
+                    <Image.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity">
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseDown">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.25"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseUp">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.5"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Image.Triggers>
+                </Image>
+                <Image x:Name="previousSongButton" Source="../img/previous.png.png" UseLayoutRounding="True" Margin="0,0,158,-0.251" Opacity="0.495">
+                    <Image.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity">
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseDown">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.25"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseUp">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.5"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Image.Triggers>
+                </Image>
+            </Grid>
+            <Label x:Name="SongDurationLabel" Content="0:00" HorizontalAlignment="Right" Margin="0,0,10,38.59" FontWeight="Normal" Width="38.517" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Opacity="0.8"/>
+            <Label x:Name="SongCurrentTime" Content="0:00" HorizontalAlignment="Left" Margin="10,0,0,38.59" FontWeight="Normal" Width="45.184" VerticalContentAlignment="Bottom" Opacity="0.8"/>
+        </Grid>
+        <MediaElement x:Name="Player" HorizontalAlignment="Left" Height="80" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" ScrubbingEnabled="True" MediaOpened="Player_MediaOpened" Volume="0.7"/>
+        <Image x:Name="AlbumArt" Margin="10,10,183,10" Source="WayBackVicetone.jpg" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Slider x:Name="VolumeSlider" Grid.Column="2" HorizontalAlignment="Left" Margin="86,35.45,0,0" VerticalAlignment="Top" Width="100" ValueChanged="VolumeSlider_ValueChanged" Maximum="1" Value="0.7" Opacity="0.8" LargeChange="0.1" SmallChange="0.01" TickFrequency="0.01"/>
+    </Grid>
+</Page>

@@ -322,7 +322,7 @@ namespace Stuffa
                         player.Play();
                         songTimer.Start();
                         isPlaying = true;
-                        BitmapImage image = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/pause-white.png", UriKind.RelativeOrAbsolute));
+                        BitmapImage image = new BitmapImage(new Uri("../img/pause-white.png", UriKind.Relative));
                         //playButton.Source = image;
                     }
                     catch
@@ -350,7 +350,7 @@ namespace Stuffa
                 if (isPlaying)
                 {
 
-                    BitmapImage image = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/play-white.png", UriKind.RelativeOrAbsolute));
+                    BitmapImage image = new BitmapImage(new Uri("../img/play-white.png", UriKind.Relative));
                     playButton.Source = image;
                     isPlaying = false;
                     player.Pause();
@@ -360,7 +360,7 @@ namespace Stuffa
                 else
                 {
 
-                    BitmapImage image = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/pause-white.png", UriKind.RelativeOrAbsolute));
+                    BitmapImage image = new BitmapImage(new Uri("../img//pause-white.png", UriKind.Relative));
                     playButton.Source = image;
                     isPlaying = true;
                     player.Play();
@@ -549,12 +549,12 @@ namespace Stuffa
 
         private void closeEnter(object sender, MouseEventArgs e)
         {
-            closeButton.Source = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/close-hover.png"));
+            closeButton.Source = new BitmapImage(new Uri("../img/close-hover.png", UriKind.Relative));
         }
 
         private void closeLeave(object sender, MouseEventArgs e)
         {
-            closeButton.Source = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/close.png.png"));
+            closeButton.Source = new BitmapImage(new Uri("../img/close.png.png", UriKind.Relative));
         }
 
 
@@ -574,7 +574,7 @@ namespace Stuffa
 
         private void closeDown(object sender, MouseButtonEventArgs e)
         {
-            closeButton.Source = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/close-clicked.png"));
+            closeButton.Source = new BitmapImage(new Uri("../img/close-clicked.png", UriKind.Relative));
         }
 
         private void maximizeUp(object sender, MouseButtonEventArgs e)

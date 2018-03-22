@@ -1,0 +1,116 @@
+﻿<Page x:Class="WpfApp2.pages.EditView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp2"
+      mc:Ignorable="d" 
+      d:DesignHeight="424.5" d:DesignWidth="708"
+      Title="PlaylistView">
+
+    <Grid>
+        <!--<Border BorderBrush="#FF00FF46" BorderThickness="10" Margin="0,0,438,0"/>-->
+        <!--<Grid x:Name="mainContent" MinHeight="519" MinWidth="747">-->
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <ListBox x:Name="currentPlaylist" HorizontalContentAlignment="Stretch" AllowDrop="True" Margin="10,107,5,0" FontSize="16">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Bpm}" />
+                        <TextBlock Grid.Column="1" Text="{Binding Title}" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="2" Text="{Binding Artist}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+            <!--<ListBoxItem HorizontalContentAlignment="Stretch">
+                <Grid Margin="0,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                </Grid>
+               
+            </ListBoxItem>
+            -->
+
+        </ListBox>
+        <ListBox Grid.Column="1" Margin="10,139,10,0" AllowDrop="True" SelectedIndex="1" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding BPM}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Title}" />
+                        <TextBlock Grid.Column="2" Text="{Binding Artist}"/>
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBoxItem Content="Just Dance                                          Lady Gaga"/>
+            <ListBoxItem Content="Solo Dance&#x9;&#x9;&#x9;  Martin Jensen"/>
+            <ListBoxItem Content="Dance All Night Long&#x9;&#x9;  Stuffa Orchestra"/>
+        </ListBox>
+        <TextBox  VerticalAlignment="Top" x:Name="SearchTermTextBox" Foreground="White" Margin="10,62.04,10,0" Grid.Column="1"/>
+        <TextBlock IsHitTestVisible="False" Text="Search" VerticalAlignment="Top" Margin="10.75,68.041,0,0" Foreground="DarkGray" Grid.Column="1" Width="40.263" Height="17.126" HorizontalAlignment="Left">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=SearchTermTextBox}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <!--<Button Grid.Column="1" HorizontalAlignment="Left" Margin="313.5,10,0,0" VerticalAlignment="Top" Width="50" Style="{DynamicResource MaterialDesignFloatingActionDarkButton}" Height="50">
+            <Button.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="100"/>
+            </Button.Effect>
+            <StackPanel>
+                <Image Source="../img/settings-white.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="39"/>
+            </StackPanel>
+        </Button>-->
+        <Label Content="No Playlist Loaded" HorizontalAlignment="Center" Margin="61.088,5,51.088,0" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" FontFamily="Roboto Light" FontWeight="Normal" Height="42.5" Width="241.824"/>
+        <Grid Margin="15,47.5,5,0" VerticalAlignment="Top">
+            <Label Content="BPM" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Opacity="0.795" Width="43.377" HorizontalContentAlignment="Center" FontSize="14"/>
+            <Label Content="Artist" HorizontalAlignment="Left" Margin="51.127,10,0,0" VerticalAlignment="Top" Opacity="0.795" FontSize="14"/>
+            <Label Content="Album" Margin="178.985,10,84.833,0" VerticalAlignment="Top" Opacity="0.795" HorizontalContentAlignment="Center" FontSize="14"/>
+            <Border BorderBrush="#FF191919" BorderThickness="5" Height="1" Margin="1.25,39,5.75,-0.5" VerticalAlignment="Top">
+                <Border.Effect>
+                    <BlurEffect/>
+                </Border.Effect>
+            </Border>
+        </Grid>
+        <Grid Height="39.5" Margin="13.167,94.5,6.833,0" VerticalAlignment="Top" Grid.Column="1">
+            <Label Content="BPM" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Opacity="0.795" Width="43.377" HorizontalContentAlignment="Center" FontSize="14"/>
+            <Label Content="Artist" HorizontalAlignment="Left" Margin="51.127,10,0,0" VerticalAlignment="Top" Opacity="0.795" FontSize="14"/>
+            <Label Content="Album" Margin="178.985,10,84.833,0" VerticalAlignment="Top" Opacity="0.795" HorizontalContentAlignment="Center" FontSize="14"/>
+            <Border BorderBrush="#FF191919" BorderThickness="5" Height="1" Margin="1.25,39,5.75,-0.5" VerticalAlignment="Top">
+                <Border.Effect>
+                    <BlurEffect/>
+                </Border.Effect>
+            </Border>
+        </Grid>
+        <Path Grid.Column="1" Data="M354,417.16667 L354,35.333333" HorizontalAlignment="Left" Margin="0,10" Stretch="Fill" Width="1" Stroke="#FF191919">
+        </Path>
+        <!--</Grid>-->
+    </Grid>
+</Page>

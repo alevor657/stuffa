@@ -16,6 +16,7 @@ using System.IO;
 using System.Collections;
 using System.Threading;
 using WpfApp2;
+using WpfApp2.pages;
 using Newtonsoft.Json;
 using Microsoft.VisualBasic;
 using System.Windows.Threading;
@@ -28,7 +29,7 @@ namespace Stuffa
     public partial class MainWindow : Window
     {
 
-        PlaylistView playlistPage = new PlaylistView();
+        //PlaylistView playlistPage = new PlaylistView();
         Settings settingsPage = new Settings();
 
         //deaclear variables
@@ -48,7 +49,7 @@ namespace Stuffa
             // give this thread a name 
             Thread.CurrentThread.Name = "parent";
             InitializeComponent();
-            PlaylistView playlistPage = new PlaylistView();
+            //PlaylistView playlistPage = new PlaylistView();
             Settings settingsPage = new Settings();
             ContainerView.Content = new Container();
             //DynamicView.Content = playlistPage;
@@ -73,17 +74,17 @@ namespace Stuffa
 
         private void closeEnter(object sender, MouseEventArgs e)
         {
-            closeButton.Source = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/close-hover.png"));
+            closeButton.Source = new BitmapImage(new Uri("/img/close-hover.png", UriKind.Relative));
         }
 
         private void closeLeave(object sender, MouseEventArgs e)
         {
-            closeButton.Source = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/close.png.png"));
+            closeButton.Source = new BitmapImage(new Uri("/img/close.png.png", UriKind.Relative));
         }
 
         private void closeDown(object sender, MouseButtonEventArgs e)
         {
-            closeButton.Source = new BitmapImage(new Uri("pack://application:,,,/WpfApp2;component/close-clicked.png"));
+            closeButton.Source = new BitmapImage(new Uri("/img/close-clicked.png", UriKind.Relative));
         }
 
         private void maximizeUp(object sender, MouseButtonEventArgs e)

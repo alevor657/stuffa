@@ -81,28 +81,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Container.xaml.cs">
+    <Compile Include="MediaPlayer.cs" />
+    <Compile Include="pages\Container.xaml.cs">
       <DependentUpon>Container.xaml</DependentUpon>
     </Compile>
     <None Include="MainWindow - Copy.xaml.cs">
       <DependentUpon>MainWindow - Copy.xaml</DependentUpon>
     </None>
-    <Compile Include="PlayerControl.xaml.cs">
+    <Compile Include="pages\PlayerControl.xaml.cs">
       <DependentUpon>PlayerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Playlist.cs" />
-    <Compile Include="EditView.xaml.cs">
+    <Compile Include="pages\EditView.xaml.cs">
       <DependentUpon>EditView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PlaylistView.xaml.cs">
+    <Compile Include="pages\PlaylistView.xaml.cs">
       <DependentUpon>PlaylistView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Server.cs" />
-    <Compile Include="Settings.xaml.cs">
+    <Compile Include="pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Page Include="Container.xaml">
+    <Page Include="pages\Container.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -122,27 +123,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="pause-circle-outline.xaml">
+    <Page Include="img\pause-circle-outline.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="play-circle-outline.xaml">
+    <Page Include="img\play-circle-outline.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PlayerControl.xaml">
+    <Page Include="pages\PlayerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EditView.xaml">
+    <Page Include="pages\EditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PlaylistView.xaml">
+    <Page Include="pages\PlaylistView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Settings.xaml">
+    <Page Include="pages\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -178,34 +179,37 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="play.png" />
+    <Resource Include="img\play.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pause.png" />
+    <Resource Include="img\pause.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="left.png" />
+    <Resource Include="img\left.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="right.png" />
+    <Resource Include="img\right.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="settings-white.png" />
-    <Resource Include="stuffa-logo.gif" />
-    <Resource Include="pause-white.png" />
-    <Resource Include="previous.png.png" />
-    <Resource Include="play-white.png" />
-    <Resource Include="play-circle-outline.png" />
-    <Resource Include="pause-circle-outline.png" />
-    <Resource Include="close.png.png" />
-    <Resource Include="ic_open_in_new_white_48dp.png" />
-    <Resource Include="ic_remove_white_48dp.png" />
-    <Resource Include="ic_remove_white_48dp_2x.png" />
-    <Resource Include="ic_open_in_new_white_48dp_2x.png" />
-    <Resource Include="close-clicked.png" />
-    <Resource Include="close-hover.png" />
-    <Resource Include="next.png" />
-    <Content Include="pause-circle-outline.svg" />
+    <Content Include="pages\Vicetone - Way Back %28feat. Cozi Zuehlsdorff%29.mp3" />
+    <Content Include="pages\Vicetone%2520-%2520Way%2520Back%2520%28feat.%2520Cozi%2520Zuehlsdorff%29%2520%28File4song.com%29.mp3" />
+    <Resource Include="pages\WayBackVicetone.jpg" />
+    <Resource Include="img\settings-white.png" />
+    <Resource Include="img\stuffa-logo.gif" />
+    <Resource Include="img\pause-white.png" />
+    <Resource Include="img\previous.png.png" />
+    <Resource Include="img\play-white.png" />
+    <Resource Include="img\play-circle-outline.png" />
+    <Resource Include="img\pause-circle-outline.png" />
+    <Resource Include="img\close.png.png" />
+    <Resource Include="img\ic_open_in_new_white_48dp.png" />
+    <Resource Include="img\ic_remove_white_48dp.png" />
+    <Resource Include="img\ic_remove_white_48dp_2x.png" />
+    <Resource Include="img\ic_open_in_new_white_48dp_2x.png" />
+    <Resource Include="img\close-clicked.png" />
+    <Resource Include="img\close-hover.png" />
+    <Resource Include="img\next.png" />
+    <Content Include="img\pause-circle-outline.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

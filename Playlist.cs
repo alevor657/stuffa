@@ -28,11 +28,18 @@ namespace WpfApp2
         private string filetype;
 
         //all the music in the playlist
-        private List<Stuffa.Music> music;
+        private List<Music> music;
 
-        Playlist(string name, int blah)
+        public Playlist(string name, int blah)
         {
             this.name = name;
+        }
+
+        public Playlist(Playlist pl)
+        {
+            name = pl.name;
+            path = pl.path;
+            
         }
         //sort all BPM in BPM list
         private void sortBPM()
@@ -515,6 +522,19 @@ namespace WpfApp2
             catch { }
             return retVal;
         }
+
+        public bool addNewSong(Music song)
+        {
+            bool didAdd = false;
+
+            if(!music.Contains(song))
+            {
+                music.Add(song);
+                didAdd = true;
+            }
+            return didAdd;
+        }
+
         // open the explorer and save music to the given playlist
         public bool loadNewMusic()
         {
@@ -699,6 +719,10 @@ namespace WpfApp2
             return ret;
         }
 
+        public List<Music> getAllMusic()
+        {
+            return this.music;
+        }
         // load the music specified in the Playlist file
         public void loadMusic()
         {
@@ -727,11 +751,6 @@ namespace WpfApp2
             { 
                 Console.WriteLine("could not acces text files on " + path + " or the file is not properly writen");
             }
-        }
-
-        public List<Music> getMusic()
-        {
-            return this.music;
         }
 
         public override string ToString()

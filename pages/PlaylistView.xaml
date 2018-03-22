@@ -1,0 +1,52 @@
+﻿<Page x:Class="WpfApp2.pages.PlaylistView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp2"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
+      mc:Ignorable="d" d:DesignWidth="300"
+      Title="PlaylistView">
+
+    <Grid x:Name="grid2" MinWidth="145" Background="#FF1F1F1F" RenderTransformOrigin="0.5,0.5" MaxWidth="700" MinHeight="450">
+        <Label Content="Playlists" HorizontalAlignment="Center" VerticalAlignment="Top" Width="64.6" Height="29.2" Margin="0,70.667,0,0" SnapsToDevicePixels="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="16" Opacity="0.795"/>
+        <materialDesign:DialogHost DialogClosing="AddPlaylist_DialogHost_OnDialogClosing" Margin="0,104.867,0,0">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Margin="16">
+                    <TextBlock>Add a new playlist.</TextBlock>
+                    <TextBox Margin="0 8 0 0" HorizontalAlignment="Stretch" x:Name="PlaylistName" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsDefault="True"
+                                        Margin="0 8 8 0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand">
+                            <Button.CommandParameter>
+                                <system:Boolean>True</system:Boolean>
+                            </Button.CommandParameter>
+                            CREATE
+                        </Button>
+                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsCancel="True"
+                                        Margin="0 8 8 0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand">
+                            <Button.CommandParameter>
+                                <system:Boolean>False</system:Boolean>
+                            </Button.CommandParameter>
+                            CANCEL
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+            <Grid Margin="0,0,0,10">
+                <ListBox x:Name="PlaylistList" Margin="10,10,10,52" SelectedIndex="2" FontSize="16" Opacity="0.8" VerticalContentAlignment="Top" BorderBrush="#00000000" SelectionChanged="PlaylistList_SelectionChanged"/>
+                <Button x:Name="NewPlaylistButton" Content="New Playlist" Margin="10,0,10,10" VerticalAlignment="Bottom" Height="37" FontSize="16" MinHeight="25" MinWidth="{Binding Width, ElementName=grid1, Mode=OneWay}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Background="#FFD32F2F"></Button>
+            </Grid>
+        </materialDesign:DialogHost>
+
+        <Image HorizontalAlignment="Center" Height="70.8" Margin="0" VerticalAlignment="Top" Width="109.633" Source="../img/stuffa-logo.gif"/>
+        <!--<Image  Source="../img/newPlaylist.png.png" Height="20.867" Margin="131.959,0,40.307,142" VerticalAlignment="Bottom"/>-->
+
+
+    </Grid>
+</Page>
