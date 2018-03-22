@@ -19,9 +19,7 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
-        <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect ExpandIn}" OpeningEffectsOffset="{materialDesign:IndexedItemOffsetMultiplier 0:0:5}" Foreground="White" FontSize="52" Width="715" Grid.Column="1" Margin="5,0,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-            <Frame x:Name="DynamicView" Grid.Column="1" NavigationUIVisibility="Hidden"/>
-        </materialDesign:TransitioningContent>
+        <Frame x:Name="DynamicView" Grid.Column="1" NavigationUIVisibility="Hidden"/>
         <Frame x:Name="PlaylistView" NavigationUIVisibility="Hidden"/>
         <Frame x:Name="playerControl" Grid.ColumnSpan="2" VerticalAlignment="Bottom" MinHeight="100" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderBrush="#FF01AA28" MinWidth="900" Grid.Row="1" NavigationUIVisibility="Hidden"/>
 
