@@ -24,11 +24,12 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="10"/>
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="{Binding Bpm}" />
                         <TextBlock Grid.Column="1" Text="{Binding Title}" FontWeight="Bold"/>
-                        <TextBlock Grid.Column="2" Text="{Binding Artist}"/>
+                        <TextBlock Grid.Column="3" Text="{Binding Artist}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -92,7 +93,7 @@
         <Grid Margin="15,47.5,5,0" VerticalAlignment="Top">
             <Label Content="BPM" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Opacity="0.795" Width="43.377" HorizontalContentAlignment="Center" FontSize="14"/>
             <Label Content="Artist" HorizontalAlignment="Left" Margin="51.127,10,0,0" VerticalAlignment="Top" Opacity="0.795" FontSize="14"/>
-            <Label Content="Album" Margin="178.985,10,84.833,0" VerticalAlignment="Top" Opacity="0.795" HorizontalContentAlignment="Center" FontSize="14"/>
+            <Label Content="Album" Margin="175.11,10,88.708,0" VerticalAlignment="Top" Opacity="0.795" HorizontalContentAlignment="Center" FontSize="14"/>
             <Border BorderBrush="#FF191919" BorderThickness="5" Height="1" Margin="1.25,39,5.75,-0.5" VerticalAlignment="Top">
                 <Border.Effect>
                     <BlurEffect/>
