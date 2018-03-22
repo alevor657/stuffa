@@ -22,6 +22,9 @@ namespace WpfApp2.pages
 
     public partial class PlayerControl : Page
     {
+        Container container;
+
+        bool isLoaded = false;
         bool mediaFileIsOpen;
         bool isPlaying = false;
 
@@ -34,12 +37,13 @@ namespace WpfApp2.pages
         int DelayCounter = 0;
         
 
-        public PlayerControl()
+        public PlayerControl(Container container)
         {
+            this.container = container;
+
             mediaFileIsOpen = true;
             InitializeComponent();
             TitleScrollView.ScrollToVerticalOffset(288);
-            
 
             labelTimer.Interval = new TimeSpan(25000);
             labelTimer.Tick += TimerTickerSlideText;
@@ -53,6 +57,7 @@ namespace WpfApp2.pages
 
             //Player.Source = new Uri("D:\\Nedladdningar\\Vicetone - Way Back (feat. Cozi Zuehlsdorff).mp3", UriKind.RelativeOrAbsolute);
 
+            isLoaded = true;
 
 
         }
@@ -168,6 +173,28 @@ namespace WpfApp2.pages
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Player.Volume = VolumeSlider.Value;
+
+            if (isLoaded)
+            {
+                if (VolumeSlider.Value >= 0.5)
+                {
+                    BitmapImage image = new BitmapImage(new Uri("../pages/volume-high.png", UriKind.Relative));
+                    VolumeButton.Source = image;
+                }
+                else if (VolumeSlider.Value == 0)
+                {
+                    BitmapImage image = new BitmapImage(new Uri("../pages/volume_mute.png", UriKind.Relative));
+                    VolumeButton.Source = image;
+
+                }
+                else if (VolumeSlider.Value < 0.5)
+                {
+                    BitmapImage image = new BitmapImage(new Uri("../pages/volume_low.png", UriKind.Relative));
+                    VolumeButton.Source = image;
+
+                }
+                
+            }
         }
 
         public void PlaySong(string path)

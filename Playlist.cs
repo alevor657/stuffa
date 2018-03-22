@@ -786,7 +786,7 @@ namespace WpfApp2
             int index = 0;
             foreach (Music i in music)
             {
-                BPM.Add(Tuple.Create<int, int>(i.getBPM(), index));
+                BPM.Add(Tuple.Create<int, int>(i.getBpm(), index));
                 index++;
             }
             sortBPM();
@@ -875,23 +875,25 @@ namespace WpfApp2
         {
             // adding 20 0r 19 test music data
             Music test = new Music();
-            test.generateTestData("C:\\music\\", "(12)_Black_Jack_-_Du_Vet", ".mp3", 100, "Black Jack", "Black Jack - Du Vet");
+            test.generateTestData("D:\\Nedladdningar\\wayback.mp3", "(12)_Black_Jack_-_Du_Vet", ".mp3", 100, "Black Jack", "Black Jack - Du Vet");
             music.Add(test);
 
             test = new Music();
-            test.generateTestData("C:\\music\\", "[16] Alla Tiders", ".m4a", 101, "Lasse", "Alla Tiders");
+            string path = "D:\\Nedladdningar\\Vicetone%20-%20Way%20Back(feat.Cozi%20Zuehlsdorff)";
+            
+            test.generateTestData(path, "[16] Alla Tiders", ".mp3", 101, "Lasse", "Alla Tiders");
             music.Add(test);
 
             test = new Music();
-            test.generateTestData("C:\\music\\", "01-Laleh-Elephant", ".m4a", 100, "Laleh", "Elephant");
+            test.generateTestData("D:\\Nedladdningar\\Gustav_final.mp3", "01-Laleh-Elephant", ".mp3", 100, "Laleh", "Elephant");
             music.Add(test);
 
             test = new Music();
-            test.generateTestData("C:\\music\\", "01-Laleh-På-Gatan-Där-Jag-Bor", ".mp3", 0, "Laleh", "");
+            test.generateTestData("D:\\Nedladdningar\\Gustav2.mp3", "01-Laleh-På-Gatan-Där-Jag-Bor", ".mp3", 0, "Laleh", "我爱你");
             music.Add(test);
 
             test = new Music();
-            test.generateTestData("C:\\music\\", "01-Millioner_röda-rosor", ".m4a", 0, "", "");
+            test.generateTestData("C:\\music\\", "01-Millioner_röda-rosor", ".m4a", 0, "너를 사랑해.", "من عاشقت هستم");
             music.Add(test);
 
             test = new Music();
@@ -899,19 +901,19 @@ namespace WpfApp2
             music.Add(test);
 
             test = new Music();
-            test.generateTestData("C:\\music\\", "01 Hurt 1", ".mp3", 104, "Finix", "Hurt");
+            test.generateTestData("C:\\music\\", "01 Hurt 1", ".mp3", 104, "", "Hurt");
             music.Add(test);
 
             test = new Music();
-            test.generateTestData("C:\\music\\", "01 Hurt", ".mp3", 104, "finix", "Hurt");
+            test.generateTestData("C:\\music\\", "01 Hurt", ".mp3", 104, "я тебя люблю", "");
             music.Add(test);
 
             test = new Music();
-            test.generateTestData("C:\\music\\", "01 När filmen är slut", ".mp3", 99, "Jhonny", "När filmen är slut");
+            test.generateTestData("C:\\music\\", "01 När filmen är slut", ".mp3", 99, "मैं तुम्हें प्यार करता हूँ", "När filmen är slut");
             music.Add(test);
 
             test = new Music();
-            test.generateTestData("C:\\music\\", "01 När löven faller", ".mp3", 100, "Jhonny", "När löven faller");
+            test.generateTestData("C:\\music\\", "01 När löven faller", ".mp3", 100, "ég elska þig", "När löven faller");
             music.Add(test);
 
             test = new Music();

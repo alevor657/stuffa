@@ -22,13 +22,12 @@ namespace WpfApp2.pages
     public partial class EditView : Page
     {
 
-        PlayerControl pc;
+        Container container;
 
         public List<Music> currentMusic;
-        public EditView(PlayerControl pc)
+        public EditView(Container container)
         {
-            this.pc = pc;
-
+            this.container = container;
             InitializeComponent();
 
             // Bara för testing
@@ -40,22 +39,18 @@ namespace WpfApp2.pages
             //currentPlaylist.ItemsSource = songsInPlaylist;
 
         }
-        public void loadPlaylist(List<Music> musicInPlaylist)
+        public void LoadPlaylist(List<Music> playlistSongs)
         {
-            currentMusic = new List<Music>();
-            currentMusic = musicInPlaylist;
-            List<Songs> songsInPlaylist = new List<Songs>();
-            for (int i = 0; i < musicInPlaylist.Count; i++)
-            {
-                songsInPlaylist.Add(new Songs() { Bpm = musicInPlaylist[i].getBPM(), Title = musicInPlaylist[i].getTitle(), Artist = musicInPlaylist[i].getArtist(), Path = musicInPlaylist[i].getFullPath() });
-            }
-            currentPlaylist.ItemsSource = songsInPlaylist;
-
+            currentPlaylist.ItemsSource = playlistSongs;
+            //currentPlaylist.ItemsSource = musicInPlaylist;
         }
 
         private void currentPlaylist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //pc.PlaySong(currentMusic[currentPlaylist.SelectedIndex].getFullPath());
+            if (currentPlaylist.SelectedIndex != -1)
+            {
+                container.PlaySelectedSong();
+            }            
         }
     }
 }
@@ -65,7 +60,6 @@ public class Songs
     public int Bpm { get; set; }
     public string Title { get; set; }
     public string Artist { get; set; }
-
     public string Path { get; set; }
 }
 

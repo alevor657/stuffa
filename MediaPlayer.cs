@@ -23,66 +23,75 @@ namespace Stuffa
 {
      public class MediaPlayer
 	 {
-	 	 public static List<Playlist> playlists;
-		 public static int currentPlaylist;
+	 	 public List<Playlist> playlists;
+		 public int currentPlaylist;
 
-        private EditView ev;
-        private PlayerControl pc;
+        private Container container;
         
 		 public MediaPlayer()
 		 {
 			playlists = new List<Playlist>();
-			//playlists.Add(new Playlist("Jonas bugg", 1));
-			//playlists.Add(new Playlist("Anders fox", 1));
-			// kommentar gällande testning därav svenska:
-
-			// Kommentera ut nedanstående funktionerom det ej fungerar, försök lägga till musik som 
-			//finns på egen dator enligt konstruktorer i Music istället för dessa två funktionsanrop.
-
-			//playlists.ElementAt(0).generateTestPlaylist();
-			//playlists.ElementAt(1).generateTestPlaylist();
 		 }
 
-        public MediaPlayer(EditView ev, PlayerControl pc)
+        public MediaPlayer(Container container)
         {
-            this.ev = ev;
-            this.pc = pc;
+
+            this.container = container;
+
             playlists = new List<Playlist>();
+            playlists.Add(new Playlist("Jonas bugg", 1));
+            playlists.Add(new Playlist("Anders fox", 1));
+
+            playlists[0].generateTestPlaylist();
+            playlists.ElementAt(1).generateTestPlaylist();
 
         }
 
-        public static bool addPlaylist(Playlist toAdd)
+        public void SetCurrentPlaylist(int pos)
+        {
+            this.currentPlaylist = pos;
+        }
+
+        public bool AddPlaylist(string playlistName)
         {
             // JUST FOR TESTING 
             // Uncomment this part when there is a search function here
             bool didAdd = false;
             // if(!searchPlaylist(playlist.getName())
-            playlists.Add(new Playlist(toAdd));
+            playlists.Add(new Playlist(playlistName));
             didAdd = true;
             //}
 
             return didAdd;
         }
 
-        public static void loadPlaylist(int playlistPos)
+        public string GetCurrentPlaylistName()
+        {
+            return this.playlists[this.currentPlaylist].ToString();
+        }
+
+        internal string GetSong(int selectedIndex)
+        {
+            return playlists[currentPlaylist].getMusic(selectedIndex).getPath();
+        }
+
+        public static void LoadPlaylist(int playlistPos)
         {
             
         }
 
         // Call this function to populate the list showing all possible playlists.
-        public static String[] getPlayListNames()
+        public List<string> GetPlaylistNames()
         {
-            String[] temp = new String[playlists.Count];
-            int increment = 0;
+            List<string> temp = new List<string>();
             foreach (Playlist i in playlists)
             {
-                temp[increment] = i.ToString();
-                increment++;
+                temp.Add(i.ToString());
             }
             return temp;
         }
         // Call this function to populate the list showing all music in a playlist after selecting a playlist to edit
-        public static List<Music> getMusicFromPlaylist(int pos)
+        public List<Music> GetMusicFromPlaylist()
         {
             //currentPlaylist = pos;
             //String[] temp = new String[playlists.Count];
@@ -93,7 +102,7 @@ namespace Stuffa
             //    temp[increment] = i.ToString();
             //    increment++;
             //}
-            return playlists[pos].getAllMusic();
+            return playlists[currentPlaylist].getAllMusic();
         }
 
 

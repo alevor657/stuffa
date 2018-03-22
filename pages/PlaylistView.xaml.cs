@@ -24,18 +24,21 @@ namespace WpfApp2.pages
     public partial class PlaylistView : Page
     {
         Container container;
-        EditView ev;
-        List<Playlist> pl;
-        public PlaylistView(Container c, EditView ev)
+        List<string> pl;
+
+        public PlaylistView(Container c)
         {
             InitializeComponent();
             container = c;
-            this.ev = ev;
 
-            pl = new List<Playlist>();
+            pl = new List<string>(container.GetPlaylists());
+
+            PlaylistList.ItemsSource = pl;
+
+            //pl = new List<Playlist>();
             
-            pl.Add(new Playlist("Best Songs", 0));
-            pl.Add(new Playlist("Not my Best Songs", 1));
+            //pl.Add(new Playlist("Best Songs", 0));
+            //pl.Add(new Playlist("Not my Best Songs", 1));
 
             //Music song1 = new Music("D:\\Nedladdningar\\Vicetone - Way Back(feat.Cozi Zuehlsdorff).mp3", "Way Back", "Vicetone", 108);
             //Music song2 = new Music("D:\\Nedladdningar\\Gustav_final.mp3", "Gustavs Final", "Gustav", 110);
@@ -43,10 +46,10 @@ namespace WpfApp2.pages
             //pl[0].addNewSong(song1);
             //pl[0].addNewSong(song2);
             //pl[1].addNewSong(song2);
-            pl[0].generateTestPlaylist();
-            pl[1].generateTestPlaylist();
-            PlaylistList.Items.Add("Best Songs");
-            PlaylistList.Items.Add("Not my Best Songs");
+            ////pl[0].generateTestPlaylist();
+            ////pl[1].generateTestPlaylist();
+            //PlaylistList.Items.Add("Best Songs");
+            //PlaylistList.Items.Add("Not my Best Songs");
         }
 
 
@@ -62,14 +65,20 @@ namespace WpfApp2.pages
 
             if (!string.IsNullOrWhiteSpace(PlaylistName.Text))
             {
+                
                 PlaylistList.Items.Add(PlaylistName.Text.Trim());
+                //pl.Add(new Playlist(PlaylistName.Text.Trim(), 0));
                 container.snackBarActivate(PlaylistName.Text.Trim() + " created!");
             }
         }
 
         private void PlaylistList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ev.loadPlaylist(pl[PlaylistList.SelectedIndex].getAllMusic());
+            if (PlaylistList.SelectedIndex != -1)
+            {
+                container.GetSelectedPlaylist();
+                //ev.loadPlaylist(pl[PlaylistList.SelectedIndex].getAllMusic());
+            }
         }
     }
 }
