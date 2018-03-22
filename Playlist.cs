@@ -31,6 +31,34 @@ namespace WpfApp2
         //all the music in the playlist
         private List<Stuffa.Music> music;
 
+        //this function will add the music given to it
+        public void addMusic(Music m)
+        {
+            int i = music.Count;
+            music.Add(m);
+            if (this.titlesWords.Count != 0)
+            {
+                this.addToTitleWordLists(m, i);
+            }
+            if (this.artistsWords.Count != 0)
+            {
+                addToArtistWordLists(m, i);
+            }
+            if (this.BPM.Count != 0)
+            {
+                addToBPMList(m, i);
+            }
+            if (fullTitle.Count != 0)
+            {
+                addToFullTile(m.getTitle(), i);
+            }
+        }
+
+        //sort full names
+        private void sortFullPath()
+        {
+            this.fullTitle = this.fullTitle.OrderBy(e => e.Item1).ToList();
+        }
         //sort all BPM in BPM list
         private void sortBPM()
         {
@@ -498,6 +526,7 @@ namespace WpfApp2
             this.BPM = new List<Tuple<int, int>>();
             this.artistsWords = new List<Tuple<string, int>>();
             this.titlesWords = new List<Tuple<string, int>>();
+            this.fullTitle = new List<Tuple<string, int>>();
         }
 
         // constructor that takes the hole path to the Playlist file. the path is a absulute path
@@ -507,6 +536,7 @@ namespace WpfApp2
             this.BPM = new List<Tuple<int, int>>();
             this.artistsWords = new List<Tuple<string, int>>();
             this.titlesWords = new List<Tuple<string, int>>();
+            this.fullTitle = new List<Tuple<string, int>>();
 
             int pathPos = fullPath.LastIndexOf("\\");
             int fileTypePos = fullPath.LastIndexOf(".");
@@ -693,20 +723,7 @@ namespace WpfApp2
                         }
                         if (!stop)
                         {
-                            int i = music.Count;
-                            music.Add(s);
-                            if (this.titlesWords != null)
-                            {
-                                this.addToTitleWordLists(s, i);
-                            }
-                            if (this.artistsWords != null)
-                            {
-                                addToArtistWordLists(s, i);
-                            }
-                            if (this.BPM != null)
-                            {
-                                addToBPMList(s, i);
-                            }
+                            addMusic(s);
 
                             container.Add(new Tuple<string, int>(s.getTitle(), index));
                             index++;
@@ -716,20 +733,7 @@ namespace WpfApp2
 
                     else
                     {
-                        int i = music.Count;
-                        music.Add(s);
-                        if (this.titlesWords != null)
-                        {
-                            this.addToTitleWordLists(s, i);
-                        }
-                        if (this.artistsWords != null)
-                        {
-                            addToArtistWordLists(s, i);
-                        }
-                        if (this.BPM != null)
-                        {
-                            addToBPMList(s, i);
-                        }
+                        addMusic(s);
 
                         container.Add(new Tuple<string, int>(s.getTitle(), index));
                         index++;
@@ -741,7 +745,7 @@ namespace WpfApp2
             return ret;
         }
 
-        private void addToTitleWordLists(Music m, int index)
+        private void addToFullTile(string title, int index)
         {
             //define characters to split the string
             char[] spliters = new char[3];
@@ -749,17 +753,34 @@ namespace WpfApp2
             spliters[1] = '_';
             spliters[2] = '-';
 
-            //for every word in the title insert it on right position in titleWords
             
+            //get index at with to be inserted
+            int binarySearchIndex = this.TupleBinarySearch(this.fullTitle, title);
+            //insert at given index
+            this.titlesWords.Insert(binarySearchIndex, new Tuple<string, int>(title, index));
+
+            
+        }
+
+        private void addToTitleWordLists(Music m, int index)
+        {    
+            //define characters to split the string
+            char[] spliters = new char[3];
+            spliters[0] = ' ';
+            spliters[1] = '_';
+            spliters[2] = '-';
+
+            //for every word in the title insert it on right position in titleWords
+
             foreach (string s in m.getTitle().Split(spliters))
             {
                 //get index at with to be inserted
-                int binarySearchIndex  = this.TupleBinarySearch(this.titlesWords, s);
+                int binarySearchIndex = this.TupleBinarySearch(this.titlesWords, s);
                 //insert at given index
                 this.titlesWords.Insert(binarySearchIndex, new Tuple<string, int>(s, index));
 
             }
-  
+
 
         }
 
@@ -808,20 +829,7 @@ namespace WpfApp2
 
                 foreach(Music oneMusic in m)
                 {
-                    int index = music.Count;
-                    music.Add(oneMusic);
-                    if(this.titlesWords != null)
-                    {
-                        this.addToTitleWordLists(oneMusic, index);
-                    }
-                    if(this.artistsWords != null)
-                    {
-                        addToArtistWordLists(oneMusic, index);
-                    }
-                    if(this.BPM != null)
-                    {
-                        addToBPMList(oneMusic, index);
-                    }
+                    addMusic(oneMusic);
                 }
 
 
@@ -968,10 +976,10 @@ namespace WpfApp2
         //if the sorted list does not match up with the playlist reset them
         private void emptyLists()
         {
-            this.BPM = null;
-            this.titlesWords = null;
-            this.artistsWords = null;
-            this.fullTitle = null;
+            this.BPM = new List<Tuple<int, int>>();
+            this.titlesWords = new List<Tuple<string, int>>();
+            this.artistsWords = new List<Tuple<string, int>>();
+            this.fullTitle = new List<Tuple<string, int>>();
         }
 
         public bool RemoveMusic(int index)
@@ -980,14 +988,78 @@ namespace WpfApp2
             if(index >= 0 && index < music.Count())
             {
                 music.RemoveAt(index);
+                emptyLists();
                 ret = true;
             }
             return ret;
         }
 
-        //kan ta bort fel låt om samma låt finns på flera ställe kanske
+        //remove song when index is not known
         public bool RemoveMusic(Music remove)
         {
+
+            bool removed = false;
+            if(this.fullTitle.Count == 0)
+            {
+                loadFullTitle();
+            }
+            int rmv = TupleBinarySearch(this.fullTitle, remove.getTitle());
+            
+            //see if the position given by the search is the one
+            //see if there is any lower with the same title
+            //look that the value is not removed first beacuse it will dealete all lists
+            for(int i = rmv; !removed && i >= 0; i--)
+            {
+                //if the title in the list "fullTitle" is the same as the one being removed
+                if(fullTitle[i].Item1 == remove.getTitle())
+                {
+                    //if the artist is allso the same
+                    if(music[fullTitle[i].Item2].getArtist() == remove.getArtist())
+                    {
+                        //if the music does not exists on harddrive
+                        if(remove.getBPM() == -1)
+                        {
+                            if(music[fullTitle[i].Item2].getName() == remove.getName())
+                            {
+                                removed = RemoveMusic(fullTitle[i].Item2);
+
+                            }
+                        }
+                        else
+                        {
+                            removed = RemoveMusic(fullTitle[i].Item2);
+
+                        }
+
+                    }
+                }
+                else {
+                    i = -1;
+                }
+            }
+            //see if there is any higher with the same title
+            for (int i = rmv; !removed && i < this.fullTitle.Count; i++)
+            {
+                //if the title in the list "fullTitle" is the same as the one being removed
+                if (fullTitle[i].Item1 == remove.getTitle())
+                {
+                    //if the artist is allso the same
+                    if (music[fullTitle[i].Item2].getArtist() == remove.getArtist())
+                    {
+                        music.RemoveAt(fullTitle[i].Item2);
+                        //remove previus search data. The indexes have now changed
+                        emptyLists();
+                        removed = true;
+                    }
+                }
+                else
+                {
+                    i = this.fullTitle.Count;
+                }
+            }
+            return removed;
+
+            /*
              List < Tuple<int, int> > indexes = similarSentence(titlesWords, remove.getTitle());
 
             bool ret = false;
@@ -1017,8 +1089,28 @@ namespace WpfApp2
                 }
 
             }
-            return ret;
+            return ret;*/
         }
+
+        private void loadFullTitle()
+        {
+            this.fullTitle.Clear();
+
+            int index = 0;
+
+            foreach (Music i in music)
+            {
+                string title = i.getTitle();
+
+                this.fullTitle.Add(Tuple.Create<string, int>(title, index));
+
+                index++;
+
+
+            }
+            sortFullPath();
+        }
+    
 
         private void loadArtists()
         {
