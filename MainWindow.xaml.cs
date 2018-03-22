@@ -20,6 +20,7 @@ using WpfApp2.pages;
 using Newtonsoft.Json;
 using Microsoft.VisualBasic;
 using System.Windows.Threading;
+using SocketServer;
 
 namespace Stuffa
 {
@@ -52,10 +53,11 @@ namespace Stuffa
             //PlaylistView playlistPage = new PlaylistView();
             Settings settingsPage = new Settings();
             ContainerView.Content = new Container();
+
             //DynamicView.Content = playlistPage;
 
-           // show all playlists
-           // goToPlaylists(playlistList);
+            // show all playlists
+            // goToPlaylists(playlistList);
 
             //start a temporary server until better is developed TODO: Update/remove
             //Thread serverThread = new Thread(startServer);
@@ -64,6 +66,9 @@ namespace Stuffa
 
             //songTimer.Interval = new TimeSpan(500);
             //songTimer.Tick += TimerTicker;
+
+            // Init server
+            Server.Init();
         }
 
       

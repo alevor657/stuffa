@@ -98,7 +98,6 @@
     <Compile Include="pages\PlaylistView.xaml.cs">
       <DependentUpon>PlaylistView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>

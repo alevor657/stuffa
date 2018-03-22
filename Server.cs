@@ -1,50 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
+using WebSocketSharp;
+using WebSocketSharp.Server;
 
-namespace WpfApp2
+namespace SocketServer
 {
-    
-
-    class Server
+    public class Handler : WebSocketBehavior
     {
-        public Server() { }
-        const int PORT_NO = 5000;
-        const string SERVER_IP = "127.0.0.1";
-
-        public string startServer()
+        protected override void OnMessage(MessageEventArgs e)
         {
-            //---listen at the specified IP and port no.---
-            IPAddress localAdd = IPAddress.Parse(SERVER_IP);
-            TcpListener listener = new TcpListener(localAdd, PORT_NO);
-            Console.WriteLine("Listening...");
-            listener.Start();
+            Console.WriteLine("Recieved: ");
+            Console.WriteLine(e.Data.ToString());
 
-            //---incoming client connected---
-            TcpClient client = listener.AcceptTcpClient();
+        }
 
-            //---get the incoming data through a network stream---
-            NetworkStream nwStream = client.GetStream();
-            byte[] buffer = new byte[client.ReceiveBufferSize];
+        protected override void OnOpen() => Console.WriteLine("opened");
 
-            //---read incoming stream---
-            int bytesRead = nwStream.Read(buffer, 0, client.ReceiveBufferSize);
+        protected override void OnClose(CloseEventArgs e)
+        {
+            Console.WriteLine("connection closed");
+        }
 
-            //---convert the data received into a string---
-            string dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-            Console.WriteLine("Received : " + dataReceived);
+        protected override void OnError(ErrorEventArgs e)
+        {
+            Console.WriteLine("error");
+        }
+    }
 
-            //---write back the text to the client---
-            Console.WriteLine("Sending back : " + dataReceived);
-            nwStream.Write(buffer, 0, bytesRead);
-            client.Close();
-            listener.Stop();
-            Console.ReadLine();
-            return dataReceived;
+    public class Server
+    {
+        public static void Init()
+        {
+            var wssv = new WebSocketServer(1340);
+            wssv.AddWebSocketService<Handler>("/remote");
+            wssv.Start();
+            Console.WriteLine($"Listening on {wssv.Address}:{wssv.Port}");
+            foreach (var path in wssv.WebSocketServices.Paths)
+                Console.WriteLine("- {0}", path);
         }
     }
 }
