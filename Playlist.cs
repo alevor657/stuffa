@@ -33,13 +33,16 @@ namespace WpfApp2
         public Playlist(string name, int blah)
         {
             this.name = name;
+            music = new List<Music>();
         }
 
         public Playlist(Playlist pl)
         {
             name = pl.name;
             path = pl.path;
-            
+            music = new List<Music>();
+
+
         }
         //sort all BPM in BPM list
         private void sortBPM()
@@ -527,11 +530,11 @@ namespace WpfApp2
         {
             bool didAdd = false;
 
-            if(!music.Contains(song))
-            {
+            //if(!music.Contains(song))
+            //{
                 music.Add(song);
                 didAdd = true;
-            }
+            //}
             return didAdd;
         }
 

@@ -30,11 +30,10 @@ namespace WpfApp2.pages
             // Bara för testing
             //List<Songs> songsInPlaylist = new List<Songs>();
             //songsInPlaylist.Add(new Songs() { Bpm = 132, Title = "Way Back", Artist = "Vicetone" });
-            //songsInPlaylist.Add(new Songs() { Bpm = 110 , Title = "Fire", Artist = "Burning" });
+            //songsInPlaylist.Add(new Songs() { Bpm = 110, Title = "Fire", Artist = "Burning" });
 
 
             //currentPlaylist.ItemsSource = songsInPlaylist;
-            //songsInPlaylist.Add(new Music{ title = "Felix", artist= "Alexey", = "180"});
 
         }
         public void loadPlaylist(List<Music> musicInPlaylist)
