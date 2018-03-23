@@ -13,7 +13,7 @@
             <ColumnDefinition Width="118*"/>
             <ColumnDefinition Width="91*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="ArtistLabel" Content="Vicetone" Margin="100.048,35.5,0,38.638" VerticalAlignment="Center" FontWeight="Normal" Height="25.862" HorizontalAlignment="Left" Width="69.952" Opacity="0.8" ToolTip="Artist"/>
+        <Label x:Name="ArtistLabel" Content="Vicetone" Margin="100.048,35.5,0,38.638" VerticalAlignment="Center" FontWeight="Normal" Height="25.862" HorizontalAlignment="Left" Width="266.952" Opacity="0.8" ToolTip="Artist" Grid.ColumnSpan="2"/>
         <Label x:Name="BpmLabel" Content="132" HorizontalAlignment="Left" Margin="100.048,0,0,10" VerticalAlignment="Bottom" Width="95.1" FontSize="20" Height="35.138" ToolTip="Beats Per Minute"/>
         <ScrollViewer x:Name="TitleScrollView" Margin="104.736,10,0,54.55" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Width="118" ToolTip="Title">
             <TextBlock x:Name="TitleLabel" FontWeight="Bold" FontSize="18" Foreground="White" Padding="0">
@@ -152,5 +152,6 @@
         <MediaElement x:Name="Player" HorizontalAlignment="Left" Height="80" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" ScrubbingEnabled="True" MediaOpened="Player_MediaOpened" Volume="0.7" LoadedBehavior="Manual"/>
         <Image x:Name="AlbumArt" Margin="10,10,183,10" Source="WayBackVicetone.jpg" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Slider x:Name="VolumeSlider" Grid.Column="2" HorizontalAlignment="Left" Margin="86,35.45,0,0" VerticalAlignment="Top" Width="100" ValueChanged="VolumeSlider_ValueChanged" Maximum="1" Value="0.7" Opacity="0.8" LargeChange="0.1" SmallChange="0.01" TickFrequency="0.01"/>
+        <Image x:Name="VolumeButton" Grid.Column="2" Height="18" Margin="63,36,192,46" Width="18" Source="volume-high.png" Opacity="0.795" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" HorizontalAlignment="Left"/>
     </Grid>
 </Page>

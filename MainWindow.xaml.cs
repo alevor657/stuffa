@@ -30,15 +30,10 @@ namespace Stuffa
     public partial class MainWindow : Window
     {
 
-        //PlaylistView playlistPage = new PlaylistView();
-        Settings settingsPage = new Settings();
+
 
         //deaclear variables
-        int settingsCounter = 0;
         bool isMaximized = false;
-        static bool isPlaying = false;
-        static bool mediaFileIsOpen = false;
-        static Playlist curentPlaylist;
 
         DispatcherTimer songTimer = new DispatcherTimer();
 
@@ -50,24 +45,8 @@ namespace Stuffa
             // give this thread a name 
             Thread.CurrentThread.Name = "parent";
             InitializeComponent();
-            //PlaylistView playlistPage = new PlaylistView();
-            Settings settingsPage = new Settings();
             ContainerView.Content = new Container();
 
-            //DynamicView.Content = playlistPage;
-
-            // show all playlists
-            // goToPlaylists(playlistList);
-
-            //start a temporary server until better is developed TODO: Update/remove
-            //Thread serverThread = new Thread(startServer);
-            //serverThread.IsBackground = true;
-            //serverThread.Start();
-
-            //songTimer.Interval = new TimeSpan(500);
-            //songTimer.Tick += TimerTicker;
-
-            // Init server
             Server.Init();
         }
 

@@ -85,6 +85,7 @@
     <Compile Include="pages\Container.xaml.cs">
       <DependentUpon>Container.xaml</DependentUpon>
     </Compile>
+    <Compile Include="System\Web\HttpUtility.cs" />
     <None Include="MainWindow - Copy.xaml.cs">
       <DependentUpon>MainWindow - Copy.xaml</DependentUpon>
     </None>
@@ -190,6 +191,12 @@
     <Resource Include="img\right.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="pages\volume-high.png" />
+    <Resource Include="pages\volume_mute.png" />
+    <Resource Include="pages\volume_low.png" />
+    <Resource Include="pages\volume_high.png" />
+    <Resource Include="pages\ic_volume_up_white_48dp.png" />
+    <Resource Include="pages\ic_volume_up_white_18dp.png" />
     <Content Include="pages\Vicetone - Way Back %28feat. Cozi Zuehlsdorff%29.mp3" />
     <Content Include="pages\Vicetone%2520-%2520Way%2520Back%2520%28feat.%2520Cozi%2520Zuehlsdorff%29%2520%28File4song.com%29.mp3" />
     <Resource Include="pages\WayBackVicetone.jpg" />

@@ -20,10 +20,12 @@ namespace WpfApp2.pages
     /// </summary>
     public partial class Settings : Page
     {
+        Container container;
 
         bool hej = false;
-        public Settings()
+        public Settings(Container container)
         {
+            this.container = container;
             InitializeComponent();
         }
 

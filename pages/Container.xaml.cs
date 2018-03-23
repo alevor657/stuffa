@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Stuffa;
+using System.Collections;
 
 namespace WpfApp2.pages
 {
@@ -24,18 +25,27 @@ namespace WpfApp2.pages
     {
 
         bool inSettings = false;
-        PlayerControl pc = new PlayerControl();
+        PlayerControl pc;
         EditView ev;
-        Settings settings = new Settings();
+        Settings settings;
+        PlaylistView pv;
+        Stuffa.MediaPlayer mp;
         public Container()
         {
-            Stuffa.MediaPlayer mp = new Stuffa.MediaPlayer(ev, pc);
-
+            mp = new Stuffa.MediaPlayer(this);
+            pc = new PlayerControl(this);
+            settings = new Settings(this);
             InitializeComponent();
-            ev = new EditView(pc);
+            ev = new EditView(this);
+            pv = new PlaylistView(this);
             playerControl.Content = pc;
             DynamicView.Content = ev;
-            PlaylistView.Content = new PlaylistView(this, ev);
+            PlaylistView.Content = pv;
+        }
+
+        internal List<string> GetPlaylists()
+        {
+            return mp.GetPlaylistNames();
         }
 
         private void settingsButtonUp(object sender, MouseButtonEventArgs e)
@@ -52,12 +62,25 @@ namespace WpfApp2.pages
             }
         }
 
+        internal void GetSelectedPlaylist()
+        {
+            mp.SetCurrentPlaylist(pv.PlaylistList.SelectedIndex);
+            ev.LoadPlaylist(mp.GetMusicFromPlaylist());
+            ev.PlaylistName.Content = mp.GetCurrentPlaylistName();
+        }
+
+        internal void PlaySelectedSong()
+        {
+            pc.PlaySong(mp.GetSong(ev.currentPlaylist.SelectedIndex));
+        }
+
         public void snackBarActivate(string message)
         {
             var messageQueue = SnackBarDialog.MessageQueue;
-            
+
             //the message queue can be called from any thread
             Task.Factory.StartNew(() => messageQueue.Enqueue(message, "OKAY", () => { }));
         }
+
     }
 }
