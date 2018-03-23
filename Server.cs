@@ -32,6 +32,7 @@ namespace SocketServer
         {
             var wssv = new WebSocketServer(1340);
             wssv.AddWebSocketService<Handler>("/remote");
+            wssv.KeepClean = false;
             wssv.Start();
             Console.WriteLine($"Listening on {wssv.Address}:{wssv.Port}");
             foreach (var path in wssv.WebSocketServices.Paths)
