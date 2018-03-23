@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DesignPrototype"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Project Stuffa" Height="600" Width="900"
+        Title="Project Stuffa" Height="630" Width="900"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="#FF303030"
         TextElement.FontWeight="Medium"
