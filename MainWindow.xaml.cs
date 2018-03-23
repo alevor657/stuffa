@@ -119,6 +119,12 @@ namespace Stuffa
             minimizeButton.Opacity = 0.5;
         }
 
+        private void dragWindow(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
+
         //    private void SettingsClick(object sender, RoutedEventArgs e)
         //    {
         //        settingsCounter++;
