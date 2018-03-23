@@ -64,14 +64,17 @@ namespace WpfApp2.pages
 
         internal void GetSelectedPlaylist()
         {
-            mp.SetCurrentPlaylist(pv.PlaylistList.SelectedIndex);
-            ev.LoadPlaylist(mp.GetMusicFromPlaylist());
-            ev.PlaylistName.Content = mp.GetCurrentPlaylistName();
+            if (pv != null)
+            {
+                mp.SetCurrentPlaylist(pv.PlaylistList.SelectedIndex);
+                ev.LoadPlaylist(mp.GetMusicFromPlaylist());
+                ev.PlaylistName.Content = mp.GetCurrentPlaylistName();
+            }
         }
 
         internal void PlaySelectedSong()
         {
-            pc.PlaySong(mp.GetSong(ev.currentPlaylist.SelectedIndex));
+            pc.PlaySong(mp.GetSongObj(ev.currentPlaylist.SelectedIndex));
         }
 
         public void snackBarActivate(string message)

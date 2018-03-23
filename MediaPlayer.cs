@@ -35,15 +35,20 @@ namespace Stuffa
 
         public MediaPlayer(Container container)
         {
-
             this.container = container;
 
             playlists = new List<Playlist>();
             playlists.Add(new Playlist("Jonas bugg", 1));
             playlists.Add(new Playlist("Anders fox", 1));
+            playlists.Add(new Playlist(Directory.GetCurrentDirectory().Substring(0, 16) + "\\Music\\TestPlaylist.txt"));
 
             playlists[0].generateTestPlaylist();
             playlists.ElementAt(1).generateTestPlaylist();
+
+            List<string> music = new List<string>();
+            music.Add(Directory.GetCurrentDirectory().Substring(0, 16) + "\\Musik\\Scraping_The_Sewer.mp3");
+            music.Add(Directory.GetCurrentDirectory().Substring(0, 16) + "\\Musik\\Young_And_Old_Know_Love.mp3");
+            playlists[2].loadNewMusic(music, false);
 
         }
 
@@ -70,9 +75,13 @@ namespace Stuffa
             return this.playlists[this.currentPlaylist].ToString();
         }
 
-        internal string GetSong(int selectedIndex)
+        internal string GetSongStr(int selectedIndex)
         {
-            return playlists[currentPlaylist].getMusic(selectedIndex).getPath();
+            return playlists[currentPlaylist].getMusic(selectedIndex).getFullPath();
+        }
+        internal Music GetSongObj(int selectedIndex)
+        {
+            return playlists[currentPlaylist].getMusic(selectedIndex);
         }
 
         public static void LoadPlaylist(int playlistPos)

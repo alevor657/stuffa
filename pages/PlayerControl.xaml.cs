@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stuffa;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -197,9 +198,13 @@ namespace WpfApp2.pages
             }
         }
 
-        public void PlaySong(string path)
+        public void PlaySong(Music m)
         {
-            Player.Source = new Uri(path);
+            TitleLabel.Text = m.getTitle();
+            ArtistLabel.Content = m.getArtist();
+            BpmLabel.Content = m.getBpm();
+
+            Player.Source = new Uri(m.getFullPath());
             BitmapImage image = new BitmapImage(new Uri("../img/pause-white.png", UriKind.Relative));
             playButton.Source = image;
             isPlaying = true;

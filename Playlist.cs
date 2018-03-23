@@ -14,8 +14,10 @@ namespace WpfApp2
 
         // sorted lists decleared. first item is BPM value/artist/title second value is index refering to index to songs
         private List<Tuple<int, int>> BPM;
-        private List<Tuple<string, int>> artists;
-        private List<Tuple<string, int>> titles;
+        private List<Tuple<string, int>> artistsWords;
+        private List<Tuple<string, int>> titlesWords;
+
+        private List<Tuple<string, int>> fullTitle;
 
         //seperators for words
         private static Char[] seperators = new Char[] { ' ', '-', '_' };
@@ -44,6 +46,30 @@ namespace WpfApp2
 
 
         }
+
+        //this function will add the music given to it
+        public void addMusic(Music m)
+        {
+            int i = music.Count;
+            music.Add(m);
+            if (this.titlesWords.Count != 0)
+            {
+                this.addToTitleWordLists(m, i);
+            }
+            if (this.artistsWords.Count != 0)
+            {
+                addToArtistWordLists(m, i);
+            }
+            if (this.BPM.Count != 0)
+            {
+                addToBPMList(m, i);
+            }
+            if (fullTitle.Count != 0)
+            {
+                addToFullTile(m.getTitle(), i);
+            }
+        }
+
         //sort all BPM in BPM list
         private void sortBPM()
         {
@@ -55,14 +81,14 @@ namespace WpfApp2
         private void sortTitles()
         {
             //sort the musics titles
-            this.titles = titles.OrderBy(e => e.Item1).ToList();
+            this.titlesWords = titlesWords.OrderBy(e => e.Item1).ToList();
         }
         //sort all Artist in artist list
         private void sortArtists()
         {
             //sorting with an avrige of O(n log(n))?    (list.Sort is n logn)
             //sorting on BPM
-            artists = artists.OrderBy(e => e.Item1).ToList();
+            artistsWords = artistsWords.OrderBy(e => e.Item1).ToList();
         }
 
         //whnen one instance of the BPM is found, find all the other ones near it matching the value on position pos
@@ -255,7 +281,7 @@ namespace WpfApp2
         public List<Music> searchArtist(String search)
         {
             //if the artists are empty
-            if(this.artists.Count == 0)
+            if(this.artistsWords.Count == 0)
             {
                 //fill artists witch artists
                 loadArtists();
@@ -263,7 +289,7 @@ namespace WpfApp2
 
             //define return value
             List<Music> ret = new List<Music>();
-            List<Tuple<int, int>> indexes = similarSentence(artists, search);
+            List<Tuple<int, int>> indexes = similarSentence(artistsWords, search);
 
             //for every index
             foreach(Tuple<int, int> i in indexes)
@@ -279,7 +305,7 @@ namespace WpfApp2
         public List<Music> searchTitles(string search)
         {
             // if the titles list is empty
-            if (this.titles.Count == 0)
+            if (this.titlesWords.Count == 0)
             {
                 // fill the titles list with all the titles
                 loadTitles();
@@ -287,7 +313,7 @@ namespace WpfApp2
 
             // define return value
             List<Music> ret = new List<Music>();
-            List<Tuple<int, int>> indexes = similarSentence(titles, search);
+            List<Tuple<int, int>> indexes = similarSentence(titlesWords, search);
             //for every index...
             foreach (Tuple<int, int> i in indexes)
             {
@@ -477,8 +503,9 @@ namespace WpfApp2
         {
             this.music = new List<Stuffa.Music>();
             this.BPM = new List<Tuple<int, int>>();
-            this.artists = new List<Tuple<string, int>>();
-            this.titles = new List<Tuple<string, int>>();
+            this.artistsWords = new List<Tuple<string, int>>();
+            this.titlesWords = new List<Tuple<string, int>>();
+            this.fullTitle = new List<Tuple<string, int>>();
         }
 
         // constructor that takes the hole path to the Playlist file. the path is a absulute path
@@ -486,8 +513,10 @@ namespace WpfApp2
         {
             this.music = new List<Stuffa.Music>();
             this.BPM = new List<Tuple<int, int>>();
-            this.artists = new List<Tuple<string, int>>();
-            this.titles = new List<Tuple<string, int>>();
+            this.artistsWords = new List<Tuple<string, int>>();
+            this.titlesWords = new List<Tuple<string, int>>();
+            this.fullTitle = new List<Tuple<string, int>>();
+
 
             int pathPos = fullPath.LastIndexOf("\\");
             int fileTypePos = fullPath.LastIndexOf(".");
@@ -610,65 +639,97 @@ namespace WpfApp2
             //define return value
             List<Music> ret = new List<Music>();
 
+            //if container have not been defined
 
             List<Tuple<string, int>> container = new List<Tuple<string, int>>();
             int index = 0;
 
             //for every music in playlist
-            foreach(Music m in music)
+            foreach (Music m in music)
             {
                 // insert all music into container and index
                 container.Add(new Tuple<string, int>(m.getTitle(), index));
                 index++;
             }
-
-            // sortera på musik titlar
             container = container.OrderBy(e => e.Item1).ToList();
 
-            
+
+            // sortera på musik titlar
+
+            //if there are music in the playlist
+
+
+
             foreach (Music s in search)
             {
-                //get the postition of a title. This position is not garantid to contain the title name
-                int pos = TupleBinarySearch(container, s.getTitle());
-
-                // if the search result is a 100% match
-                if (container[pos].Item1 == s.getTitle())
+                //if the music does not exists (the ID3 tag is unacssesible)
+                if (s.getTitle() == "unknown" && s.getTitle() == "unknown" && s.getBpm() == -1)
                 {
-                    bool stop = false;
-                    //go down in the sorted list and get all items with the right title
-                    for(int i = pos; i >= 0 && !stop; i--)
-                    {
-                        //if the artist is the same too (or not defined "unknown")
+                    ret.Add(s);
+                }
+                else
+                {
 
-                        if (container[i].Item1 == s.getTitle() && (music[container[i].Item2].getArtist() == s.getArtist() || s.getArtist() == "unknown"))
-                        {
-                            
-                            // there is a dublet
-                            ret.Add(s);
-                            stop = true; //stops the search
-                            
-                        }
-                        
-                        
-                    }
-                    //go up in the sorted list and get all items with the right title
 
-                    for (int i = pos +1; i < container.Count && !stop; i++)
+
+
+                    if (container.Count != 0)
                     {
-                        if (container[i].Item1 == s.getTitle())
+                        //get the postition of a title. This position is not garantid to contain the title name
+                        int pos = TupleBinarySearch(container, s.getTitle());
+                        bool stop = false;
+
+                        // if the search result is a 100% match
+                        if (container[pos].Item1 == s.getTitle())
                         {
-                            if (search[container[i].Item2].getArtist() == s.getArtist())
+                            //go down in the sorted list and get all items with the right title
+                            for (int i = pos; i >= 0 && !stop; i--)
                             {
-                                ret.Add(search[container[i].Item2]);
-                                i = container.Count;
-                                stop = true;
+                                //if the artist is the same too (or not defined "unknown")
+
+                                if (container[i].Item1 == s.getTitle() && (music[container[i].Item2].getArtist() == s.getArtist() || s.getArtist() == "unknown"))
+                                {
+
+                                    // there is a dublet
+                                    ret.Add(s);
+                                    stop = true; //stops the search
+
+                                }
+
+
                             }
-                            
+                            //go up in the sorted list and get all items with the right title
+
+                            for (int i = pos + 1; i < container.Count && !stop; i++)
+                            {
+                                if (container[i].Item1 == s.getTitle())
+                                {
+                                    if (search[container[i].Item2].getArtist() == s.getArtist())
+                                    {
+                                        ret.Add(search[container[i].Item2]);
+                                        i = container.Count;
+                                        stop = true;
+                                    }
+
+                                }
+                            }
                         }
+                        if (!stop)
+                        {
+                            addMusic(s);
+
+                            container.Add(new Tuple<string, int>(s.getTitle(), index));
+                            index++;
+                        }
+
                     }
-                    if(!stop)
+
+                    else
                     {
-                        music.Add(s);
+                        addMusic(s);
+
+                        container.Add(new Tuple<string, int>(s.getTitle(), index));
+                        index++;
                     }
                 }
             }
@@ -676,6 +737,7 @@ namespace WpfApp2
 
             return ret;
         }
+
 
         //loads new music into the playlist given the paths to the music. returns list with not inserted music if not addAll is defined as "true"
         public List<Music> loadNewMusic(List<string> paths, bool addAll = false)
@@ -794,14 +856,14 @@ namespace WpfApp2
 
         private void loadTitles()
         {
-            titles.Clear();
+            titlesWords.Clear();
             int index = 0;
             foreach (Music i in music)
             {
                 string[] words = i.getTitle().Split(seperators);
                 foreach (string word in words)
                 {
-                    titles.Add(Tuple.Create<string, int>(word.ToLower(), index));
+                    titlesWords.Add(Tuple.Create<string, int>(word.ToLower(), index));
 
                 }
                 index++;
@@ -821,7 +883,7 @@ namespace WpfApp2
         //kan ta bort fel låt om samma låt finns på flera ställe kanske
         public bool RemoveMusic(Music remove)
         {
-             List < Tuple<int, int> > indexes = similarSentence(titles, remove.getTitle());
+             List < Tuple<int, int> > indexes = similarSentence(titlesWords, remove.getTitle());
 
             bool ret = false;
             
@@ -854,7 +916,7 @@ namespace WpfApp2
 
         private void loadArtists()
         {
-            artists.Clear();
+            artistsWords.Clear();
 
             int index = 0;
 
@@ -863,7 +925,7 @@ namespace WpfApp2
                 string[] words = i.getArtist().Split(seperators);
                 foreach(string word in words)
                 {
-                    artists.Add(Tuple.Create<string, int>(word, index));
+                    artistsWords.Add(Tuple.Create<string, int>(word, index));
                 }
                 index++;
 
@@ -871,25 +933,89 @@ namespace WpfApp2
             }
             sortArtists();
         }
+
+        private void addToFullTile(string title, int index)
+        {
+            //define characters to split the string
+            char[] spliters = new char[3];
+            spliters[0] = ' ';
+            spliters[1] = '_';
+            spliters[2] = '-';
+
+
+            //get index at with to be inserted
+            int binarySearchIndex = this.TupleBinarySearch(this.fullTitle, title);
+            //insert at given index
+            this.titlesWords.Insert(binarySearchIndex, new Tuple<string, int>(title, index));
+
+
+        }
+
+        private void addToTitleWordLists(Music m, int index)
+        {
+            //define characters to split the string
+            char[] spliters = new char[3];
+            spliters[0] = ' ';
+            spliters[1] = '_';
+            spliters[2] = '-';
+
+            //for every word in the title insert it on right position in titleWords
+
+            foreach (string s in m.getTitle().Split(spliters))
+            {
+                //get index at with to be inserted
+                int binarySearchIndex = this.TupleBinarySearch(this.titlesWords, s);
+                //insert at given index
+                this.titlesWords.Insert(binarySearchIndex, new Tuple<string, int>(s, index));
+
+            }
+
+
+        }
+
+        private void addToArtistWordLists(Music m, int index)
+        {
+            //define characters to split the string
+            char[] spliters = new char[3];
+            spliters[0] = ' ';
+            spliters[1] = '_';
+            spliters[2] = '-';
+
+            //for every word in the artists name insert it on right position in artistWord
+            foreach (string s in m.getArtist().Split(spliters))
+            {
+                //get index at with to be inserted
+                int binarySearchIndex = this.TupleBinarySearch(this.artistsWords, s);
+                //insert at given index
+                this.artistsWords.Insert(binarySearchIndex, new Tuple<string, int>(s, index));
+            }
+        }
+        private void addToBPMList(Music m, int index)
+        {
+
+            List<int> BPMpos = getBPMpos(m.getBpm(), 0);
+            this.BPM.Insert(BPMpos[0], new Tuple<int, int>(m.getBpm(), index));
+
+        }
         public void generateTestPlaylist()
         {
             // adding 20 0r 19 test music data
             Music test = new Music();
-            test.generateTestData("D:\\Nedladdningar\\wayback.mp3", "(12)_Black_Jack_-_Du_Vet", ".mp3", 100, "Black Jack", "Black Jack - Du Vet");
+            test.generateTestData("D:\\Nedladdningar\\", "wayback", ".mp3", 100, "Black Jack", "Black Jack - Du Vet");
             music.Add(test);
 
             test = new Music();
-            string path = "D:\\Nedladdningar\\Vicetone%20-%20Way%20Back(feat.Cozi%20Zuehlsdorff)";
+            string path = "D:\\Nedladdningar\\";
             
-            test.generateTestData(path, "[16] Alla Tiders", ".mp3", 101, "Lasse", "Alla Tiders");
+            test.generateTestData(path, "Vicetone - Way Back(feat.Cozi Zuehlsdorff)", ".mp3", 101, "Lasse", "Alla Tiders");
             music.Add(test);
 
             test = new Music();
-            test.generateTestData("D:\\Nedladdningar\\Gustav_final.mp3", "01-Laleh-Elephant", ".mp3", 100, "Laleh", "Elephant");
+            test.generateTestData("D:\\Nedladdningar\\", "Gustav_final", ".mp3", 100, "Laleh", "Elephant");
             music.Add(test);
 
             test = new Music();
-            test.generateTestData("D:\\Nedladdningar\\Gustav2.mp3", "01-Laleh-På-Gatan-Där-Jag-Bor", ".mp3", 0, "Laleh", "我爱你");
+            test.generateTestData("D:\\Nedladdningar\\", "Gustav2", ".mp3", 0, "Laleh", "我爱你");
             music.Add(test);
 
             test = new Music();

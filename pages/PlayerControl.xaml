@@ -13,11 +13,11 @@
             <ColumnDefinition Width="118*"/>
             <ColumnDefinition Width="91*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="ArtistLabel" Content="Vicetone" Margin="100.048,35.5,0,38.638" VerticalAlignment="Center" FontWeight="Normal" Height="25.862" HorizontalAlignment="Left" Width="266.952" Opacity="0.8" ToolTip="Artist" Grid.ColumnSpan="2"/>
-        <Label x:Name="BpmLabel" Content="132" HorizontalAlignment="Left" Margin="100.048,0,0,10" VerticalAlignment="Bottom" Width="95.1" FontSize="20" Height="35.138" ToolTip="Beats Per Minute"/>
+        <Label x:Name="ArtistLabel" Content="" Margin="100,36,0,39" VerticalAlignment="Center" FontWeight="Normal" Height="25" HorizontalAlignment="Left" Width="123" Opacity="0.8" ToolTip="Artist"/>
+        <Label x:Name="BpmLabel" Content="" HorizontalAlignment="Left" Margin="100.048,0,0,10" VerticalAlignment="Bottom" Width="95.1" FontSize="20" Height="35.138" ToolTip="Beats Per Minute"/>
         <ScrollViewer x:Name="TitleScrollView" Margin="104.736,10,0,54.55" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Width="118" ToolTip="Title">
-            <TextBlock x:Name="TitleLabel" FontWeight="Bold" FontSize="18" Foreground="White" Padding="0">
-        Way Back (feat. Cozi Zuehlsdorff)
+            <TextBlock x:Name="TitleLabel" Text="" FontWeight="Bold" FontSize="18" Foreground="White" Padding="0">
+
             </TextBlock>
         </ScrollViewer>
         <!--<TextBlock x:Name="TitleLabel" Content="Way Back" HorizontalAlignment="Left" Margin="100.048,9.577,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="122.608" FontSize="18" Height="34"/>-->
