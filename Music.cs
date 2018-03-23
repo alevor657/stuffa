@@ -126,7 +126,7 @@ namespace Stuffa
                 this.artist = "unknown";
                 this.title = "unknown";
                 this.BPM = -1;
-                Console.WriteLine("/!\\ unable to find ID3 tag for Music object\ncatch reached in function getData() in Music.cs");
+                Console.WriteLine("/!\\ unable to find ID3 tag for Music with filename " + getName() + getFiletype() + "\ncatch reached in function getData() in Music.cs");
             }
 
         }
@@ -172,25 +172,37 @@ namespace Stuffa
 
         }
 
+        //chanded
         public bool setBPM(string n)
         {
             bool ret = true;
-
-
-            try
+            int res;
+            if (int.TryParse(n, out res))
             {
 
-                IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
-                fileInfo.BPM = n;
-                fileInfo.Save(getFullPath());
-                this.BPM = Int32.Parse(n);
-                
+                try
+                {
+
+                    IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
+                    fileInfo.BPM = n;
+                    fileInfo.Save(getFullPath());
+                    this.BPM = res;
+
+                }
+                catch
+                {
+                    Console.WriteLine("did not save BPM to ID3 tag\n" + getFullPath() + "\n* if file is open, close it and try again\n* check that you enterd an integer");
+                    ret = false;
+                }
+
             }
-            catch
+            else
             {
-                Console.WriteLine("did not save BPM to ID3 tag\n" + getFullPath() + "\n* if file is open, close it and try again\n* check that you enterd an integer");
+                Console.WriteLine("please insert a Integer");
                 ret = false;
             }
+
+            
             return ret;
 
 
