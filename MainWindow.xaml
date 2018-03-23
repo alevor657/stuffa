@@ -29,11 +29,11 @@
 
     <Grid x:Name="grid1">
 
-        <Grid HorizontalAlignment="Stretch"  VerticalAlignment="top" Background="Transparent" MinWidth="800" MinHeight="600" Height="600">
+        <Grid HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Background="Transparent" MinWidth="800" MinHeight="600" >
 
 
             <Grid.RowDefinitions>
-                <RowDefinition MinHeight="30"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
 
                 <RowDefinition MinHeight="570"></RowDefinition>
 
