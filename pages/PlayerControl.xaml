@@ -7,21 +7,24 @@
       mc:Ignorable="d"
       Title="PlayerControl" MinHeight="100" MinWidth="900">
 
-    <Grid Background="#FF1F1F1F" Height="100" MinHeight="100">
+    <Grid Grid.Column="0" Background="#FF1F1F1F" Height="100" MinHeight="100">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="91*"/>
+            <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="118*"/>
+            <ColumnDefinition Width="20"/>
+
             <ColumnDefinition Width="91*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="ArtistLabel" Content="" Margin="100,36,0,39" VerticalAlignment="Center" FontWeight="Normal" Height="25" HorizontalAlignment="Left" Width="123" Opacity="0.8" ToolTip="Artist"/>
+        <Label x:Name="ArtistLabel" Content="" Margin="100,36,0,39" VerticalAlignment="Center" FontWeight="Normal" Height="25" HorizontalAlignment="Left" MinWidth="123" Opacity="0.8" ToolTip="Artist"/>
         <Label x:Name="BpmLabel" Content="" HorizontalAlignment="Left" Margin="100.048,0,0,10" VerticalAlignment="Bottom" Width="95.1" FontSize="20" Height="35.138" ToolTip="Beats Per Minute"/>
-        <ScrollViewer x:Name="TitleScrollView" Margin="104.736,10,0,54.55" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Width="118" ToolTip="Title">
+        <ScrollViewer x:Name="TitleScrollView" Margin="104.736,10,0,54.55" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" MinWidth="118" ToolTip="Title">
             <TextBlock x:Name="TitleLabel" Text="" FontWeight="Bold" FontSize="18" Foreground="White" Padding="0">
 
             </TextBlock>
         </ScrollViewer>
         <!--<TextBlock x:Name="TitleLabel" Content="Way Back" HorizontalAlignment="Left" Margin="100.048,9.577,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="122.608" FontSize="18" Height="34"/>-->
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="2">
             <Slider x:Name="trackSlider" Margin="10,0,10,12.673" RenderTransformOrigin="0.5,0.5" Height="20.917" VerticalAlignment="Bottom" MinHeight="20" ValueChanged="trackSlider_ValueChanged" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Maximum="204" MouseDown="trackSlider_MouseDown"/>
             <Grid Height="54.749" Margin="0,10,0,0" Width="220" VerticalAlignment="Top" HorizontalAlignment="Center">
 
@@ -151,7 +154,7 @@
         </Grid>
         <MediaElement x:Name="Player" HorizontalAlignment="Left" Height="80" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" ScrubbingEnabled="True" MediaOpened="Player_MediaOpened" Volume="0.7" LoadedBehavior="Manual"/>
         <Image x:Name="AlbumArt" Margin="10,10,183,10" Source="WayBackVicetone.jpg" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Slider x:Name="VolumeSlider" Grid.Column="2" HorizontalAlignment="Left" Margin="86,35.45,0,0" VerticalAlignment="Top" Width="100" ValueChanged="VolumeSlider_ValueChanged" Maximum="1" Value="0.7" Opacity="0.8" LargeChange="0.1" SmallChange="0.01" TickFrequency="0.01"/>
-        <Image x:Name="VolumeButton" Grid.Column="2" Height="18" Margin="63,36,192,46" Width="18" Source="volume-high.png" Opacity="0.795" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" HorizontalAlignment="Left"/>
+        <Slider x:Name="VolumeSlider" Grid.Column="4" HorizontalAlignment="Left" Margin="86,35.45,0,0" VerticalAlignment="Top" Width="100" ValueChanged="VolumeSlider_ValueChanged" Maximum="1" Value="0.7" Opacity="0.8" LargeChange="0.1" SmallChange="0.01" TickFrequency="0.01"/>
+        <Image x:Name="VolumeButton" Grid.Column="4" Height="18" Margin="63,36,192,46" Width="18" Source="volume-high.png" Opacity="0.795" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" HorizontalAlignment="Left"/>
     </Grid>
 </Page>
