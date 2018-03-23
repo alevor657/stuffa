@@ -22,7 +22,7 @@ namespace Stuffa
         public string Artist { get; set; }
         public string Title { get; set; }
 
-        public Music(string Path = "unknown", string name = "unknown", int Bpm = -1, string Artist = "unknown", string Title = "unknown")
+        public Music(string Path = "unknown", string name = "unknown", int Bpm = -2, string Artist = "unknown", string Title = "unknown")
         {
             this.Bpm = Bpm;
             
@@ -128,10 +128,12 @@ namespace Stuffa
             }
             catch
             {
+
                 this.Artist = "unknown";
                 this.Title = "unknown";
                 this.Bpm = -1;
-                Console.WriteLine("/!\\ unable to find ID3 tag for Music object\ncatch reached in function getData() in Music.cs");
+                Console.WriteLine("/!\\ unable to find ID3 tag for Music with filename " + getName() + getFiletype() + "\ncatch reached in function getData() in Music.cs");
+
             }
 
         }
@@ -177,25 +179,40 @@ namespace Stuffa
 
         }
 
-        public bool setBpm(string n)
+
+        public bool setBPM(string n)
+
         {
             bool ret = true;
-
-
-            try
+            int res;
+            if (int.TryParse(n, out res))
             {
 
-                IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
-                fileInfo.BPM = n;
-                fileInfo.Save(getFullPath());
-                this.Bpm = Int32.Parse(n);
-                
+                try
+                {
+
+                    IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
+                    fileInfo.BPM = n;
+                    fileInfo.Save(getFullPath());
+                    this.Bpm = res;
+
+                }
+                catch
+                {
+                    Console.WriteLine("did not save BPM to ID3 tag\n" + getFullPath() + "\n* if file is open, close it and try again\n* check that you enterd an integer");
+                    ret = false;
+                }
+
+
             }
-            catch
+            else
             {
-                Console.WriteLine("did not save Bpm to ID3 tag\n" + getFullPath() + "\n* if file is open, close it and try again\n* check that you enterd an integer");
+                Console.WriteLine("did not save Bpm to ID3 tag\n" + getFullPath());
+                Console.WriteLine("please insert a Integer");
                 ret = false;
             }
+
+            
             return ret;
 
 
