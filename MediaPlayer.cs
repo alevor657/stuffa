@@ -50,6 +50,21 @@ namespace Stuffa
             music.Add(Directory.GetCurrentDirectory().Substring(0, 16) + "\\Musik\\Young_And_Old_Know_Love.mp3");
             playlists[2].loadNewMusic(music, false);
 
+
+            //end Test
+
+
+            string[] fileTypes = new string[1];
+            fileTypes[0] = ".txt";
+
+            List<string> playListNames = ProcessDirectory(Directory.GetCurrentDirectory().Substring(0, 16) + "\\playlists", fileTypes);
+
+            foreach(string name in playListNames)
+            {
+                playlists.Add(new Playlist(name));
+
+            }
+
         }
 
         public void SetCurrentPlaylist(int pos)
@@ -78,6 +93,13 @@ namespace Stuffa
         public bool RemoveMusic(int index)
         {
             return this.playlists[this.currentPlaylist].RemoveMusic(index);
+        }
+
+        public bool addNewPlaylist(string name)
+        {
+            this.playlists.Add(new Playlist(Directory.GetCurrentDirectory().Substring(0, 16) + "\\playlists\\" + name + ".txt"));
+
+            return true;
         }
 
         public string GetCurrentPlaylistName()
@@ -121,9 +143,58 @@ namespace Stuffa
             //    temp[increment] = i.ToString();
             //    increment++;
             //}
+
+            //TODO function
+            if(playlists[currentPlaylist].getAllMusic().Count <= 0)
+            {
+                //loads music from memory
+                playlists[currentPlaylist].loadMusic();
+            }
+
             return playlists[currentPlaylist].getAllMusic();
         }
 
+        public bool DeletePlaylist(int index)
+        {
+            File.Delete(playlists[index].getFullPath());
+            this.playlists.RemoveAt(index);
+            return true;
+        }
+
+        //get the path to all files that is of type "fileTypes" in the directory "TargetDirectory"
+        public static List<String> ProcessDirectory(string targetDirectory, string[] fileTypes)
+        {
+            List<string> files = new List<string>();
+            // Process the list of files found in the directory.
+            try
+            {
+                //get all files in directory
+                string[] fileEntries = Directory.GetFiles(targetDirectory);
+
+                //for each file in directory
+                foreach (string fileName in fileEntries)
+                {
+                    //check if file ends with the specified "fileTypes"
+                    for (int i = 0; i < fileTypes.Length; i++)
+                    {
+                        if (fileName.EndsWith(fileTypes[i]))
+                        {
+                            //add file to list
+                            files.Add(fileName);
+
+                        }
+                    }
+                }
+
+                /*
+                // Recurse into subdirectories of this directory.
+                string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
+                foreach (string subdirectory in subdirectoryEntries)
+                    ProcessDirectoryMusic(subdirectory, list);*/
+            }
+            catch { }
+            return files;
+        }
 
     }
 }

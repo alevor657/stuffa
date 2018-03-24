@@ -99,5 +99,20 @@ namespace WpfApp2.pages
 
         }
 
+        internal void removePlaylist(int index)
+        {
+            mp.DeletePlaylist(index);
+            pv.updatePlaylists(GetPlaylists());
+        }
+
+        internal void newPlaylist(string name)
+        {
+            if(mp.addNewPlaylist(name))
+            {
+                pv.updatePlaylists(GetPlaylists());
+            }
+
+        }
+
     }
 }

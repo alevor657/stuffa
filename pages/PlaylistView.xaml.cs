@@ -24,19 +24,18 @@ namespace WpfApp2.pages
     public partial class PlaylistView : Page
     {
         Container container;
-        List<string> pl;
 
         public PlaylistView(Container c)
         {
             InitializeComponent();
             container = c;
 
-            pl = new List<string>(container.GetPlaylists());
 
-            PlaylistList.ItemsSource = pl;
+
+            PlaylistList.ItemsSource = new List<string>(container.GetPlaylists());
 
             //pl = new List<Playlist>();
-            
+
             //pl.Add(new Playlist("Best Songs", 0));
             //pl.Add(new Playlist("Not my Best Songs", 1));
 
@@ -52,7 +51,12 @@ namespace WpfApp2.pages
             //PlaylistList.Items.Add("Not my Best Songs");
         }
 
+        public void updatePlaylists(List<string> pl)
+        {
+            PlaylistList.ItemsSource = null;
+            PlaylistList.ItemsSource = pl;
 
+        }
 
         public void AddPlaylist_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
         {
@@ -65,9 +69,8 @@ namespace WpfApp2.pages
 
             if (!string.IsNullOrWhiteSpace(PlaylistName.Text))
             {
-                
-                PlaylistList.Items.Add(PlaylistName.Text.Trim());
-                //pl.Add(new Playlist(PlaylistName.Text.Trim(), 0));
+
+                container.newPlaylist(PlaylistName.Text.Trim());
                 container.snackBarActivate(PlaylistName.Text.Trim() + " created!");
             }
         }
@@ -79,6 +82,11 @@ namespace WpfApp2.pages
                 container.showSelectedPlaylist();
                 //ev.loadPlaylist(pl[PlaylistList.SelectedIndex].getAllMusic());
             }
+        }
+
+        private void removePlaylistOnIndex(object sender, RoutedEventArgs e)
+        {
+            container.removePlaylist(this.PlaylistList.SelectedIndex);
         }
     }
 }
