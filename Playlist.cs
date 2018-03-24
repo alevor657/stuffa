@@ -900,9 +900,12 @@ namespace WpfApp2
         //move music from index to new index
         public void MoveMusic(int index, int newIndex)
         {
-            Music toMv = music[index];
-            RemoveMusic(toMv);
-            music.Insert(newIndex, toMv);
+            if (index >= 0 && index < music.Count && newIndex >= 0 && newIndex < music.Count-1)
+            { 
+                Music toMv = music[index];
+                RemoveMusic(index);
+                music.Insert(newIndex, toMv);
+            }
         }
 
         public bool RemoveMusic(int index)
