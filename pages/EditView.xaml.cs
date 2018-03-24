@@ -24,7 +24,7 @@ namespace WpfApp2.pages
 
         Container container;
 
-        public List<Music> currentMusic;
+        //public List<Music> currentMusic;
         public EditView(Container container)
         {
             this.container = container;
@@ -41,7 +41,10 @@ namespace WpfApp2.pages
         }
         public void LoadPlaylist(List<Music> playlistSongs)
         {
+            currentPlaylist.ItemsSource = null; ;
+
             currentPlaylist.ItemsSource = playlistSongs;
+
             //currentPlaylist.ItemsSource = musicInPlaylist;
         }
 

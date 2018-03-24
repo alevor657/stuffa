@@ -87,7 +87,9 @@ namespace WpfApp2.pages
 
         internal void LoadNewMusic(List<string> paths)
         {
+
             mp.LoadNewMusic(paths, false);
+            this.GetSelectedPlaylist();            
         }
 
     }
