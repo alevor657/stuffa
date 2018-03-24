@@ -25,7 +25,7 @@
         </ScrollViewer>
         <!--<TextBlock x:Name="TitleLabel" Content="Way Back" HorizontalAlignment="Left" Margin="100.048,9.577,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="122.608" FontSize="18" Height="34"/>-->
         <Grid Grid.Column="2">
-            <Slider x:Name="trackSlider" Margin="10,0,10,12.673" RenderTransformOrigin="0.5,0.5" Height="20.917" VerticalAlignment="Bottom" MinHeight="20" ValueChanged="trackSlider_ValueChanged" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Maximum="204" MouseDown="trackSlider_MouseDown"/>
+            <Slider x:Name="trackSlider" Margin="10,0,10,12.673" Value="0" Thumb.DragDelta="Draging"  DataContext=""  RenderTransformOrigin="0.5,0.5" Height="20.917" VerticalAlignment="Bottom" MinHeight="20" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Maximum="204" />
             <Grid Height="54.749" Margin="0,10,0,0" Width="220" VerticalAlignment="Top" HorizontalAlignment="Center">
 
                 <Image x:Name="playButton" Source="../img/play-white.png" MouseUp="playButtonUp" UseLayoutRounding="True" Margin="67,0,63.334,-0.251" Opacity="0.75">

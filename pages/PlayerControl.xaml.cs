@@ -98,11 +98,7 @@ namespace WpfApp2.pages
 
 
         }
-        private void trackSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        { 
-            Player.Position = TimeSpan.FromSeconds(trackSlider.Value);
-            slideTimer.Start();
-        }
+
         private void playButtonUp(object sender, MouseButtonEventArgs e)
         {
 
@@ -145,10 +141,6 @@ namespace WpfApp2.pages
 
         }
 
-        private void trackSlider_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            slideTimer.Stop();
-        }
 
         private void loadSong(object sender, MouseButtonEventArgs e)
         {
@@ -210,6 +202,16 @@ namespace WpfApp2.pages
             isPlaying = true;
             Player.Play();
             songTimer.Start();
+        }
+
+
+
+        //update Player with the new position
+        private void Draging(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            
+            trackSlider.Value += e.VerticalChange;
+            Player.Position = TimeSpan.FromSeconds(trackSlider.Value);
         }
     }
 }
