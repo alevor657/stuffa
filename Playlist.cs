@@ -999,6 +999,7 @@ namespace WpfApp2
                 Music toMv = music[index];
                 RemoveMusic(index);
                 music.Insert(newIndex, toMv);
+                savePlaylist();
             }
         }
 
@@ -1010,6 +1011,8 @@ namespace WpfApp2
                 music.RemoveAt(index);
                 emptyLists();
                 ret = true;
+                savePlaylist();
+
             }
             return ret;
         }

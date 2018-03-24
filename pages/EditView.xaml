@@ -18,7 +18,13 @@
         </Grid.ColumnDefinitions>
 
         <ListBox x:Name="currentPlaylist" Drop="DragDrop" HorizontalContentAlignment="Stretch" AllowDrop="True" Margin="10,107,5,0" FontSize="16" SelectionChanged="currentPlaylist_SelectionChanged">
-            <ListBox.ItemTemplate>
+            <ListBox.ContextMenu>
+                <ContextMenu >
+                    <MenuItem Header="Remove" Click="removeSongOnIndex" />
+
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            <ListBox.ItemTemplate>  
                 <DataTemplate>
                     <Grid Margin="0,2">
                         <Grid.ColumnDefinitions>

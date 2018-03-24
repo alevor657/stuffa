@@ -76,7 +76,7 @@ namespace WpfApp2.pages
         {
             if (PlaylistList.SelectedIndex != -1)
             {
-                container.GetSelectedPlaylist();
+                container.showSelectedPlaylist();
                 //ev.loadPlaylist(pl[PlaylistList.SelectedIndex].getAllMusic());
             }
         }

@@ -75,6 +75,11 @@ namespace Stuffa
             return this.playlists[this.currentPlaylist].loadNewMusic(paths, addAll);
         }
 
+        public bool RemoveMusic(int index)
+        {
+            return this.playlists[this.currentPlaylist].RemoveMusic(index);
+        }
+
         public string GetCurrentPlaylistName()
         {
             return this.playlists[this.currentPlaylist].ToString();

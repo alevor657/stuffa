@@ -89,6 +89,13 @@ namespace WpfApp2.pages
             }
             catch { }
         }
+
+
+        private void removeSongOnIndex(object sender, RoutedEventArgs e)
+        {
+            container.removeMusic(currentPlaylist.SelectedIndex);
+
+        }
     }
 }
 

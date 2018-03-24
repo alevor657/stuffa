@@ -62,7 +62,7 @@ namespace WpfApp2.pages
             }
         }
 
-        internal void GetSelectedPlaylist()
+        internal void showSelectedPlaylist()
         {
             if (pv != null)
             {
@@ -87,9 +87,16 @@ namespace WpfApp2.pages
 
         internal void LoadNewMusic(List<string> paths)
         {
-
+            //load new music into current playlist
             mp.LoadNewMusic(paths, false);
-            this.GetSelectedPlaylist();            
+            this.showSelectedPlaylist();            
+        }
+
+        internal void removeMusic(int index)
+        {
+            mp.RemoveMusic(index);
+            this.showSelectedPlaylist();
+
         }
 
     }
