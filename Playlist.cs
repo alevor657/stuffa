@@ -330,6 +330,88 @@ namespace WpfApp2
             return ret;
         }
 
+        public List<Music> searchArtistBpmTitle(String search)
+        {
+            //if the artists or titles are empty
+            if (this.artistsWords.Count == 0)
+            {
+                //fill artists witch artists
+                loadArtists();
+            }
+            if (this.titlesWords.Count == 0)
+            {
+                //fill the title list
+                loadTitles();
+            }
+            
+            
+
+            //define return value
+            List<Music> ret = new List<Music>();
+
+            List<Tuple<int, int>> indexes = similarSentence(artistsWords, search);
+            indexes.AddRange(similarSentence(titlesWords, search));
+            //get a combined score
+            indexes = groupByFirstTupleAndAddSecond(indexes);
+
+            int searchBpm = getInt(search);
+            if(searchBpm != -1)
+            {
+                if(this.BPM.Count == 0)
+                {
+                    //fill the bpm list
+                    loadBPM();
+                }
+                //if there is songs that have been found previusly
+                if (indexes.Count > 0)
+                {
+                    //check if there is any with the bpm or title artist with number
+                    for (int i = 0; i < indexes.Count; i++)
+                    {
+                        //if it does not contain the number
+                        if (!(this.music[indexes[i].Item1].getBpm() == searchBpm || this.music[indexes[i].Item1].getArtist().Contains(searchBpm.ToString()) || this.music[indexes[i].Item1].getTitle().Contains(searchBpm.ToString())))
+                        {
+                            indexes.RemoveAt(i);
+                        }
+                    }
+                }
+                else
+                {
+                    ret = searchBPM(searchBpm, 0);
+                    return ret;
+                }
+            }
+
+            //for every index
+            foreach (Tuple<int, int> i in indexes)
+            {
+                Console.WriteLine("search res: " + music[i.Item1].getArtist() + " : " + i.Item2);
+                // ... add the music on index
+                ret.Add(music[i.Item1]);
+            }
+            return ret;
+        }
+
+        private int getInt(string str)
+        {
+            char[] splitOn = new char[3];
+            splitOn[0] = ' ';
+            splitOn[1] = '-';
+            splitOn[2] = '_';
+
+            int ret = -1;
+            string[] splitStr = str.Split(splitOn);
+
+            foreach (string s in splitStr)
+            {
+                int.TryParse(s, out ret);
+
+            }
+            //int.TryParse(splitStr[])
+
+            return ret;
+        }
+
         //returns a list of indexes witch corresponds to music where some part or the hole search string is defined
         //this function orders the indexes based on the amount matched in the container
         private List<Tuple<int, int>> similarSentence(List<Tuple<string, int>> container, string search)
