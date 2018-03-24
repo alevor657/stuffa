@@ -70,6 +70,12 @@ namespace WpfApp2
             }
         }
 
+        //sort full names
+        private void sortFullPath()
+        {
+            this.fullTitle = this.fullTitle.OrderBy(e => e.Item1).ToList();
+        }
+
         //sort all BPM in BPM list
         private void sortBPM()
         {
@@ -872,6 +878,25 @@ namespace WpfApp2
 
         }
 
+        private void loadFullTitle()
+        {
+            this.fullTitle.Clear();
+
+            int index = 0;
+
+            foreach (Music i in music)
+            {
+                string title = i.getTitle();
+
+                this.fullTitle.Add(Tuple.Create<string, int>(title, index));
+
+                index++;
+
+
+            }
+            sortFullPath();
+        }
+
         //move music from index to new index
         public void MoveMusic(int index, int newIndex)
         {
@@ -880,38 +905,81 @@ namespace WpfApp2
             music.Insert(newIndex, toMv);
         }
 
+        public bool RemoveMusic(int index)
+        {
+            bool ret = false;
+            if (index >= 0 && index < music.Count())
+            {
+                music.RemoveAt(index);
+                emptyLists();
+                ret = true;
+            }
+            return ret;
+        }
+
+
         //kan ta bort fel låt om samma låt finns på flera ställe kanske
         public bool RemoveMusic(Music remove)
         {
-             List < Tuple<int, int> > indexes = similarSentence(titlesWords, remove.getTitle());
-
-            bool ret = false;
-            
-            for(int i = 0; i < indexes.Count && !ret; i++)
+            bool removed = false;
+            if (this.fullTitle.Count == 0)
             {
-                if(music[indexes[i].Item1] == remove)
-                {
-                    music.RemoveAt(indexes[i].Item1);
-                    ret = true;
-                }
+                loadFullTitle();
             }
+            int rmv = TupleBinarySearch(this.fullTitle, remove.getTitle());
 
-            
-            if (!ret)
+            //see if the position given by the search is the one
+            //see if there is any lower with the same title
+            //look that the value is not removed first beacuse it will dealete all lists
+            for (int i = rmv; !removed && i >= 0; i--)
             {
-                int i = 0;
-                foreach (Music m in music)
+                //if the title in the list "fullTitle" is the same as the one being removed
+                if (fullTitle[i].Item1 == remove.getTitle())
                 {
-                    
-                    if (m == remove)
+                    //if the path is the same
+                    if (music[fullTitle[i].Item2].getFullPath() == remove.getFullPath())
                     {
-                        music.RemoveAt(i);
-                        ret = true;
+    
+                        removed = RemoveMusic(fullTitle[i].Item2);
+
+
                     }
-                    i++;
+                }
+                else
+                {
+                    i = -1;
                 }
             }
-            return ret;
+            //see if there is any higher with the same title
+            for (int i = rmv; !removed && i < this.fullTitle.Count; i++)
+            {
+                //if the title in the list "fullTitle" is the same as the one being removed
+                if (fullTitle[i].Item1 == remove.getTitle())
+                {
+                    //if the artist is allso the same
+                    if (music[fullTitle[i].Item2].getArtist() == remove.getArtist())
+                    {
+                        music.RemoveAt(fullTitle[i].Item2);
+                        //remove previus search data. The indexes have now changed
+                        emptyLists();
+                        removed = true;
+                    }
+                }
+                else
+                {
+                    i = this.fullTitle.Count;
+                }
+            }
+            return removed;
+        }
+
+        //if the sorted list does not match up with the playlist reset them
+        private void emptyLists()
+        {
+            this.BPM = new List<Tuple<int, int>>();
+            this.titlesWords = new List<Tuple<string, int>>();
+            this.artistsWords = new List<Tuple<string, int>>();
+            this.fullTitle = new List<Tuple<string, int>>();
         }
 
         private void loadArtists()
@@ -1043,7 +1111,7 @@ namespace WpfApp2
             music.Add(test);
 
             test = new Music();
-            test.generateTestData("C:\\music\\", "01 Somethings Got A Hold On Me", ".mp3", 109, "Brittney", "Something got a hold on me");
+            test.generateTestData("C:\\music\\", "01 Somethings Got A Hold On Me", ".mp3", 109, "Brittney", "Something got a hold on me, maybe a wery long Title but I dont know, do YOU");
             music.Add(test);
 
             test = new Music();

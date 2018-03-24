@@ -289,7 +289,17 @@ namespace Stuffa
             this.name = name;
             this.filetype = filetype;
             this.Bpm = Bpm;
+
+            if(Artist == "")
+            {
+                Artist = "unknown";
+            }
             this.Artist = Artist;
+
+            if(titel == "")
+            {
+                titel = name;
+            }
             this.Title = titel;
         }
 
