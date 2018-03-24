@@ -841,12 +841,25 @@ namespace WpfApp2
                 m.Add(new Music(path));
 
             }
-            if(addAll)
+            
+            return loadNewMusic(m, addAll);
+
+        }
+        public List<Music> loadNewMusic(List<Music> m, bool addAll = false)
+        {
+            // return value defined
+            List<Music> same = new List<Music>();
+
+
+            if (addAll)
             {
-                foreach(Music oneMusic in m)
+
+                foreach (Music oneMusic in m)
                 {
-                    music.Add(oneMusic);
+                    addMusic(oneMusic);
                 }
+
+
             }
             else
             {
@@ -855,9 +868,8 @@ namespace WpfApp2
             }
 
 
-
+            savePlaylist();
             return same;
-
         }
 
         // get music on given index

@@ -52,6 +52,40 @@ namespace WpfApp2.pages
                 container.PlaySelectedSong();
             }            
         }
+
+
+        private void DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                /*foreach(string s in e.Data.GetFormats())
+                {
+                    Console.WriteLine(s);
+                }
+                Console.WriteLine("------");*/
+
+                List<string> paths = ((string[])e.Data.GetData(DataFormats.FileDrop, false)).ToList<string>();
+
+                for (int i = 0; i < paths.Count; i++)
+                {
+                    if(!paths[i].EndsWith(".mp3") && !paths[i].EndsWith(".m4a"))
+                    {
+                        Console.WriteLine(paths[i] + " <--wrong filetype");
+
+                        paths.RemoveAt(i);
+                    }
+                    else
+                    {
+                        Console.WriteLine(paths[i]);
+
+                    }
+                }
+
+                container.LoadNewMusic(paths);
+                
+            }
+            catch { }
+        }
     }
 }
 

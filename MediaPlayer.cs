@@ -40,7 +40,7 @@ namespace Stuffa
             playlists = new List<Playlist>();
             playlists.Add(new Playlist("Jonas bugg", 1));
             playlists.Add(new Playlist("Anders fox", 1));
-            playlists.Add(new Playlist(Directory.GetCurrentDirectory().Substring(0, 16) + "\\Music\\TestPlaylist.txt"));
+            playlists.Add(new Playlist(Directory.GetCurrentDirectory().Substring(0, 16) + "\\playlists\\TestPlaylist.txt"));
 
             playlists[0].generateTestPlaylist();
             playlists.ElementAt(1).generateTestPlaylist();
@@ -68,6 +68,11 @@ namespace Stuffa
             //}
 
             return didAdd;
+        }
+
+        public List<Music> LoadNewMusic(List<string> paths, bool addAll = false)
+        {
+            return this.playlists[this.currentPlaylist].loadNewMusic(paths, addAll);
         }
 
         public string GetCurrentPlaylistName()

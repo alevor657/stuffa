@@ -85,5 +85,10 @@ namespace WpfApp2.pages
             Task.Factory.StartNew(() => messageQueue.Enqueue(message, "OKAY", () => { }));
         }
 
+        internal void LoadNewMusic(List<string> paths)
+        {
+            mp.LoadNewMusic(paths, false);
+        }
+
     }
 }
