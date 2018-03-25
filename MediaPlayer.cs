@@ -102,6 +102,10 @@ namespace Stuffa
 
         public List<Music> LoadNewMusic(List<string> paths, bool addAll = false)
         {
+            if(!this.masterPlaylist.getIfLoaded())
+            {
+                this.masterPlaylist.loadMusic();
+            }
             this.masterPlaylist.loadNewMusic(paths, false);
             return this.playlists[this.currentPlaylist].loadNewMusic(paths, addAll);
         }
