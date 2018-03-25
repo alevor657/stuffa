@@ -164,6 +164,17 @@ namespace Stuffa
             return this.masterPlaylist.searchArtistBpmTitle(searchTerm);
         }
 
+        public List<int> getAllBpm(int Bpm, int range = 1)
+        {
+            if (currentPlaylist == -1)
+            {
+                return masterPlaylist.searchBPMIndex(Bpm, range);
+            }
+            else
+            {
+                return this.playlists[currentPlaylist].searchBPMIndex(Bpm, range); ;
+            }
+        }
 
 
         // Call this function to populate the list showing all possible playlists.

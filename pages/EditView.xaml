@@ -17,7 +17,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ListBox x:Name="currentPlaylist" Drop="DragDrop" HorizontalContentAlignment="Stretch" AllowDrop="True" Margin="10,107,5,0" FontSize="16" SelectionChanged="currentPlaylist_SelectionChanged">
+        <ListBox x:Name="currentPlaylist" Drop="DragDrop" HorizontalContentAlignment="Stretch" AllowDrop="True" Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged">
             <ListBox.ContextMenu>
                 <ContextMenu >
                     <MenuItem Header="Remove" Click="removeSongOnIndex" />
@@ -33,9 +33,18 @@
                             <ColumnDefinition Width="10"/>
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Bpm}" />
-                        <TextBlock Grid.Column="1" Text="{Binding Title}" FontWeight="Bold"/>
-                        <TextBlock Grid.Column="3" Text="{Binding Artist}"/>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="4"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Item1.Bpm}" />
+                        <TextBlock Grid.Column="1" Text="{Binding Item1.Title}" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="3" Text="{Binding Item1.Artist}"/>
+                        <Rectangle Fill="#FF191919" Stroke="#FF191919"  Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" />
+                        <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1"  />
+                        <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2"  />
+                        <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="3"  />
+
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

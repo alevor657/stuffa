@@ -41,21 +41,38 @@ namespace WpfApp2.pages
         }
         public void LoadPlaylist(List<Music> playlistSongs)
         {
-            currentPlaylist.ItemsSource = null; ;
-
-            currentPlaylist.ItemsSource = playlistSongs;
-
+            List<Tuple<Music, Visibility>> list = new List<Tuple<Music, Visibility>>();
+            foreach (Music i in playlistSongs)
+            {
+                list.Add(new Tuple<Music, Visibility>(i, Visibility.Collapsed));
+            }
+            currentPlaylist.ItemsSource = null;
+            currentPlaylist.ItemsSource = list;
             //currentPlaylist.ItemsSource = musicInPlaylist;
         }
 
         public void LoadSearch(List<Music> playlistSongs)
         {
+
             searchRes.ItemsSource = null;
             searchRes.ItemsSource = playlistSongs;
 
         }
 
-        private void currentPlaylist_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void setMarked(List<Music> music, List<int> marked)
+        {
+            List<Tuple<Music, Visibility>> list = new List<Tuple<Music, Visibility>>();
+            
+            for(int i = 0; i < music.Count; i++)
+            {
+                list.Add(new Tuple<Music, Visibility>(music[i], marked.Contains(i) ? Visibility.Visible : Visibility.Collapsed));
+            }
+            this.currentPlaylist.ItemsSource = null;
+            this.currentPlaylist.ItemsSource = list;
+
+        }
+
+        private void CurrentPlaylist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (currentPlaylist.SelectedIndex != -1)
             {

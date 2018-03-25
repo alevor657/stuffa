@@ -282,6 +282,21 @@ namespace WpfApp2
             }
             return ret;
         }
+        //get a list of music given the BPM
+        public List<int> searchBPMIndex(int nr, int range = 0)
+        {
+            //if the BPM list is empty
+            if (BPM.Count == 0)
+            {
+                //fill the BPM list with all the music´s BPM
+                loadBPM();
+            }
+
+            //  defining return value
+            List<Music> ret = new List<Music>();
+            //get every index of music containing the BPM
+            return getBPMpos(nr, 0, BPM.Count - 1, range);
+        }
 
         //search a given artist
         public List<Music> searchArtist(String search)
