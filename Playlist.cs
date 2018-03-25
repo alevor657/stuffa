@@ -918,6 +918,11 @@ namespace WpfApp2
             }
         }
 
+        public bool getIfLoaded()
+        {
+            return this.music.Count > 0 ? true : false;
+        }
+
         public override string ToString()
         {
             return this.name;

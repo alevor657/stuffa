@@ -23,19 +23,26 @@ namespace Stuffa
 {
      public class MediaPlayer
 	 {
-	 	 public List<Playlist> playlists;
-		 public int currentPlaylist;
+        private Playlist masterPlaylist;
+	 	 private List<Playlist> playlists;
+		 private int currentPlaylist;
 
         private Container container;
         
 		 public MediaPlayer()
 		 {
 			playlists = new List<Playlist>();
+            masterPlaylist = new Playlist();
 		 }
 
         public MediaPlayer(Container container)
         {
+            string folder = Directory.GetCurrentDirectory().Substring(0, 16);
             this.container = container;
+
+            this.masterPlaylist = new Playlist(folder + "\\playlists\\All music.txt");
+
+            // start generate testplaylist
 
             playlists = new List<Playlist>();
             playlists.Add(new Playlist("Jonas bugg", 1));
@@ -48,7 +55,12 @@ namespace Stuffa
             List<string> music = new List<string>();
             music.Add(Directory.GetCurrentDirectory().Substring(0, 16) + "\\Musik\\Scraping_The_Sewer.mp3");
             music.Add(Directory.GetCurrentDirectory().Substring(0, 16) + "\\Musik\\Young_And_Old_Know_Love.mp3");
-            playlists[2].loadNewMusic(music, false);
+            //playlists[2].loadNewMusic(music, false);
+
+            int temp = currentPlaylist;
+            currentPlaylist = 2;
+            this.LoadNewMusic(music, false);
+            currentPlaylist = temp;
 
 
             //end Test
@@ -61,7 +73,10 @@ namespace Stuffa
 
             foreach(string name in playListNames)
             {
-                playlists.Add(new Playlist(name));
+                if (!name.EndsWith("\\All music.txt"))
+                {
+                    playlists.Add(new Playlist(name));
+                }
 
             }
 
@@ -69,7 +84,7 @@ namespace Stuffa
 
         public void SetCurrentPlaylist(int pos)
         {
-            this.currentPlaylist = pos;
+            this.currentPlaylist = pos - 1;
         }
 
         public bool AddPlaylist(string playlistName)
@@ -87,11 +102,16 @@ namespace Stuffa
 
         public List<Music> LoadNewMusic(List<string> paths, bool addAll = false)
         {
+            this.masterPlaylist.loadNewMusic(paths, false);
             return this.playlists[this.currentPlaylist].loadNewMusic(paths, addAll);
         }
 
         public bool RemoveMusic(int index)
         {
+            if (this.currentPlaylist == -1)
+            {
+                return false;// this.masterPlaylist.RemoveMusic(index);
+            }
             return this.playlists[this.currentPlaylist].RemoveMusic(index);
         }
 
@@ -104,15 +124,34 @@ namespace Stuffa
 
         public string GetCurrentPlaylistName()
         {
-            return this.playlists[this.currentPlaylist].ToString();
+            string name;
+            if (this.currentPlaylist == -1)
+            {
+                name = masterPlaylist.ToString();
+            }
+            else {
+                name = this.playlists[this.currentPlaylist].ToString();
+            }
+            return name;
         }
 
         internal string GetSongStr(int selectedIndex)
         {
+            
+            if( this.currentPlaylist == -1)
+            {
+                return this.masterPlaylist.getMusic(selectedIndex).getFullPath();
+            }
+
             return playlists[currentPlaylist].getMusic(selectedIndex).getFullPath();
         }
         internal Music GetSongObj(int selectedIndex)
         {
+            if (this.currentPlaylist == -1)
+            {
+                return this.masterPlaylist.getMusic(selectedIndex);
+            }
+
             return playlists[currentPlaylist].getMusic(selectedIndex);
         }
 
@@ -125,6 +164,8 @@ namespace Stuffa
         public List<string> GetPlaylistNames()
         {
             List<string> temp = new List<string>();
+            temp.Add(masterPlaylist.ToString());
+
             foreach (Playlist i in playlists)
             {
                 temp.Add(i.ToString());
@@ -143,9 +184,17 @@ namespace Stuffa
             //    temp[increment] = i.ToString();
             //    increment++;
             //}
+            if (this.currentPlaylist == -1)
+            {
+                if(!masterPlaylist.getIfLoaded())
+                {
+                    masterPlaylist.loadMusic();
+                }
+                return this.masterPlaylist.getAllMusic();
+            }
 
-            //TODO function
-            if(playlists[currentPlaylist].getAllMusic().Count <= 0)
+            
+            if (!playlists[currentPlaylist].getIfLoaded())
             {
                 //loads music from memory
                 playlists[currentPlaylist].loadMusic();
@@ -156,9 +205,15 @@ namespace Stuffa
 
         public bool DeletePlaylist(int index)
         {
-            File.Delete(playlists[index].getFullPath());
-            this.playlists.RemoveAt(index);
-            return true;
+            bool ret = false;
+            index--;
+            if (index >= 0 && index < playlists.Count)
+            {
+                File.Delete(playlists[index].getFullPath());
+                this.playlists.RemoveAt(index);
+                ret = true;
+            }
+            return ret;
         }
 
         //get the path to all files that is of type "fileTypes" in the directory "TargetDirectory"
