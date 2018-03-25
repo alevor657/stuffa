@@ -99,6 +99,13 @@ namespace WpfApp2.pages
 
         }
 
+        internal void searchAllMusic(string searchTerm)
+        {
+            ev.LoadSearch(mp.searchAllMusic(searchTerm));
+
+
+        }
+
         internal void removePlaylist(int index)
         {
             mp.DeletePlaylist(index);

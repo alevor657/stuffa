@@ -332,6 +332,11 @@ namespace WpfApp2
 
         public List<Music> searchArtistBpmTitle(String search)
         {
+            if(!getIfLoaded())
+            {
+                loadMusic();
+            }
+
             //if the artists or titles are empty
             if (this.artistsWords.Count == 0)
             {
@@ -400,11 +405,15 @@ namespace WpfApp2
             splitOn[2] = '_';
 
             int ret = -1;
+            int temp;
             string[] splitStr = str.Split(splitOn);
 
             foreach (string s in splitStr)
             {
-                int.TryParse(s, out ret);
+                if(int.TryParse(s, out temp))
+                {
+                    ret = temp;
+                }
 
             }
             //int.TryParse(splitStr[])

@@ -48,6 +48,13 @@ namespace WpfApp2.pages
             //currentPlaylist.ItemsSource = musicInPlaylist;
         }
 
+        public void LoadSearch(List<Music> playlistSongs)
+        {
+            searchRes.ItemsSource = null;
+            searchRes.ItemsSource = playlistSongs;
+
+        }
+
         private void currentPlaylist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (currentPlaylist.SelectedIndex != -1)
@@ -95,6 +102,12 @@ namespace WpfApp2.pages
         {
             container.removeMusic(currentPlaylist.SelectedIndex);
 
+        }
+
+        private void search(object sender, KeyEventArgs e)
+        {
+
+            container.searchAllMusic(SearchTermTextBox.Text);
         }
     }
 }

@@ -73,7 +73,7 @@ namespace Stuffa
 
                 //load Artist
                 this.Artist = fileInfo.Artist;
-                if (this.Artist == "")
+                if (this.Artist == "" || this.Artist == null)
                 {
                     this.Artist = "unknown";
                 }

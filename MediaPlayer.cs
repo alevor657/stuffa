@@ -155,10 +155,12 @@ namespace Stuffa
             return playlists[currentPlaylist].getMusic(selectedIndex);
         }
 
-        public static void LoadPlaylist(int playlistPos)
+        public List<Music> searchAllMusic(string searchTerm)
         {
-            
+            return this.masterPlaylist.searchArtistBpmTitle(searchTerm);
         }
+
+
 
         // Call this function to populate the list showing all possible playlists.
         public List<string> GetPlaylistNames()

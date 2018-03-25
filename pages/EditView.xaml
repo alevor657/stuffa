@@ -54,27 +54,25 @@
             -->
 
         </ListBox>
-        <ListBox Grid.Column="1" Margin="10,139,10,0" AllowDrop="True" SelectedIndex="1" HorizontalContentAlignment="Stretch">
+        <ListBox Grid.Column="1" x:Name="searchRes" Margin="10,139,10,0" AllowDrop="True" SelectedIndex="1" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="10"/>
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding BPM}"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Title}" />
-                        <TextBlock Grid.Column="2" Text="{Binding Artist}"/>
-
+                        <TextBlock Grid.Column="0" Text="{Binding Bpm}" />
+                        <TextBlock Grid.Column="1" Text="{Binding Title}" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="3" Text="{Binding Artist}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-            <ListBoxItem Content="Just Dance                                          Lady Gaga"/>
-            <ListBoxItem Content="Solo Dance&#x9;&#x9;&#x9;  Martin Jensen"/>
-            <ListBoxItem Content="Dance All Night Long&#x9;&#x9;  Stuffa Orchestra"/>
+
         </ListBox>
-        <TextBox  VerticalAlignment="Top" x:Name="SearchTermTextBox" Foreground="White" Margin="10,62.04,10,0" Grid.Column="1"/>
+        <TextBox  VerticalAlignment="Top" x:Name="SearchTermTextBox"  Foreground="White" Margin="10,62.04,10,0" Grid.Column="1" KeyUp="search"/>
         <TextBlock IsHitTestVisible="False" Text="Search" VerticalAlignment="Top" Margin="10.75,68.041,0,0" Foreground="DarkGray" Grid.Column="1" Width="40.263" Height="17.126" HorizontalAlignment="Left">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
