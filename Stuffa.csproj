@@ -85,6 +85,8 @@
     <Compile Include="pages\Container.xaml.cs">
       <DependentUpon>Container.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Server\Server.cs" />
+    <Compile Include="Server\ServerMessage.cs" />
     <Compile Include="System\Web\HttpUtility.cs" />
     <Compile Include="pages\PlayerControl.xaml.cs">
       <DependentUpon>PlayerControl.xaml</DependentUpon>
@@ -96,7 +98,6 @@
     <Compile Include="pages\PlaylistView.xaml.cs">
       <DependentUpon>PlaylistView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Server.cs" />
     <Compile Include="pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
