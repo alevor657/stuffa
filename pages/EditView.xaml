@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:WpfApp2"
       mc:Ignorable="d" 
       d:DesignHeight="424.5" d:DesignWidth="708"
-      Title="PlaylistView">
+      Title="PlaylistView" Background="#FF303030">
 
     <Grid>
         <!--<Border BorderBrush="#FF00FF46" BorderThickness="10" Margin="0,0,438,0"/>-->
