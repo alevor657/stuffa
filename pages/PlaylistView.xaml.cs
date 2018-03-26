@@ -88,5 +88,10 @@ namespace WpfApp2.pages
         {
             container.removePlaylist(this.PlaylistList.SelectedIndex);
         }
+
+        private void AddMusic(object sender, RoutedEventArgs e)
+        {
+            container.LoadNewMusic();
+        }
     }
 }

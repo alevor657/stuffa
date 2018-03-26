@@ -128,5 +128,37 @@ namespace WpfApp2.pages
 
         }
 
+        internal void LoadNewMusic()
+        {
+            try
+            {
+                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+                dlg.DefaultExt = ".mp3";
+                dlg.Filter = "MP3 Files (*.mp3)|*.mp3|M4A Files (*.m4a)|*.m4a|FLAC Files (*.flac)|*.flac";
+                dlg.Multiselect = true;
+
+                // Display OpenFileDialog by calling ShowDialog method 
+                Nullable<bool> result = dlg.ShowDialog();
+
+
+                // if there is any files 
+                if (result == true)
+                {
+
+                    // get file paths
+                    List<string> musicPaths = dlg.FileNames.ToList<string>();
+                    LoadNewMusic(musicPaths);
+                    
+
+                }
+
+            }
+            catch
+            {
+
+            }
+
+        }
     }
 }

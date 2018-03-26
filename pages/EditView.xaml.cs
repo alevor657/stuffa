@@ -126,6 +126,11 @@ namespace WpfApp2.pages
 
             container.searchAllMusic(SearchTermTextBox.Text);
         }
+
+        private void AddMusic(object sender, RoutedEventArgs e)
+        {
+            container.LoadNewMusic();
+        }
     }
 }
 
