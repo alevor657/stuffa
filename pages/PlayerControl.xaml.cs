@@ -194,7 +194,7 @@ namespace WpfApp2.pages
         {
             TitleLabel.Text = m.getTitle();
             ArtistLabel.Content = m.getArtist();
-            BpmLabel.Content = m.getBpm();
+            BpmLabel.Content = m.getBpm() + " BPM";
 
             Player.Source = new Uri(m.getFullPath());
             BitmapImage image = new BitmapImage(new Uri("../img/pause-white.png", UriKind.Relative));
