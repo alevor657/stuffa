@@ -71,6 +71,7 @@ namespace WpfApp2.pages
             {
 
                 container.newPlaylist(PlaylistName.Text.Trim());
+                PlaylistList.SelectedIndex = PlaylistList.Items.Count - 1;
                 container.snackBarActivate(PlaylistName.Text.Trim() + " created!");
             }
         }
@@ -86,7 +87,20 @@ namespace WpfApp2.pages
 
         private void removePlaylistOnIndex(object sender, RoutedEventArgs e)
         {
-            container.removePlaylist(this.PlaylistList.SelectedIndex);
+
+            if (PlaylistList.SelectedIndex >= 0)
+            {
+                int index = 0;
+                if (PlaylistList.SelectedIndex > 0)
+                {
+                    index = PlaylistList.SelectedIndex - 1;
+                }
+
+                container.removePlaylist(this.PlaylistList.SelectedIndex);
+
+                PlaylistList.SelectedIndex = index;
+                
+            }
         }
 
         private void AddMusic(object sender, RoutedEventArgs e)

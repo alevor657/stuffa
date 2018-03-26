@@ -155,8 +155,14 @@ namespace Stuffa
             {
                 return this.masterPlaylist.getMusic(selectedIndex);
             }
-
-            return playlists[currentPlaylist].getMusic(selectedIndex);
+            if(currentPlaylist >= 0 && currentPlaylist < playlists.Count)
+            {
+                return playlists[currentPlaylist].getMusic(selectedIndex);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public List<Music> searchAllMusic(string searchTerm)
