@@ -8,13 +8,7 @@ namespace WpfApp2.server
 {
     public class ServerMsg
     {
-
-        public string song { get; set; } = "";
-        public int BPM { get; set; } = 0;
-        public string noPort { get; } = "undf";
-        public string port { get; set; } = "undf";
-
-
-
+        public string Action { get; set; } = "";
+        public string Payload { get; set; } = "";
     }
 }

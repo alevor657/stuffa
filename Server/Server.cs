@@ -7,6 +7,7 @@ using Stuffa;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 using WpfApp2.server;
+using WpfApp2.pages;
 
 namespace SocketServer
 {
@@ -23,24 +24,15 @@ namespace SocketServer
             ServerMsg parseMsg = JsonConvert.DeserializeObject<ServerMsg>(msg.Data.ToString());
 
             Console.WriteLine(msg.Data.ToString());
-            Console.WriteLine("BPM: " + parseMsg.BPM.ToString());
-            Console.WriteLine("song: " + parseMsg.song);
-            Console.WriteLine("port: " + parseMsg.port);
 
-            if (parseMsg.port != port && parseMsg.port != parseMsg.noPort)
-            {
-                //check if message is from the same network
-                //if (parseMsg.port.StartsWith(GetIp()) || parseMsg.port.StartsWith("127.0.0.1")){
-                port = parseMsg.port;
-
-                //}
+            switch (parseMsg.Action) {
+                case "PLAY":
+                    //...
+                case "PAUSE":
+                    //...
+                default:
+                    return;
             }
-
-
-            //send information to controller class withs then informs server what to send back
-            sendMessage(parseMsg.song);
-
-
         }
 
         public static string GetIp()
@@ -68,11 +60,6 @@ namespace SocketServer
             Console.WriteLine("error");
         }
 
-        //send back or send just send a message to the mobile
-        public void sendMessage(string msg)
-        {
-            Send(msg);
-        }
         public void test()
         {
 
