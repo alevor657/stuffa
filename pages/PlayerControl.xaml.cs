@@ -133,11 +133,17 @@ namespace WpfApp2.pages
         {
            
             mediaFileIsOpen = true;
-            TimeSpan ts = Player.NaturalDuration.TimeSpan;
-            trackSlider.Maximum = ts.TotalSeconds;
-            var openDuration = Player.NaturalDuration.TimeSpan;
-            var theDuration = new TimeSpan(0, openDuration.Minutes, openDuration.Seconds);
-            SongDurationLabel.Content = theDuration.ToString().Substring(3);
+            if (Player.NaturalDuration.HasTimeSpan)
+            {
+                TimeSpan ts = Player.NaturalDuration.TimeSpan;
+                trackSlider.Maximum = ts.TotalSeconds;
+                var openDuration = Player.NaturalDuration.TimeSpan;
+                var theDuration = new TimeSpan(0, openDuration.Minutes, openDuration.Seconds);
+                SongDurationLabel.Content = theDuration.ToString().Substring(3);
+
+            }
+
+            
 
         }
 
