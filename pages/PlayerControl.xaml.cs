@@ -192,16 +192,20 @@ namespace WpfApp2.pages
 
         public void PlaySong(Music m)
         {
-            TitleLabel.Text = m.getTitle();
-            ArtistLabel.Content = m.getArtist();
-            BpmLabel.Content = m.getBpm() + " BPM";
+            if (m != null)
+            {
+                TitleLabel.Text = m.getTitle();
+                ArtistLabel.Content = m.getArtist();
+                BpmLabel.Content = m.getBpm() + " BPM";
 
-            Player.Source = new Uri(m.getFullPath());
-            BitmapImage image = new BitmapImage(new Uri("../img/pause-white.png", UriKind.Relative));
-            playButton.Source = image;
-            isPlaying = true;
-            Player.Play();
-            songTimer.Start();
+                Player.Source = new Uri(m.getFullPath());
+                BitmapImage image = new BitmapImage(new Uri("../img/pause-white.png", UriKind.Relative));
+                playButton.Source = image;
+                isPlaying = true;
+                Player.Play();
+                songTimer.Start();
+            }
+
         }
 
 

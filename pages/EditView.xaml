@@ -20,6 +20,7 @@
         <ListBox x:Name="currentPlaylist" Drop="DragDrop" HorizontalContentAlignment="Stretch" AllowDrop="True" Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged">
             <ListBox.ContextMenu>
                 <ContextMenu >
+                    <MenuItem Header="Add music" Click="AddMusic" />
                     <MenuItem Header="Remove" Click="removeSongOnIndex" />
 
                 </ContextMenu>

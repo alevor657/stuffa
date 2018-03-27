@@ -42,6 +42,7 @@
                 <ListBox x:Name="PlaylistList" Margin="10,10,10,52" SelectedIndex="2" FontSize="16" Opacity="0.8" VerticalContentAlignment="Top" BorderBrush="#00000000" SelectionChanged="PlaylistList_SelectionChanged">
                     <ListBox.ContextMenu>
                         <ContextMenu >
+                            <MenuItem Header="Add Music" Click="AddMusic" />
                             <MenuItem Header="Remove" Click="removePlaylistOnIndex" />
 
                         </ContextMenu>
