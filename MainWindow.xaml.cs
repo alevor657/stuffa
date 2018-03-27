@@ -20,7 +20,6 @@ using WpfApp2.pages;
 using Newtonsoft.Json;
 using Microsoft.VisualBasic;
 using System.Windows.Threading;
-using SocketServer;
 
 namespace Stuffa
 {
@@ -46,8 +45,6 @@ namespace Stuffa
             Thread.CurrentThread.Name = "parent";
             InitializeComponent();
             ContainerView.Content = new Container();
-
-            Server.Init();
         }
 
       

@@ -15,6 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Stuffa;
 using System.Collections;
+using SocketServer;
+
 
 namespace WpfApp2.pages
 {
@@ -29,6 +31,7 @@ namespace WpfApp2.pages
         EditView ev;
         Settings settings;
         PlaylistView pv;
+        Server s;
         Stuffa.MediaPlayer mp;
         public Container()
         {
@@ -38,6 +41,7 @@ namespace WpfApp2.pages
             InitializeComponent();
             ev = new EditView(this);
             pv = new PlaylistView(this);
+            s = new Server(this);
             playerControl.Content = pc;
             DynamicView.Content = ev;
             PlaylistView.Content = pv;

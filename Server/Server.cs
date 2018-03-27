@@ -68,15 +68,24 @@ namespace SocketServer
 
     public class Server
     {
-        public static void Init()
+        Container Cont;
+        WebSocketServer wssv;
+
+        public Server(Container c)
         {
-            var wssv = new WebSocketServer(1340);
+            Cont = c;
+            wssv = new WebSocketServer(1340);
             wssv.AddWebSocketService<Handler>("/remote");
             wssv.KeepClean = false;
             wssv.Start();
             Console.WriteLine($"Listening on {wssv.Address}:{wssv.Port}");
             foreach (var path in wssv.WebSocketServices.Paths)
                 Console.WriteLine("- {0}", path);
+        }
+
+        public void Stop()
+        {
+            wssv.Stop();
         }
     }
 }
