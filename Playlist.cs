@@ -639,6 +639,7 @@ namespace WpfApp2
                 this.filetype = fullPath.Substring(fileTypePos);
 
             }
+            loadMusic();
             savePlaylist();
         }
 
