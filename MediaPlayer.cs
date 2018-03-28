@@ -56,13 +56,17 @@ namespace Stuffa
             music.Add(Directory.GetCurrentDirectory().Substring(0, 16) + "\\Musik\\Scraping_The_Sewer.mp3");
             music.Add(Directory.GetCurrentDirectory().Substring(0, 16) + "\\Musik\\Young_And_Old_Know_Love.mp3");
             //playlists[2].loadNewMusic(music, false);
-
+            // Find solution to populating the list with indexes greater than the maximum number of songs.
+            for (int i=0; i < 5; i++)
+            {
+                this.recentlyPlayedIndexes.Insert(i, (this.masterPlaylist.getSize() + 1));
+            }
             int temp = currentPlaylist;
             currentPlaylist = 2;
             this.LoadNewMusic(music, false);
             currentPlaylist = temp;
 
-
+            
             //end Test
 
 
@@ -236,9 +240,12 @@ namespace Stuffa
 			Random r = new Random();
 
 			int indexForNext = r.Next(0, this.playlists[this.currentPlaylist].getSize());
-			while (this.recentlyPlayedIndexes.Contains(indexForNext))
+			if (this.playlists[this.currentPlaylist].getSize() > 5)
 			{
-				indexForNext = r.Next(0, this.playlists[this.currentPlaylist].getSize());
+				while (this.recentlyPlayedIndexes.Contains(indexForNext))
+				{
+					indexForNext = r.Next(0, this.playlists[this.currentPlaylist].getSize());
+				}
 			}
 			this.recentlyPlayedIndexes.RemoveAt(4);
 			this.recentlyPlayedIndexes.Insert(0, indexForNext);

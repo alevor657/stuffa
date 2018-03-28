@@ -131,6 +131,13 @@ namespace WpfApp2.pages
             }
 
         }
+		internal void getRandomSong()
+		{
+			int index = mp.getIndexForNextSong();
+			Music temp = mp.GetSongObj(index);
+			pc.PlaySong(temp);
+		}
+
 
         internal void LoadNewMusic()
         {

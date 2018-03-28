@@ -241,7 +241,7 @@ namespace WpfApp2.pages
 
         public void NextSong()
         {
-            Console.WriteLine("Next song pls");
+            container.getRandomSong();
         }
 
         private void EndDraging(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
