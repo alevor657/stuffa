@@ -99,7 +99,9 @@ namespace WpfApp2.pages
 
         }
 
-        private void playButtonUp(object sender, MouseButtonEventArgs e)
+        public void TogglePlay() => playButtonUp();
+
+        private void playButtonUp(object sender = null, MouseButtonEventArgs e = null)
         {
 
             if (mediaFileIsOpen)

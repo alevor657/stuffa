@@ -21,6 +21,19 @@ namespace SocketServer
             Cont = c;
         }
 
+        protected override void OnOpen() => Console.WriteLine("opened");
+
+        protected override void OnClose(CloseEventArgs e)
+        {
+
+            Console.WriteLine("connection closed");
+        }
+
+        protected override void OnError(ErrorEventArgs e)
+        {
+            Console.WriteLine("error");
+        }
+
         //when message is recieved
         protected override void OnMessage(MessageEventArgs msg)
         {
@@ -34,14 +47,24 @@ namespace SocketServer
 
             switch (parseMsg.action) {
                 case "PLAY":
-                    Cont.Dispatcher.Invoke(Cont.PlaySelectedSong);
-                    Send("test");
+                    Cont.Dispatcher.Invoke(Cont.TogglePlay);
+                    SendSync();
                     break;
                 case "PAUSE":
                     //...
                 default:
                     return;
             }
+        }
+
+        internal void SendSync()
+        {
+            ServerMsg msg = new ServerMsg();
+            msg.action = "sync";
+            msg.payload = null;
+
+            string json = JsonConvert.SerializeObject(msg);
+            Send(json);
         }
 
         public static string GetIp()
@@ -54,19 +77,6 @@ namespace SocketServer
             string localIp = Dns.GetHostByName(hostName).AddressList[0].ToString();
             Console.WriteLine("Ip address is : " + localIp);
             return localIp;
-        }
-
-        protected override void OnOpen() => Console.WriteLine("opened");
-
-        protected override void OnClose(CloseEventArgs e)
-        {
-            
-            Console.WriteLine("connection closed");
-        }
-
-        protected override void OnError(ErrorEventArgs e)
-        {
-            Console.WriteLine("error");
         }
 
         public void test()

@@ -164,5 +164,7 @@ namespace WpfApp2.pages
             }
 
         }
+
+        public void TogglePlay() => pc.TogglePlay();
     }
 }
