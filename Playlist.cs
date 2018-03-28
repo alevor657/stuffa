@@ -69,6 +69,10 @@ namespace WpfApp2
                 addToFullTile(m.getTitle(), i);
             }
         }
+		public int getSize()
+		{
+			return this.music.Count();
+		}
 
         //sort full names
         private void sortFullPath()

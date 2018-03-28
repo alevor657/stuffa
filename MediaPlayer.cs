@@ -26,7 +26,7 @@ namespace Stuffa
         private Playlist masterPlaylist;
 	 	 private List<Playlist> playlists;
 		 private int currentPlaylist;
-
+		private List<int> recentlyPlayedIndexes; 
         private Container container;
         
 		 public MediaPlayer()
@@ -39,9 +39,9 @@ namespace Stuffa
         {
             string folder = Directory.GetCurrentDirectory().Substring(0, 16);
             this.container = container;
-
+			
             this.masterPlaylist = new Playlist(folder + "\\playlists\\All music.txt");
-
+			this.recentlyPlayedIndexes = new List<int>();
             // start generate testplaylist
 
             playlists = new List<Playlist>();
@@ -198,15 +198,7 @@ namespace Stuffa
         // Call this function to populate the list showing all music in a playlist after selecting a playlist to edit
         public List<Music> GetMusicFromPlaylist()
         {
-            //currentPlaylist = pos;
-            //String[] temp = new String[playlists.Count];
-            //int increment = 0;
-            //foreach (Music i in playlists[pos].getMusic())
-            //{
-            //    // the ToString() method only returns the title currently, edit in case more information is desired
-            //    temp[increment] = i.ToString();
-            //    increment++;
-            //}
+           
             if (this.currentPlaylist == -1)
             {
                 if(!masterPlaylist.getIfLoaded())
@@ -238,6 +230,21 @@ namespace Stuffa
             }
             return ret;
         }
+
+		public int getIndexForNextSong()
+		{
+			Random r = new Random();
+
+			int indexForNext = r.Next(0, this.playlists[this.currentPlaylist].getSize());
+			while (this.recentlyPlayedIndexes.Contains(indexForNext))
+			{
+				indexForNext = r.Next(0, this.playlists[this.currentPlaylist].getSize());
+			}
+			this.recentlyPlayedIndexes.RemoveAt(4);
+			this.recentlyPlayedIndexes.Insert(0, indexForNext);
+			return indexForNext;
+		}
+
 
         //get the path to all files that is of type "fileTypes" in the directory "TargetDirectory"
         public static List<String> ProcessDirectory(string targetDirectory, string[] fileTypes)
