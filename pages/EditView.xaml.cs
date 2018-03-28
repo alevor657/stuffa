@@ -49,6 +49,15 @@ namespace WpfApp2.pages
             currentPlaylist.ItemsSource = null;
             currentPlaylist.ItemsSource = list;
             //currentPlaylist.ItemsSource = musicInPlaylist;
+            snackBarActivate();
+        }
+
+        public void snackBarActivate()
+        {
+            var messageQueue = SnackBarDialog.MessageQueue;
+
+            //the message queue can be called from any thread
+            Task.Factory.StartNew(() => messageQueue.Enqueue("some music allready existed in this playlist", "continue adding", () => { }));
         }
 
         public void LoadSearch(List<Music> playlistSongs)
