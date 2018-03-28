@@ -34,6 +34,7 @@ namespace WpfApp2
 
         public Playlist(string name, int blah)
         {
+            emptyLists();
             this.name = name;
             music = new List<Music>();
         }
@@ -444,7 +445,7 @@ namespace WpfApp2
         //this function orders the indexes based on the amount matched in the container
         private List<Tuple<int, int>> similarSentence(List<Tuple<string, int>> container, string search)
         {
-
+            
             // define return value
             List<Tuple<int, int>> ret = new List<Tuple<int, int>>();
 
@@ -507,16 +508,7 @@ namespace WpfApp2
             //define return value
             List<Tuple<int, int>> ret = new List<Tuple<int, int>>();
 
-            //check if any of the strings in container contains the search word
-            //linear time
-            /*foreach(Tuple<string, int> i in container)
-            {
-                if(i.Item1 == search)
-                {
-                    Console.WriteLine("searched for \"" + search + "\" found in: \"" + i.Item1 + "\"");
-                    ret.Add(new Tuple<int, int>(i.Item2, 6));
-                }
-            }*/
+
 
             // binary search time to execute (almoste 5% linear)
 
@@ -537,6 +529,8 @@ namespace WpfApp2
                 pos = nrOfElements / 2;
                 searchArea = pos;
             }
+
+            
 
             //checks every element in range if they match the criterias
             for (int limit = 0; limit < searchArea; limit++)
@@ -581,34 +575,7 @@ namespace WpfApp2
                 }
 
             }
-            if (search.Length > 2)
-            {
-                for (int limit = 0; limit < searchArea; limit++)
-                {
-                    string tempStr = search;
-                    while (tempStr.Length - 2 > 0)
-                    {
 
-                        if (pos + limit < container.Count && container[pos + limit].Item1.EndsWith(tempStr))
-                        {
-
-                            ret.Add(new Tuple<int, int>(container[pos + limit].Item2, search.Length));
-
-
-                        }
-                        if (pos - limit > 0 && container[pos - limit].Item1.EndsWith(tempStr))
-                        {
-
-                            ret.Add(new Tuple<int, int>(container[pos - limit].Item2, search.Length));
-
-
-                        }
-
-                        tempStr = tempStr.Substring(1);
-                    }
-
-                }
-            }
 
 
             return ret;
@@ -643,8 +610,8 @@ namespace WpfApp2
                 this.filetype = fullPath.Substring(fileTypePos);
 
             }
-            loadMusic();
-            savePlaylist();
+            //loadMusic();
+            //savePlaylist();
         }
 
         // save playlist to file

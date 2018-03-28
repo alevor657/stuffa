@@ -91,6 +91,7 @@ namespace Stuffa
             this.currentPlaylist = pos - 1;
         }
 
+        /*
         public bool AddPlaylist(string playlistName)
         {
             // JUST FOR TESTING 
@@ -103,7 +104,7 @@ namespace Stuffa
 
             return didAdd;
         }
-
+        */
         public List<Music> LoadNewMusic(List<string> paths, bool addAll = false)
         {
             if(!this.masterPlaylist.getIfLoaded())
@@ -126,6 +127,8 @@ namespace Stuffa
         public bool addNewPlaylist(string name)
         {
             this.playlists.Add(new Playlist(Directory.GetCurrentDirectory().Substring(0, 16) + "\\playlists\\" + name + ".txt"));
+            playlists[playlists.Count -1].savePlaylist();
+
 
             return true;
         }
