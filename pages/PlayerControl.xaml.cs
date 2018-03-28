@@ -36,6 +36,8 @@ namespace WpfApp2.pages
         int lengthcounter = 0;
         int maxLengthOfTitle = 284;
         int DelayCounter = 0;
+
+        bool draging = false;
         
 
         public PlayerControl(Container container)
@@ -59,6 +61,7 @@ namespace WpfApp2.pages
             //Player.Source = new Uri("D:\\Nedladdningar\\Vicetone - Way Back (feat. Cozi Zuehlsdorff).mp3", UriKind.RelativeOrAbsolute);
 
             isLoaded = true;
+            draging = false;
 
 
         }
@@ -94,7 +97,9 @@ namespace WpfApp2.pages
 
             TimeSpan currentTime = new TimeSpan(0, Player.Position.Duration().Minutes, Player.Position.Duration().Seconds);
             SongCurrentTime.Content = currentTime.ToString().Substring(3);
+
             trackSlider.Value = Player.Position.TotalSeconds;
+
 
 
         }
@@ -224,6 +229,33 @@ namespace WpfApp2.pages
             
             trackSlider.Value += e.VerticalChange;
             Player.Position = TimeSpan.FromSeconds(trackSlider.Value);
+        }
+
+        private void Player_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            if(!draging)
+            {
+                NextSong();
+            }
+        }
+
+        public void NextSong()
+        {
+            Console.WriteLine("Next song pls");
+        }
+
+        private void EndDraging(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+            draging = false;
+            if(trackSlider.Maximum == trackSlider.Value)
+            {
+                NextSong();
+            }
+        }
+
+        private void StartDraging(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        {
+            draging = true;
         }
     }
 }
