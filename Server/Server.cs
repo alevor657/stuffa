@@ -8,26 +8,35 @@ using WebSocketSharp;
 using WebSocketSharp.Server;
 using WpfApp2.server;
 using WpfApp2.pages;
+using System.Windows.Threading;
 
 namespace SocketServer
 {
     public class Handler : WebSocketBehavior
     {
-        string port = "";
-        //when message is resived
+        private static Container Cont;
+
+        public static void SetContainer(Container c)
+        {
+            Cont = c;
+        }
+
+        //when message is recieved
         protected override void OnMessage(MessageEventArgs msg)
         {
 
             Console.WriteLine("-------------msg from server-------------");
 
             //converts the message from json obj to a ServerMsg class
-            ServerMsg parseMsg = JsonConvert.DeserializeObject<ServerMsg>(msg.Data.ToString());
+            ServerMsg parseMsg = JsonConvert.DeserializeObject<ServerMsg>(msg.Data);
 
             Console.WriteLine(msg.Data.ToString());
 
-            switch (parseMsg.Action) {
+            switch (parseMsg.action) {
                 case "PLAY":
-                    //...
+                    Cont.Dispatcher.Invoke(Cont.PlaySelectedSong);
+                    Send("test");
+                    break;
                 case "PAUSE":
                     //...
                 default:
@@ -68,13 +77,12 @@ namespace SocketServer
 
     public class Server
     {
-        Container Cont;
         WebSocketServer wssv;
 
         public Server(Container c)
         {
-            Cont = c;
             wssv = new WebSocketServer(1340);
+            Handler.SetContainer(c);
             wssv.AddWebSocketService<Handler>("/remote");
             wssv.KeepClean = false;
             wssv.Start();
