@@ -388,7 +388,7 @@ namespace WpfApp2
                     loadBPM();
                 }
                 //if there is songs that have been found previusly
-                if (indexes.Count > 0)
+                if (indexes.Count > 0 || search.Contains(' '))
                 {
                     //check if there is any with the bpm or title artist with number
                     for (int i = 0; i < indexes.Count; i++)
@@ -513,63 +513,62 @@ namespace WpfApp2
             // binary search time to execute (almoste 5% linear)
 
             int nrOfElements = container.Count;
-            int searchArea;
             int pos;
             //if the container have fewer than 561 element search throu all elements
             // to see if it starts or ends with the beginning or end of the search string
-            if (nrOfElements > 561)
-            {
-                //get the pos thre the search word is or sould be in the container
-                pos = TupleBinarySearch(container, search);
-                // search only 250 + 5% of all the elements
-                searchArea = 250 + nrOfElements / 20;
-            }
-            else
-            {
-                pos = nrOfElements / 2;
-                searchArea = pos;
-            }
 
-            
+            //get the pos thre the search word is or sould be in the container
+            pos = TupleBinarySearch(container, search);
+            // search only 250 + 5% of all the elements
+
+            bool continueSearch = true;
+            int offset = 0;
 
             //checks every element in range if they match the criterias
-            for (int limit = 0; limit < searchArea; limit++)
+            while (continueSearch)// (int limit = 0; limit < searchArea; limit++)
             {
                 int characters = search.Length;
                 string tempStr = search;
+
+                continueSearch = false;
+
                 while (characters > 0)
                 {
-                    if (pos + limit < container.Count && container[pos + limit].Item1.StartsWith(tempStr))
+                    if (pos + offset < container.Count && container[pos + offset].Item1.StartsWith(tempStr))
                     {
                         if (characters == search.Length)
                         {
 
                             //searchword is exactly the same as the string we are evaluating. Give it then a higher score
-                            ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters * 3));
+                            ret.Add(new Tuple<int, int>(container[pos + offset].Item2, characters * 3));
 
                         }
                         else if (tempStr.Length > 2) //dont have a match if there is fewer than 3 matches on a long word
                         {
                             //searchword only matches partly give a lover score
-                            ret.Add(new Tuple<int, int>(container[pos + limit].Item2, characters));
+                            ret.Add(new Tuple<int, int>(container[pos + offset].Item2, characters));
                         }
+                        continueSearch = true;
                     }
-                    if (pos - limit > 0 && container[pos - limit].Item1.StartsWith(tempStr))
+                    if (pos - offset > 0 && container[pos - offset].Item1.StartsWith(tempStr))
                     {
                         if (characters == search.Length)
                         {
                             //searchword is exactly the same as the string we are evaluating. Give it then a higher score
 
-                            ret.Add(new Tuple<int, int>(container[pos - limit].Item2, characters * 3));
+                            ret.Add(new Tuple<int, int>(container[pos - offset].Item2, characters * 3));
 
                         }
                         else if (tempStr.Length > 2)
                         {
                             //searchword only matches partly give a lover score
 
-                            ret.Add(new Tuple<int, int>(container[pos - limit].Item2, characters));
+                            ret.Add(new Tuple<int, int>(container[pos - offset].Item2, characters));
                         }
+                        continueSearch = true;
+
                     }
+                    offset++;
                     characters--;
                     tempStr = tempStr.Substring(0, characters);
                 }
@@ -1095,7 +1094,7 @@ namespace WpfApp2
                 string[] words = i.getArtist().Split(seperators);
                 foreach(string word in words)
                 {
-                    artistsWords.Add(Tuple.Create<string, int>(word, index));
+                    artistsWords.Add(Tuple.Create<string, int>(word.ToLower(), index));
                 }
                 index++;
 
