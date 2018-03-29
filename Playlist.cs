@@ -32,6 +32,9 @@ namespace WpfApp2
         //all the music in the playlist
         private List<Music> music;
 
+        int NrOfMusic = 0;
+        int NrOfSavedMusic = 0;
+
         public Playlist(string name, int blah)
         {
             emptyLists();
@@ -72,7 +75,12 @@ namespace WpfApp2
         }
 		public int getSize()
 		{
-			return this.music.Count();
+            if(NrOfMusic < 0)
+            {
+                //if NrOfMusic is negative it indicates there is more Music
+                return NrOfMusic * -1;
+            }
+			return NrOfMusic;
 		}
 
         //sort full names
@@ -614,26 +622,63 @@ namespace WpfApp2
         }
 
         // save playlist to file
-        public bool savePlaylist()
+        public bool savePlaylist(string[] toSave = null)
         {
+            if(toSave == null)
+            {
+                try
+                {
+                    using (StreamReader r = new StreamReader(@getFullPath()))
+                    {
+
+                        System.IO.File.WriteAllText(this.getFullPath(), "[]");
+
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Could not save new playlist");
+                }
+                return true;
+            }
+
+
             // define return value
             bool retVal = false;
 
             try
             {
-                //save all musics absulute path
-                List<string> musicTracks = new List<string>();
-                foreach (Music i in music)
+                if (NrOfSavedMusic != 0)
                 {
-                    musicTracks.Add(i.getFullPath());
-                }
-                // package Newtonsoft.Json (Json.Net) need to be installed. 
-                // to install go to "project" > "manage NuGet packages..." > "Brows" > type "Newtonsoft.Json" / "Json.Net" > "install"
+                    using (StreamReader r = new StreamReader(@getFullPath()))
+                    {
+                        //get JSONm object as string
+                        string json = r.ReadToEnd();
+                        json = json.Substring(0, json.Length - 1);
+                        json += ",";
 
-                // convert the musicTracks to a JSON object and save it ass a .txt file where this playlist file exists
-                string json = JsonConvert.SerializeObject(musicTracks.ToArray());
-                System.IO.File.WriteAllText(this.getFullPath(), json);
-                retVal = true;
+                        string newJson = JsonConvert.SerializeObject(toSave);
+                        newJson = newJson.Substring(1);
+
+                        System.IO.File.WriteAllText(this.getFullPath(), json + newJson);
+                        retVal = true;
+                        NrOfSavedMusic += toSave.Length;
+
+
+                    }
+                }
+                else
+                {
+
+                    // package Newtonsoft.Json (Json.Net) need to be installed. 
+                    // to install go to "project" > "manage NuGet packages..." > "Brows" > type "Newtonsoft.Json" / "Json.Net" > "install"
+
+                    // convert the musicTracks to a JSON object and save it ass a .txt file where this playlist file exists
+                    string json = JsonConvert.SerializeObject(toSave);
+                    System.IO.File.WriteAllText(this.getFullPath(), json);
+                    retVal = true;
+                    NrOfSavedMusic = toSave.Length;
+                }
             }
             catch { }
             return retVal;
@@ -863,8 +908,15 @@ namespace WpfApp2
                 same = addNotSameMusic(m);
             }
 
+            string[] saveM = new string[m.Count];
+            int index = 0;
+            foreach(Music i in m)
+            {
+                saveM[index] = i.getFullPath();
+                index++;
+            }
 
-            savePlaylist();
+            savePlaylist(saveM);
             return same;
         }
 
@@ -884,8 +936,8 @@ namespace WpfApp2
         {
             return this.music;
         }
-        // load the music specified in the Playlist file
-        public void loadMusic()
+        // load 999 music specified in the Playlist file. for every start number 500 songs will be skiped
+        public void loadMusic(int start = 0)
         {
             try
             {
@@ -899,13 +951,35 @@ namespace WpfApp2
                     //remove any old data
                     music.Clear();
 
-                    //for every music. add to music
-                    foreach (string i in musicTracks.ToArray())
+
+                    string[] arr = musicTracks.ToArray();
+
+                    //limit the playlist to load 999 songs per time
+                    start = start * 500;
+                    int stop = start + 1000;
+                    if(arr.Length < stop)
                     {
-                        Music newMusic = new Music(i);
+                        stop = arr.Length;
+                    }
+
+                    NrOfMusic = stop;
+                    NrOfSavedMusic = stop;
+
+                    //increas the capasity of music list
+                    if (music.Capacity < stop)
+                    {
+                        music.Capacity = stop;
+                    }
+
+                    //for every music. add to music
+                    for(int i = start; i < stop; i++)
+                    {
+                        Music newMusic = new Music(arr[i]);
                         music.Add(newMusic);
 
                     }
+
+
                 }
             }
             catch
@@ -1000,7 +1074,7 @@ namespace WpfApp2
                 Music toMv = music[index];
                 RemoveMusic(index);
                 music.Insert(newIndex, toMv);
-                savePlaylist();
+                //savePlaylist();
             }
         }
 
@@ -1012,7 +1086,7 @@ namespace WpfApp2
                 music.RemoveAt(index);
                 emptyLists();
                 ret = true;
-                savePlaylist();
+                //savePlaylist();
 
             }
             return ret;
