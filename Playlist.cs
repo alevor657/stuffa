@@ -628,12 +628,11 @@ namespace WpfApp2
             {
                 try
                 {
-                    using (StreamReader r = new StreamReader(@getFullPath()))
-                    {
 
-                        System.IO.File.WriteAllText(this.getFullPath(), "[]");
 
-                    }
+                    System.IO.File.WriteAllText(this.getFullPath(), "[]");
+
+                    
                 }
                 catch
                 {
@@ -650,6 +649,7 @@ namespace WpfApp2
             {
                 if (NrOfSavedMusic != 0)
                 {
+                    string newJson = "";
                     using (StreamReader r = new StreamReader(@getFullPath()))
                     {
                         //get JSONm object as string
@@ -657,15 +657,18 @@ namespace WpfApp2
                         json = json.Substring(0, json.Length - 1);
                         json += ",";
 
-                        string newJson = JsonConvert.SerializeObject(toSave);
-                        newJson = newJson.Substring(1);
+                        newJson = JsonConvert.SerializeObject(toSave);
+                        newJson = json + newJson.Substring(1);
 
-                        System.IO.File.WriteAllText(this.getFullPath(), json + newJson);
-                        retVal = true;
+
                         NrOfSavedMusic += toSave.Length;
 
 
                     }
+                    System.IO.File.WriteAllText(this.getFullPath(), newJson);
+                    retVal = true;
+
+
                 }
                 else
                 {
