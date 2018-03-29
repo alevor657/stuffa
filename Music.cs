@@ -18,9 +18,22 @@ namespace Stuffa
         public string Path { get; set; }
         private string name;
         private string filetype;
-        public int Bpm { get; set; }
-        public string Artist { get; set; }
-        public string Title { get; set; }
+
+        //declare get and set methodes so they dont loop
+        public int Bpm { get { getBpm();  return this.RealBpm;  } set { this.RealBpm = value; } }
+        private int RealBpm;
+        public string Artist { get { getArtist(); return RealArtist; } set { this.RealArtist = value; } }
+        private string RealArtist;
+        public string Title {
+            get {
+                
+                getTitle();
+                return this.RealTitle;
+            }
+            set { this.RealTitle = value; }
+        }
+
+        private string RealTitle;
 
         public Music(string Path = "unknown", string name = "unknown", int Bpm = -2, string Artist = "unknown", string Title = "unknown")
         {
@@ -31,29 +44,29 @@ namespace Stuffa
         public int getBpm()
         {
             //if Bpm is not jet loaded from memory
-            if (Bpm == -2)
+            if (RealBpm == -2)
             {
                 getData();
             }
-            return this.Bpm;
+            return this.RealBpm;
         }
 
         public string getArtist()
         {
-            if (Artist == null)
+            if (RealArtist == null)
             {
                 getData();
             }
-            return this.Artist;
+            return this.RealArtist;
         }
         public string getTitle()
         {
-            if(Title == null)
+            if(RealTitle == null)
             {
                 getData();
 
             }
-            return this.Title;
+            return this.RealTitle;
         }
 
         private void getData()
@@ -65,17 +78,17 @@ namespace Stuffa
                 IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
 
                 //load '
-                this.Title = fileInfo.Title;
-                if (Title == null)
+                this.RealTitle = fileInfo.Title;
+                if (RealTitle == null)
                 {
-                    Title = name;
+                    RealTitle = name;
                 }
 
                 //load Artist
-                this.Artist = fileInfo.Artist;
-                if (this.Artist == "" || this.Artist == null)
+                this.RealArtist = fileInfo.Artist;
+                if (this.RealArtist == "" || this.RealArtist == null)
                 {
-                    this.Artist = "unknown";
+                    this.RealArtist = "unknown";
                 }
 
                 //load Bpm
@@ -119,11 +132,11 @@ namespace Stuffa
                     {
                         trueBpm = Convert.ToInt32(BpmString);
                     }
-                    Bpm = trueBpm;
+                    RealBpm = trueBpm;
                 }
                 else
                 {
-                    Bpm = 0;
+                    RealBpm = 0;
                 }
             }
             catch
@@ -180,21 +193,18 @@ namespace Stuffa
         }
 
 
-        public bool setBPM(string n)
+        public bool setBPM(int n)
 
         {
             bool ret = true;
-            int res;
-            if (int.TryParse(n, out res))
-            {
 
                 try
                 {
 
                     IID3v2Tag fileInfo = new ID3v2Tag(getFullPath());
-                    fileInfo.BPM = n;
+                    fileInfo.BPM = n.ToString();
                     fileInfo.Save(getFullPath());
-                    this.Bpm = res;
+                    this.Bpm = n;
 
                 }
                 catch
@@ -204,13 +214,8 @@ namespace Stuffa
                 }
 
 
-            }
-            else
-            {
-                Console.WriteLine("did not save Bpm to ID3 tag\n" + getFullPath());
-                Console.WriteLine("please insert a Integer");
-                ret = false;
-            }
+            
+
 
             
             return ret;
@@ -273,14 +278,18 @@ namespace Stuffa
 
         public string getFullPath()
         {
-            if (this.Path.EndsWith("\\"))
+            if (Path != null)
             {
-                return this.Path + this.name + this.filetype;
+                if (this.Path.EndsWith("\\"))
+                {
+                    return this.Path + this.name + this.filetype;
+                }
+                else
+                {
+                    return this.Path + "\\" + this.name + this.filetype;
+                }
             }
-            else
-            {
-                return this.Path + "\\" + this.name + this.filetype;
-            }
+            return "";
         }
 
         public void generateTestData(string Path, string name, string filetype, int Bpm, string Artist, string titel)
