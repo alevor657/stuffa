@@ -16,12 +16,10 @@
 
             <ColumnDefinition Width="91*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="ArtistLabel" Content="" Margin="100,36,0,39" VerticalAlignment="Center" FontWeight="Normal" Height="30" HorizontalAlignment="Left" MinWidth="123" Opacity="0.8" ToolTip="Artist" Background="#FF00B511"/>
-        <Label x:Name="BpmLabel" Content="" HorizontalAlignment="Left" Margin="100.048,0,0,10" VerticalAlignment="Bottom" Width="95.1" FontSize="20" Height="35.138" ToolTip="Beats Per Minute" Background="#FF0068FF"/>
+        <Label x:Name="ArtistLabel" Content="" Margin="100,36,0,39" VerticalAlignment="Center" FontWeight="Normal" Height="30" HorizontalAlignment="Left" MinWidth="123" Opacity="0.8" ToolTip="Artist" Background="{x:Null}"/>
+        <Label x:Name="BpmLabel" Content="" HorizontalAlignment="Left" Margin="100.048,0,0,10" VerticalAlignment="Bottom" Width="95.1" FontSize="20" Height="35.138" ToolTip="Beats Per Minute" Background="{x:Null}"/>
         <ScrollViewer x:Name="TitleScrollView" Margin="104.736,10,0,54.55" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" MinWidth="118" ToolTip="Title">
-            <TextBlock x:Name="TitleLabel" Text="" FontWeight="Bold" FontSize="18" Foreground="White" Padding="0" Background="Red">
-
-            </TextBlock>
+            <TextBlock x:Name="TitleLabel" Text="" FontWeight="Bold" FontSize="18" Foreground="White" Padding="0"/>
         </ScrollViewer>
         <!--<TextBlock x:Name="TitleLabel" Content="Way Back" HorizontalAlignment="Left" Margin="100.048,9.577,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="122.608" FontSize="18" Height="34"/>-->
         <Grid Grid.Column="2">
