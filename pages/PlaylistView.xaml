@@ -39,7 +39,13 @@
                 </StackPanel>
             </materialDesign:DialogHost.DialogContent>
             <Grid Margin="0,0,0,10">
-                <ListBox x:Name="PlaylistList" Margin="10,10,10,52" SelectedIndex="2" FontSize="16" Opacity="0.8" VerticalContentAlignment="Top" BorderBrush="#00000000" SelectionChanged="PlaylistList_SelectionChanged"/>
+                <ListBox x:Name="PlaylistList" Margin="10,10,10,52" SelectedIndex="2" FontSize="16" Opacity="0.8" VerticalContentAlignment="Top" BorderBrush="#00000000" SelectionChanged="PlaylistList_SelectionChanged">
+                    <ListBox.ContextMenu>
+                        <ContextMenu >
+                            <MenuItem Header="Remove Playlist" Click="removePlaylistOnIndex" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
                 <Button x:Name="NewPlaylistButton" Content="New Playlist" Margin="10,0,10,10" VerticalAlignment="Bottom" Height="37" FontSize="16" MinHeight="25" MinWidth="{Binding Width, ElementName=grid1, Mode=OneWay}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Background="#FFD32F2F"></Button>
             </Grid>
         </materialDesign:DialogHost>
