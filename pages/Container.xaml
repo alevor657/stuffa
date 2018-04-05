@@ -7,7 +7,7 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="Container" MinWidth="900" MinHeight="600"
+      Title="Container" MinWidth="950" MinHeight="600"
       UseLayoutRounding="True">
 
     <Grid>
@@ -23,21 +23,22 @@
         <Frame x:Name="PlaylistView" NavigationUIVisibility="Hidden"/>
         <Frame x:Name="playerControl" Grid.ColumnSpan="2" VerticalAlignment="Bottom" MinHeight="100" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderBrush="#FF01AA28" MinWidth="900" Grid.Row="1" NavigationUIVisibility="Hidden"/>
 
-        <Image x:Name="settignsButton"  Source="../img/settings-white.png" Grid.Column="1" Margin="0,0,10,25" Width="48" Height="48" MouseUp="settingsButtonUp" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="1" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor">
+        <Image x:Name="settignsButton" Source="../img/settings-white.png" Grid.Column="1" Margin="0,0,10,25" Width="48" Height="48" MouseUp="settingsButtonUp" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="1" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
-                    <RotateTransform x:Name="noFreeze"/>
+                    <RotateTransform Angle="0"/>
                     <TranslateTransform/>
                 </TransformGroup>
             </Image.RenderTransform>
             <Image.Triggers>
-                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                <EventTrigger RoutedEvent="UIElement.MouseUp">
                     <BeginStoryboard>
-                        <Storyboard Storyboard.TargetProperty="(Rectangle.RenderTransform).(RotateTransform.Angle)"
+                        <Storyboard Storyboard.TargetName="settignsButton"
+                                    Storyboard.TargetProperty="(RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)"
                               >
-                            <DoubleAnimation To="180" Duration="0:0:0.1" />
+                            <DoubleAnimation From="0" To="120" Duration="00:00:00.2" AutoReverse="False"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
