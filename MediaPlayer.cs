@@ -25,7 +25,9 @@ namespace Stuffa
 	 {
         private Playlist masterPlaylist;
 	 	private List<Playlist> playlists;
-		private int currentPlaylist;
+        MasterPlaylist master;
+
+        private int currentPlaylist;
 		private List<int> recentlyPlayedIndexes; 
         private Container container;
         
@@ -37,6 +39,7 @@ namespace Stuffa
 
         public MediaPlayer(Container container)
         {
+            master = new MasterPlaylist();
             string folder = Directory.GetCurrentDirectory().Substring(0, 16);
             this.container = container;
 			
@@ -112,7 +115,8 @@ namespace Stuffa
             {
                 this.masterPlaylist.loadMusic();
             }
-            this.masterPlaylist.loadNewMusic(paths, false);
+            master.InsertNewMusicThread(paths);
+            //this.masterPlaylist.loadNewMusic(paths, false);
             return this.playlists[this.currentPlaylist].loadNewMusic(paths, addAll);
         }
 
@@ -175,7 +179,7 @@ namespace Stuffa
 
         public List<Music> searchAllMusic(string searchTerm)
         {
-            return this.masterPlaylist.searchArtistBpmTitle(searchTerm);
+            return master.search(searchTerm);//this.masterPlaylist.searchArtistBpmTitle(searchTerm);
         }
 
         public List<int> getAllBpm(int Bpm, int range = 1)

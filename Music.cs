@@ -13,7 +13,7 @@ namespace Stuffa
     public class Music : IEquatable<Music>
     {
 
-        MediaElement player = new MediaElement();
+        //MediaElement player = new MediaElement();
         
         public string Path { get; set; }
         private string name;

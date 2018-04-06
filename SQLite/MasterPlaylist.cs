@@ -1,0 +1,316 @@
+﻿using System.Data.SQLite;
+using Stuffa;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
+
+namespace WpfApp2
+{
+    public class MasterPlaylist
+    {
+        SQLiteConnection dbConnection;
+
+        public MasterPlaylist()
+        {
+
+            //create/ connect
+            dbConnection =
+new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
+            dbConnection.Open();
+            if (dbConnection == null)
+            {
+                Console.WriteLine("creating new db...");
+                SQLiteConnection.CreateFile("MasterPlaylist.sqlite");
+            }
+            else
+            {
+                Console.WriteLine("Connecting to db file...");
+            }
+
+            //insert
+            string sql = "CREATE VIRTUAL TABLE IF NOT EXISTS Titles USING fts3(title TEXT, songNr INTEGER)";
+            SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
+            command.ExecuteNonQuery();
+
+            sql = "CREATE TABLE IF NOT EXISTS SongPaths (paths varchar(100), songNr INTEGER PRIMARY KEY AUTOINCREMENT)";
+            command = new SQLiteCommand(sql, dbConnection);
+            command.ExecuteNonQuery();
+
+            sql = "CREATE TABLE IF NOT EXISTS Bpm (bpm INTEGER, songNr INTEGER)";
+            command = new SQLiteCommand(sql, dbConnection);
+            command.ExecuteNonQuery();
+
+
+
+            
+
+
+
+            //--------
+            /*
+            sql = "select * from highscores order by score desc";
+            command = new SQLiteCommand(sql, dbConnection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+                Console.WriteLine("Name: " + reader["name"] + "\tScore: " + reader["score"]);
+*/
+            
+        }
+        public void insertNewMusic(Music m)
+        {
+            string sql = "INSERT INTO SongPaths(paths) VALUES(?)";
+            List<string> SQLParams = new List<string>()
+            {
+                m.getFullPath()
+            };
+            SQLiteCommand cmd = createCmd(sql, SQLParams);
+            cmd.ExecuteNonQuery();
+            
+            
+
+            sql = "SELECT last_insert_rowid() AS id";
+
+            cmd = new SQLiteCommand(dbConnection);
+            cmd.CommandText = sql;
+            object reader = cmd.ExecuteScalar();
+            
+
+            string lastIdStr;
+            lastIdStr = reader.ToString();
+            try
+            {
+
+                //insert into BPM
+                sql = "INSERT INTO Bpm (bpm, songNr) VALUES ( ?, ?)";
+                SQLParams = new List<string>()
+                {
+                    m.getBpm().ToString(),lastIdStr
+                };
+                createCmd(sql, SQLParams).ExecuteNonQuery();
+
+                //insert into Titles
+
+                //get Titles (all the Titles and artist names)
+
+
+                sql = "INSERT INTO Titles (title, songNr) VALUES (?, ?)";
+                SQLParams = new List<string>()
+                {
+                    m.getArtist(),lastIdStr
+                };
+
+                createCmd(sql, SQLParams).ExecuteNonQuery();
+                
+
+
+                sql = "INSERT INTO Titles (title, songNr) VALUES ( ?, ?)";
+                SQLParams = new List<string>()
+                {
+                    m.getTitle(),lastIdStr
+                };
+
+                createCmd(sql, SQLParams).ExecuteNonQuery();
+                
+                Console.WriteLine("completed inserting music into DB");
+
+            }
+            catch
+            {
+                Console.WriteLine("could not get songNr or other error in database");
+            }
+
+
+
+        }
+
+        public List<Music> search(string s)
+        {
+            Console.WriteLine("nr of titles : " + this.nrOfTitles());
+            Console.WriteLine("searching...");
+
+            List<Tuple<string, int>> res = new List<Tuple<string, int>>();
+            /*
+            string sql = "SELECT paths FROM SongPaths WHERE paths LIKE '%" + s + "%'";
+            SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+                res.Add(reader["paths"].ToString());
+                */
+
+            List<string> searchWordList = new List<string>();
+
+            char[] spliters = new char[3];
+            spliters[0] = ' ';
+            spliters[1] = '-';
+            spliters[2] = '_';
+
+            foreach (string searchWordAdd in s.Split(spliters))
+            {
+                searchWordList.Add(searchWordAdd);
+                
+            }
+
+
+            string searchWord;
+            string sql;
+            SQLiteCommand command;
+            //split the search into words
+            for (int i = 0; i < searchWordList.Count; i++)
+                //(string searchWord in searchWordList)
+            {
+                searchWord = searchWordList[i];
+                //sql code for search
+                sql = "SELECT sp.paths as path FROM SongPaths AS sp " +
+                "INNER JOIN Titles AS t ON t.songNr  = sp.songNr " +
+                "AND t.title MATCH ?";
+
+                //insert sql command
+                command = new SQLiteCommand(sql, dbConnection);
+
+                //insert parameter. Have a "*" at the end to indicate that it should take strings that have words beginning with the searchWord
+                command.Parameters.Add(new SQLiteParameter("param1", searchWord + "*"));
+
+                //execute the command
+                SQLiteDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    //read the result
+                    while (reader.Read())
+                    {
+                        //add the result to res with a 1
+                        res.Add(new Tuple<string, int>(reader["path"].ToString(), 1));
+                    }
+                }
+                else if(searchWord.Length > 3)
+                {
+                    searchWordList.Add(searchWord.Substring(0, searchWord.Length - 1));
+                }
+            }
+
+            //make songs found multiple time on top of the list
+            res = this.groupByFirstTupleAndAddSecond(res);
+
+
+            List<Music> m = new List< Music > ();
+            //transform paths to music obj
+            for(int i = 0; i < res.Count; i++)
+            {
+                m.Add(new Music(res[i].Item1));
+            }
+
+            return m;
+
+        }
+
+        
+        private SQLiteCommand createCmd(string text, List<string> param = null)
+        {
+            SQLiteCommand command = new SQLiteCommand(text, dbConnection);
+
+            int nr = 1;
+            if (param != null)
+            {
+                foreach (string s in param)
+                {
+                    command.Parameters.Add(new SQLiteParameter("param" + nr, s));
+                    nr++;
+                }
+            }
+
+
+            return command;
+        }
+
+        public void insertNewMusic(List<string> paths)
+        {
+            Music m;
+            while (nrOfTitles() < 60000)
+            {
+                foreach (string s in paths)
+                {
+                    //m = new Music(s);
+                    //if(!(search(m.Artist).Count > 0 && search(m.getTitle()).Count > 0))
+                    //{
+                    insertNewMusic(new Music(s));
+                    //}
+
+                }
+            }
+            
+        }
+
+        private int nrOfTitles()
+        {
+            string sql = "SELECT Count(*) AS nr FROM Titles;";
+            string ret = "-1";
+            SQLiteCommand cmd = new SQLiteCommand(dbConnection);
+            cmd.CommandText = sql;
+
+            SQLiteDataReader reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                reader.Read();
+                ret = reader["nr"].ToString();
+            }
+            try
+            {
+                return Int32.Parse(ret);
+            }
+            catch
+            {
+                return -1;
+            }
+        }
+
+
+        //group for exaple indexes and add there scors
+        private List<Tuple<string, int>> groupByFirstTupleAndAddSecond(List<Tuple<string, int>> container)
+        {
+            //define return value
+            List<Tuple<string, int>> ret = new List<Tuple<string, int>>();
+
+            // while there are more elements in the container
+            while (container.Count > 0)
+            {
+                //take the first elements first Tuple and search for that
+                string searchfor = container[0].Item1;
+                // secondTuple is for adding together the second Tuple in the container wherever the variable "searchfor" is found
+                int secondTuple = container[0].Item2;
+                //remove found search values
+                container.RemoveAt(0);
+                for (int i = 0; i < container.Count; ++i)
+                {
+                    //go throu the intire container to search for similar "searcfor"
+                    if (container[i].Item1 == searchfor)
+                    {
+                        //when found similar "searchfor". add to secondTupler and remove element from container
+                        secondTuple += container[i].Item2;
+                        container.RemoveAt(i);
+                        --i;
+                    }
+                }
+                //add the thing to the return value
+                ret.Add(new Tuple<string, int>(searchfor, secondTuple));
+            }
+
+            //order by the second Tuple decending
+            ret = ret.OrderBy(e => e.Item2).ToList();
+            ret.Reverse();
+
+            return ret;
+
+        }
+
+        public void InsertNewMusicThread(List<string> paths)
+        {
+            Thread myNewThread = new Thread(() => insertNewMusic(paths));
+            myNewThread.Start();
+        }
+    }
+
+
+}
