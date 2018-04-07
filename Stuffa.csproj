@@ -107,6 +107,9 @@
     <Compile Include="Server\Server.cs" />
     <Compile Include="Server\ServerMessage.cs" />
     <Compile Include="SQLite\MasterPlaylist.cs" />
+    <Compile Include="SQLite\loadingWindow.xaml.cs">
+      <DependentUpon>loadingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="System\Web\HttpUtility.cs" />
     <Compile Include="pages\PlayerControl.xaml.cs">
       <DependentUpon>PlayerControl.xaml</DependentUpon>
@@ -158,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="pages\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SQLite\loadingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using WpfApp2.SQLite;
 
 namespace WpfApp2
 {
@@ -219,8 +220,9 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             int bpm = this.getInt(s);
             if(bpm != -1)
             {
-                if(res.Count > 0)
+                if(res.Count > 0 && s.Split(spliters).Length > 1)
                 {
+                    //TODO
                     //sök på de obj i res
                 }
                 else
@@ -285,21 +287,25 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             return command;
         }
 
-        public void insertNewMusic(List<string> paths)
+        [STAThread]
+        public void insertNewMusic(List<string> paths, loadingWindow loadingWin)
         {
+            //loadingWindow loadingWin = new loadingWindow("Saving new music.\ndo not exit program while loading");
+            loadingWin.setMax(paths.Count);
             Music m;
-            while (nrOfTitles() < 60000)
-            {
+            //while (nrOfTitles() < 60000)
+            //{
                 foreach (string s in paths)
                 {
-                    //m = new Music(s);
-                    //if(!(search(m.Artist).Count > 0 && search(m.getTitle()).Count > 0))
-                    //{
-                    insertNewMusic(new Music(s));
-                    //}
+                    m = new Music(s);
+                    if(!(search(m.Artist).Count > 0 && search(m.getTitle()).Count > 0))
+                    {
+                        insertNewMusic(new Music(s));
+                    }
+                    loadingWin.increasePos();
 
                 }
-            }
+            //}
             
         }
 
@@ -367,9 +373,16 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
         public void InsertNewMusicThread(List<string> paths)
         {
-            Thread myNewThread = new Thread(() => insertNewMusic(paths));
+            loadingWindow loadingWinMain = new loadingWindow("Saving new music.\ndo not exit program while loading");
+            //loadingWinMain.setMax(paths.Count);
+
+            Thread myNewThread = new Thread(() => insertNewMusic(paths, loadingWinMain));
+            myNewThread.IsBackground = true;
+            myNewThread.SetApartmentState(ApartmentState.STA);
             myNewThread.Start();
         }
+
+       
     }
 
 
