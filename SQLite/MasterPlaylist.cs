@@ -126,6 +126,31 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
         }
 
+        //get the last int sourounded of "split" characters
+        private int getInt(string str)
+        {
+            char[] splitOn = new char[3];
+            splitOn[0] = ' ';
+            splitOn[1] = '-';
+            splitOn[2] = '_';
+
+            int ret = -1;
+            int temp;
+            string[] splitStr = str.Split(splitOn);
+
+            foreach (string s in splitStr)
+            {
+                if (int.TryParse(s, out temp))
+                {
+                    ret = temp;
+                }
+
+            }
+            //int.TryParse(splitStr[])
+
+            return ret;
+        }
+
         public List<Music> search(string s)
         {
             Console.WriteLine("nr of titles : " + this.nrOfTitles());
@@ -188,6 +213,41 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 else if(searchWord.Length > 3)
                 {
                     searchWordList.Add(searchWord.Substring(0, searchWord.Length - 1));
+                }
+            }
+
+            int bpm = this.getInt(s);
+            if(bpm != -1)
+            {
+                if(res.Count > 0)
+                {
+                    //sök på de obj i res
+                }
+                else
+                {
+                    //search throu the db for all instances with correct bpm
+                    //sql code for search
+                    sql = "SELECT sp.paths as path FROM SongPaths AS sp " +
+                    "INNER JOIN Bpm AS b ON b.songNr  = sp.songNr " +
+                    "AND b.bpm = ?";
+                    
+                    //insert sql command
+                    command = new SQLiteCommand(sql, dbConnection);
+
+                    //insert parameter.
+                    command.Parameters.Add(new SQLiteParameter("param1", bpm));
+
+                    //execute the command
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        //read the result
+                        while (reader.Read())
+                        {
+                            //add the result to res with a 1
+                            res.Add(new Tuple<string, int>(reader["path"].ToString(), 1));
+                        }
+                    }
                 }
             }
 
