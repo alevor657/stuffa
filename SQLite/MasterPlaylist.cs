@@ -154,6 +154,10 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
         public List<Music> search(string s)
         {
+
+            List<Music> m = new List<Music>();
+
+
             Console.WriteLine("nr of titles : " + this.nrOfTitles());
             Console.WriteLine("searching...");
 
@@ -169,10 +173,11 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
             List<string> searchWordList = new List<string>();
 
-            char[] spliters = new char[3];
+            char[] spliters = new char[4];
             spliters[0] = ' ';
             spliters[1] = '-';
             spliters[2] = '_';
+            spliters[3] = '"';
 
             foreach (string searchWordAdd in s.Split(spliters))
             {
@@ -222,8 +227,40 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             {
                 if(res.Count > 0 && s.Split(spliters).Length > 1)
                 {
-                    //TODO
+                    
                     //sök på de obj i res
+                    for(int i = 0; i < res.Count; i++)
+                    {
+                        Music mBpm = new Music(res[i].Item1);
+
+                        if (!(mBpm.getArtist().Contains(bpm.ToString()) || mBpm.getTitle().Contains(bpm.ToString()) || mBpm.getBpm() == bpm))
+                        {
+                            //if the music does not contain the number remove it
+                            res.RemoveAt(i);
+                            i--;
+
+                        }
+                    }
+
+
+                    res = this.groupByFirstTupleAndAddSecond(res);
+                    //transform paths to music obj
+                    for (int i = 0; i < res.Count; i++)
+                    {
+                        Music check = new Music(res[i].Item1);
+                        if (check.getBpm() != bpm)
+                        {
+                            //the id3 tag have been updated externaly. change it in the database
+                            this.updateMusic(check.getBpm(), check.getFullPath());
+                        }
+                        
+                        
+                        m.Add(new Music(res[i].Item1));
+                        
+                    }
+
+
+
                 }
                 else
                 {
@@ -250,19 +287,52 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                             res.Add(new Tuple<string, int>(reader["path"].ToString(), 1));
                         }
                     }
+
+
+
+                    res = this.groupByFirstTupleAndAddSecond(res);
+                    //transform paths to music obj
+                    for (int i = 0; i < res.Count; i++)
+                    {
+                        Music check = new Music(res[i].Item1);
+                        if (check.getBpm() != bpm)
+                        {
+                            //the id3 tag have been updated externaly. change it in the database
+                            this.updateMusic(check.getBpm(), check.getFullPath());
+                        }
+                        else
+                        {
+                            m.Add(new Music(res[i].Item1));
+                        }
+                    }
+
+
+
+
+                }
+
+                //check if bpm matches with the id3 tag
+
+
+
+            }
+            else
+            {
+                //make songs found multiple time on top of the list
+                res = this.groupByFirstTupleAndAddSecond(res);
+
+
+                //transform paths to music obj
+                for (int i = 0; i < res.Count; i++)
+                {
+                    m.Add(new Music(res[i].Item1));
                 }
             }
 
-            //make songs found multiple time on top of the list
-            res = this.groupByFirstTupleAndAddSecond(res);
 
 
-            List<Music> m = new List< Music > ();
-            //transform paths to music obj
-            for(int i = 0; i < res.Count; i++)
-            {
-                m.Add(new Music(res[i].Item1));
-            }
+
+
 
             return m;
 
@@ -381,8 +451,46 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             myNewThread.SetApartmentState(ApartmentState.STA);
             myNewThread.Start();
         }
+        /*
+        public void updateMusic(Music oldMusic, Music newMusic)
+        {
+            string sql = "UPDATE Titles SET title = ? WHERE title = ?; " + //title
+                "UPDATE Titles SET title = ? WHERE title = ?; " + //artist
+                "UPDATE SongPaths SET paths = ? WHERE paths = ?; " +  //file path
+                "UPDATE Bpm SET bpm = ? WHERE bpm = ?;";  // bpm value
 
-       
+
+            List<string> SQLParams = new List<string>()
+                {
+                    newMusic.getTitle(), oldMusic.getTitle(),
+                    newMusic.getArtist(), oldMusic.getArtist(),
+                    newMusic.getFullPath(), oldMusic.getFullPath(),
+                    newMusic.getBpm().ToString(), oldMusic.getBpm().ToString()
+                };
+            createCmd(sql, SQLParams).ExecuteNonQuery();
+
+        }*/
+
+        public void updateMusic(int newBpm, string path)
+        {
+            string sql = "UPDATE Bpm SET bpm = ? WHERE (SELECT songNr FROM SongPaths WHERE songNr = Bpm.songNr AND SongPaths.paths = ?); ";
+
+            /*
+             * (SELECT bpm, SongPaths.paths AS path FROM Bpm INNER JOIN SongPaths ON SongPaths.songNr = Bpm.songNr)
+             * 
+            sql = "SELECT sp.paths as path FROM SongPaths AS sp " +
+            "INNER JOIN Bpm AS b ON b.songNr  = sp.songNr " +
+            "AND b.bpm = ?";
+            */
+
+            List<string> SQLParams = new List<string>()
+                {
+                   newBpm.ToString(), path
+                };
+            createCmd(sql, SQLParams).ExecuteNonQuery();
+
+        }
+
     }
 
 
