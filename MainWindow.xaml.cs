@@ -125,7 +125,41 @@ namespace Stuffa
 
         private void smilie(object sender, MouseEventArgs e)
         {
-            Title.Text = ":D    ";
+            string smilie = "";
+            Random rand = new Random();
+            double randNr = rand.NextDouble();
+            if(randNr < 0.2)
+            {
+                smilie += ";";
+            }
+            else if(randNr > 0.7)
+            {
+                smilie += ":";
+            }
+            else 
+            {
+                smilie += "B";
+            }
+
+            randNr = rand.NextDouble();
+            if (randNr < 0.2)
+            {
+                smilie += ")";
+            }
+            else if (randNr > 0.7 && smilie != "B")
+            {
+                smilie += "D";
+            }
+            else if (randNr > 0.5 && smilie != "B")
+            {
+                smilie += "P";
+            }
+            else 
+            {
+                smilie += "-)";
+            }
+
+            Title.Text = smilie + "    ";
         }
 
         private void setTitle(object sender, MouseEventArgs e)
