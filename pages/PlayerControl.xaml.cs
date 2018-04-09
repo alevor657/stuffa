@@ -109,7 +109,10 @@ namespace WpfApp2.pages
         void TimerTickerSlideText(object sender, EventArgs e)
     {
             if (DelayCounter < 50)
+            {
                 DelayCounter++;
+                System.Threading.Thread.Sleep(250);
+            }
             
 
             if (DelayCounter == 50)

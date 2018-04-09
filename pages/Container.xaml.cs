@@ -173,8 +173,29 @@ namespace WpfApp2.pages
 
         }
 
+        internal void spacePressed()
+        {
+            //check if the searchbox is highlited
+            if(!ev.IsSearchBarActive())
+            {
+                //pause the music
+                this.TogglePlay();
+            }
+        }
+
         public Dictionary<string, object> getPlayerState() => pc.getPlayerState();
         public void TogglePlay() => pc.TogglePlay();
         public void NextSong() => pc.NextSong();
+
+        private void CheckIfSpace(object sender, KeyEventArgs e)
+        {
+
+            Console.WriteLine(e.Key.ToString());
+            if (e.Key.ToString() == "Space")
+            {
+                spacePressed();
+            }
+            
+        }
     }
 }

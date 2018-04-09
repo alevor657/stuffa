@@ -10,7 +10,7 @@
       Title="Container" MinWidth="950" MinHeight="600"
       UseLayoutRounding="True">
 
-    <Grid>
+    <Grid KeyUp="CheckIfSpace">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="100"/>

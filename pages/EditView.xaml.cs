@@ -89,6 +89,11 @@ namespace WpfApp2.pages
             }            
         }
 
+        public bool IsSearchBarActive()
+        {
+            return SearchTermTextBox.IsSelectionActive;
+        }
+
 
         private void DragDrop(object sender, DragEventArgs e)
         {
