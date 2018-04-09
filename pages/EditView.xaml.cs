@@ -99,30 +99,37 @@ namespace WpfApp2.pages
         {
             try
             {
-                /*foreach(string s in e.Data.GetFormats())
+                if (sender.GetType() == typeof(ListBox))
                 {
-                    Console.WriteLine(s);
+                    Console.WriteLine("drop from ListBox");
                 }
-                Console.WriteLine("------");*/
-
-                List<string> paths = ((string[])e.Data.GetData(DataFormats.FileDrop, false)).ToList<string>();
-
-                for (int i = 0; i < paths.Count; i++)
+                else
                 {
-                    if(!paths[i].EndsWith(".mp3") && !paths[i].EndsWith(".m4a"))
+                    /*foreach(string s in e.Data.GetFormats())
                     {
-                        Console.WriteLine(paths[i] + " <--wrong filetype");
-
-                        paths.RemoveAt(i);
+                        Console.WriteLine(s);
                     }
-                    else
+                    Console.WriteLine("------");*/
+
+                    List<string> paths = ((string[])e.Data.GetData(DataFormats.FileDrop, false)).ToList<string>();
+
+                    for (int i = 0; i < paths.Count; i++)
                     {
-                        Console.WriteLine(paths[i]);
+                        if (!paths[i].EndsWith(".mp3") && !paths[i].EndsWith(".m4a"))
+                        {
+                            Console.WriteLine(paths[i] + " <--wrong filetype");
 
+                            paths.RemoveAt(i);
+                        }
+                        else
+                        {
+                            Console.WriteLine(paths[i]);
+
+                        }
                     }
+
+                    container.LoadNewMusic(paths);
                 }
-
-                container.LoadNewMusic(paths);
                 
             }
             catch { }
