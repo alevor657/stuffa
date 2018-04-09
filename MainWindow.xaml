@@ -59,7 +59,7 @@
             <Image x:Name="closeButton" Grid.Column="3" Height="30" VerticalAlignment="Top" Source="img/close.png.png" MouseUp="closeUp" MouseEnter="closeEnter" MouseLeave="closeLeave" MouseDown="closeDown"/>
             <Image x:Name="maximizeButton" Grid.Column="2" Height="30" VerticalAlignment="Top" Source="img/ic_open_in_new_white_48dp.png" MouseUp="maximizeUp" MouseDown="maximizeDown" MouseEnter="maximizeEnter" MouseLeave="maximizeLeave" Opacity="0.5"/>
             <Image x:Name="minimizeButton" Grid.Column="1" Height="30" VerticalAlignment="Top" Source="img/ic_remove_white_48dp.png" MouseUp="minimizeUp" Opacity="0.5" MouseEnter="minimizeEnter" MouseDown="minimizeDown" MouseLeave="minimizeLeave"/>
-            <TextBlock x:Name="Title" Text="" HorizontalAlignment="Left" Margin="39,0,0,0" VerticalAlignment="Center" MouseLeave="setTitle" MouseEnter="smilie"/>
+            <TextBlock x:Name="Title" Text="" HorizontalAlignment="Left" Margin="39,0,0,0" VerticalAlignment="Center" MouseMove="dragWindow" MouseLeave="setTitle" MouseEnter="smilie"/>
 
 
         </Grid>

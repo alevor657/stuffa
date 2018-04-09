@@ -172,6 +172,12 @@ namespace Stuffa
             Title.Text = "Title";
         }
 
+        private void dragWindow(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                this.DragMove();
+        }
+
         //    private void SettingsClick(object sender, RoutedEventArgs e)
         //    {
         //        settingsCounter++;
