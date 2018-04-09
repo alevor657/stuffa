@@ -45,6 +45,7 @@ namespace Stuffa
             Thread.CurrentThread.Name = "parent";
             InitializeComponent();
             ContainerView.Content = new Container();
+            setTitle();
         }
 
       
@@ -120,6 +121,21 @@ namespace Stuffa
         {
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
+        }
+
+        private void smilie(object sender, MouseEventArgs e)
+        {
+            Title.Text = ":D    ";
+        }
+
+        private void setTitle(object sender, MouseEventArgs e)
+        {
+            setTitle();
+        }
+
+        private void setTitle()
+        {
+            Title.Text = "Title";
         }
 
         //    private void SettingsClick(object sender, RoutedEventArgs e)
