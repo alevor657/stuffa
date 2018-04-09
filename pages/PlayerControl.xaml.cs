@@ -29,9 +29,10 @@ namespace WpfApp2.pages
         bool mediaFileIsOpen;
         bool isPlaying = false;
 
+        bool fadingOutForNextSong;
+
         double volumeLevel;
 
-        DispatcherTimer slideTimer = new DispatcherTimer();
         DispatcherTimer songTimer = new DispatcherTimer();
         DispatcherTimer labelTimer = new DispatcherTimer();
 
@@ -42,8 +43,8 @@ namespace WpfApp2.pages
         int maxLengthOfTitle = 284;
         int DelayCounter = 0;
 
-        bool draging = false;
-        
+        bool draging;
+
 
         public PlayerControl(Container container)
         {
@@ -60,14 +61,12 @@ namespace WpfApp2.pages
             songTimer.Interval = new TimeSpan(500);
             songTimer.Tick += SongTimerTicker;
 
-            slideTimer.Interval = new TimeSpan(500);
-            slideTimer.Tick += SliderTicker;
-            
             outFadeTimer.Tick += OutFadeTicker;
             inFadeTimer.Tick += InFadeTicker;
 
             volumeLevel = 0.75;
             Player.Volume = 0;
+            fadingOutForNextSong = false;
 
             //Player.Source = new Uri("D:\\Nedladdningar\\Vicetone - Way Back (feat. Cozi Zuehlsdorff).mp3", UriKind.RelativeOrAbsolute);
 
@@ -76,7 +75,7 @@ namespace WpfApp2.pages
 
 
         }
-        
+
         private void InFadeTicker(object sender, EventArgs e)
         {
             Player.Volume += 0.01;
@@ -91,33 +90,48 @@ namespace WpfApp2.pages
             Player.Volume -= 0.01;
             if (Player.Volume < 0.001)
             {
+                if (fadingOutForNextSong)
+                {
+                    outFadeTimer.Stop();
+                }
                 stopFadeOut();
             }
         }
 
         private void SliderTicker(object sender, EventArgs e)
         {
-            trackSlider.Value = Player.Position.TotalSeconds;
+            
         }
 
         private void SongTimerTicker(object sender, EventArgs e)
         {
             TimeSpan currentTime = new TimeSpan(0, Player.Position.Duration().Minutes, Player.Position.Duration().Seconds);
             SongCurrentTime.Content = currentTime.ToString().Substring(3);
+
+            if (!draging)
+            {
+                trackSlider.Value = Player.Position.TotalSeconds;
+            }
+
+            if (Player.NaturalDuration.HasTimeSpan)
+            {
+                if ((Player.NaturalDuration.TimeSpan.TotalSeconds - currentTime.TotalSeconds) <= 3 && !fadingOutForNextSong)
+                {
+                    fadeOut(currentTime.TotalSeconds * 100000);
+                    fadingOutForNextSong = true;
+                }
+            }
         }
 
         void TimerTickerSlideText(object sender, EventArgs e)
-    {
+        {
             if (DelayCounter < 50)
-            {
                 DelayCounter++;
-                System.Threading.Thread.Sleep(250);
-            }
-            
+
 
             if (DelayCounter == 50)
             {
-                
+
                 if (lengthcounter == maxLengthOfTitle)
                 {
                     lengthcounter = 0;
@@ -129,8 +143,6 @@ namespace WpfApp2.pages
 
             TimeSpan currentTime = new TimeSpan(0, Player.Position.Duration().Minutes, Player.Position.Duration().Seconds);
             SongCurrentTime.Content = currentTime.ToString().Substring(3);
-
-            trackSlider.Value = Player.Position.TotalSeconds;
         }
 
         public void TogglePlay() => playButtonUp();
@@ -142,26 +154,29 @@ namespace WpfApp2.pages
             {
                 if (isPlaying)
                 {
-
+                    BitmapImage image = new BitmapImage(new Uri("../img/play-white.png", UriKind.Relative));
+                    playButton.Source = image;
                     fadeOut();
+                    isPlaying = false;
+                    inFadeTimer.Stop();
                 }
                 else
                 {
-
+                    stopFadeOut();
                     BitmapImage image = new BitmapImage(new Uri("../img/pause-white.png", UriKind.Relative));
                     playButton.Source = image;
                     isPlaying = true;
                     Player.Play();
                     songTimer.Start();
-                    slideTimer.Start();
                     fadeIn();
+                    outFadeTimer.Stop();
                 }
             }
         }
 
         private void Player_MediaOpened(object sender, RoutedEventArgs e)
         {
-           
+
             mediaFileIsOpen = true;
             if (Player.NaturalDuration.HasTimeSpan)
             {
@@ -176,25 +191,26 @@ namespace WpfApp2.pages
 
         private void loadSong(object sender, MouseButtonEventArgs e)
         {
-            
-                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
-                dlg.DefaultExt = ".mp3";
-                dlg.Filter = "MP3 Files (*.mp3)|*.mp3|M4A Files (*.m4a)|*.m4a|FLAC Files (*.flac)|*.flac";
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
-                // Display OpenFileDialog by calling ShowDialog method 
-                Nullable<bool> result = dlg.ShowDialog();
+            dlg.DefaultExt = ".mp3";
+            dlg.Filter = "MP3 Files (*.mp3)|*.mp3|M4A Files (*.m4a)|*.m4a|FLAC Files (*.flac)|*.flac";
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            Nullable<bool> result = dlg.ShowDialog();
 
 
-                // Get the selected file name and display in a TextBox 
-                if (result == true)
-                {
-                    Player.Source = new Uri(dlg.FileName);
-                }
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                Player.Source = new Uri(dlg.FileName);
+            }
         }
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            volumeLevel = VolumeSlider.Value;
             Player.Volume = VolumeSlider.Value;
 
             if (isLoaded)
@@ -216,7 +232,7 @@ namespace WpfApp2.pages
                     VolumeButton.Source = image;
 
                 }
-                
+
             }
         }
 
@@ -244,14 +260,13 @@ namespace WpfApp2.pages
         //update Player with the new position
         private void Draging(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            
-            trackSlider.Value += e.VerticalChange;
-            Player.Position = TimeSpan.FromSeconds(trackSlider.Value);
+
+            //Player.Position = TimeSpan.FromSeconds(trackSlider.Value);
         }
 
         private void Player_MediaEnded(object sender, RoutedEventArgs e)
         {
-            if(!draging)
+            if (!draging)
             {
                 NextSong();
             }
@@ -265,7 +280,8 @@ namespace WpfApp2.pages
         private void EndDraging(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
             draging = false;
-            if(trackSlider.Maximum == trackSlider.Value)
+            Player.Position = TimeSpan.FromSeconds(trackSlider.Value);
+            if (trackSlider.Maximum == trackSlider.Value)
             {
                 NextSong();
             }
@@ -289,23 +305,30 @@ namespace WpfApp2.pages
         {
             draging = true;
         }
-        
-        private void fadeOut()
+
+        private void fadeOut(double secondsLeft = 300000)
         {
-            // BitConverter.ToInt64(BitConverter.GetBytes(a), 0);
-            volumeLevel = Player.Volume;
-            long timeInterval = Convert.ToInt64(300000 / Player.Volume);
-            outFadeTimer.Interval = new TimeSpan(timeInterval);
-            outFadeTimer.Start();
-            
+            if ((VolumeSlider.Value != 0 || Player.Volume != 0) && fadingOutForNextSong != true)
+            {
+                volumeLevel = VolumeSlider.Value;
+                long timeInterval = Convert.ToInt64(300000 / Player.Volume);
+                outFadeTimer.Interval = new TimeSpan(timeInterval);
+                outFadeTimer.Start();
+            }
+            else
+            {
+                stopFadeOut();
+            }
         }
 
         private void fadeIn()
         {
-
-            long timeInterval = Convert.ToInt64(300000 / volumeLevel);
-            inFadeTimer.Interval = new TimeSpan(timeInterval);
-            inFadeTimer.Start();
+            if (volumeLevel != 0)
+            {
+                long timeInterval = Convert.ToInt64(300000 / volumeLevel);
+                inFadeTimer.Interval = new TimeSpan(timeInterval);
+                inFadeTimer.Start();
+            }
         }
 
         private void stopFadeOut()
@@ -313,11 +336,9 @@ namespace WpfApp2.pages
             outFadeTimer.Stop();
             Player.Pause();
             songTimer.Stop();
-            slideTimer.Stop();
 
-            BitmapImage image = new BitmapImage(new Uri("../img/play-white.png", UriKind.Relative));
-            playButton.Source = image;
             isPlaying = false;
+            fadingOutForNextSong = false;
         }
 
         private void stopFadeIn()

@@ -28,16 +28,16 @@
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
-                    <RotateTransform x:Name="noFreeze"/>
+                    <RotateTransform Angle="0"/>
                     <TranslateTransform/>
                 </TransformGroup>
             </Image.RenderTransform>
             <Image.Triggers>
-                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                <EventTrigger RoutedEvent="UIElement.MouseUp">
                     <BeginStoryboard>
-                        <Storyboard Storyboard.TargetProperty="(Rectangle.RenderTransform).(RotateTransform.Angle)"
-                              >
-                            <DoubleAnimation To="180" Duration="0:0:0.1" />
+                        <Storyboard Storyboard.TargetName="settignsButton"
+                                    Storyboard.TargetProperty="(RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                            <DoubleAnimation From="0" To="120" Duration="00:00:00.2" AutoReverse="False"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>

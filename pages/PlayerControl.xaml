@@ -151,8 +151,8 @@
             <Label x:Name="SongCurrentTime" Content="0:00" HorizontalAlignment="Left" Margin="10,0,0,38.59" FontWeight="Normal" Width="45.184" VerticalContentAlignment="Bottom" Opacity="0.8"/>
         </Grid>
         <MediaElement x:Name="Player" HorizontalAlignment="Left" Height="80" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" ScrubbingEnabled="True" MediaEnded="Player_MediaEnded" MediaOpened="Player_MediaOpened" Volume="0.7" LoadedBehavior="Manual"/>
-        <Image x:Name="AlbumArt" Margin="10,10,183,10" Source="WayBackVicetone.jpg" MinWidth="80" MinHeight="80" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Image x:Name="AlbumArt" Margin="10,10,183,10" Source="album_placeholder.png" MinWidth="80" MinHeight="80" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Slider x:Name="VolumeSlider" Grid.Column="4" HorizontalAlignment="Center" Margin="85.544,43,87.096,39" VerticalAlignment="Center" Width="100" ValueChanged="VolumeSlider_ValueChanged" Maximum="1" Value="0.7" Opacity="0.8" LargeChange="0.1" SmallChange="0.01" TickFrequency="0.01"/>
-        <Image x:Name="VolumeButton" Grid.Column="4" Height="18" Margin="62.544,43,0,39" Width="18" Source="volume-high.png" Opacity="0.795" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" HorizontalAlignment="Left"/>
+        <Image x:Name="VolumeButton" Grid.Column="4" Height="18" Margin="62.64,43,192,39" Width="18" Source="volume-high.png" Opacity="0.795" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" HorizontalAlignment="Center"/>
     </Grid>
 </Page>

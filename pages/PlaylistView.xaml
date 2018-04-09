@@ -10,8 +10,8 @@
       Title="PlaylistView">
 
     <Grid x:Name="grid2" MinWidth="145" Background="#FF1F1F1F" RenderTransformOrigin="0.5,0.5" MaxWidth="700" MinHeight="450">
-        <Label Content="Playlists" HorizontalAlignment="Center" VerticalAlignment="Top" Width="64.6" Height="29.2" Margin="0,70.667,0,0" SnapsToDevicePixels="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="16" Opacity="0.795"/>
-        <materialDesign:DialogHost DialogClosing="AddPlaylist_DialogHost_OnDialogClosing" Margin="0,104.867,0,0">
+        <Label Content="Playlists" HorizontalAlignment="Center" VerticalAlignment="Top" Width="64.6" Height="29.2" Margin="116.776,38.326,118.624,0" SnapsToDevicePixels="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="16" Opacity="0.795"/>
+        <materialDesign:DialogHost DialogClosing="AddPlaylist_DialogHost_OnDialogClosing" Margin="0,72.526,0,0">
             <materialDesign:DialogHost.DialogContent>
                 <StackPanel Margin="16">
                     <TextBlock>Add a new playlist.</TextBlock>
@@ -41,18 +41,16 @@
             <Grid Margin="0,0,0,10">
                 <ListBox x:Name="PlaylistList" Margin="10,10,10,52" SelectedIndex="2" FontSize="16" Opacity="0.8" VerticalContentAlignment="Top" BorderBrush="#00000000" SelectionChanged="PlaylistList_SelectionChanged">
                     <ListBox.ContextMenu>
-                        <ContextMenu >
-                            <MenuItem Header="Add Music" Click="AddMusic" />
-                            <MenuItem Header="Remove" Click="removePlaylistOnIndex" />
-
+                        <ContextMenu>
+                            <MenuItem Header="Remove Playlist" Click="removePlaylistOnIndex" />
                         </ContextMenu>
                     </ListBox.ContextMenu>
                 </ListBox>
-                <Button x:Name="NewPlaylistButton" Content="New Playlist" Margin="10,0,10,10" VerticalAlignment="Bottom" Height="37" FontSize="16" MinHeight="25" MinWidth="{Binding Width, ElementName=grid1, Mode=OneWay}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Background="#FFD32F2F"></Button>
+                <Button x:Name="NewPlaylistButton" Content="New Playlist" Margin="10,0,10,10" VerticalAlignment="Bottom" Height="37" FontSize="16" MinHeight="25" MinWidth="{Binding Width, ElementName=grid1, Mode=OneWay}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"></Button>
             </Grid>
         </materialDesign:DialogHost>
 
-        <Image HorizontalAlignment="Center" Height="70.8" Margin="0" VerticalAlignment="Top" Width="109.633" Source="../img/stuffa-logo.gif"/>
+        <Image HorizontalAlignment="Center" Height="32" Margin="0,0,268,0" VerticalAlignment="Top" Width="32" Source="../img/stuffa-logo.gif"/>
         <!--<Image  Source="../img/newPlaylist.png.png" Height="20.867" Margin="131.959,0,40.307,142" VerticalAlignment="Bottom"/>-->
 
 
