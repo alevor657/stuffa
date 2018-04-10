@@ -134,9 +134,11 @@ namespace WpfApp2.pages
         }
 		internal void getRandomSong()
 		{
-			int index = mp.getIndexForNextSong();
-			Music temp = mp.GetSongObj(index);
-			pc.PlaySong(temp);
+            // Add switch for different shuffle states 
+            int index = mp.getIndexForBPMShuffle();
+            Music temp = mp.GetSongObj(index);
+            ev.setHighlight(index);
+            pc.PlaySong(temp);
 		}
 
 

@@ -155,6 +155,11 @@ namespace WpfApp2.pages
         {
             container.LoadNewMusic();
         }
+        public void setHighlight(int selectedIndex)
+        {
+            this.currentPlaylist.SelectedIndex = selectedIndex;
+        }
+
     }
 }
 
