@@ -9,7 +9,6 @@ namespace WpfApp2.SQLite
     /// </summary>
     public partial class loadingWindow : Window
     {
-        int max = 0;
         public loadingWindow(string TextMsg)
         {
             InitializeComponent();
@@ -19,20 +18,7 @@ namespace WpfApp2.SQLite
 
         public void setMax(int max)
         {
-            this.max = max;
-        }
-
-        public void setPos(int pos)
-        {
-            pos = (pos / max) * 100;
-            if(pos >= 100)
-            {
-                //close window
-            }
-            else
-            {
-                this.Progress.Value = pos;
-            }
+            this.Dispatcher.Invoke(new System.Action (() => this.Progress.Maximum = max));
         }
 
         public void increasePos()
@@ -47,9 +33,10 @@ namespace WpfApp2.SQLite
 
         private void checkIfFull()
         {
-            if (this.Progress.Value >= 100)
+            if (this.Progress.Value == this.Progress.Maximum)
             {
                 this.Close();
+                System.Console.WriteLine("progress bar finnished");
             }
         }
 
