@@ -158,6 +158,7 @@ namespace WpfApp2.pages
         public void setHighlight(int selectedIndex)
         {
             this.currentPlaylist.SelectedIndex = selectedIndex;
+            this.currentPlaylist.ScrollIntoView(this.currentPlaylist.SelectedItem);
         }
 
     }
