@@ -101,7 +101,10 @@ namespace WpfApp2.pages
             {
                 if (sender.GetType() == typeof(ListBox))
                 {
-                    Console.WriteLine("drop from ListBox");
+                    Music m = ((e.Source as ListBox).SelectedItem as Tuple<Music, System.Windows.Visibility>).Item1;
+                    Console.WriteLine(e.GetPosition(e.Source as ListBox));
+                    
+                    Console.WriteLine(m.getTitle() + " : " + m.getArtist());
                 }
                 else
                 {
