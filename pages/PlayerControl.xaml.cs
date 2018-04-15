@@ -171,6 +171,8 @@ namespace WpfApp2.pages
                     fadeIn();
                     outFadeTimer.Stop();
                 }
+                container.SendStateToServerOnUpdate();
+
             }
         }
 
@@ -232,6 +234,7 @@ namespace WpfApp2.pages
                     VolumeButton.Source = image;
 
                 }
+                container.SendStateToServerOnUpdate();
 
             }
         }
@@ -251,6 +254,7 @@ namespace WpfApp2.pages
                 Player.Play();
                 songTimer.Start();
                 fadeIn();
+                container.SendStateToServerOnUpdate();
             }
 
         }
@@ -275,6 +279,7 @@ namespace WpfApp2.pages
         public void NextSong()
         {
             container.getRandomSong();
+            container.SendStateToServerOnUpdate();
         }
 
         private void EndDraging(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)

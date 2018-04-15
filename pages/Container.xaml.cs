@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using Stuffa;
 using System.Collections;
 using SocketServer;
+using Newtonsoft.Json;
 
 namespace WpfApp2.pages
 {
@@ -108,8 +109,6 @@ namespace WpfApp2.pages
         {
             ev.LoadSearch(mp.searchAllMusic(searchTerm));
             ev.setMarked(mp.GetMusicFromPlaylist(), mp.getAllBpm(105, 3));
-
-
         }
 
         internal void playBpm(int Bpm, int range)
@@ -186,6 +185,12 @@ namespace WpfApp2.pages
         public Dictionary<string, object> getPlayerState() => pc.getPlayerState();
         public void TogglePlay() => pc.TogglePlay();
         public void NextSong() => pc.NextSong();
+
+        public void SendStateToServerOnUpdate()
+        {
+            string json = JsonConvert.SerializeObject(getPlayerState());
+            s.Send(ServerMsg.Create(SocketServer.Action.REQUEST_STATE_SUCCESS, json));
+        }
 
         private void CheckIfSpace(object sender, KeyEventArgs e)
         {
