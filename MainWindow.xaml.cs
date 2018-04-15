@@ -45,6 +45,7 @@ namespace Stuffa
             Thread.CurrentThread.Name = "parent";
             InitializeComponent();
             ContainerView.Content = new Container();
+            setTitle();
         }
 
       
@@ -119,6 +120,61 @@ namespace Stuffa
         private void dragWindow(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
+
+        private void smilie(object sender, MouseEventArgs e)
+        {
+            string smilie = "";
+            Random rand = new Random();
+            double randNr = rand.NextDouble();
+            if(randNr < 0.2)
+            {
+                smilie += ";";
+            }
+            else if(randNr > 0.7)
+            {
+                smilie += ":";
+            }
+            else 
+            {
+                smilie += "B";
+            }
+
+            randNr = rand.NextDouble();
+            if (randNr < 0.2)
+            {
+                smilie += ")";
+            }
+            else if (randNr > 0.7 && smilie != "B")
+            {
+                smilie += "D";
+            }
+            else if (randNr > 0.5 && smilie != "B")
+            {
+                smilie += "P";
+            }
+            else 
+            {
+                smilie += "-)";
+            }
+
+            Title.Text = smilie + "    ";
+        }
+
+        private void setTitle(object sender, MouseEventArgs e)
+        {
+            setTitle();
+        }
+
+        private void setTitle()
+        {
+            Title.Text = "Title";
+        }
+
+        private void dragWindow(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
                 this.DragMove();
         }
 

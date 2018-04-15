@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IdSharp.Tagging.ID3v2;
-using TagLib;
 using System.Windows.Controls;
 
 namespace Stuffa
