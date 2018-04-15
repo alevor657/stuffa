@@ -131,7 +131,7 @@ namespace WpfApp2.pages
 
             if (DelayCounter == 50)
             {
-
+                container.PreventSleep();
                 if (lengthcounter == maxLengthOfTitle)
                 {
                     lengthcounter = 0;
