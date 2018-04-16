@@ -66,8 +66,10 @@
             -->
 
         </ListBox>
-        <materialDesign:Snackbar Grid.Column="0" x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="61" Margin="0,0,0,-7" HorizontalAlignment="Stretch"  VerticalContentAlignment="Bottom" HorizontalContentAlignment="Stretch" Background="#FFD32F2F" Foreground="White" />
-
+        <Frame x:Name="SnackBar" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="60"></Frame>
+        <!--<materialDesign:Snackbar Grid.Column="0" x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="61" Margin="0,0,0,-7" HorizontalAlignment="Stretch"  VerticalContentAlignment="Bottom" HorizontalContentAlignment="Stretch" Background="#FFD32F2F" Foreground="White" />
+-->
+        
         <ListBox Grid.Column="1" x:Name="searchRes" Margin="10,139,10,0" AllowDrop="True" SelectedIndex="1" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>

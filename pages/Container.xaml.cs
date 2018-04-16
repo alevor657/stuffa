@@ -125,7 +125,11 @@ namespace WpfApp2.pages
         internal void LoadNewMusic(List<string> paths)
         {
             //load new music into current playlist
-            mp.LoadNewMusic(paths, false);
+            List<Music> same = mp.LoadNewMusic(paths, false);
+            if (same.Count > 0)
+            {
+                ev.snackBarActivate();
+            }
             this.showSelectedPlaylist();            
         }
 

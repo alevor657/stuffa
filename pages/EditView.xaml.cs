@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp2.feedback;
 
 namespace WpfApp2.pages
 {
@@ -49,15 +50,15 @@ namespace WpfApp2.pages
             currentPlaylist.ItemsSource = null;
             currentPlaylist.ItemsSource = list;
             //currentPlaylist.ItemsSource = musicInPlaylist;
-            snackBarActivate();
         }
 
         public void snackBarActivate()
         {
-            var messageQueue = SnackBarDialog.MessageQueue;
+            SnackBar.Content = new MsgWin("dublets spoted", "add", "skipp", container);
+            //var messageQueue = SnackBarDialog.MessageQueue;
 
             //the message queue can be called from any thread
-            Task.Factory.StartNew(() => messageQueue.Enqueue("some music allready existed in this playlist", "continue adding", () => { }));
+            //Task.Factory.StartNew(() => messageQueue.Enqueue("some music allready existed in this playlist", "continue adding", () => { }));
         }
 
         public void LoadSearch(List<Music> playlistSongs)
