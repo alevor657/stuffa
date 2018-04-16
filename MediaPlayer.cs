@@ -159,7 +159,7 @@ namespace Stuffa
         private bool ValuídPlaylistName(string name)
         {
             bool retVal = false;
-            if (!(name.Contains('"') || name.Contains("/") || name.Contains("\\") || name.Contains(":") || name.Contains("?") || name.Contains("<") || name.Contains(">") || name.Contains("|")))
+            if (!(name == "" || name.Contains('"') || name.Contains("/") || name.Contains("\\") || name.Contains(":") || name.Contains("?") || name.Contains("<") || name.Contains(">") || name.Contains("|")))
             {
                 
                 retVal = true;

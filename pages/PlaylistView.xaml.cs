@@ -24,10 +24,12 @@ namespace WpfApp2.pages
     public partial class PlaylistView : Page
     {
         Container container;
+        Brush b;
 
         public PlaylistView(Container c)
         {
             InitializeComponent();
+            b = this.NewPlaylistButton.Background;
             container = c;
 
 
@@ -67,13 +69,12 @@ namespace WpfApp2.pages
 
             if (!Equals(eventArgs.Parameter, true)) return;
 
-            if (!string.IsNullOrWhiteSpace(PlaylistName.Text))
-            {
-
-                if (container.newPlaylist(PlaylistName.Text.Trim()))
+           
+                if (!string.IsNullOrWhiteSpace(PlaylistName.Text) && container.newPlaylist(PlaylistName.Text.Trim()))
                 {
                     PlaylistList.SelectedIndex = PlaylistList.Items.Count - 1;
                     container.snackBarActivate(PlaylistName.Text.Trim() + " created!");
+                    clearDialog();
                 }
                 else
                 {
@@ -85,7 +86,7 @@ namespace WpfApp2.pages
                    
                     PlaylistName.BorderBrush = mySolidColorBrush;
                 }
-            }
+            
         }
 
         private void PlaylistList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -93,6 +94,7 @@ namespace WpfApp2.pages
             if (PlaylistList.SelectedIndex != -1)
             {
                 container.showSelectedPlaylist();
+                PlaylistList.ScrollIntoView(PlaylistList.SelectedItem);
                 //ev.loadPlaylist(pl[PlaylistList.SelectedIndex].getAllMusic());
             }
         }
@@ -120,6 +122,19 @@ namespace WpfApp2.pages
             container.LoadNewMusic();
         }
 
+        private void clearDialog()
+        {
+            Console.WriteLine("new playlist pressed");
+            this.PlaylistName.Text = "";
 
+            this.PlaylistName.BorderBrush = b;
+            
+
+        }
+
+        internal bool isTextBoxActive()
+        {
+            return this.PlaylistName.IsSelectionActive;
+        }
     }
 }

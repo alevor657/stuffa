@@ -221,7 +221,7 @@ namespace WpfApp2.pages
         internal void spacePressed()
         {
             //check if the searchbox is highlited
-            if(!ev.IsSearchBarActive())
+            if(!ev.IsSearchBarActive() && !pv.isTextBoxActive())
             {
                 //pause the music
                 this.TogglePlay();

@@ -15,7 +15,7 @@
             <materialDesign:DialogHost.DialogContent>
                 <StackPanel Margin="16">
                     <TextBlock>Add a new playlist.</TextBlock>
-                    <TextBox Margin="0 8 0 0" HorizontalAlignment="Stretch" Panel.ZIndex="12" BorderThickness="0 0 0 4" x:Name="PlaylistName" />
+                    <TextBox Margin="0 8 0 0" MaxLength="32" HorizontalAlignment="Stretch" Panel.ZIndex="12" BorderThickness="0 0 0 4" x:Name="PlaylistName" />
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                         IsDefault="True"
@@ -46,7 +46,7 @@
                         </ContextMenu>
                     </ListBox.ContextMenu>
                 </ListBox>
-                <Button x:Name="NewPlaylistButton" Content="New Playlist" Margin="10,0,10,10" VerticalAlignment="Bottom" Height="37" FontSize="16" MinHeight="25" MinWidth="{Binding Width, ElementName=grid1, Mode=OneWay}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"></Button>
+                <Button x:Name="NewPlaylistButton" Content="New Playlist" Margin="10,0,10,10" VerticalAlignment="Bottom" Height="37" FontSize="16" MinHeight="25" MinWidth="{Binding Width, ElementName=grid1, Mode=OneWay}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" HorizontalContentAlignment="Center" VerticalContentAlignment="Top"  Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"></Button>
             </Grid>
         </materialDesign:DialogHost>
 
