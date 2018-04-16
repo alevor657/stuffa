@@ -49,17 +49,20 @@ namespace WpfApp2.pages
             }
             currentPlaylist.ItemsSource = null;
             currentPlaylist.ItemsSource = list;
+            this.SnackBar.Content = null;
             //currentPlaylist.ItemsSource = musicInPlaylist;
         }
 
         public void snackBarActivate()
         {
-            SnackBar.Content = new MsgWin("dublets spoted", "add", "skipp", container);
+            SnackBar.Content = new MsgWin("dublets spoted", "add", "skipp", leftMsbWinButton, rightMsbWinButton);
             //var messageQueue = SnackBarDialog.MessageQueue;
 
             //the message queue can be called from any thread
             //Task.Factory.StartNew(() => messageQueue.Enqueue("some music allready existed in this playlist", "continue adding", () => { }));
         }
+
+        
 
         public void LoadSearch(List<Music> playlistSongs)
         {
@@ -139,6 +142,19 @@ namespace WpfApp2.pages
             catch { }
         }
 
+        public void leftMsbWinButton(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine("left");
+            container.AddDupletts();
+            SnackBar.Content = null;
+
+        }
+
+        public void rightMsbWinButton(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine("right");
+            SnackBar.Content = null;
+        }
 
         private void removeSongOnIndex(object sender, RoutedEventArgs e)
         {

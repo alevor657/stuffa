@@ -21,14 +21,16 @@ namespace WpfApp2.feedback
     /// </summary>
     public partial class MsgWin : Page
     {
-        Container Con;
-        public MsgWin(string msg, string B0, string B1, Container container)
+        public MsgWin(string msg, string B0, string B1, MouseButtonEventHandler B0EventHandler, MouseButtonEventHandler B1EventHandler)
         {
             InitializeComponent();
             this.Msg.Text = msg;
             this.Button0.Text = B0;
             this.Button1.Text = B1;
-            Con = container;
+            this.B0Button.MouseUp += B0EventHandler;
+            this.B1Button.MouseUp += B1EventHandler;
+            //PopUpMsg.Height = WindowHeight;
+            //PopUpMsg.IsOpen = true;
         }
 
         private void B0MouseOver(object sender, MouseEventArgs e)

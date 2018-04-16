@@ -30,6 +30,8 @@ namespace Stuffa
         private int currentPlaylist;
 		private List<int> recentlyPlayedIndexes; 
         private Container container;
+
+        private List<Music> sameMusic;
         
 		 public MediaPlayer()
 		 {
@@ -117,7 +119,15 @@ namespace Stuffa
             }
             master.InsertNewMusicThread(paths);
             //this.masterPlaylist.loadNewMusic(paths, false);
-            return this.playlists[this.currentPlaylist].loadNewMusic(paths, addAll);
+
+            sameMusic = this.playlists[this.currentPlaylist].loadNewMusic(paths, addAll);
+            return sameMusic;
+        }
+
+        //add the latest found dupletts to the CURRENT playlist
+        public void AddDupletts()
+        {
+            this.playlists[currentPlaylist].loadNewMusic(sameMusic, true);
         }
 
         public bool RemoveMusic(int index)

@@ -207,6 +207,14 @@ namespace WpfApp2.pages
 
         }
 
+        internal void AddDupletts()
+        {
+            mp.AddDupletts();
+            this.showSelectedPlaylist();
+
+
+        }
+
         internal void spacePressed()
         {
             //check if the searchbox is highlited

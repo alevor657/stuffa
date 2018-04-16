@@ -47,8 +47,8 @@
             </Grid>
 
 
-            <Rectangle Grid.Column="0" MouseEnter="B0MouseOver" Fill="Transparent" MouseLeave="B0MouseLeave" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <Rectangle Grid.Column="1" MouseEnter="B1MouseOver" Fill="Transparent" MouseLeave="B1MouseLeave" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <Rectangle x:Name="B0Button" Grid.Column="0" MouseEnter="B0MouseOver" Fill="Transparent" MouseLeave="B0MouseLeave" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <Rectangle x:Name="B1Button" Grid.Column="1" MouseEnter="B1MouseOver" Fill="Transparent" MouseLeave="B1MouseLeave" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
 
         </Grid>
