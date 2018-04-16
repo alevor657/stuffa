@@ -141,13 +141,37 @@ namespace Stuffa
 
         public bool addNewPlaylist(string name)
         {
+            bool created = false;
             //Console.WriteLine(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()));
+            if(ValuídPlaylistName(name))
+            {
+                this.playlists.Add(new Playlist(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()) + "\\playlists\\" + name + ".txt"));
+                playlists[playlists.Count - 1].savePlaylist();
+                created = true;
+            }
 
-            this.playlists.Add(new Playlist(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()) + "\\playlists\\" + name + ".txt"));
-            playlists[playlists.Count -1].savePlaylist();
 
 
-            return true;
+
+            return created;
+        }
+
+        private bool ValuídPlaylistName(string name)
+        {
+            bool retVal = false;
+            if (!(name.Contains('"') || name.Contains("/") || name.Contains("\\") || name.Contains(":") || name.Contains("?") || name.Contains("<") || name.Contains(">") || name.Contains("|")))
+            {
+                
+                retVal = true;
+                foreach(Playlist i in playlists)
+                {
+                    if(i.ToString() == name)
+                    {
+                        retVal = false;
+                    }
+                }
+            }
+            return retVal;
         }
 
         public string GetCurrentPlaylistName()

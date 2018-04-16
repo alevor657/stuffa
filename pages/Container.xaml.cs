@@ -158,12 +158,15 @@ namespace WpfApp2.pages
             pv.updatePlaylists(GetPlaylists());
         }
 
-        internal void newPlaylist(string name)
+        internal bool newPlaylist(string name)
         {
+            bool created = false;
             if(mp.addNewPlaylist(name))
             {
+                created = true;
                 pv.updatePlaylists(GetPlaylists());
             }
+            return created;
 
         }
 		internal void getRandomSong()

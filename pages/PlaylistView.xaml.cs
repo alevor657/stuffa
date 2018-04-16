@@ -70,9 +70,21 @@ namespace WpfApp2.pages
             if (!string.IsNullOrWhiteSpace(PlaylistName.Text))
             {
 
-                container.newPlaylist(PlaylistName.Text.Trim());
-                PlaylistList.SelectedIndex = PlaylistList.Items.Count - 1;
-                container.snackBarActivate(PlaylistName.Text.Trim() + " created!");
+                if (container.newPlaylist(PlaylistName.Text.Trim()))
+                {
+                    PlaylistList.SelectedIndex = PlaylistList.Items.Count - 1;
+                    container.snackBarActivate(PlaylistName.Text.Trim() + " created!");
+                }
+                else
+                {
+                    eventArgs.Cancel();
+
+                    SolidColorBrush mySolidColorBrush = new SolidColorBrush();
+                    mySolidColorBrush.Color = (Color)ColorConverter.ConvertFromString("#781714");
+
+                   
+                    PlaylistName.BorderBrush = mySolidColorBrush;
+                }
             }
         }
 
@@ -107,5 +119,7 @@ namespace WpfApp2.pages
         {
             container.LoadNewMusic();
         }
+
+
     }
 }
