@@ -10,12 +10,16 @@
       d:DesignHeight="424.5" d:DesignWidth="708"
       Title="PlaylistView" Background="#FF303030">
 
+    
+    
     <Grid>
+        
+        
         <!--<Border BorderBrush="#FF00FF46" BorderThickness="10" Margin="0,0,438,0"/>-->
         <!--<Grid x:Name="mainContent" MinHeight="519" MinWidth="747">-->
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition x:Name="gridForPop"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -66,7 +70,20 @@
             -->
 
         </ListBox>
-        <Frame x:Name="SnackBar" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="60"></Frame>
+
+
+        <Popup x:Name="pop" VerticalAlignment="top" Height="60" VerticalOffset="-60" PopupAnimation="slide"  AllowsTransparency="True" IsOpen="False" Grid.Column="0" Width="{Binding Path=ColumnDefinitions[0].ActualWidth,
+                        RelativeSource={RelativeSource Mode=FindAncestor,
+                                                      AncestorType=Grid}}" >
+
+
+
+
+            <Frame x:Name="SnackBar" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="60">
+                
+            </Frame>
+        </Popup>
+        <!-- <Frame x:Name="SnackBar" x:Name="SnackBar" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="60"></Frame> -->
         <!--<materialDesign:Snackbar Grid.Column="0" x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="61" Margin="0,0,0,-7" HorizontalAlignment="Stretch"  VerticalContentAlignment="Bottom" HorizontalContentAlignment="Stretch" Background="#FFD32F2F" Foreground="White" />
 -->
         

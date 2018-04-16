@@ -28,6 +28,7 @@ namespace WpfApp2.pages
         //public List<Music> currentMusic;
         public EditView(Container container)
         {
+
             this.container = container;
             InitializeComponent();
 
@@ -56,6 +57,7 @@ namespace WpfApp2.pages
         public void snackBarActivate()
         {
             SnackBar.Content = new MsgWin("dublets spoted", "add", "skipp", leftMsbWinButton, rightMsbWinButton);
+            pop.IsOpen = true;
             //var messageQueue = SnackBarDialog.MessageQueue;
 
             //the message queue can be called from any thread
@@ -146,14 +148,14 @@ namespace WpfApp2.pages
         {
             Console.WriteLine("left");
             container.AddDupletts();
-            SnackBar.Content = null;
+            pop.IsOpen = false;
 
         }
 
         public void rightMsbWinButton(object sender, MouseButtonEventArgs e)
         {
             Console.WriteLine("right");
-            SnackBar.Content = null;
+            pop.IsOpen = false;
         }
 
         private void removeSongOnIndex(object sender, RoutedEventArgs e)
