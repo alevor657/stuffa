@@ -42,7 +42,7 @@ namespace Stuffa
         public MediaPlayer(Container container)
         {
             master = new MasterPlaylist();
-            string folder = Directory.GetCurrentDirectory().Substring(0, 16);
+            string folder = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()).ToString();
             this.container = container;
 			
             this.masterPlaylist = new Playlist(folder + "\\playlists\\All music.txt");
@@ -79,7 +79,7 @@ namespace Stuffa
             string[] fileTypes = new string[1];
             fileTypes[0] = ".txt";
 
-            List<string> playListNames = ProcessDirectory(Directory.GetCurrentDirectory().Substring(0, 16) + "\\playlists", fileTypes);
+            List<string> playListNames = ProcessDirectory(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()) + "\\playlists", fileTypes);
 
             foreach(string name in playListNames)
             {
@@ -141,7 +141,9 @@ namespace Stuffa
 
         public bool addNewPlaylist(string name)
         {
-            this.playlists.Add(new Playlist(Directory.GetCurrentDirectory().Substring(0, 16) + "\\playlists\\" + name + ".txt"));
+            //Console.WriteLine(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()));
+
+            this.playlists.Add(new Playlist(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()) + "\\playlists\\" + name + ".txt"));
             playlists[playlists.Count -1].savePlaylist();
 
 
