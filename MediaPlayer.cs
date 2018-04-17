@@ -33,7 +33,12 @@ namespace Stuffa
 
         private List<Music> sameMusic;
         
-		 public MediaPlayer()
+
+
+        private int indexForNonShuffle;
+        private int BPM;
+        private int BPMInterval;
+         public MediaPlayer()
 		 {
 			playlists = new List<Playlist>();
             masterPlaylist = new Playlist();
@@ -44,28 +49,19 @@ namespace Stuffa
             master = new MasterPlaylist();
             string folder = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()).ToString();
             this.container = container;
-			
+            this.indexForNonShuffle = 0;
             this.masterPlaylist = new Playlist(folder + "\\playlists\\All music.txt");
 			this.recentlyPlayedIndexes = new List<int>();
+            this.BPM = 110;
+            this.BPMInterval = 0;
             // start generate testplaylist
 
             
             playlists = new List<Playlist>();
-            /*playlists.Add(new Playlist("Jonas bugg", 1));
-            playlists.Add(new Playlist("Anders fox", 1));
-            playlists.Add(new Playlist(Directory.GetCurrentDirectory().Substring(0, 16) + "\\playlists\\TestPlaylist.txt"));
-
-            playlists[0].generateTestPlaylist();
-            playlists.ElementAt(1).generateTestPlaylist();
-
-            List<string> music = new List<string>();
-            music.Add(Directory.GetCurrentDirectory().Substring(0, 16) + "\\Musik\\Scraping_The_Sewer.mp3");
-            music.Add(Directory.GetCurrentDirectory().Substring(0, 16) + "\\Musik\\Young_And_Old_Know_Love.mp3");*/
-            //playlists[2].loadNewMusic(music, false);
             // Find solution to populating the list with indexes greater than the maximum number of songs.
             for (int i=0; i < 5; i++)
             {
-                this.recentlyPlayedIndexes.Insert(i, (this.masterPlaylist.getSize() + 1));
+                this.recentlyPlayedIndexes.Insert(i, -1);
             }
             /*int temp = currentPlaylist;
             currentPlaylist = 2;
@@ -205,6 +201,9 @@ namespace Stuffa
             }
             if(currentPlaylist >= 0 && currentPlaylist < playlists.Count)
             {
+                this.recentlyPlayedIndexes.RemoveAt(4);
+                this.recentlyPlayedIndexes.Insert(0, selectedIndex);
+                this.indexForNonShuffle = selectedIndex;
                 return playlists[currentPlaylist].getMusic(selectedIndex);
             }
             else
@@ -291,11 +290,32 @@ namespace Stuffa
 					indexForNext = r.Next(0, this.playlists[this.currentPlaylist].getSize());
 				}
 			}
-			this.recentlyPlayedIndexes.RemoveAt(4);
-			this.recentlyPlayedIndexes.Insert(0, indexForNext);
+			
 			return indexForNext;
 		}
+        public int getIndexForBPMShuffle()
+        {
+            Random r = new Random();
+            List<int> temp = this.playlists[this.currentPlaylist].searchBPMIndex(this.BPM, this.BPMInterval);
+            int tempInterval = this.BPMInterval;
+            while (temp.Count() < 6)
+            {
+                temp = this.playlists[this.currentPlaylist].searchBPMIndex(this.BPM, ++tempInterval);
+            }
 
+            int randNr = r.Next(0, temp.Count);
+            int index = temp.ElementAt<int>(randNr);
+
+            return index;
+
+
+        }
+
+        public int getIndexForNonShuffle()
+        {
+            this.indexForNonShuffle++;
+            return indexForNonShuffle;
+        }
 
         //get the path to all files that is of type "fileTypes" in the directory "TargetDirectory"
         public static List<String> ProcessDirectory(string targetDirectory, string[] fileTypes)
