@@ -52,8 +52,8 @@ namespace Stuffa
             this.indexForNonShuffle = 0;
             this.masterPlaylist = new Playlist(folder + "\\playlists\\All music.txt");
 			this.recentlyPlayedIndexes = new List<int>();
-            this.BPM = 110;
-            this.BPMInterval = 0;
+            this.BPM = 138;
+            this.BPMInterval = 2;
             // start generate testplaylist
 
             
@@ -305,6 +305,11 @@ namespace Stuffa
 
             int randNr = r.Next(0, temp.Count);
             int index = temp.ElementAt<int>(randNr);
+            while (this.recentlyPlayedIndexes.Contains(index))
+            {
+                randNr = r.Next(0, temp.Count);
+                index = temp.ElementAt<int>(randNr);
+            }
 
             return index;
 

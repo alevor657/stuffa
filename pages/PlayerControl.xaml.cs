@@ -350,5 +350,10 @@ namespace WpfApp2.pages
         {
             inFadeTimer.Stop();
         }
+
+        private void NextSong(object sender, MouseButtonEventArgs e)
+        {
+            this.NextSong();
+        }
     }
 }

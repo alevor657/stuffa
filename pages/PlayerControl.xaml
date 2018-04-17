@@ -65,7 +65,7 @@
                         </EventTrigger>
                     </Image.Triggers>
                 </Image>
-                <Image x:Name="nextSongButton" Source="../img/next.png" UseLayoutRounding="True" Margin="159,0,0.334,-0.251" Opacity="0.495" MouseUp="loadSong">
+                <Image x:Name="nextSongButton" Source="../img/next.png" UseLayoutRounding="True" Margin="159,0,0.334,-0.251" Opacity="0.495" MouseUp="NextSong">
                     <Image.Effect>
                         <DropShadowEffect ShadowDepth="0"/>
                     </Image.Effect>
