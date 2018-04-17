@@ -16,6 +16,8 @@
                 <StackPanel Margin="16">
                     <TextBlock>Add a new playlist.</TextBlock>
                     <TextBox Margin="0 8 0 0" MaxLength="32" HorizontalAlignment="Stretch" Panel.ZIndex="12" BorderThickness="0 0 0 4" x:Name="PlaylistName" />
+                    <TextBlock x:Name="errTxt" Foreground="#781714" Text=""/>
+
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                         IsDefault="True"

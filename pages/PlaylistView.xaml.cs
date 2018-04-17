@@ -84,8 +84,48 @@ namespace WpfApp2.pages
 
                    
                     PlaylistName.BorderBrush = mySolidColorBrush;
+
+                    errTxt.Text = getWhyErr(PlaylistName.Text.Trim());
                 }
             
+        }
+
+        private string getWhyErr(string s)
+        {
+            string ret = "";
+            if(s.Contains('"'))
+            {
+                ret = "invalid character: \"";
+            }
+            else if (s.Contains('\\'))
+            {
+                ret = "invalid character: \\";
+            }
+            else if (s.Contains('/'))
+            {
+                ret = "invalid character: /";
+            }
+            else if (s.Contains('?'))
+            {
+                ret = "invalid character: ?";
+            }
+            else if (s.Contains('<'))
+            {
+                ret = "invalid character: <";
+            }
+            else if (s.Contains('>'))
+            {
+                ret = "invalid character: >";
+            }
+            else if (s.Contains('|'))
+            {
+                ret = "invalid character: |";
+            }
+            else
+            {
+                ret = "name allready exists";
+            }
+            return ret;
         }
 
         private void PlaylistList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -127,6 +167,7 @@ namespace WpfApp2.pages
             this.PlaylistName.Text = "";
 
             this.PlaylistName.BorderBrush = b;
+            this.errTxt.Text = "";
             
 
         }
