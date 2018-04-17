@@ -43,6 +43,8 @@ namespace WpfApp2.pages
         int maxLengthOfTitle = 284;
         int DelayCounter = 0;
 
+        int shuffleLoop = 0;
+
         bool draging;
 
 
@@ -354,6 +356,30 @@ namespace WpfApp2.pages
         private void NextSong(object sender, MouseButtonEventArgs e)
         {
             this.NextSong();
+        }
+
+        private void ShuffleButton_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            // Bara lägga in funktionell kod under eller över bildbytet, den räknar i slutet.
+            if (shuffleLoop == 0)
+            {
+                // VANLIG SHUFFLE
+                BitmapImage image = new BitmapImage(new Uri("../img/shuffle.png", UriKind.Relative));
+                ShuffleButton.Source = image;
+            }
+            else if (shuffleLoop == 1)
+            {
+                // SHUFFLE PÅ BPM
+                BitmapImage image = new BitmapImage(new Uri("../img/shuffle_bpm.png", UriKind.Relative));
+                ShuffleButton.Source = image;
+            }
+            else if (shuffleLoop == 2)
+            {
+                // INGEN SHUFFLE - Om det ska finnas (Den är vanlig shuffle bara som placeholder)
+                BitmapImage image = new BitmapImage(new Uri("../img/shuffle.png", UriKind.Relative));
+                ShuffleButton.Source = image;
+            }
+            shuffleLoop = (shuffleLoop + 1) % 3;
         }
     }
 }
