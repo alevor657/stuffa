@@ -363,19 +363,19 @@ namespace WpfApp2.pages
             // Bara lägga in funktionell kod under eller över bildbytet, den räknar i slutet.
             if (shuffleLoop == 0)
             {
-                // VANLIG SHUFFLE
+                // INGEN SHUFFLE
                 BitmapImage image = new BitmapImage(new Uri("../img/shuffle.png", UriKind.Relative));
                 ShuffleButton.Source = image;
             }
             else if (shuffleLoop == 1)
             {
-                // SHUFFLE PÅ BPM
+                // VANLIG SHUFFLE
                 BitmapImage image = new BitmapImage(new Uri("../img/shuffle_active.png", UriKind.Relative));
                 ShuffleButton.Source = image;
             }
             else if (shuffleLoop == 2)
             {
-                // INGEN SHUFFLE - Om det ska finnas (Den är vanlig shuffle bara som placeholder)
+                // BPM SHUFFLE
                 BitmapImage image = new BitmapImage(new Uri("../img/shuffle_bpm_active2.png", UriKind.Relative));
                 ShuffleButton.Source = image;
             }
