@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,6 +32,8 @@ namespace WpfApp2.pages
 
             this.container = container;
             InitializeComponent();
+            //SnackBar.Content = new MsgWin("dublets spoted", "add", "skipp", leftMsbWinButton, rightMsbWinButton);
+
 
             // Bara för testing
             //List<Songs> songsInPlaylist = new List<Songs>();
@@ -56,15 +59,18 @@ namespace WpfApp2.pages
 
         public void snackBarActivate()
         {
+            SnackBar.Content = null;
+            
             SnackBar.Content = new MsgWin("dublets spoted", "add", "skipp", leftMsbWinButton, rightMsbWinButton);
-            pop.IsOpen = true;
+            
+            //pop.IsEnabled = true;
             //var messageQueue = SnackBarDialog.MessageQueue;
 
             //the message queue can be called from any thread
             //Task.Factory.StartNew(() => messageQueue.Enqueue("some music allready existed in this playlist", "continue adding", () => { }));
         }
 
-        
+
 
         public void LoadSearch(List<Music> playlistSongs)
         {
@@ -148,14 +154,17 @@ namespace WpfApp2.pages
         {
             Console.WriteLine("left");
             container.AddDupletts();
-            pop.IsOpen = false;
+            SnackBar.Content = null;
+
+            //pop.IsOpen = false;
 
         }
 
         public void rightMsbWinButton(object sender, MouseButtonEventArgs e)
         {
             Console.WriteLine("right");
-            pop.IsOpen = false;
+            SnackBar.Content = null;
+            //pop.IsOpen = false;
         }
 
         private void removeSongOnIndex(object sender, RoutedEventArgs e)

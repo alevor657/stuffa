@@ -126,11 +126,12 @@ namespace WpfApp2.pages
         {
             //load new music into current playlist
             List<Music> same = mp.LoadNewMusic(paths, false);
+            this.showSelectedPlaylist();
+
             if (same.Count > 0)
             {
                 ev.snackBarActivate();
             }
-            this.showSelectedPlaylist();            
         }
 
         internal void removeMusic(int index)

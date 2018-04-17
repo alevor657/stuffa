@@ -4,11 +4,20 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:WpfApp2.feedback"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="100" d:DesignWidth="300"
       Title="MsgWin">
 
-    <Grid Background="#FFD32F2F">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+    <materialDesign:Transitioner Grid.Column="0" SelectedIndex="0" AutoApplyTransitionOrigins="True">
+
+            <materialDesign:TransitioningContent x:Name="pop" IsEnabled="False" OpeningEffect="{materialDesign:TransitionEffect SlideInFromBottom, Duration=0:0:1.2}">
+
+        <Grid Background="#FFD32F2F">
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"/>
             <RowDefinition Height="5*">
@@ -47,13 +56,34 @@
             </Grid>
 
 
-            <Rectangle x:Name="B0Button" Grid.Column="0" MouseEnter="B0MouseOver" Fill="Transparent" MouseLeave="B0MouseLeave" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <Rectangle x:Name="B1Button" Grid.Column="1" MouseEnter="B1MouseOver" Fill="Transparent" MouseLeave="B1MouseLeave" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-
+ 
 
         </Grid>
         <TextBlock Grid.Row="0" x:Name="Msg" Foreground="White" Text="Detta är ett temporärt medelande" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
 
     </Grid>
+    </materialDesign:TransitioningContent>
+        
+    </materialDesign:Transitioner>
+
+
+        <Grid Grid.Column="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="5*">
+
+            </RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle x:Name="B0Button" Grid.Column="0" MouseEnter="B0MouseOver" Fill="Transparent" MouseLeave="B0MouseLeave" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <Rectangle x:Name="B1Button" Grid.Column="1" MouseEnter="B1MouseOver" Fill="Transparent" MouseLeave="B1MouseLeave" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            </Grid>
+        </Grid>
+    </Grid>
+
 </Page>
