@@ -366,6 +366,7 @@ namespace WpfApp2.pages
                 // INGEN SHUFFLE
                 BitmapImage image = new BitmapImage(new Uri("../img/shuffle.png", UriKind.Relative));
                 ShuffleButton.Source = image;
+
             }
             else if (shuffleLoop == 1)
             {
