@@ -215,6 +215,11 @@
     <Resource Include="pages\volume_high.png" />
     <Resource Include="pages\ic_volume_up_white_48dp.png" />
     <Resource Include="pages\ic_volume_up_white_18dp.png" />
+    <Resource Include="pages\shuffle_bpm_color.png" />
+    <Resource Include="pages\shuffle_bpm_shadow.png" />
+    <Resource Include="pages\shuffle_bpm.png" />
+    <Resource Include="img\shuffle.png" />
+    <Resource Include="img\shuffle_bpm.png" />
     <Content Include="pages\Vicetone - Way Back %28feat. Cozi Zuehlsdorff%29.mp3" />
     <Content Include="pages\Vicetone%2520-%2520Way%2520Back%2520%28feat.%2520Cozi%2520Zuehlsdorff%29%2520%28File4song.com%29.mp3" />
     <Resource Include="pages\WayBackVicetone.jpg" />
