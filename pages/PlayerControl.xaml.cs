@@ -357,8 +357,12 @@ namespace WpfApp2.pages
         {
             this.NextSong();
         }
-
-        private void ShuffleButton_MouseUp(object sender, MouseButtonEventArgs e)
+        public int getShuffleState()
+        {
+            return this.shuffleLoop;
+        }
+          
+    private void ShuffleButton_MouseUp(object sender, MouseButtonEventArgs e)
         {
             // Bara lägga in funktionell kod under eller över bildbytet, den räknar i slutet.
             if (shuffleLoop == 0)
