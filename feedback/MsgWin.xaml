@@ -13,7 +13,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-    <materialDesign:Transitioner Grid.Column="0" SelectedIndex="0" AutoApplyTransitionOrigins="True">
+    <materialDesign:Transitioner Grid.Column="0" SelectedIndex="0"  AutoApplyTransitionOrigins="True">
 
             <materialDesign:TransitioningContent x:Name="pop" IsEnabled="False" OpeningEffect="{materialDesign:TransitionEffect SlideInFromBottom, Duration=0:0:1.2}">
 
@@ -40,7 +40,7 @@
 
                     </RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0" x:Name="Button0" Foreground="White" Text="nice" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="0" x:Name="Button0" FontSize="14" Foreground="White" Text="nice" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
             </Grid>
 
@@ -51,7 +51,7 @@
 
                     </RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="1" x:Name="Button1" Foreground="White" Text="cool" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Column="1" x:Name="Button1" FontSize="14" Foreground="White" Text="cool" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
             </Grid>
 
@@ -59,7 +59,7 @@
  
 
         </Grid>
-        <TextBlock Grid.Row="0" x:Name="Msg" Foreground="White" Text="Detta är ett temporärt medelande" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Row="0" x:Name="Msg" FontSize="14" Foreground="White" Text="Detta är ett temporärt medelande" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
 
     </Grid>

@@ -32,6 +32,7 @@ namespace WpfApp2.pages
 
             this.container = container;
             InitializeComponent();
+           
             //SnackBar.Content = new MsgWin("dublets spoted", "add", "skipp", leftMsbWinButton, rightMsbWinButton);
 
 
@@ -70,7 +71,13 @@ namespace WpfApp2.pages
             //Task.Factory.StartNew(() => messageQueue.Enqueue("some music allready existed in this playlist", "continue adding", () => { }));
         }
 
+        public void snackBarActivate(string message)
+        {
+            var messageQueue = SnackBarDialog.MessageQueue;
 
+            //the message queue can be called from any thread
+            Task.Factory.StartNew(() => messageQueue.Enqueue(message, "OKAY", () => { }));
+        }
 
         public void LoadSearch(List<Music> playlistSongs)
         {

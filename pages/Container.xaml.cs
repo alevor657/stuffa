@@ -122,6 +122,11 @@ namespace WpfApp2.pages
             Task.Factory.StartNew(() => messageQueue.Enqueue(message, "OKAY", () => { }));
         }
 
+        public void snackBarActivatePlaylistCreated(string name)
+        {
+            ev.snackBarActivate(name + " created!");
+        }
+
         internal void LoadNewMusic(List<string> paths)
         {
             //load new music into current playlist
@@ -166,6 +171,7 @@ namespace WpfApp2.pages
             {
                 created = true;
                 pv.updatePlaylists(GetPlaylists());
+                snackBarActivatePlaylistCreated(name);
             }
             return created;
 
