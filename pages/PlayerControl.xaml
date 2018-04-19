@@ -107,7 +107,7 @@
                         </EventTrigger>
                     </Image.Triggers>
                 </Image>
-                <Image x:Name="previousSongButton" Source="../img/previous.png.png" UseLayoutRounding="True" Margin="0,0,158,-0.251" Opacity="0.495">
+                <Image x:Name="previousSongButton" Source="../img/previous.png.png" UseLayoutRounding="True" Margin="0,0,158,-0.251" Opacity="0.495" MouseUp="RestartSong">
                     <Image.Triggers>
                         <EventTrigger RoutedEvent="UIElement.MouseEnter">
                             <BeginStoryboard>

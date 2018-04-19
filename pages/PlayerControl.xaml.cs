@@ -395,5 +395,15 @@ namespace WpfApp2.pages
             }
             shuffleLoop = (shuffleLoop + 1) % 3;
         }
+
+        private void RestartSong(object sender, MouseButtonEventArgs e)
+        {
+            this.Player.Stop();
+            if(isPlaying)
+            {
+                this.Player.Play();
+                fadeIn();
+            }
+        }
     }
 }
