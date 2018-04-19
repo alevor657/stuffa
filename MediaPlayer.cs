@@ -214,7 +214,12 @@ namespace Stuffa
 
         public List<Music> searchAllMusic(string searchTerm)
         {
-            return master.search(searchTerm);//this.masterPlaylist.searchArtistBpmTitle(searchTerm);
+            List<Music> ret = master.search(searchTerm);
+            if(ret.Count > 400)
+            {
+                ret = ret.GetRange(0, 399);
+            }
+            return ret;//this.masterPlaylist.searchArtistBpmTitle(searchTerm);
         }
 
         public List<int> getAllBpm(int Bpm, int range = 1)

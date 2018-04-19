@@ -152,7 +152,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             return ret;
         }
 
-        public List<Music> search(string s)
+        public List<Music> search(string s, bool searchExact = false)
         {
 
             List<Music> m = new List<Music>();
@@ -179,10 +179,17 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             spliters[2] = '_';
             spliters[3] = '"';
 
-            foreach (string searchWordAdd in s.Split(spliters))
+            if (searchExact)
             {
-                searchWordList.Add(searchWordAdd);
-                
+                searchWordList.Add(s);
+            }
+            else
+            {
+                foreach (string searchWordAdd in s.Split(spliters))
+                {
+                    searchWordList.Add(searchWordAdd + "*");
+
+                }
             }
 
 
@@ -203,7 +210,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 command = new SQLiteCommand(sql, dbConnection);
 
                 //insert parameter. Have a "*" at the end to indicate that it should take strings that have words beginning with the searchWord
-                command.Parameters.Add(new SQLiteParameter("param1", searchWord + "*"));
+                command.Parameters.Add(new SQLiteParameter("param1", searchWord));
 
                 //execute the command
                 SQLiteDataReader reader = command.ExecuteReader();
@@ -216,7 +223,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                         res.Add(new Tuple<string, int>(reader["path"].ToString(), 1));
                     }
                 }
-                else if(searchWord.Length > 3)
+                else if(searchWord.Length > 3 && !searchExact)
                 {
                     searchWordList.Add(searchWord.Substring(0, searchWord.Length - 1));
                 }
@@ -367,12 +374,25 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             //{
                 foreach (string s in paths)
                 {
-                    m = new Music(s);
-                    if(!(search(m.Artist).Count > 0 && search(m.getTitle()).Count > 0))
+                m = new Music(s);
+                List<Music> sameTitle = new List<Music>();
+
+                if(!(search(m.Artist, true).Count > 0 && search(m.getTitle(), true).Count > 0))
+                {
+                    bool add = true;
+                    foreach(Music same in sameTitle)
+                    {
+                        if(same.getArtist() == m.getArtist())
+                        {
+                            add = false;
+                        }
+                    }
+                    if (add)
                     {
                         insertNewMusic(new Music(s));
                     }
-                    loadingWin.increasePos();
+                }
+                loadingWin.increasePos();
 
                 }
             //}
