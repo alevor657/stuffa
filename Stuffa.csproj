@@ -230,6 +230,7 @@
     <Resource Include="img\shuffle_active.png" />
     <Resource Include="img\shuffle_bpm_active.png" />
     <Resource Include="img\shuffle_bpm_active2.png" />
+    <Resource Include="img\albumart_placeholder.png" />
     <Content Include="pages\Vicetone - Way Back %28feat. Cozi Zuehlsdorff%29.mp3" />
     <Content Include="pages\Vicetone%2520-%2520Way%2520Back%2520%28feat.%2520Cozi%2520Zuehlsdorff%29%2520%28File4song.com%29.mp3" />
     <Resource Include="pages\WayBackVicetone.jpg" />
