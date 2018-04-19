@@ -74,6 +74,7 @@ namespace WpfApp2.pages
 
             isLoaded = true;
             draging = false;
+            isPlaying = false;
 
 
         }
@@ -249,14 +250,22 @@ namespace WpfApp2.pages
                 ArtistLabel.Content = m.getArtist();
                 BpmLabel.Content = m.getBpm() + " BPM";
 
+                isPlaying = true;
+
+                Player.Source = null;
+
+                Player.Play();
+                
                 Player.Source = new Uri(m.getFullPath());
+
                 BitmapImage image = new BitmapImage(new Uri("../img/pause-white.png", UriKind.Relative));
                 playButton.Source = image;
-                isPlaying = true;
-                Player.Play();
                 songTimer.Start();
                 fadeIn();
+
+                
                 container.SendStateToServerOnUpdate();
+
             }
 
         }
