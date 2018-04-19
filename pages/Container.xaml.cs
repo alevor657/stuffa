@@ -155,6 +155,7 @@ namespace WpfApp2.pages
         internal void playBpm(int Bpm, int range)
         {
             ev.setMarked(mp.GetMusicFromPlaylist(), mp.getAllBpm(Bpm, range));
+            mp.setBpm(Bpm, range);
 
         }
 

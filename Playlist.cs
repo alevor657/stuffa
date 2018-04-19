@@ -102,6 +102,57 @@ namespace WpfApp2
             artistsWords = artistsWords.OrderBy(e => e.Item1).ToList();
         }
 
+        private List<int> getBPMpos(int pos, int range, int searchVal)
+        {
+            int minVal = searchVal - range;
+            int maxVal = searchVal + range;
+
+            // return value
+            List<int> ret = new List<int>();
+            //get the vaule we are searching for
+            int BPMserach = BPM[pos].Item1;
+            //add the BPM we are searching for to the return variable 
+            ret.Add(BPM[pos].Item2);
+
+            //go back in list to find other values
+            for (int i = pos - 1; i >= 0; i--)
+            {
+                // if BPM[i] conntains the same value we are searching for
+                if (BPM[i].Item1 >= minVal)
+                {
+                    //put the index in ret
+                    ret.Add(BPM[i].Item2);
+                }
+                else
+                {
+                    //end loop if the value is not the one we are looking for
+                    // ceep in mind this is a sorted list
+                    i = -1;
+                }
+
+            }
+            //revers return list to get the value in the correct order
+            ret.Reverse();
+
+            //go forward in list to find other values
+            for (int i = pos + 1; i < BPM.Count; i++)
+            {
+                if (BPM[i].Item1 <= maxVal)
+                {
+                    //put the index in ret
+                    ret.Add(BPM[i].Item2);
+                }
+                else
+                {
+                    //end loop
+                    i = BPM.Count;
+                }
+
+            }
+
+            return ret;
+        }
+
         //whnen one instance of the BPM is found, find all the other ones near it matching the value on position pos
         private List<int> getBPMpos(int pos, int range)
         {
@@ -209,6 +260,11 @@ namespace WpfApp2
             return TupleBinarySearchRecusuve(container, search, 0, container.Count - 1);
         }
 
+        private bool inRange(int searchVal, int range, int val)
+        {
+            return val >= searchVal - range && val <= searchVal + range;
+        }
+
         // gets all indexes for the given BPM. Binary search.
         // TODO: change to (if posible) "this.BPM.binarySearch(....);"
         private List<int> getBPMpos(int BPMsearch, int startPos, int endPos, int range)
@@ -218,22 +274,22 @@ namespace WpfApp2
                 int startVal = this.BPM[startPos].Item1;
                 int endVal = this.BPM[endPos].Item1;
 
-
-                if (startVal == BPMsearch)
+                if (inRange(BPMsearch, range, startVal))
                 {
-                    return getBPMpos(startPos, range);
+                    //startPos, range,
+                    return getBPMpos(startPos, range, BPMsearch);
                 }
-                else if (endVal == BPMsearch)
+                else if (inRange(BPMsearch, range, endVal))
                 {
-                    return getBPMpos(endPos, range);
+                    return getBPMpos(endPos, range, BPMsearch);
                 }
                 else
                 {
                     int middlePos = (startPos + endPos) / 2;
                     int middleVal = this.BPM[middlePos].Item1;
-                    if (middleVal == BPMsearch)
+                    if (inRange(BPMsearch, range, middleVal))
                     {
-                        return getBPMpos(middlePos, range);
+                        return getBPMpos(middlePos, range, BPMsearch);
 
                     }
                     else if (middleVal > BPMsearch)
@@ -256,7 +312,7 @@ namespace WpfApp2
 
                 if (startPos == endPos)
                 {
-                    if (BPM[endPos].Item1 == BPMsearch)
+                    if (inRange(BPMsearch, range, BPM[endPos].Item1))
                     {
                         ret.Add(BPM[endPos].Item2);
                     }

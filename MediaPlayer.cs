@@ -44,6 +44,12 @@ namespace Stuffa
             masterPlaylist = new Playlist();
 		 }
 
+        public void setBpm(int bpm, int range)
+        {
+            this.BPM = bpm;
+            this.BPMInterval = range;
+        }
+
         public MediaPlayer(Container container)
         {
             master = new MasterPlaylist();
@@ -52,7 +58,7 @@ namespace Stuffa
             this.indexForNonShuffle = 0;
             this.masterPlaylist = new Playlist(folder + "\\playlists\\All music.txt");
 			this.recentlyPlayedIndexes = new List<int>();
-            this.BPM = 138;
+            this.BPM = 208;
             this.BPMInterval = 2;
             // start generate testplaylist
 
