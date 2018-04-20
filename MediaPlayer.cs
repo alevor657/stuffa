@@ -50,6 +50,11 @@ namespace Stuffa
             this.BPMInterval = range;
         }
 
+        public void MoveMusic(int from, int to)
+        {
+            this.playlists[currentPlaylist].MoveMusic(from, to);
+        }
+
         public MediaPlayer(Container container)
         {
             master = new MasterPlaylist();

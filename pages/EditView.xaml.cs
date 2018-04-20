@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,10 +48,12 @@ namespace WpfApp2.pages
         }
         public void LoadPlaylist(List<Music> playlistSongs)
         {
-            List<Tuple<Music, Visibility>> list = new List<Tuple<Music, Visibility>>();
+            List<Tuple<Music, Visibility, int>> list = new List<Tuple<Music, Visibility, int>>();
+            int index = 0;
             foreach (Music i in playlistSongs)
             {
-                list.Add(new Tuple<Music, Visibility>(i, Visibility.Collapsed));
+                list.Add(new Tuple<Music, Visibility, int>(i, Visibility.Collapsed, index));
+                index++;
             }
             currentPlaylist.ItemsSource = null;
             currentPlaylist.ItemsSource = list;
@@ -113,17 +116,37 @@ namespace WpfApp2.pages
             return SearchTermTextBox.IsSelectionActive;
         }
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
+        //Mouse actions
+        private const int MOUSEEVENTF_LEFTDOWN = 0x02;
+        private const int MOUSEEVENTF_LEFTUP = 0x04;
+        private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
+        private const int MOUSEEVENTF_RIGHTUP = 0x10;
 
         private void DragDrop(object sender, DragEventArgs e)
         {
             try
             {
                 if (sender.GetType() == typeof(ListBox))
-                {
-                    Music m = ((e.Source as ListBox).SelectedItem as Tuple<Music, System.Windows.Visibility>).Item1;
-                    Console.WriteLine(e.GetPosition(e.Source as ListBox));
+                {/*
+                    Music m = (this.currentPlaylist.SelectedItem as Tuple<Music, System.Windows.Visibility, int>).Item1;
+
+
+                    Console.WriteLine("1 " + m.getTitle() + " : " + m.getArtist());
+
+
+                    ListBox lb = (sender as ListBox);
+                    //Call the imported function with the cursor's current position
+                    uint X = (uint)e.GetPosition(lb).X;
+                    uint Y = (uint)e.GetPosition(lb).Y;
+                    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
                     
-                    Console.WriteLine(m.getTitle() + " : " + m.getArtist());
+
+                    m = (this.currentPlaylist.SelectedItem as Tuple<Music, System.Windows.Visibility, int>).Item1;
+
+                    
+                    Console.WriteLine("2 " + m.getTitle() + " : " + m.getArtist());*/
                 }
                 else
                 {
@@ -196,6 +219,18 @@ namespace WpfApp2.pages
             this.currentPlaylist.ScrollIntoView(this.currentPlaylist.SelectedItem);
         }
 
+        private void testtest(object sender, DragEventArgs e)
+        {
+            try
+            {
+                //Console.WriteLine( "hejå" + ((sender as Grid).DataContext as Tuple<Music, System.Windows.Visibility, int>).Item3);
+                container.MoveMusic(this.currentPlaylist.SelectedIndex, ((sender as Grid).DataContext as Tuple<Music, System.Windows.Visibility, int>).Item3);
+            }
+            catch
+            {
+
+            }
+        }
     }
 }
 

@@ -21,7 +21,10 @@ namespace SocketServer
             Container = c;
         }
 
-        protected override void OnOpen() => Console.WriteLine("opened");
+        protected override void OnOpen() {
+            Console.WriteLine("opened");
+            Container.Dispatcher.Invoke(() => Container.snackBarActivate("Connected!"));
+        }
 
         protected override void OnClose(CloseEventArgs e)
         {
@@ -49,6 +52,13 @@ namespace SocketServer
                 case "PLAY":
                     Container.Dispatcher.Invoke(Container.TogglePlay);
                     Send(ServerMsg.Create(Action.PLAY_SUCCESS));
+                    break;
+                case "NEXT_TRACK":
+                    Container.Dispatcher.Invoke(Container.NextSong);
+                    string json1 = ParsePlayerState(
+                        Container.Dispatcher.Invoke(Container.getPlayerState)
+                        );
+                    Send(ServerMsg.Create(Action.REQUEST_STATE_SUCCESS, json1));
                     break;
                 case "PAUSE":
                     Container.Dispatcher.Invoke(Container.TogglePlay);

@@ -33,7 +33,7 @@
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>  
                 <DataTemplate>
-                    <Grid Margin="0,2">
+                    <Grid Margin="0,2" AllowDrop="True" Drop="testtest">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="1*" />
@@ -47,6 +47,8 @@
                         <TextBlock Grid.Column="0" Text="{Binding Item1.Bpm}" />
                         <TextBlock Grid.Column="1" Text="{Binding Item1.Title}" FontWeight="Bold"/>
                         <TextBlock Grid.Column="3" Text="{Binding Item1.Artist}"/>
+                        <TextBlock Text="{Binding Item3}" Visibility="Hidden" x:Name="SongId"></TextBlock>
+
                         <Rectangle Fill="#FF191919" Stroke="#FF191919"  Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" />
                         <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1"  />
                         <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2"  />

@@ -265,6 +265,12 @@ namespace WpfApp2.pages
             s.Send(ServerMsg.Create(SocketServer.Action.REQUEST_STATE_SUCCESS, json));
         }
 
+        internal void MoveMusic(int from, int to)
+        {
+            mp.MoveMusic(from, to);
+            this.showSelectedPlaylist();
+        }
+
         private void CheckIfSpace(object sender, KeyEventArgs e)
         {
 
