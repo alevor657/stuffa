@@ -18,6 +18,7 @@ using System.Collections;
 using SocketServer;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
+using WpfApp2.feedback;
 
 namespace WpfApp2.pages
 {
@@ -34,6 +35,7 @@ namespace WpfApp2.pages
         PlaylistView pv;
         Server s;
         Stuffa.MediaPlayer mp;
+        Edit editW;
 
         public Container()
         {
@@ -308,5 +310,11 @@ namespace WpfApp2.pages
             
         }
 
+        internal void edit(Music toEdit)
+        {
+            editW = new Edit(toEdit.Bpm, toEdit.Title, toEdit.Artist, null);
+            editW.Show();
+
+        }
     }
 }

@@ -355,6 +355,11 @@ namespace WpfApp2.pages
         {
             snackBarActivate("To be implemented...");
         }
+
+        private void editMusic(object sender, RoutedEventArgs e)
+        {
+            container.edit((currentPlaylist.Items.GetItemAt(currentPlaylist.SelectedIndex) as Tuple<Music, Visibility, int>).Item1);
+        }
     }
 }
 

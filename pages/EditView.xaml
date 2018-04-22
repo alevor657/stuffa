@@ -28,6 +28,7 @@
                 <ContextMenu >
                     <MenuItem Header="Add music" Click="AddMusic" />
                     <MenuItem Header="Remove" Click="removeSongOnIndex" />
+                    <MenuItem Header="Edit" Click="editMusic" />
 
                 </ContextMenu>
             </ListBox.ContextMenu>

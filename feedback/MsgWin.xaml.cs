@@ -27,8 +27,8 @@ namespace WpfApp2.feedback
             this.Msg.Text = msg;
             this.Button0.Text = B0;
             this.Button1.Text = B1;
-            this.B0Button.MouseUp += B0EventHandler;
-            this.B1Button.MouseUp += B1EventHandler;
+            this.B0Button.MouseLeftButtonUp += B0EventHandler;
+            this.B1Button.MouseLeftButtonUp += B1EventHandler;
             //PopUpMsg.Height = WindowHeight;
             //PopUpMsg.IsOpen = true;
         }
