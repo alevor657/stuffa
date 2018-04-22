@@ -23,7 +23,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ListBox x:Name="currentPlaylist" dd:DragDrop.IsDropTarget="True"  dd:DragDrop.IsDragSource="True" Drop="DragDrop" HorizontalContentAlignment="Stretch" AllowDrop="True" Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged">
+        <ListBox x:Name="currentPlaylist"  dd:DragDrop.IsDragSource="True"  HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged">
             <ListBox.ContextMenu>
                 <ContextMenu >
                     <MenuItem Header="Add music" Click="AddMusic" />
@@ -31,9 +31,9 @@
 
                 </ContextMenu>
             </ListBox.ContextMenu>
-            <ListBox.ItemTemplate>  
+            <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,2" AllowDrop="True" Drop="testtest">
+                    <Grid Margin="0,2" AllowDrop="True" Drop="testtest" MouseDown="dragFromCur">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="1*" />
@@ -91,11 +91,11 @@
 
         <!--<materialDesign:Snackbar Grid.Column="0" x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="61" Margin="0,0,0,-7" HorizontalAlignment="Stretch"  VerticalContentAlignment="Bottom" HorizontalContentAlignment="Stretch" Background="#FFD32F2F" Foreground="White" />
 -->
-        
-        <ListBox Grid.Column="1" x:Name="searchRes" Margin="10,139,10,0" AllowDrop="True" SelectedIndex="1" HorizontalContentAlignment="Stretch">
+
+        <ListBox Grid.Column="1"  x:Name="searchRes" dd:DragDrop.IsDragSource="True" Margin="10,139,10,0" SelectedIndex="1" HorizontalContentAlignment="Stretch" SelectionChanged="searchRes_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,2">
+                    <Grid Margin="0,2"  MouseDown="dragFromSearch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="1*" />

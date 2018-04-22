@@ -1,5 +1,6 @@
 ﻿using Stuffa;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -26,6 +27,8 @@ namespace WpfApp2.pages
     {
 
         Container container;
+        bool dragFromSearchList;
+
 
         //public List<Music> currentMusic;
         public EditView(Container container)
@@ -55,7 +58,20 @@ namespace WpfApp2.pages
                 list.Add(new Tuple<Music, Visibility, int>(i, Visibility.Collapsed, index));
                 index++;
             }
-            currentPlaylist.ItemsSource = null;
+
+
+            /*
+            IList SourceList;
+            Array a;
+            currentPlaylist.Items.CopyTo(a, 0);
+            if(SourceList != null)
+            {
+                SourceList.Clear();
+            }*/
+
+
+            
+
             currentPlaylist.ItemsSource = list;
             this.SnackBar.Content = null;
             //currentPlaylist.ItemsSource = musicInPlaylist;
@@ -92,11 +108,11 @@ namespace WpfApp2.pages
 
         public void setMarked(List<Music> music, List<int> marked)
         {
-            List<Tuple<Music, Visibility>> list = new List<Tuple<Music, Visibility>>();
-            
+            List<Tuple<Music, Visibility, int>> list = new List<Tuple<Music, Visibility, int>>();
+
             for(int i = 0; i < music.Count; i++)
             {
-                list.Add(new Tuple<Music, Visibility>(music[i], marked.Contains(i) ? Visibility.Visible : Visibility.Collapsed));
+                list.Add(new Tuple<Music, Visibility, int>(music[i], marked.Contains(i) ? Visibility.Visible : Visibility.Collapsed, i));
             }
             this.currentPlaylist.ItemsSource = null;
             this.currentPlaylist.ItemsSource = list;
@@ -129,7 +145,9 @@ namespace WpfApp2.pages
             try
             {
                 if (sender.GetType() == typeof(ListBox))
-                {/*
+                {
+
+                    /*
                     Music m = (this.currentPlaylist.SelectedItem as Tuple<Music, System.Windows.Visibility, int>).Item1;
 
 
@@ -186,6 +204,10 @@ namespace WpfApp2.pages
             container.AddDupletts();
             SnackBar.Content = null;
 
+            currentPlaylist.ScrollIntoView(currentPlaylist.Items.GetItemAt(currentPlaylist.Items.Count - 1));
+            this.snackBarActivate("Music added");
+            currentPlaylist.SelectedIndex = currentPlaylist.Items.Count - 1;
+
             //pop.IsOpen = false;
 
         }
@@ -223,13 +245,101 @@ namespace WpfApp2.pages
         {
             try
             {
-                //Console.WriteLine( "hejå" + ((sender as Grid).DataContext as Tuple<Music, System.Windows.Visibility, int>).Item3);
-                container.MoveMusic(this.currentPlaylist.SelectedIndex, ((sender as Grid).DataContext as Tuple<Music, System.Windows.Visibility, int>).Item3);
+                if (sender.GetType() == typeof(Grid))
+                {
+                    if (!dragFromSearchList)
+                    {
+                        //Console.WriteLine( "hejå" + ((sender as Grid).DataContext as Tuple<Music, System.Windows.Visibility, int>).Item3);
+                        int from = this.currentPlaylist.SelectedIndex;
+                        int to = ((sender as Grid).DataContext as Tuple<Music, System.Windows.Visibility, int>).Item3;
+
+
+
+                        currentPlaylist.Items.Refresh();
+
+                        //Object o = currentPlaylist.Items.GetItemAt(currentPlaylist.Items.Count-1);
+                        //currentPlaylist.Items.Insert(to, o);
+                        //currentPlaylist.Items.Refresh();
+
+                        currentPlaylist.SelectedIndex = -1;
+                        currentPlaylist.ItemsSource = null;
+                        currentPlaylist.Items.Refresh();
+
+
+
+                        container.MoveMusic(from, to);
+
+
+                        //currentPlaylist.Items.Clear();
+                        //currentPlaylist.Items.Refresh();
+
+                    }
+                    else
+                    {
+                        Music m = searchRes.SelectedItem as Music;
+                        if(container.LoadNewMusic(new List<string> { m.getFullPath() }))
+                        {
+                            currentPlaylist.ScrollIntoView(currentPlaylist.Items.GetItemAt(currentPlaylist.Items.Count - 1));
+                            this.snackBarActivate("Music added");
+                            currentPlaylist.SelectedIndex = currentPlaylist.Items.Count - 1;
+                        }
+
+
+                    }
+
+
+                }
+                else
+                {
+                    /*foreach(string s in e.Data.GetFormats())
+                    {
+                        Console.WriteLine(s);
+                    }
+                    Console.WriteLine("------");*/
+
+                    List<string> paths = ((string[])e.Data.GetData(DataFormats.FileDrop, false)).ToList<string>();
+
+                    for (int i = 0; i < paths.Count; i++)
+                    {
+                        if (!paths[i].EndsWith(".mp3") && !paths[i].EndsWith(".m4a"))
+                        {
+                            Console.WriteLine(paths[i] + " <--wrong filetype");
+
+                            paths.RemoveAt(i);
+                        }
+                        else
+                        {
+                            Console.WriteLine(paths[i]);
+
+                        }
+                    }
+
+                    container.LoadNewMusic(paths);
+                }
+
+
             }
             catch
             {
 
             }
+        }
+
+        private void searchRes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+
+        private void dragFromSearch(object sender, MouseButtonEventArgs e)
+        {
+            this.dragFromSearchList = true;
+        }
+
+        private void dragFromCur(object sender, MouseButtonEventArgs e)
+        {
+            this.dragFromSearchList = false;
+
         }
     }
 }

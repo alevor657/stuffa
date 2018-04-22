@@ -127,16 +127,19 @@ namespace WpfApp2.pages
             ev.snackBarActivate(name + " created!");
         }
 
-        internal void LoadNewMusic(List<string> paths)
+        internal bool LoadNewMusic(List<string> paths)
         {
+            bool retVal = true;
             //load new music into current playlist
             List<Music> same = mp.LoadNewMusic(paths, false);
             this.showSelectedPlaylist();
 
             if (same.Count > 0)
             {
+                retVal = false;
                 ev.snackBarActivate();
             }
+            return retVal;
         }
 
         internal void removeMusic(int index)
@@ -268,6 +271,9 @@ namespace WpfApp2.pages
         internal void MoveMusic(int from, int to)
         {
             mp.MoveMusic(from, to);
+
+            
+
             this.showSelectedPlaylist();
         }
 
