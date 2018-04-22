@@ -204,6 +204,26 @@ namespace Stuffa
 
             return playlists[currentPlaylist].getMusic(selectedIndex).getFullPath();
         }
+
+        internal void setInterval(int interval)
+        {
+            if (interval < 0)
+            {
+                this.BPMInterval = 0;
+            }
+            else
+            {
+                this.BPMInterval = interval;
+            }
+            throw new NotImplementedException();
+        }
+
+        internal void changeBPM(int newBPM)
+        {
+            this.BPM = this.BPM + newBPM;
+            throw new NotImplementedException();
+        }
+
         internal Music GetSongObj(int selectedIndex)
         {
             if (this.currentPlaylist == -1)
