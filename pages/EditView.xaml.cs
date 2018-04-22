@@ -245,7 +245,8 @@ namespace WpfApp2.pages
         {
             try
             {
-                if (sender.GetType() == typeof(Grid))
+
+                if (e.Data.GetDataPresent(DataFormats.FileDrop) == false)
                 {
                     if (!dragFromSearchList)
                     {
@@ -268,6 +269,7 @@ namespace WpfApp2.pages
 
 
                         container.MoveMusic(from, to);
+                        currentPlaylist.SelectedIndex = to;
 
 
                         //currentPlaylist.Items.Clear();
@@ -298,6 +300,7 @@ namespace WpfApp2.pages
                     Console.WriteLine("------");*/
 
                     List<string> paths = ((string[])e.Data.GetData(DataFormats.FileDrop, false)).ToList<string>();
+
 
                     for (int i = 0; i < paths.Count; i++)
                     {

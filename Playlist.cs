@@ -156,51 +156,54 @@ namespace WpfApp2
         //whnen one instance of the BPM is found, find all the other ones near it matching the value on position pos
         private List<int> getBPMpos(int pos, int range)
         {
-            // return value
-            List<int> ret = new List<int>();
-            //get the vaule we are searching for
-            int BPMserach = BPM[pos].Item1;
-            //add the BPM we are searching for to the return variable 
-            ret.Add(BPM[pos].Item2);
-
-            //go back in list to find other values
-            for (int i = pos - 1; i >= 0; i--)
+            if (pos <= 0 && pos > music.Count)
             {
-                // if BPM[i] conntains the same value we are searching for
-                if (BPM[i].Item1 >= BPMserach - range)
+                // return value
+                List<int> ret = new List<int>();
+                //get the vaule we are searching for
+                int BPMserach = BPM[pos].Item1;
+                //add the BPM we are searching for to the return variable 
+                ret.Add(BPM[pos].Item2);
+
+                //go back in list to find other values
+                for (int i = pos - 1; i >= 0; i--)
                 {
-                    //put the index in ret
-                    ret.Add(BPM[i].Item2);
+                    // if BPM[i] conntains the same value we are searching for
+                    if (BPM[i].Item1 >= BPMserach - range)
+                    {
+                        //put the index in ret
+                        ret.Add(BPM[i].Item2);
+                    }
+                    else
+                    {
+                        //end loop if the value is not the one we are looking for
+                        // ceep in mind this is a sorted list
+                        i = -1;
+                    }
+
                 }
-                else
+                //revers return list to get the value in the correct order
+                ret.Reverse();
+
+                //go forward in list to find other values
+                for (int i = pos + 1; i < BPM.Count; i++)
                 {
-                    //end loop if the value is not the one we are looking for
-                    // ceep in mind this is a sorted list
-                    i = -1;
+                    if (BPM[i].Item1 <= BPMserach + range)
+                    {
+                        //put the index in ret
+                        ret.Add(BPM[i].Item2);
+                    }
+                    else
+                    {
+                        //end loop
+                        i = BPM.Count;
+                    }
+
                 }
 
+                return ret;
             }
-            //revers return list to get the value in the correct order
-            ret.Reverse();
-
-            //go forward in list to find other values
-            for (int i = pos + 1; i < BPM.Count; i++)
-            {
-                if (BPM[i].Item1 <= BPMserach + range)
-                {
-                    //put the index in ret
-                    ret.Add(BPM[i].Item2);
-                }
-                else
-                {
-                    //end loop
-                    i = BPM.Count;
-                }
-
-            }
-
-            return ret;
-
+            return null;
 
         }
 
@@ -1058,6 +1061,10 @@ namespace WpfApp2
                 RemoveMusic(index);
                 music.Insert(newIndex, toMv);
                 savePlaylist();
+
+
+                //TODO not have cant se last music when any music moved without this
+                music = new List<Music>();
             }
         }
 
@@ -1218,9 +1225,10 @@ namespace WpfApp2
         }
         private void addToBPMList(Music m, int index)
         {
-
+            /*
             List<int> BPMpos = getBPMpos(m.getBpm(), 0);
-            this.BPM.Insert(BPMpos[0], new Tuple<int, int>(m.getBpm(), index));
+            this.BPM.Insert(BPMpos[0], new Tuple<int, int>(m.getBpm(), index));*/
+            BPM = new List<Tuple<int, int>>();
 
         }
         public void generateTestPlaylist()
