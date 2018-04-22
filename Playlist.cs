@@ -885,16 +885,20 @@ namespace WpfApp2
         //loads new music into the playlist given the paths to the music. returns list with not inserted music if not addAll is defined as "true"
         public List<Music> loadNewMusic(List<string> paths, bool addAll = false)
         {
-            // return value defined
-            List<Music> same = new List<Music>();
-
-
             List<Music> m = new List<Music>();
-
-            foreach (string path in paths)
+            if (paths != null)
             {
-                m.Add(new Music(path));
+                // return value defined
+                List<Music> same = new List<Music>();
 
+
+
+
+                foreach (string path in paths)
+                {
+                    m.Add(new Music(path));
+
+                }
             }
 
             return loadNewMusic(m, addAll);
