@@ -219,8 +219,8 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                     //read the result
                     while (reader.Read())
                     {
-                        //add the result to res with a 1
-                        res.Add(new Tuple<string, int>(reader["path"].ToString(), 1));
+                        //add the result to res with a score
+                        res.Add(new Tuple<string, int>(reader["path"].ToString(), searchWord.Length));
                     }
                 }
                 else if(searchWord.Length > 3 && !searchExact)
@@ -325,9 +325,10 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             }
             else
             {
+                
                 //make songs found multiple time on top of the list
                 res = this.groupByFirstTupleAndAddSecond(res);
-
+                res = this.removeLowSearchRes(res);
 
                 //transform paths to music obj
                 for (int i = 0; i < res.Count; i++)
@@ -423,6 +424,30 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             }
         }
 
+        private List<Tuple<string, int>> removeLowSearchRes(List<Tuple<string, int>> container)
+        {
+            List<Tuple<string, int>> ret = new List<Tuple<string, int>>();
+
+            if (container.Count > 0)
+            {
+                int maxPoint = container[0].Item2;
+                if(maxPoint > 4)
+                {
+                    int i;
+                    for (i = 0; i < container.Count && container[i].Item2 > (int)((float)maxPoint / (float)2); i++)
+                    {
+                    }
+                    ret.AddRange(container.GetRange(0, i));
+                }
+                else
+                {
+                    ret = container;
+                }
+                
+            }
+            return ret;
+            
+        }
 
         //group for exaple indexes and add there scors
         private List<Tuple<string, int>> groupByFirstTupleAndAddSecond(List<Tuple<string, int>> container)
