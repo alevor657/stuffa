@@ -367,11 +367,12 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
         [STAThread]
         public void insertNewMusic(List<string> paths, loadingWindow loadingWin)
         {
+            if(paths != null)
+            { 
             //loadingWindow loadingWin = new loadingWindow("Saving new music.\ndo not exit program while loading");
             loadingWin.setMax(paths.Count);
             Music m;
-            //while (nrOfTitles() < 60000)
-            //{
+
                 foreach (string s in paths)
                 {
                 m = new Music(s);
@@ -395,7 +396,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 loadingWin.increasePos();
 
                 }
-            //}
+            }
             
         }
 
@@ -463,13 +464,18 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
         public void InsertNewMusicThread(List<string> paths)
         {
-            loadingWindow loadingWinMain = new loadingWindow("Saving new music.\ndo not exit program while loading");
-            //loadingWinMain.setMax(paths.Count);
+            if (paths != null)
+            {
 
-            Thread myNewThread = new Thread(() => insertNewMusic(paths, loadingWinMain));
-            myNewThread.IsBackground = true;
-            myNewThread.SetApartmentState(ApartmentState.STA);
-            myNewThread.Start();
+
+                loadingWindow loadingWinMain = new loadingWindow("Saving new music.\ndo not exit program while loading");
+                //loadingWinMain.setMax(paths.Count);
+
+                Thread myNewThread = new Thread(() => insertNewMusic(paths, loadingWinMain));
+                myNewThread.IsBackground = true;
+                myNewThread.SetApartmentState(ApartmentState.STA);
+                myNewThread.Start();
+            }
         }
         /*
         public void updateMusic(Music oldMusic, Music newMusic)

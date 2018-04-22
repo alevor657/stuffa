@@ -93,6 +93,13 @@
 -->
 
         <ListBox Grid.Column="1"  x:Name="searchRes" dd:DragDrop.IsDragSource="True" Margin="10,139,10,0" SelectedIndex="1" HorizontalContentAlignment="Stretch" SelectionChanged="searchRes_SelectionChanged">
+            <ListBox.ContextMenu>
+                <ContextMenu >
+                    <MenuItem Header="Add music to library" Click="AddMusicLibrary" />
+                    <MenuItem Header="Remove from library" Click="removeSongLibrary" />
+
+                </ContextMenu>
+            </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2"  MouseDown="dragFromSearch">

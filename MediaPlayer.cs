@@ -131,6 +131,14 @@ namespace Stuffa
             return sameMusic;
         }
 
+
+        //adds new music to databse not any playlist
+        public void LoadNewMusicSQL(List<string> paths)
+        {
+            master.InsertNewMusicThread(paths);
+        }
+
+
         //add the latest found dupletts to the CURRENT playlist
         public void AddDupletts()
         {

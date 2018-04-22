@@ -127,6 +127,8 @@ namespace WpfApp2.pages
             ev.snackBarActivate(name + " created!");
         }
 
+
+
         internal bool LoadNewMusic(List<string> paths)
         {
             bool retVal = true;
@@ -216,8 +218,16 @@ namespace WpfApp2.pages
             mp.changeBPM(newBPM);
         }
 
-
+        internal void LoadNewMusicLibrary()
+        {
+            mp.LoadNewMusicSQL(getNewMusicPaths());
+        }
         internal void LoadNewMusic()
+        {
+            LoadNewMusic(getNewMusicPaths());
+        }
+
+        internal List<string> getNewMusicPaths()
         {
             try
             {
@@ -236,8 +246,7 @@ namespace WpfApp2.pages
                 {
 
                     // get file paths
-                    List<string> musicPaths = dlg.FileNames.ToList<string>();
-                    LoadNewMusic(musicPaths);
+                    return dlg.FileNames.ToList<string>();
                     
 
                 }
@@ -247,6 +256,7 @@ namespace WpfApp2.pages
             {
 
             }
+            return null;
 
         }
 
@@ -297,5 +307,6 @@ namespace WpfApp2.pages
             }
             
         }
+
     }
 }

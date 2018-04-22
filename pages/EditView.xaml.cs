@@ -344,6 +344,17 @@ namespace WpfApp2.pages
             this.dragFromSearchList = false;
 
         }
+
+        private void AddMusicLibrary(object sender, RoutedEventArgs e)
+        {
+            container.LoadNewMusicLibrary();
+
+        }
+
+        private void removeSongLibrary(object sender, RoutedEventArgs e)
+        {
+            snackBarActivate("To be implemented...");
+        }
     }
 }
 
