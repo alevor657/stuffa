@@ -23,13 +23,14 @@ namespace SocketServer
 
         protected override void OnOpen() {
             Console.WriteLine("opened");
-            Container.Dispatcher.Invoke(() => Container.snackBarActivate("Connected!"));
+            Container.Dispatcher.Invoke(() => Container.snackBarActivate("Mobile phone connected!"));
         }
 
         protected override void OnClose(CloseEventArgs e)
         {
 
             Console.WriteLine("connection closed");
+            Container.Dispatcher.Invoke(() => Container.snackBarActivate("Mobile phone disconnected!"));
         }
 
         protected override void OnError(ErrorEventArgs e)
@@ -53,32 +54,21 @@ namespace SocketServer
                     Container.Dispatcher.Invoke(Container.TogglePlay);
                     Send(ServerMsg.Create(Action.PLAY_SUCCESS));
                     break;
-                case "NEXT_TRACK":
-                    Container.Dispatcher.Invoke(Container.NextSong);
-                    string json1 = ParsePlayerState(
-                        Container.Dispatcher.Invoke(Container.getPlayerState)
-                        );
-                    Send(ServerMsg.Create(Action.REQUEST_STATE_SUCCESS, json1));
-                    break;
                 case "PAUSE":
                     Container.Dispatcher.Invoke(Container.TogglePlay);
                     Send(ServerMsg.Create(Action.PAUSE_SUCCESS));
                     break;
+                case "NEXT_TRACK":
+                    Container.Dispatcher.Invoke(Container.NextSong);
+                    SyncState();
+                    break;
                 case "REQUEST_STATE":
-                    string json = ParsePlayerState(
-                        Container.Dispatcher.Invoke(Container.getPlayerState)
-                        );
-                    Send(ServerMsg.Create(Action.REQUEST_STATE_SUCCESS, json));
+                    SyncState();
                     break;
                 //...
                 default:
                     return;
             }
-        }
-
-        private string ParsePlayerState(Dictionary<string, object> state)
-        {
-            return JsonConvert.SerializeObject(state, Formatting.Indented);
         }
 
         public static string GetIp()
@@ -93,9 +83,18 @@ namespace SocketServer
             return localIp;
         }
 
-        public void test()
+        private string ParsePlayerState(Dictionary<string, object> state)
         {
+            return JsonConvert.SerializeObject(state, Formatting.Indented);
+        }
 
+        public void SyncState()
+        {
+            string json = ParsePlayerState(
+                Container.Dispatcher.Invoke(Container.getPlayerState)
+            );
+            Console.WriteLine(json);
+            Send(ServerMsg.Create(Action.REQUEST_STATE_SUCCESS, json));
         }
     }
 
@@ -117,6 +116,7 @@ namespace SocketServer
 
         public void Send(string msg)
         {
+            Console.WriteLine($"Sending: {msg}");
             wssv.WebSocketServices.Broadcast(msg);
         }
 
