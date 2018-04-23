@@ -323,20 +323,25 @@ namespace Stuffa
 		public int getIndexForNextSong()
 		{
 			Random r = new Random();
-
+            bool validBPM = false;
 			int indexForNext = r.Next(0, this.playlists[this.currentPlaylist].getSize());
 			if (this.playlists[this.currentPlaylist].getSize() > 5)
 			{
-				while (this.recentlyPlayedIndexes.Contains(indexForNext))
+				while (this.recentlyPlayedIndexes.Contains(indexForNext) && !validBPM)
 				{
 					indexForNext = r.Next(0, this.playlists[this.currentPlaylist].getSize());
-				}
+                    if (this.playlists[currentPlaylist].getBPM(indexForNext) != -1)
+                    {
+                        validBPM = true;
+                    }
+                }
 			}
 			
 			return indexForNext;
 		}
         public int getIndexForBPMShuffle()
         {
+            bool validBPM = false;
             Random r = new Random();
             List<int> temp = this.playlists[this.currentPlaylist].searchBPMIndex(this.BPM, this.BPMInterval);
             int tempInterval = this.BPMInterval;
@@ -347,10 +352,14 @@ namespace Stuffa
 
             int randNr = r.Next(0, temp.Count);
             int index = temp.ElementAt<int>(randNr);
-            while (this.recentlyPlayedIndexes.Contains(index))
+            while (this.recentlyPlayedIndexes.Contains(index) && !validBPM)
             {
                 randNr = r.Next(0, temp.Count);
                 index = temp.ElementAt<int>(randNr);
+                if (this.playlists[currentPlaylist].getBPM(index) != -1)
+                {
+                    validBPM = true;
+                }
             }
 
             return index;
@@ -360,7 +369,16 @@ namespace Stuffa
 
         public int getIndexForNonShuffle()
         {
+            
             this.indexForNonShuffle++;
+            if (indexForNonShuffle % this.playlists[currentPlaylist].getSize() == 0)
+            {
+                this.indexForNonShuffle = 0;
+            }
+            while (this.playlists[currentPlaylist].getBPM(indexForNonShuffle) == -1)
+            {
+                this.indexForNonShuffle++;
+            }
             return indexForNonShuffle;
         }
 

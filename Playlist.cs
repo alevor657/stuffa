@@ -47,6 +47,10 @@ namespace WpfApp2
 
 
         }
+        public int getBPM(int pos)
+        {
+            return this.music[pos].getBpm();
+        }
 
         //this function will add the music given to it
         public void addMusic(Music m)
