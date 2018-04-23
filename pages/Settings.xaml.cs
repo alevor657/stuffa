@@ -24,11 +24,17 @@ namespace WpfApp2.pages
     {
         Container container;
 
+        int CurrentInterval;
+
         bool hej = false;
         public Settings(Container container)
         {
             this.container = container;
+            CurrentInterval = 0;
             InitializeComponent();
+
+            IntervalInput.Text = CurrentInterval.ToString();
+
         }
 
         private void coolChecked(object sender, RoutedEventArgs e)
@@ -56,5 +62,17 @@ namespace WpfApp2.pages
         Regex regex = new Regex("[^0-9]+");
         e.Handled = regex.IsMatch(e.Text);
     }
+
+        private void IntervalAdd_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentInterval++;
+            IntervalInput.Text = CurrentInterval.ToString();
         }
+
+        private void IntervalSub_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentInterval--;
+            IntervalInput.Text = CurrentInterval.ToString();
+        }
+    }
 }
