@@ -327,7 +327,7 @@ namespace Stuffa
 			int indexForNext = r.Next(0, this.playlists[this.currentPlaylist].getSize());
 			if (this.playlists[this.currentPlaylist].getSize() > 5)
 			{
-				while (this.recentlyPlayedIndexes.Contains(indexForNext) && !validBPM)
+				while (this.recentlyPlayedIndexes.Contains(indexForNext) || !validBPM)
 				{
 					indexForNext = r.Next(0, this.playlists[this.currentPlaylist].getSize());
                     if (this.playlists[currentPlaylist].getBPM(indexForNext) != -1)
@@ -352,7 +352,7 @@ namespace Stuffa
 
             int randNr = r.Next(0, temp.Count);
             int index = temp.ElementAt<int>(randNr);
-            while (this.recentlyPlayedIndexes.Contains(index) && !validBPM)
+            while (this.recentlyPlayedIndexes.Contains(index) || !validBPM)
             {
                 randNr = r.Next(0, temp.Count);
                 index = temp.ElementAt<int>(randNr);
