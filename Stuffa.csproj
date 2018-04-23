@@ -106,6 +106,9 @@
     <Compile Include="pages\Container.xaml.cs">
       <DependentUpon>Container.xaml</DependentUpon>
     </Compile>
+    <Compile Include="pages\DynamicView.xaml.cs">
+      <DependentUpon>DynamicView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Server\Action.cs" />
     <Compile Include="Server\Server.cs" />
     <Compile Include="Server\ServerMessage.cs" />
@@ -158,6 +161,10 @@
     <Page Include="img\play-circle-outline.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="pages\DynamicView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="pages\PlayerControl.xaml">
       <SubType>Designer</SubType>

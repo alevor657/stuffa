@@ -23,7 +23,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ListBox x:Name="currentPlaylist"  dd:DragDrop.IsDragSource="True"  HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged">
+        <ListBox x:Name="currentPlaylist"  dd:DragDrop.IsDragSource="True"  HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" AllowDrop="True" Drop="testtest" MouseDown="dragFromCur">
             <ListBox.ContextMenu>
                 <ContextMenu >
                     <MenuItem Header="Add music" Click="AddMusic" />
@@ -103,7 +103,7 @@
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,2"  MouseDown="dragFromSearch">
+                    <Grid Margin="0,2" MouseDown="dragFromSearch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="1*" />

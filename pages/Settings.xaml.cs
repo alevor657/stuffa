@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
+
 
 namespace WpfApp2.pages
 {
@@ -32,13 +34,11 @@ namespace WpfApp2.pages
         private void coolChecked(object sender, RoutedEventArgs e)
         {
             hej = true;
-            coolLabel.Content = "Mattias äter gröna bananer - " + hej;
         }
 
         private void coolUnchecked(object sender, RoutedEventArgs e)
         {
             hej = false;
-            coolLabel.Content = "Mattias äter FAKTISKT RÖDA bananer - " + hej;
         }
 
         private void KeyUp(object sender, KeyEventArgs e)
@@ -50,5 +50,11 @@ namespace WpfApp2.pages
                 this.container.playBpm(givenBpm, 0);
             }
         }
+
+    private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+    {
+        Regex regex = new Regex("[^0-9]+");
+        e.Handled = regex.IsMatch(e.Text);
     }
+        }
 }

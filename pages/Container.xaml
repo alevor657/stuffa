@@ -21,7 +21,7 @@
         </Grid.ColumnDefinitions>
         <Frame x:Name="DynamicView" Grid.Column="1" NavigationUIVisibility="Hidden"/>
         <Frame x:Name="PlaylistView" NavigationUIVisibility="Hidden"/>
-        <Frame x:Name="playerControl" Grid.ColumnSpan="2" VerticalAlignment="Bottom" MinHeight="100" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderBrush="#FF01AA28" MinWidth="900" Grid.Row="1" NavigationUIVisibility="Hidden"/>
+        <Frame x:Name="playerControl" Grid.ColumnSpan="3" VerticalAlignment="Bottom" MinHeight="100" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderBrush="#FF01AA28" MinWidth="900" Grid.Row="1" NavigationUIVisibility="Hidden"/>
 
         <Image x:Name="settignsButton"  Source="../img/settings-white.png" Grid.Column="1" Margin="0,0,10,25" Width="48" Height="48" MouseUp="settingsButtonUp" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="1" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor">
             <Image.RenderTransform>
@@ -43,6 +43,6 @@
                 </EventTrigger>
             </Image.Triggers>
         </Image>
-        <materialDesign:Snackbar x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="51" Margin="0,0,180,0" Grid.Row="1" HorizontalAlignment="Stretch" Grid.Column="1" Width="420" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Background="#FFD32F2F" Foreground="White" />
+        <materialDesign:Snackbar x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="51" Margin="80,0,260,0" Grid.Row="1" HorizontalAlignment="Stretch" Grid.Column="1" Width="420" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Background="#FFD32F2F" Foreground="White" Grid.ColumnSpan="2" />
     </Grid>
 </Page>

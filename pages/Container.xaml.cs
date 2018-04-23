@@ -33,6 +33,8 @@ namespace WpfApp2.pages
         EditView ev;
         Settings settings;
         PlaylistView pv;
+        //DynamicView dv;
+
         Server s;
         Stuffa.MediaPlayer mp;
         Edit editW;
@@ -42,6 +44,7 @@ namespace WpfApp2.pages
             mp = new Stuffa.MediaPlayer(this);
             pc = new PlayerControl(this);
             settings = new Settings(this);
+            //dv = new DynamicView(this);
             InitializeComponent();
             ev = new EditView(this);
             pv = new PlaylistView(this);
@@ -50,6 +53,7 @@ namespace WpfApp2.pages
             playerControl.Content = pc;
             DynamicView.Content = ev;
             PlaylistView.Content = pv;
+            //DynamicView.Content = dv;
         }
 
 
