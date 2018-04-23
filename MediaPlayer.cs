@@ -223,13 +223,11 @@ namespace Stuffa
             {
                 this.BPMInterval = interval;
             }
-            throw new NotImplementedException();
         }
 
         internal void changeBPM(int newBPM)
         {
             this.BPM = this.BPM + newBPM;
-            throw new NotImplementedException();
         }
 
         internal Music GetSongObj(int selectedIndex)
