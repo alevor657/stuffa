@@ -49,6 +49,14 @@ namespace Stuffa
             this.BPM = bpm;
             this.BPMInterval = range;
         }
+        public int getBPM()
+        {
+            return this.BPM;
+        }
+        public int getInterval()
+        {
+            return this.BPMInterval;
+        }
 
         public void MoveMusic(int from, int to)
         {
@@ -360,10 +368,6 @@ namespace Stuffa
             if (this.playlists[currentPlaylist].getBPM(index) != -1)
             {
                 validBPM = true;
-            }
-            else
-            {
-                int i = 0;
             }
             while (this.recentlyPlayedIndexes.Contains(index) || !validBPM)
             {
