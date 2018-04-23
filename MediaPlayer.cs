@@ -331,8 +331,9 @@ namespace Stuffa
                 {
                     validBPM = true;
                 }
-                while (this.recentlyPlayedIndexes.Contains(indexForNext) && !validBPM)
+                while (this.recentlyPlayedIndexes.Contains(indexForNext) || !validBPM)
 				{
+                    validBPM = false;
 					indexForNext = r.Next(0, this.playlists[this.currentPlaylist].getSize());
                     if (this.playlists[currentPlaylist].getBPM(indexForNext) != -1)
                     {
@@ -360,8 +361,13 @@ namespace Stuffa
             {
                 validBPM = true;
             }
+            else
+            {
+                int i = 0;
+            }
             while (this.recentlyPlayedIndexes.Contains(index) || !validBPM)
             {
+                validBPM = false;
                 randNr = r.Next(0, temp.Count);
                 index = temp.ElementAt<int>(randNr);
                 if (this.playlists[currentPlaylist].getBPM(index) != -1)
