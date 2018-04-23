@@ -49,6 +49,14 @@ namespace Stuffa
             this.BPM = bpm;
             this.BPMInterval = range;
         }
+        public int getBPM()
+        {
+            return this.BPM;
+        }
+        public int getInterval()
+        {
+            return this.BPMInterval;
+        }
 
         public void MoveMusic(int from, int to)
         {
@@ -327,8 +335,13 @@ namespace Stuffa
 			int indexForNext = r.Next(0, this.playlists[this.currentPlaylist].getSize());
 			if (this.playlists[this.currentPlaylist].getSize() > 5)
 			{
-				while (this.recentlyPlayedIndexes.Contains(indexForNext) || !validBPM)
+                if (this.playlists[currentPlaylist].getBPM(indexForNext) != -1)
+                {
+                    validBPM = true;
+                }
+                while (this.recentlyPlayedIndexes.Contains(indexForNext) || !validBPM)
 				{
+                    validBPM = false;
 					indexForNext = r.Next(0, this.playlists[this.currentPlaylist].getSize());
                     if (this.playlists[currentPlaylist].getBPM(indexForNext) != -1)
                     {
@@ -352,13 +365,18 @@ namespace Stuffa
 
             int randNr = r.Next(0, temp.Count);
             int index = temp.ElementAt<int>(randNr);
+            if (this.playlists[currentPlaylist].getBPM(index) != -1)
+            {
+                validBPM = true;
+            }
             while (this.recentlyPlayedIndexes.Contains(index) || !validBPM)
             {
+                validBPM = false;
                 randNr = r.Next(0, temp.Count);
                 index = temp.ElementAt<int>(randNr);
                 if (this.playlists[currentPlaylist].getBPM(index) != -1)
                 {
-                    validBPM = true;
+                    validBPM = true; ;
                 }
             }
 

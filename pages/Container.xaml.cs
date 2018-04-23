@@ -133,8 +133,16 @@ namespace WpfApp2.pages
             ev.snackBarActivate(name + " created!");
         }
 
+        internal void getBPM()
+        {
+            // Add code to delegate data to server then to phone
+            int bpm = mp.getBPM();
+        }
 
-
+        internal void getInternval()
+        {
+            int interval = mp.getInterval();
+        }
         internal bool LoadNewMusic(List<string> paths)
         {
             bool retVal = true;
