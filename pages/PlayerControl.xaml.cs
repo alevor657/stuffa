@@ -148,6 +148,16 @@ namespace WpfApp2.pages
             SongCurrentTime.Content = currentTime.ToString().Substring(3);
         }
 
+        public void unloadMusicImmediately()
+        {
+            this.Player.Source = null;
+        }
+
+        public string getMusicTitle()
+        {
+            return TitleLabel.Text;
+        }
+
         public void TogglePlay() => playButtonUp();
 
         private void playButtonUp(object sender = null, MouseButtonEventArgs e = null)

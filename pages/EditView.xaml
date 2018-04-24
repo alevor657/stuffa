@@ -24,7 +24,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <materialDesign:DialogHost Margin="0,0,0,0">
+        <materialDesign:DialogHost Margin="0,0,0,0" DialogClosing="EditMusicCurPlaylist_OnDialogClosing">
             <materialDesign:DialogHost.DialogContent>
                 
                 <StackPanel Width="200" Margin="20, 10, 20, 10">

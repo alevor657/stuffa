@@ -328,5 +328,36 @@ namespace WpfApp2.pages
             editW.Show();
 
         }
+
+        internal void EditMusic(Music toEdit, string newBpm, string newTitle, string newArtist)
+        {
+            bool resumeMusic = false;
+            //can find songs with same name and thing they are the same i know
+            if(pc.getMusicTitle() == toEdit.getTitle())
+            {
+                resumeMusic = true;
+                //unload to be able to edit id3 tags
+                pc.unloadMusicImmediately();
+            }
+
+            //set bpm
+            int newBpmInt = 0;
+            if(Int32.TryParse(newBpm, out newBpmInt))
+            {
+                toEdit.setBPM(newBpmInt);
+            }
+
+            //set Title
+            toEdit.setTitle(newTitle);
+
+            //set artist
+            toEdit.setArtist(newArtist);
+
+
+            if (resumeMusic)
+            {
+                pc.PlaySong(toEdit);
+            }
+        }
     }
 }
