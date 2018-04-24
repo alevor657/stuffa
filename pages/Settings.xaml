@@ -1,42 +1,203 @@
-﻿<Page x:Class="WpfApp2.pages.Settings"
+﻿<Page x:Name="page" x:Class="WpfApp2.pages.Settings"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:WpfApp2"
       mc:Ignorable="d"
-      Title="Settings" Height="449.194" Width="704.032" Foreground="White" Background="#FF303030">
+      Title="Settings" Foreground="White" Background="#FF303030">
 
     <Grid>
-        <Grid Margin="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <!--<Border BorderThickness="10" BorderBrush="#FFAB0000"></Border>-->
-            <ToggleButton HorizontalAlignment="Left" Margin="73.667,219,0,0" VerticalAlignment="Top" Height="40" Width="40" Style="{DynamicResource MaterialDesignFlatPrimaryToggleButton}" Grid.Column="1">
-                <StackPanel>
-                    <Image Source="../img/close.png.png" Width="30" HorizontalAlignment="Right"/>
-                </StackPanel>
-            </ToggleButton>
-            <ToggleButton x:Name="toggleButton" Margin="5,10,10,0" VerticalAlignment="Top" Height="40" RenderTransformOrigin="0.07,0.49" Checked="coolChecked" Unchecked="coolUnchecked" Grid.Column="1"/>
-            <TextBox x:Name="IntervalInput" KeyUp="KeyUp" Background="{x:Null}" Margin="151.008,71,151.008,0" VerticalAlignment="Top" Height="35" Width="40" Cursor="IBeam" FontFamily="Roboto Light" FontSize="24" Foreground="White" PreviewTextInput="NumberValidationTextBox" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="120"/>
-            <Label Content="Auto" Margin="10,10,0,0" VerticalAlignment="Top" Width="110.88" Height="40" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-            <Label Content="BPM" x:Name="setBpm" Margin="10,117,0,0" VerticalAlignment="Top" Width="110.88" Height="40" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-            <Label Content="Cool switch" Margin="10,219,0,0" VerticalAlignment="Top" Width="110.88" Height="40" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-            <Label Content="Interval" HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Width="110.88" Height="45" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Button x:Name="IntervalAdd" Content="+" Grid.Column="1" Margin="111.008,71,196.008,0" VerticalAlignment="Top" Width="35" FontSize="24" FontFamily="Roboto Thin" Height="35" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Click="IntervalAdd_Click" />
-            <Button x:Name="IntervalSub" Content="¯" Grid.Column="1" Margin="196.008,75,111.008,0" VerticalAlignment="Top" Width="35" FontSize="48" FontFamily="Roboto Thin" Height="31" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Click="IntervalSub_Click" />
-            <Button Content="¯" Grid.Column="1" Margin="196.008,126,111.008,0" VerticalAlignment="Top" Width="35" FontSize="48" FontFamily="Roboto Thin" Height="31" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" />
-            <Button Content="+" Grid.Column="1" Margin="111.008,122,196.008,0" VerticalAlignment="Top" Width="35" FontSize="24" FontFamily="Roboto Thin" Height="35" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" />
-            <Label Content="BPM" x:Name="setBpm_Copy" Margin="10,168,0,0" VerticalAlignment="Top" Width="110.88" Height="40" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-            <TextBox x:Name="BpmInput_Copy" KeyUp="KeyUp" Background="{x:Null}" Margin="151.008,117,151.008,0" VerticalAlignment="Top" Height="40" Width="40" Cursor="IBeam" FontFamily="Roboto Light" FontSize="24" Foreground="White" PreviewTextInput="NumberValidationTextBox" Grid.Column="1" HorizontalContentAlignment="Center" Text="121"/>
-            <TextBox x:Name="BpmInput" KeyUp="KeyUp" Background="{x:Null}" Margin="151.008,168,151.008,0" VerticalAlignment="Top" Height="40" Width="40" Cursor="IBeam" FontFamily="Roboto Light" FontSize="24" Foreground="White" PreviewTextInput="NumberValidationTextBox" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="240"/>
-            <Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,55,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
-            <Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,111,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
-            <Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,162,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
-            <Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,213,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
+        <ScrollViewer HorizontalScrollBarVisibility="Hidden" Height="{Binding WindowHeight, ElementName=page}">
+            <Grid Margin="10,0" Height="514.32" VerticalAlignment="Top">
+                <Label Content="Main Settings" HorizontalAlignment="Left" Margin="10,3.04,0,0" VerticalAlignment="Top" Width="463.896" Background="{x:Null}" BorderThickness="1" FontWeight="Bold" FontSize="18"/>
+                <Path Data="M10,77.667 L472.896,80.667" Height="1" Margin="10,38.98,10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top"/>
+                <!--<Border BorderThickness="10" BorderBrush="#FFAB0000"></Border>-->
+                <ToggleButton Margin="0,271.4,50,0" VerticalAlignment="Top" Height="40" Width="40" Style="{DynamicResource MaterialDesignFlatPrimaryToggleButton}" HorizontalAlignment="Right">
+                    <StackPanel>
+                        <Image Source="../img/close.png.png" Width="30" HorizontalAlignment="Right"/>
+                    </StackPanel>
+                </ToggleButton>
+                <ToggleButton x:Name="toggleButton" Margin="0,49.548,50,0" VerticalAlignment="Top" Height="40" RenderTransformOrigin="0.07,0.49" Checked="coolChecked" Unchecked="coolUnchecked" Width="40" HorizontalAlignment="Right"/>
+                <TextBox x:Name="IntervalInput" KeyUp="KeyUp" Background="{x:Null}" Margin="0,94.548,50,0" VerticalAlignment="Top" Height="45" Width="40" Cursor="IBeam" FontFamily="Roboto Light" FontSize="24" Foreground="White" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="120" HorizontalAlignment="Right"/>
+                <Label Content="Auto" Margin="10,44.98,0,0" VerticalAlignment="Top" Width="110.88" Height="45" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
+                <Label Content="BPM" x:Name="setBpm" Margin="10,149.98,0,0" VerticalAlignment="Top" Width="110.88" Height="50" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
+                <Label Content="Cool switch" Margin="10,259.98,0,0" VerticalAlignment="Top" Width="110.88" Height="49.4" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
+                <Label Content="Interval" HorizontalAlignment="Left" Margin="10,94.98,0,0" VerticalAlignment="Top" Width="110.88" Height="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#DDC9C9C9"/>
 
-        </Grid>
+
+
+                <Button x:Name="IntervalAdd" Content="+" Margin="0,104.548,95,0" VerticalAlignment="Top" Width="35" FontSize="24" FontFamily="Roboto Thin" Height="35" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Click="IntervalAdd_Click" Opacity="0.5" HorizontalAlignment="Right">
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity">
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseDown">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.25"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseUp">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.5"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button x:Name="IntervalSub" Content="¯" Margin="0,108.548,10,0" VerticalAlignment="Top" Width="35" FontSize="48" FontFamily="Roboto Thin" Height="31" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Click="IntervalSub_Click" Opacity="0.495" HorizontalAlignment="Right">
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity">
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseDown">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.25"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseUp">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.5"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Content="¯" Margin="0,163.98,10,0" VerticalAlignment="Top" Width="35" FontSize="48" FontFamily="Roboto Thin" Height="31" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" HorizontalAlignment="Right">
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity">
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseDown">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.25"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseUp">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.5"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Content="+" Margin="0,159.98,95,0" VerticalAlignment="Top" Width="35" FontSize="24" FontFamily="Roboto Thin" Height="35" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" HorizontalAlignment="Right">
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity">
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseDown">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.25"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseUp">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                    <DoubleAnimation To="0.5"
+                                                     Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
+
+                <Label Content="BPM" x:Name="setBpm_Copy" Margin="10,204.98,0,0" VerticalAlignment="Top" Width="110.88" Height="50" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
+                <TextBox x:Name="BpmInput_Copy" KeyUp="KeyUp" Background="{x:Null}" Margin="0,149.98,50,0" VerticalAlignment="Top" Height="45" Width="40" Cursor="IBeam" FontFamily="Roboto Light" FontSize="24" Foreground="White" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" Text="121" HorizontalAlignment="Right"/>
+                <TextBox x:Name="BpmInput" KeyUp="KeyUp" Background="{x:Null}" Margin="0,214.98,50,0" VerticalAlignment="Top" Height="40" Width="40" Cursor="IBeam" FontFamily="Roboto Light" FontSize="24" Foreground="White" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="240" HorizontalAlignment="Right"/>
+                <!--<Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,60,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
+                <Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,121,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
+                <Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,182,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
+                <Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,243,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
+            -->
+                <Label Content="Server Settings" HorizontalAlignment="Left" Margin="10,319.41,0,0" VerticalAlignment="Top" Width="463.896" Background="{x:Null}" BorderThickness="1" FontWeight="Bold"/>
+                <Path Data="M10,77.667 L472.896,80.667" Height="1" Margin="10,347.37,10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top"/>
+                <Label Content="Cool switch" Margin="10,353.37,0,0" VerticalAlignment="Top" Width="110.88" Height="49.4" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
+                <Label Content="Cool switch" Margin="10,407.77,0,0" VerticalAlignment="Top" Width="110.88" Height="49.4" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
+                <Label Content="Cool switch" Margin="10,462.17,0,0" VerticalAlignment="Top" Width="110.88" Height="49.4" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>
