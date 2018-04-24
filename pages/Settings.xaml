@@ -192,11 +192,11 @@
                 <Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,182,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
                 <Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,243,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
             -->
-                <Label Content="Server Settings" HorizontalAlignment="Left" Margin="10,319.41,0,0" VerticalAlignment="Top" Width="463.896" Background="{x:Null}" BorderThickness="1" FontWeight="Bold"/>
-                <Path Data="M10,77.667 L472.896,80.667" Height="1" Margin="10,347.37,10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top"/>
-                <Label Content="Cool switch" Margin="10,353.37,0,0" VerticalAlignment="Top" Width="110.88" Height="49.4" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
-                <Label Content="Cool switch" Margin="10,407.77,0,0" VerticalAlignment="Top" Width="110.88" Height="49.4" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
-                <Label Content="Cool switch" Margin="10,462.17,0,0" VerticalAlignment="Top" Width="110.88" Height="49.4" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
+                <Label Content="Server Settings" HorizontalAlignment="Left" Margin="10,316.4,0,0" VerticalAlignment="Top" Width="463.896" Background="{x:Null}" BorderThickness="1" FontWeight="Bold" FontSize="18"/>
+                <Path Data="M10,77.667 L472.896,80.667" Height="1" Margin="10,352.37,10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top"/>
+                <Label Content="Cool switch" Margin="10,358.37,0,0" VerticalAlignment="Top" Width="110.88" Height="49.4" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
+                <Label Content="Cool switch" Margin="10,412.77,0,0" VerticalAlignment="Top" Width="110.88" Height="49.4" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
+                <Label Content="Cool switch" Margin="10,467.17,0,-2.25" VerticalAlignment="Top" Width="110.88" Height="49.4" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
             </Grid>
         </ScrollViewer>
     </Grid>
