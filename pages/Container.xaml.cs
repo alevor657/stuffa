@@ -353,6 +353,8 @@ namespace WpfApp2.pages
             //set artist
             toEdit.setArtist(newArtist);
 
+            //update database
+            mp.updateDatabase(toEdit);
 
             if (resumeMusic)
             {

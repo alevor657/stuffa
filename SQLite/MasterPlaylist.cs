@@ -542,6 +542,28 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
         }
 
+        public void updateMusic(string path, int newBpm, string Title, string Artist)
+        {
+            updateMusic(newBpm, path);
+
+            string sql = "UPDATE Titles SET title = ? WHERE (SELECT songNr FROM SongPaths WHERE songNr = Titles.songNr AND SongPaths.paths = ?); ";
+
+            List<string> SQLParams = new List<string>()
+                {
+                   Title, path
+                };
+            createCmd(sql, SQLParams).ExecuteNonQuery();
+
+            sql = "UPDATE Titles SET title = ? WHERE (SELECT songNr FROM SongPaths WHERE songNr = Titles.songNr AND SongPaths.paths = ?); ";
+
+            SQLParams = new List<string>()
+                {
+                   Artist, path
+                };
+            createCmd(sql, SQLParams).ExecuteNonQuery();
+
+        }
+
     }
 
 

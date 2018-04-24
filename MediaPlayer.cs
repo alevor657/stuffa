@@ -107,6 +107,11 @@ namespace Stuffa
 
         }
 
+        public void updateDatabase(Music m)
+        {
+            this.master.updateMusic(m.getFullPath(), m.Bpm, m.Title, m.Artist);
+        }
+
         public void SetCurrentPlaylist(int pos)
         {
             this.currentPlaylist = pos - 1;
