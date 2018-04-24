@@ -25,7 +25,7 @@ namespace WpfApp2.pages
     /// </summary>
     public partial class EditView : Page
     {
-
+        Music toEdit;
         Container container;
         bool dragFromSearchList;
 
@@ -358,7 +358,14 @@ namespace WpfApp2.pages
 
         private void editMusic(object sender, RoutedEventArgs e)
         {
-            container.edit((currentPlaylist.Items.GetItemAt(currentPlaylist.SelectedIndex) as Tuple<Music, Visibility, int>).Item1);
+            editMusicWin((this.currentPlaylist.SelectedItem as Tuple<Music, Visibility, int>).Item1);
+            //container.edit((currentPlaylist.Items.GetItemAt(currentPlaylist.SelectedIndex) as Tuple<Music, Visibility, int>).Item1);
+        }
+        public void editMusicWin(Music m)
+        {
+            this.BpmBox.Text = m.getBpm().ToString();
+            this.TitleBox.Text = m.getTitle();
+            this.ArtistBox.Text = m.getArtist();
         }
     }
 }

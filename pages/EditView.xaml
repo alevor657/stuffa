@@ -6,6 +6,7 @@
       xmlns:dd="urn:gong-wpf-dragdrop"
       xmlns:local="clr-namespace:WpfApp2"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="424.5" d:DesignWidth="708"
       Title="PlaylistView" Background="#FF303030">
@@ -23,12 +24,51 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
+        <materialDesign:DialogHost Margin="0,0,0,0">
+            <materialDesign:DialogHost.DialogContent>
+                
+                <StackPanel Width="200" Margin="20, 10, 20, 10">
+                    <TextBlock x:Name="Bpm" Text="BPM"></TextBlock>
+                    <TextBox x:Name="BpmBox" HorizontalAlignment="Stretch"></TextBox>
+                    <Rectangle Fill="Transparent" Height="10"></Rectangle>
+
+                    <TextBlock  x:Name="Title" Text="Title"></TextBlock>
+                    <TextBox x:Name="TitleBox" HorizontalAlignment="Stretch"></TextBox>
+                    <Rectangle Fill="Transparent" Height="10"></Rectangle>
+
+                    <TextBlock  x:Name="Artist" Text="Artist"></TextBlock>
+                    <TextBox x:Name="ArtistBox" HorizontalAlignment="Stretch"></TextBox>
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                        <Button HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsDefault="True"
+                                        Margin="20,8,0,0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand">
+                            <Button.CommandParameter>
+                                <system:Boolean>True</system:Boolean>
+                            </Button.CommandParameter>
+                            EDIT
+                        </Button>
+                        <Button HorizontalAlignment="Right"  Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsCancel="True"
+                                Margin="14,8,0,0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand">
+                            <Button.CommandParameter>
+                                <system:Boolean>False</system:Boolean>
+                            </Button.CommandParameter>
+                            CANCEL
+                        </Button>
+                    </StackPanel>
+
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+        
         <ListBox x:Name="currentPlaylist"  dd:DragDrop.IsDragSource="True"  HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" AllowDrop="True" Drop="testtest" MouseDown="dragFromCur">
             <ListBox.ContextMenu>
                 <ContextMenu >
                     <MenuItem Header="Add music" Click="AddMusic" />
                     <MenuItem Header="Remove" Click="removeSongOnIndex" />
-                    <MenuItem Header="Edit" Click="editMusic" />
+                    <MenuItem Header="Edit" Click="editMusic" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" />
 
                 </ContextMenu>
             </ListBox.ContextMenu>
@@ -73,6 +113,7 @@
             -->
 
         </ListBox>
+            </materialDesign:DialogHost>
 
 <!--
         <Popup x:Name="pop" VerticalAlignment="top" Height="60" VerticalOffset="-60" PopupAnimation="Fade"  AllowsTransparency="True" IsOpen="False" Grid.Column="0" Width="{Binding Path=ColumnDefinitions[0].ActualWidth,
