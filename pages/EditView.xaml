@@ -75,7 +75,7 @@
 
 
 
-            <ListBox x:Name="currentPlaylist" ItemContainerStyle="{StaticResource ListBoxItemStretchStyle}"  dd:DragDrop.IsDragSource="True"  HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" AllowDrop="True" Drop="testtest" MouseDown="dragFromCur">
+            <ListBox x:Name="currentPlaylist" ItemContainerStyle="{StaticResource ListBoxItemStretchStyle}"  dd:DragDrop.IsDragSource="True"  HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" AllowDrop="True" MouseDown="dragFromCur">
                 
                 <ListBox.ContextMenu>
                 <ContextMenu >
