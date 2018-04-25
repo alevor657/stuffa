@@ -299,7 +299,7 @@ namespace WpfApp2.pages
         public void SendStateToServerOnUpdate()
         {
             string json = JsonConvert.SerializeObject(getPlayerState());
-            s.Send(ServerMsg.Create(SocketServer.Action.REQUEST_STATE_SUCCESS, json));
+            s.Send(ServerMsg.Create(SocketServer.Action.UPDATE, json));
         }
 
         internal void MoveMusic(int from, int to)

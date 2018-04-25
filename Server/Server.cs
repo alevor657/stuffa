@@ -49,6 +49,7 @@ namespace SocketServer
 
             Console.WriteLine(msg.Data.ToString());
 
+
             switch (parseMsg.type) {
                 case "PLAY":
                     Container.Dispatcher.Invoke(Container.TogglePlay);
@@ -94,7 +95,7 @@ namespace SocketServer
                 Container.Dispatcher.Invoke(Container.getPlayerState)
             );
             Console.WriteLine(json);
-            Send(ServerMsg.Create(Action.REQUEST_STATE_SUCCESS, json));
+            Send(ServerMsg.Create(Action.UPDATE, json));
         }
     }
 
