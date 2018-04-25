@@ -11,8 +11,18 @@
       d:DesignHeight="424.5" d:DesignWidth="708"
       Title="PlaylistView" Background="#FF303030">
 
-    
-    
+
+    <Page.Resources>
+        <Style x:Key="ListBoxItemStretchStyle" TargetType="ListBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            
+            <Setter Property="Height" Value="45"/>
+        </Style>
+    </Page.Resources>
+
     <Grid>
         
         
@@ -62,9 +72,12 @@
 
                 </StackPanel>
             </materialDesign:DialogHost.DialogContent>
-        
-        <ListBox x:Name="currentPlaylist"  dd:DragDrop.IsDragSource="True"  HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" AllowDrop="True" Drop="testtest" MouseDown="dragFromCur">
-            <ListBox.ContextMenu>
+
+
+
+            <ListBox x:Name="currentPlaylist" ItemContainerStyle="{StaticResource ListBoxItemStretchStyle}"  dd:DragDrop.IsDragSource="True"  HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" AllowDrop="True" Drop="testtest" MouseDown="dragFromCur">
+                
+                <ListBox.ContextMenu>
                 <ContextMenu >
                     <MenuItem Header="Add music" Click="AddMusic" />
                     <MenuItem Header="Remove" Click="removeSongOnIndex" />
@@ -74,7 +87,7 @@
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,2" AllowDrop="True" Drop="testtest" MouseDown="dragFromCur">
+                    <Grid Margin="0,0" Height="45" AllowDrop="True" Drop="testtest" MouseDown="dragFromCur">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="1*" />
@@ -113,7 +126,9 @@
             -->
 
         </ListBox>
-            </materialDesign:DialogHost>
+
+        </materialDesign:DialogHost>
+
 
 <!--
         <Popup x:Name="pop" VerticalAlignment="top" Height="60" VerticalOffset="-60" PopupAnimation="Fade"  AllowsTransparency="True" IsOpen="False" Grid.Column="0" Width="{Binding Path=ColumnDefinitions[0].ActualWidth,
