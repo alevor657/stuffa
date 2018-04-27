@@ -404,6 +404,8 @@ namespace WpfApp2.pages
                 ShuffleButton.Source = image;
             }
             shuffleLoop = (shuffleLoop + 1) % 3;
+            container.SendStateToServerOnUpdate();
+
         }
 
         private void RestartSong(object sender, MouseButtonEventArgs e)
@@ -413,7 +415,9 @@ namespace WpfApp2.pages
             {
                 this.Player.Play();
                 fadeIn();
+
             }
+            container.SendStateToServerOnUpdate();
         }
     }
 }

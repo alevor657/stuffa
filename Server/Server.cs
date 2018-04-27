@@ -66,6 +66,10 @@ namespace SocketServer
                 case "REQUEST_STATE":
                     SyncState();
                     break;
+                case "VOLUME_CHANGE":
+                    //PSUEDOKOD - Container.GetVolume finns inte
+                    Container.Dispatcher.Invoke(Container.GetVolume);
+                    break;
                 //...
                 default:
                     return;
