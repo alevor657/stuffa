@@ -13,13 +13,39 @@
 
 
     <Page.Resources>
-        <Style x:Key="ListBoxItemStretchStyle" TargetType="ListBoxItem">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            
-            <Setter Property="Height" Value="45"/>
+
+        <AlternationConverter x:Key="BackgroundConverter">
+            <SolidColorBrush Color="Transparent" />
+            <SolidColorBrush Color="#19000000" />
+        </AlternationConverter>
+
+        <Style x:Key="Style2" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Name="Border" Padding="7" SnapsToDevicePixels="True" Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#515151"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" Value="#3f3f3f"/>
+                                
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Style1" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource Style2}">
+            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self},
+                 Path=(ItemsControl.AlternationIndex),
+                 Converter={StaticResource BackgroundConverter}}"/>
         </Style>
     </Page.Resources>
 
@@ -75,7 +101,7 @@
 
 
 
-            <ListBox x:Name="currentPlaylist" ItemContainerStyle="{StaticResource ListBoxItemStretchStyle}"  dd:DragDrop.IsDragSource="True"  HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" AllowDrop="True" MouseDown="dragFromCur">
+            <ListBox x:Name="currentPlaylist"   dd:DragDrop.IsDragSource="True" ItemContainerStyle="{StaticResource Style1}" HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" AllowDrop="True" MouseDown="dragFromCur">
                 
                 <ListBox.ContextMenu>
                 <ContextMenu >
@@ -87,26 +113,23 @@
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,0" Height="45" AllowDrop="True" Drop="testtest" MouseDown="dragFromCur">
+                    <Grid Margin="0,0" Height="30" AllowDrop="True" Drop="testtest" MouseDown="dragFromCur">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="10"/>
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="4"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Item1.Bpm}" />
-                        <TextBlock Grid.Column="1" Text="{Binding Item1.Title}" FontWeight="Bold"/>
-                        <TextBlock Grid.Column="3" Text="{Binding Item1.Artist}"/>
-                        <TextBlock Text="{Binding Item3}" Visibility="Hidden" x:Name="SongId"></TextBlock>
 
-                        <Rectangle Fill="#FF191919" Stroke="#FF191919"  Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" />
-                        <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1"  />
-                        <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2"  />
-                        <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="3"  />
+                        <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="{Binding Item1.Bpm}" />
+                            <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{Binding Item1.Title}" FontWeight="Bold"/>
+                            <TextBlock VerticalAlignment="Center" Grid.Column="3" Text="{Binding Item1.Artist}"/>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Item3}" Visibility="Hidden" x:Name="SongId"></TextBlock>
+
+                        <Rectangle Fill="#FF191919" Stroke="#FF191919"  Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" />
+                        <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1"  />
+                        <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2"  />
+                        <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="3"  />
 
                     </Grid>
                 </DataTemplate>
