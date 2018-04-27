@@ -19,13 +19,19 @@
             <SolidColorBrush Color="#19000000" />
         </AlternationConverter>
 
-        <Style x:Key="Style2" TargetType="{x:Type ListBoxItem}">
+        <Style x:Key="Style2" TargetType="ListBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="AllowDrop" Value="True"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="SnapsToDevicePixels" Value="true"/>
             <Setter Property="OverridesDefaultStyle" Value="true"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
-                        <Border Name="Border" Padding="7" SnapsToDevicePixels="True" Background="{TemplateBinding Background}">
+                        <Border Name="Border" Padding="0" SnapsToDevicePixels="True" Background="{TemplateBinding Background}">
                             <ContentPresenter />
                         </Border>
                         <ControlTemplate.Triggers>
@@ -113,7 +119,7 @@
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,0" Height="30" AllowDrop="True" Drop="testtest" MouseDown="dragFromCur">
+                        <Grid Margin="0,0"  AllowDrop="True" Drop="testtest" Background="Transparent" MouseDown="dragFromCur">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="1*" />
