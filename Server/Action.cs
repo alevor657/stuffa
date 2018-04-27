@@ -7,5 +7,6 @@
         public const string NEXT_TRACK = "NEXT_TRACK";
         public const string REPLAY = "REPLAY";
         public const string UPDATE = "UPDATE";
+        public const string VOLUME_CHANGE = "VOLUME_CHANGE";
     }
 }

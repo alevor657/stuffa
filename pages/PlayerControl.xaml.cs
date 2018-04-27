@@ -419,5 +419,10 @@ namespace WpfApp2.pages
             }
             container.SendStateToServerOnUpdate();
         }
+
+        public int GetCurrentVolumeAsInt()
+        {
+            return (int)(VolumeSlider.Value * 100);
+        }
     }
 }

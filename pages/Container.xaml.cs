@@ -295,6 +295,7 @@ namespace WpfApp2.pages
         public Dictionary<string, object> getPlayerState() => pc.getPlayerState();
         public void TogglePlay() => pc.TogglePlay();
         public void NextSong() => pc.NextSong();
+        public void GetCurrentVolumeAsInt() => pc.GetCurrentVolumeAsInt();
 
         public void SendStateToServerOnUpdate()
         {

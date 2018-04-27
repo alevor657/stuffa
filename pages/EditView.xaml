@@ -12,7 +12,7 @@
       Title="PlaylistView" Background="#FF303030">
 
 
-    <Page.Resources>
+    <!--<Page.Resources>
 
         <AlternationConverter x:Key="BackgroundConverter">
             <SolidColorBrush Color="Transparent" />
@@ -53,11 +53,11 @@
                  Path=(ItemsControl.AlternationIndex),
                  Converter={StaticResource BackgroundConverter}}"/>
         </Style>
-    </Page.Resources>
+    </Page.Resources>-->
 
     <Grid>
-        
-        
+
+
         <!--<Border BorderBrush="#FF00FF46" BorderThickness="10" Margin="0,0,438,0"/>-->
         <!--<Grid x:Name="mainContent" MinHeight="519" MinWidth="747">-->
 
@@ -68,7 +68,7 @@
 
         <materialDesign:DialogHost Margin="0,0,0,0" DialogClosing="EditMusicCurPlaylist_OnDialogClosing">
             <materialDesign:DialogHost.DialogContent>
-                
+
                 <StackPanel Width="200" Margin="20, 10, 20, 10">
                     <TextBlock x:Name="Bpm" Text="BPM"></TextBlock>
                     <TextBox x:Name="BpmBox" HorizontalAlignment="Stretch"></TextBox>
@@ -80,7 +80,7 @@
 
                     <TextBlock  x:Name="Artist" Text="Artist"></TextBlock>
                     <TextBox x:Name="ArtistBox" HorizontalAlignment="Stretch"></TextBox>
-                    
+
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
                         <Button HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFlatButton}"
                                         IsDefault="True"
@@ -107,41 +107,51 @@
 
 
 
-            <ListBox x:Name="currentPlaylist"   dd:DragDrop.IsDragSource="True" ItemContainerStyle="{StaticResource Style1}" HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" AllowDrop="True" MouseDown="dragFromCur">
-                
+            <ListBox x:Name="currentPlaylist" dd:DragDrop.IsDragSource="True" HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" AllowDrop="True" MouseDown="dragFromCur" VerticalContentAlignment="Stretch" Grid.IsSharedSizeScope="True">
+
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+
                 <ListBox.ContextMenu>
-                <ContextMenu >
-                    <MenuItem Header="Add music" Click="AddMusic" />
-                    <MenuItem Header="Remove" Click="removeSongOnIndex" />
-                    <MenuItem Header="Edit" Click="editMusic" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" />
+                    <ContextMenu >
+                        <MenuItem Header="Add music" Click="AddMusic" />
+                        <MenuItem Header="Remove" Click="removeSongOnIndex" />
+                        <MenuItem Header="Edit" Click="editMusic" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" />
 
-                </ContextMenu>
-            </ListBox.ContextMenu>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                        <Grid Margin="0,0"  AllowDrop="True" Drop="testtest" Background="Transparent" MouseDown="dragFromCur">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="1*" />
-                        </Grid.ColumnDefinitions>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,0,0,0"  AllowDrop="True" Drop="testtest" Background="#FF16C32E"  Width="Auto" Height="Auto">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
 
-                        <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="{Binding Item1.Bpm}" />
-                            <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{Binding Item1.Title}" FontWeight="Bold"/>
-                            <TextBlock VerticalAlignment="Center" Grid.Column="3" Text="{Binding Item1.Artist}"/>
-                            <TextBlock VerticalAlignment="Center" Text="{Binding Item3}" Visibility="Hidden" x:Name="SongId"></TextBlock>
+                                <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="{Binding Item1.Bpm}" />
+                                <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{Binding Item1.Title}" FontWeight="Bold"/>
+                                <TextBlock VerticalAlignment="Center" Grid.Column="3" Text="{Binding Item1.Artist}"/>
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Item3}" Visibility="Hidden" x:Name="SongId"></TextBlock>
 
-                        <Rectangle Fill="#FF191919" Stroke="#FF191919"  Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" />
-                        <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1"  />
-                        <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2"  />
-                        <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="3"  />
+                                <Rectangle Fill="#FF191919" Stroke="#FF191919"  Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" />
+                                <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1"  />
+                                <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2"  />
+                                <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="3"  />
 
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+                            </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
 
-            <!--<ListBoxItem HorizontalContentAlignment="Stretch">
+
+                <!--<ListBoxItem HorizontalContentAlignment="Stretch">
                 <Grid Margin="0,2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -154,12 +164,12 @@
             </ListBoxItem>
             -->
 
-        </ListBox>
+            </ListBox>
 
         </materialDesign:DialogHost>
 
 
-<!--
+        <!--
         <Popup x:Name="pop" VerticalAlignment="top" Height="60" VerticalOffset="-60" PopupAnimation="Fade"  AllowsTransparency="True" IsOpen="False" Grid.Column="0" Width="{Binding Path=ColumnDefinitions[0].ActualWidth,
                         RelativeSource={RelativeSource Mode=FindAncestor,
                                                       AncestorType=Grid}}" >
@@ -172,7 +182,7 @@
             </Frame>
         </Popup> -->
 
-            <Frame x:Name="SnackBar"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="60"></Frame>
+        <Frame x:Name="SnackBar"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="60"></Frame>
         <materialDesign:Snackbar x:Name="SnackBarDialog" Margin="0 0 0 -9" MessageQueue="{materialDesign:MessageQueue}" Height="60" HorizontalAlignment="Stretch" Background="Green" Foreground="White" />
 
         <!--<materialDesign:Snackbar Grid.Column="0" x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="61" Margin="0,0,0,-7" HorizontalAlignment="Stretch"  VerticalContentAlignment="Bottom" HorizontalContentAlignment="Stretch" Background="#FFD32F2F" Foreground="White" />
@@ -237,8 +247,8 @@
         </Grid>
         <Grid Height="39.5" Margin="13.167,94.5,6.833,0" VerticalAlignment="Top" Grid.Column="1">
             <Label Content="BPM" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Opacity="0.795" Width="43.377" HorizontalContentAlignment="Center" FontSize="14"/>
-            <Label Content="Artist" HorizontalAlignment="Left" Margin="51.127,10,0,0" VerticalAlignment="Top" Opacity="0.795" FontSize="14"/>
-            <Label Content="Album" Margin="178.985,10,84.833,0" VerticalAlignment="Top" Opacity="0.795" HorizontalContentAlignment="Center" FontSize="14"/>
+            <Label Content="Title" HorizontalAlignment="Left" Margin="51.127,10,0,0" VerticalAlignment="Top" Opacity="0.795" FontSize="14"/>
+            <Label Content="Artist" Margin="178.985,10,84.833,0" VerticalAlignment="Top" Opacity="0.795" HorizontalContentAlignment="Center" FontSize="14"/>
             <Border BorderBrush="#FF191919" BorderThickness="5" Height="1" Margin="1.25,39,5.75,-0.5" VerticalAlignment="Top">
                 <Border.Effect>
                     <BlurEffect/>

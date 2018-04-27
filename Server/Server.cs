@@ -67,8 +67,8 @@ namespace SocketServer
                     SyncState();
                     break;
                 case "VOLUME_CHANGE":
-                    //PSUEDOKOD - Container.GetVolume finns inte
-                    Container.Dispatcher.Invoke(Container.GetVolume);
+                    Container.Dispatcher.Invoke(Container.GetCurrentVolumeAsInt);
+                    Send(ServerMsg.Create(Action.VOLUME_CHANGE));
                     break;
                 //...
                 default:
