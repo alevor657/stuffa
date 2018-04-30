@@ -491,15 +491,18 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
         {
             if (paths != null)
             {
+                if (paths.Count > 0)
+                {
 
 
-                loadingWindow loadingWinMain = new loadingWindow("Saving new music.\ndo not exit program while loading");
-                //loadingWinMain.setMax(paths.Count);
+                    loadingWindow loadingWinMain = new loadingWindow("Saving new music.\ndo not exit program while loading");
+                    //loadingWinMain.setMax(paths.Count);
 
-                Thread myNewThread = new Thread(() => insertNewMusic(paths, loadingWinMain));
-                myNewThread.IsBackground = true;
-                myNewThread.SetApartmentState(ApartmentState.STA);
-                myNewThread.Start();
+                    Thread myNewThread = new Thread(() => insertNewMusic(paths, loadingWinMain));
+                    myNewThread.IsBackground = true;
+                    myNewThread.SetApartmentState(ApartmentState.STA);
+                    myNewThread.Start();
+                }
             }
         }
         /*
