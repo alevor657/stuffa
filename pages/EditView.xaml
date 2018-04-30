@@ -107,7 +107,7 @@
 
 
 
-            <ListBox x:Name="currentPlaylist" dd:DragDrop.IsDragSource="True" DragOver="DragOverShow" AllowDrop="True" HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" MouseDown="dragFromCur" VerticalContentAlignment="Stretch" Grid.IsSharedSizeScope="True">
+            <ListBox x:Name="currentPlaylist" dd:DragDrop.IsDragSource="True" DragOver="DragOverShow" AllowDrop="True" HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" MouseEnter="dragFromCur" VerticalContentAlignment="Stretch" Grid.IsSharedSizeScope="True">
 
                
 

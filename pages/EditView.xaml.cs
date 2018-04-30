@@ -317,7 +317,12 @@ namespace WpfApp2.pages
                         }
                     }
 
-                    container.LoadNewMusic(paths);
+                    if(container.LoadNewMusic(paths))
+                    {
+                        currentPlaylist.ScrollIntoView(currentPlaylist.Items.GetItemAt(currentPlaylist.Items.Count - 1));
+                        this.snackBarActivate("Music added");
+                        currentPlaylist.SelectedIndex = currentPlaylist.Items.Count - 1;
+                    }
                 }
 
 
@@ -405,7 +410,11 @@ namespace WpfApp2.pages
 
         }
 
+        private void dragFromCur(object sender, MouseEventArgs e)
+        {
+            this.dragFromSearchList = false;
 
+        }
     }
 }
 
