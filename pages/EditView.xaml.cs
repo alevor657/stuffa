@@ -98,6 +98,13 @@ namespace WpfApp2.pages
             Task.Factory.StartNew(() => messageQueue.Enqueue(message, "OKAY", () => { }));
         }
 
+        public void snackBarActivateDatabase(string message)
+        {
+            var messageQueue = SnackBarDialogdatabase.MessageQueue;
+            Task.Factory.StartNew(() => messageQueue.Enqueue(message, "OKAY", () => { }));
+
+        }
+
         public void LoadSearch(List<Music> playlistSongs)
         {
 
@@ -333,6 +340,37 @@ namespace WpfApp2.pages
             }
         }
 
+        private void ImportToDatabase(object sender, DragEventArgs e)
+        {
+            try
+            {
+                List<string> paths = ((string[])e.Data.GetData(DataFormats.FileDrop, false)).ToList<string>();
+
+
+                for (int i = 0; i < paths.Count; i++)
+                {
+                    if (!paths[i].EndsWith(".mp3") && !paths[i].EndsWith(".m4a"))
+                    {
+                        Console.WriteLine(paths[i] + " <--wrong filetype");
+
+                        paths.RemoveAt(i);
+                    }
+                    else
+                    {
+                        Console.WriteLine(paths[i]);
+
+                    }
+                }
+
+                container.LoadNewMusicDatabase(paths);
+                this.snackBarActivateDatabase("Music added");
+            }
+            catch
+            {
+                Console.WriteLine("could not import music to database");
+            }
+        }
+
         private void searchRes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -354,7 +392,7 @@ namespace WpfApp2.pages
 
         private void AddMusicLibrary(object sender, RoutedEventArgs e)
         {
-            container.LoadNewMusicLibrary();
+            container.LoadNewMusicDatabse();
 
         }
 
@@ -414,6 +452,26 @@ namespace WpfApp2.pages
         {
             this.dragFromSearchList = false;
 
+        }
+
+        private void DragOverShowMaster(object sender, DragEventArgs e)
+        {
+            object paths = ((string[])e.Data.GetData(DataFormats.FileDrop, false));
+            if (paths != null)
+            {
+                this.DragHereMaster.Content = new DragHere(ImportToDatabase);
+
+            }
+            else
+            {
+                this.searchRes.AllowDrop = false;
+            }
+
+        }
+
+        private void AllowDropSearch(object sender, MouseEventArgs e)
+        {
+            this.searchRes.AllowDrop = true;
         }
     }
 }

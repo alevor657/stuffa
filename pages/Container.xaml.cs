@@ -231,9 +231,14 @@ namespace WpfApp2.pages
             mp.changeBPM(newBPM);
         }
 
-        internal void LoadNewMusicLibrary()
+        internal void LoadNewMusicDatabse()
         {
             mp.LoadNewMusicSQL(getNewMusicPaths());
+        }
+
+        internal void LoadNewMusicDatabase(List<string> paths)
+        {
+            mp.LoadNewMusicSQL(paths);
         }
         internal void LoadNewMusic()
         {

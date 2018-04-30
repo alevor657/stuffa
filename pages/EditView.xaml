@@ -174,14 +174,14 @@
                 
             </Frame>
         </Popup> -->
-        <Frame x:Name="DragHere" HorizontalContentAlignment="Stretch"  Margin="0,107,5,0" VerticalContentAlignment="Stretch" Navigated="DragHere_Navigated" />
+        <Frame x:Name="DragHere" HorizontalContentAlignment="Stretch"  Margin="0,107,5,0" VerticalContentAlignment="Stretch" />
         <Frame x:Name="SnackBar"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="60"></Frame>
         <materialDesign:Snackbar x:Name="SnackBarDialog" Margin="0 0 0 -9" MessageQueue="{materialDesign:MessageQueue}" Height="60" HorizontalAlignment="Stretch" Background="Green" Foreground="White" />
 
         <!--<materialDesign:Snackbar Grid.Column="0" x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="61" Margin="0,0,0,-7" HorizontalAlignment="Stretch"  VerticalContentAlignment="Bottom" HorizontalContentAlignment="Stretch" Background="#FFD32F2F" Foreground="White" />
 -->
 
-        <ListBox Grid.Column="1"  x:Name="searchRes" dd:DragDrop.IsDragSource="True" Margin="10,139,10,0" SelectedIndex="1" HorizontalContentAlignment="Stretch" SelectionChanged="searchRes_SelectionChanged">
+        <ListBox Grid.Column="1" AllowDrop="True" MouseEnter="AllowDropSearch"  x:Name="searchRes" DragOver="DragOverShowMaster" dd:DragDrop.IsDragSource="True" Margin="10,139,10,0" SelectedIndex="1" HorizontalContentAlignment="Stretch" SelectionChanged="searchRes_SelectionChanged">
             <ListBox.ContextMenu>
                 <ContextMenu >
                     <MenuItem Header="Add music to library" Click="AddMusicLibrary" />
@@ -206,6 +206,11 @@
             </ListBox.ItemTemplate>
 
         </ListBox>
+
+        <Frame x:Name="DragHereMaster" Grid.Column="1"  HorizontalContentAlignment="Stretch"  Margin="10,139,10,0" VerticalContentAlignment="Stretch" />
+        <materialDesign:Snackbar x:Name="SnackBarDialogdatabase" Grid.Column="1" Margin="0 0 0 -9" MessageQueue="{materialDesign:MessageQueue}" Height="60" HorizontalAlignment="Stretch" Background="Green" Foreground="White" />
+
+
         <TextBox  VerticalAlignment="Top" x:Name="SearchTermTextBox"  Foreground="White" Margin="10,62.04,10,0" Grid.Column="1" KeyUp="search"/>
         <TextBlock IsHitTestVisible="False" Text="Search" VerticalAlignment="Top" Margin="10.75,68.041,0,0" Foreground="DarkGray" Grid.Column="1" Width="40.263" Height="17.126" HorizontalAlignment="Left">
             <TextBlock.Style>
