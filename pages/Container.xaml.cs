@@ -37,7 +37,6 @@ namespace WpfApp2.pages
 
         Server s;
         Stuffa.MediaPlayer mp;
-        Edit editW;
 
         public Container()
         {
@@ -323,12 +322,6 @@ namespace WpfApp2.pages
             
         }
 
-        internal void edit(Music toEdit)
-        {
-            editW = new Edit(toEdit.Bpm, toEdit.Title, toEdit.Artist, null);
-            editW.Show();
-
-        }
 
         internal void EditMusic(Music toEdit, string newBpm, string newTitle, string newArtist)
         {

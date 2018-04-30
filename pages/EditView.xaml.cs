@@ -337,6 +337,8 @@ namespace WpfApp2.pages
         private void dragFromSearch(object sender, MouseButtonEventArgs e)
         {
             this.dragFromSearchList = true;
+            this.currentPlaylist.AllowDrop = true;
+
         }
 
         private void dragFromCur(object sender, MouseButtonEventArgs e)
@@ -377,6 +379,33 @@ namespace WpfApp2.pages
             this.container.showSelectedPlaylist();
 
         }
+
+        private void DragHere_Navigated(object sender, NavigationEventArgs e)
+        {
+
+        }
+
+        private void DragOverShow(object sender, DragEventArgs e)
+        {
+
+            bool show = true;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop) == false)
+            {
+                if (!dragFromSearchList)
+                {
+                    show = false;
+                    this.currentPlaylist.AllowDrop = false;
+                }
+            }
+            if (show)
+            {
+                DragHere.Content = null;
+                DragHere.Content = new DragHere(testtest);
+            }
+
+        }
+
+
     }
 }
 

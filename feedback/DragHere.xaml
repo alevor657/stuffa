@@ -1,0 +1,27 @@
+﻿<Page x:Class="WpfApp2.feedback.DragHere"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp2.feedback"
+            xmlns:dd="urn:gong-wpf-dragdrop"
+
+      mc:Ignorable="d" 
+      d:DesignHeight="350" d:DesignWidth="300"
+      Title="DragHere">
+
+    <Grid DragDrop.DragLeave="DragLeave" AllowDrop="True" Drop="DragDrop">
+    <Grid x:Name="Grid1" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+
+        </Grid.ColumnDefinitions>
+        <Rectangle VerticalAlignment="Stretch" Grid.Column="0" HorizontalAlignment="Stretch" Fill="Black" Opacity="0.3"/>
+        <Rectangle VerticalAlignment="Stretch" Grid.Column="1" HorizontalAlignment="Stretch" Fill="Black" Opacity="0.3"/>
+        <Rectangle VerticalAlignment="Stretch" Grid.Column="2" HorizontalAlignment="Stretch" Fill="Black" Opacity="0.3"/>
+        <Image x:Name="playButton" Opacity="1" Grid.Column="1" Source="../img/add_circle_black.png"  VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+    </Grid>
+    </Grid>
+</Page>

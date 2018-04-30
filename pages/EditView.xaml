@@ -107,16 +107,9 @@
 
 
 
-            <ListBox x:Name="currentPlaylist" dd:DragDrop.IsDragSource="True" HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" AllowDrop="True" MouseDown="dragFromCur" VerticalContentAlignment="Stretch" Grid.IsSharedSizeScope="True">
+            <ListBox x:Name="currentPlaylist" dd:DragDrop.IsDragSource="True" DragOver="DragOverShow" AllowDrop="True" HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" MouseDown="dragFromCur" VerticalContentAlignment="Stretch" Grid.IsSharedSizeScope="True">
 
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                        <Setter Property="VerticalAlignment" Value="Stretch"/>
-                        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
+               
 
                 <ListBox.ContextMenu>
                     <ContextMenu >
@@ -128,7 +121,7 @@
                 </ListBox.ContextMenu>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="0,0,0,0"  AllowDrop="True" Drop="testtest" Background="#FF16C32E"  Width="Auto" Height="Auto">
+                        <Grid Margin="0,0,0,0"  AllowDrop="True" Drop="testtest"  Width="Auto" Height="Auto">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="50" />
                                     <ColumnDefinition Width="1*" />
@@ -181,7 +174,7 @@
                 
             </Frame>
         </Popup> -->
-
+        <Frame x:Name="DragHere" HorizontalContentAlignment="Stretch"  Margin="0,107,5,0" VerticalContentAlignment="Stretch" Navigated="DragHere_Navigated" />
         <Frame x:Name="SnackBar"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="60"></Frame>
         <materialDesign:Snackbar x:Name="SnackBarDialog" Margin="0 0 0 -9" MessageQueue="{materialDesign:MessageQueue}" Height="60" HorizontalAlignment="Stretch" Background="Green" Foreground="White" />
 
