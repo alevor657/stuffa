@@ -176,7 +176,7 @@
         </Popup> -->
         <Frame x:Name="DragHere" HorizontalContentAlignment="Stretch"  Margin="0,107,5,0" VerticalContentAlignment="Stretch" />
         <Frame x:Name="SnackBar"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="60"></Frame>
-        <materialDesign:Snackbar x:Name="SnackBarDialog" Margin="0 0 0 -9" MessageQueue="{materialDesign:MessageQueue}" Height="60" HorizontalAlignment="Stretch" Background="Green" Foreground="White" />
+        <materialDesign:Snackbar x:Name="SnackBarDialog" Margin="0 0 0 -9" MessageQueue="{materialDesign:MessageQueue}" Height="60" HorizontalAlignment="Stretch" Background="#00796b" Foreground="White" />
 
         <!--<materialDesign:Snackbar Grid.Column="0" x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="61" Margin="0,0,0,-7" HorizontalAlignment="Stretch"  VerticalContentAlignment="Bottom" HorizontalContentAlignment="Stretch" Background="#FFD32F2F" Foreground="White" />
 -->
@@ -208,7 +208,7 @@
         </ListBox>
 
         <Frame x:Name="DragHereMaster" Grid.Column="1"  HorizontalContentAlignment="Stretch"  Margin="10,139,10,0" VerticalContentAlignment="Stretch" />
-        <materialDesign:Snackbar x:Name="SnackBarDialogdatabase" Grid.Column="1" Margin="0 0 0 -9" MessageQueue="{materialDesign:MessageQueue}" Height="60" HorizontalAlignment="Stretch" Background="Green" Foreground="White" />
+        <materialDesign:Snackbar x:Name="SnackBarDialogdatabase" Grid.Column="1" Margin="0 0 0 -9" MessageQueue="{materialDesign:MessageQueue}" Height="60" HorizontalAlignment="Stretch" Background="#00796b" Foreground="White" />
 
 
         <TextBox  VerticalAlignment="Top" x:Name="SearchTermTextBox"  Foreground="White" Margin="10,62.04,10,0" Grid.Column="1" KeyUp="search"/>
