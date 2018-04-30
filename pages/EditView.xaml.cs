@@ -418,6 +418,7 @@ namespace WpfApp2.pages
 
         private void EditMusicCurPlaylist_OnDialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
         {
+            if (!Equals(eventArgs.Parameter, true)) return;
             this.container.EditMusic(toEdit, BpmBox.Text, TitleBox.Text, ArtistBox.Text);
             this.container.showSelectedPlaylist();
 
