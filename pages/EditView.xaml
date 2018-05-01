@@ -264,14 +264,15 @@
             <ListBox.ContextMenu>
                 <ContextMenu >
                     <MenuItem Header="Add music to library" Click="AddMusicLibrary" />
-                    <MenuItem Header="Remove from library" Click="removeSongLibrary" />
+                        <MenuItem Header="Remove from library" Click="removeSongLibrary">
+                        </MenuItem>
                         <MenuItem Header="Edit" Click="editMusicDatabase"  Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" />
 
                 </ContextMenu>
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,2" MouseDown="dragFromSearch">
+                    <Grid x:Name="itemInSearch" Margin="0,2" MinHeight="22" MouseDown="dragFromSearch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="1*" />
@@ -281,7 +282,53 @@
                         <TextBlock Grid.Column="0" Text="{Binding Bpm}" />
                         <TextBlock Grid.Column="1" Text="{Binding Title}" FontWeight="Bold"/>
                         <TextBlock Grid.Column="3" Text="{Binding Artist}"/>
-                    </Grid>
+
+                            <Grid Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Right">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                            <Grid MouseUp="CurrentPlaylist_SelectionChanged" Background="Transparent" Grid.Column="2" >
+                                <Path  Data="M2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12M10,17L15,12L10,7V17Z" Stretch="Uniform" Fill="Black"  x:Name="playItemButton">
+                                    <Path.Style>
+                                        <Style TargetType="Path">
+
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=itemInSearch, Path=IsMouseOver}" Value="true">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ElementName=itemInSearch, Path=IsMouseOver}" Value="false">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Path.Style>
+                                </Path>
+                                </Grid>
+                                <Grid MouseUp="CurrentPlaylist_SelectionChanged" Background="Transparent" Grid.Column="0" >
+                                    <Path Data="M19,11H15V15H13V11H9V9H13V5H15V9H19M20,2H8A2,2 0 0,0 6,4V16A2,2 0 0,0 8,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M4,6H2V20A2,2 0 0,0 4,22H18V20H4V6Z" Stretch="Uniform" Fill="Black"  x:Name="addMusic">
+                                        <Path.Style>
+                                            <Style TargetType="Path">
+
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ElementName=itemInSearch, Path=IsMouseOver}" Value="true">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ElementName=itemInSearch, Path=IsMouseOver}" Value="false">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Path.Style>
+                                    </Path>
+                                </Grid>
+                            </Grid>
+
+
+
+                        </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
 
