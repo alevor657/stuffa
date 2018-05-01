@@ -255,7 +255,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                     for (int i = 0; i < res.Count; i++)
                     {
                         Music check = new Music(res[i].Item1);
-                        if (check.getBpm() != bpm)
+                        if (check.getBpm() != bpm && !check.getTitle().Contains(bpm.ToString()))
                         {
                             //the id3 tag have been updated externaly. change it in the database
                             this.updateMusic(check.getBpm(), check.getFullPath());
@@ -302,7 +302,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                     for (int i = 0; i < res.Count; i++)
                     {
                         Music check = new Music(res[i].Item1);
-                        if (check.getBpm() != bpm)
+                        if (check.getBpm() != bpm && !check.getTitle().Contains(bpm.ToString()))
                         {
                             //the id3 tag have been updated externaly. change it in the database
                             this.updateMusic(check.getBpm(), check.getFullPath());
