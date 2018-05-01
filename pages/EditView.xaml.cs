@@ -126,13 +126,6 @@ namespace WpfApp2.pages
 
         }
 
-        private void CurrentPlaylist_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (currentPlaylist.SelectedIndex != -1)
-            {
-                container.PlaySelectedSong();
-            }            
-        }
 
         public bool IsSearchBarActive()
         {
@@ -511,6 +504,14 @@ namespace WpfApp2.pages
         private void InsertPlayButtonInCur(object sender, MouseEventArgs e)
         {
             Console.WriteLine("mouse!");
+        }
+
+        private void CurrentPlaylist_SelectionChanged(object sender, MouseButtonEventArgs e)
+        {
+            if (currentPlaylist.SelectedIndex != -1)
+            {
+                container.PlaySelectedSong();
+            }
         }
     }
 }
