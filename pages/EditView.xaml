@@ -123,21 +123,36 @@
                     <DataTemplate>
                         <Grid Margin="0,0,0,0"  AllowDrop="True" Drop="testtest"  Width="Auto" Height="Auto">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="7" />
+
+                                <ColumnDefinition Width="50" />
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="10"/>
                                     <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="4"/>
+                            </Grid.RowDefinitions>
 
-                                <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="{Binding Item1.Bpm}" />
-                                <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{Binding Item1.Title}" FontWeight="Bold"/>
-                                <TextBlock VerticalAlignment="Center" Grid.Column="3" Text="{Binding Item1.Artist}"/>
+                            <Rectangle Fill="#FF191919"  Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" />
+                            <Rectangle Fill="#FF191919"  Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" />
+                            <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2"  />
+                            <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="3"  />
+                            <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4"  />
+
+                            <Rectangle Fill="#FF191919" Grid.Row="1"  Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" />
+                            <Rectangle Fill="#FF191919" Grid.Row="1"  Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" />
+                            <Rectangle Fill="#FF191919" Grid.Row="1" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2"  />
+                            <Rectangle Fill="#FF191919" Grid.Row="1" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="3"  />
+                            <Rectangle Fill="#FF191919" Grid.Row="1" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4"  />
+
+                            <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{Binding Item1.Bpm}" />
+                                <TextBlock VerticalAlignment="Center" Grid.Column="2" Text="{Binding Item1.Title}" FontWeight="Bold"/>
+                                <TextBlock VerticalAlignment="Center" Grid.Column="4" Text="{Binding Item1.Artist}"/>
                                 <TextBlock VerticalAlignment="Center" Text="{Binding Item3}" Visibility="Hidden" x:Name="SongId"></TextBlock>
 
-                                <Rectangle Fill="#FF191919" Stroke="#FF191919"  Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" />
-                                <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1"  />
-                                <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2"  />
-                                <Rectangle Fill="#FF191919" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="3"  />
+                                
 
                             </Grid>
                     </DataTemplate>
