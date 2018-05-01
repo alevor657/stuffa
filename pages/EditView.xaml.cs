@@ -472,6 +472,7 @@ namespace WpfApp2.pages
 
         private void AllowDropSearch(object sender, MouseEventArgs e)
         {
+            this.dragFromSearchList = true;
             this.searchRes.AllowDrop = true;
         }
     }
