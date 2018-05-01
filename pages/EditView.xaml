@@ -66,7 +66,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <materialDesign:DialogHost Margin="0,0,0,0" DialogClosing="EditMusicCurPlaylist_OnDialogClosing">
+        <materialDesign:DialogHost x:Name="DialogHost1" Margin="0,0,0,0" DialogClosing="EditMusicCurPlaylist_OnDialogClosing">
             <materialDesign:DialogHost.DialogContent>
 
                 <StackPanel Width="200" Margin="20, 10, 20, 10">
@@ -189,18 +189,58 @@
                 
             </Frame>
         </Popup> -->
+        
         <Frame x:Name="DragHere" HorizontalContentAlignment="Stretch"  Margin="0,107,5,0" VerticalContentAlignment="Stretch" />
         <Frame x:Name="SnackBar"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="60"></Frame>
         <materialDesign:Snackbar x:Name="SnackBarDialog" Margin="0 0 0 -9" MessageQueue="{materialDesign:MessageQueue}" Height="60" HorizontalAlignment="Stretch" Background="#00796b" Foreground="White" />
 
         <!--<materialDesign:Snackbar Grid.Column="0" x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="61" Margin="0,0,0,-7" HorizontalAlignment="Stretch"  VerticalContentAlignment="Bottom" HorizontalContentAlignment="Stretch" Background="#FFD32F2F" Foreground="White" />
 -->
+        <materialDesign:DialogHost x:Name="DialogHost2" Grid.Column="1" Margin="0,0,0,0" DialogClosing="EditMusicDatabase_OnDialogClosing">
+            <materialDesign:DialogHost.DialogContent>
+
+                <StackPanel Width="200" Margin="20, 10, 20, 10">
+                    <TextBlock x:Name="Bpm2" Text="BPM"></TextBlock>
+                    <TextBox x:Name="BpmBox2" HorizontalAlignment="Stretch"></TextBox>
+                    <Rectangle Fill="Transparent" Height="10"></Rectangle>
+
+                    <TextBlock  x:Name="Title2" Text="Title"></TextBlock>
+                    <TextBox x:Name="TitleBox2" HorizontalAlignment="Stretch"></TextBox>
+                    <Rectangle Fill="Transparent" Height="10"></Rectangle>
+
+                    <TextBlock  x:Name="Artist2" Text="Artist"></TextBlock>
+                    <TextBox x:Name="ArtistBox2" HorizontalAlignment="Stretch"></TextBox>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                        <Button HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsDefault="True"
+                                        Margin="20,8,0,0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand">
+                            <Button.CommandParameter>
+                                <system:Boolean>True</system:Boolean>
+                            </Button.CommandParameter>
+                            EDIT
+                        </Button>
+                        <Button HorizontalAlignment="Right"  Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsCancel="True"
+                                Margin="14,8,0,0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand">
+                            <Button.CommandParameter>
+                                <system:Boolean>False</system:Boolean>
+                            </Button.CommandParameter>
+                            CANCEL
+                        </Button>
+                    </StackPanel>
+
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
 
         <ListBox Grid.Column="1" AllowDrop="True" MouseEnter="AllowDropSearch"  x:Name="searchRes" DragOver="DragOverShowMaster" dd:DragDrop.IsDragSource="True" Margin="10,139,10,0" SelectedIndex="1" HorizontalContentAlignment="Stretch" SelectionChanged="searchRes_SelectionChanged">
             <ListBox.ContextMenu>
                 <ContextMenu >
                     <MenuItem Header="Add music to library" Click="AddMusicLibrary" />
                     <MenuItem Header="Remove from library" Click="removeSongLibrary" />
+                        <MenuItem Header="Edit" Click="editMusicDatabase"  Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" />
 
                 </ContextMenu>
             </ListBox.ContextMenu>
@@ -221,6 +261,8 @@
             </ListBox.ItemTemplate>
 
         </ListBox>
+        </materialDesign:DialogHost>
+
 
         <Frame x:Name="DragHereMaster" Grid.Column="1"  HorizontalContentAlignment="Stretch"  Margin="10,139,10,0" VerticalContentAlignment="Stretch" />
         <materialDesign:Snackbar x:Name="SnackBarDialogdatabase" Grid.Column="1" Margin="0 0 0 -9" MessageQueue="{materialDesign:MessageQueue}" Height="60" HorizontalAlignment="Stretch" Background="#00796b" Foreground="White" />

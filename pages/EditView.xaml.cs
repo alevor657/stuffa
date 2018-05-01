@@ -408,10 +408,24 @@ namespace WpfApp2.pages
         }
         public void editMusicWin(Music m)
         {
-            this.BpmBox.Text = m.getBpm().ToString();
-            this.TitleBox.Text = m.getTitle();
-            this.ArtistBox.Text = m.getArtist();
-            toEdit = m;
+            if (m != null)
+            {
+                this.BpmBox.Text = m.getBpm().ToString();
+                this.TitleBox.Text = m.getTitle();
+                this.ArtistBox.Text = m.getArtist();
+                toEdit = m;
+            }
+        }
+
+        public void editMusicWinDb(Music m)
+        {
+            if (m != null)
+            {
+                this.BpmBox2.Text = m.getBpm().ToString();
+                this.TitleBox2.Text = m.getTitle();
+                this.ArtistBox2.Text = m.getArtist();
+                toEdit = m;
+            }
         }
 
 
@@ -474,6 +488,22 @@ namespace WpfApp2.pages
         {
             this.dragFromSearchList = true;
             this.searchRes.AllowDrop = true;
+        }
+
+        private void editMusicDatabase(object sender, RoutedEventArgs e)
+        {
+            editMusicWinDb(this.searchRes.SelectedItem as Music);
+
+        }
+
+        private void EditMusicDatabase_OnDialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        {
+            //if canse return
+            if (!Equals(eventArgs.Parameter, true)) return;
+
+            this.container.EditMusic(toEdit, BpmBox2.Text, TitleBox2.Text, ArtistBox2.Text);
+            container.searchAllMusic(SearchTermTextBox.Text);
+
         }
     }
 }
