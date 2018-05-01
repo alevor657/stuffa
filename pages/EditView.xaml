@@ -109,7 +109,7 @@
 
             <ListBox x:Name="currentPlaylist" dd:DragDrop.IsDragSource="True" DragOver="DragOverShow" AllowDrop="True" HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" SelectionChanged="CurrentPlaylist_SelectionChanged" MouseEnter="dragFromCur" VerticalContentAlignment="Stretch" Grid.IsSharedSizeScope="True">
 
-               
+
 
                 <ListBox.ContextMenu>
                     <ContextMenu >
@@ -121,8 +121,17 @@
                 </ListBox.ContextMenu>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="0,0,0,0"  AllowDrop="True" Drop="testtest"  Width="Auto" Height="Auto">
-                                <Grid.ColumnDefinitions>
+
+
+
+
+
+                        <Grid Margin="0,0,0,0" x:Name="itemInCur"  AllowDrop="True" Drop="testtest" Mouse.MouseEnter="InsertPlayButtonInCur"  Width="Auto" Height="Auto">
+
+
+                            
+                            
+                            <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="7" />
 
                                 <ColumnDefinition Width="50" />
@@ -152,9 +161,25 @@
                                 <TextBlock VerticalAlignment="Center" Grid.Column="4" Text="{Binding Item1.Artist}"/>
                                 <TextBlock VerticalAlignment="Center" Text="{Binding Item3}" Visibility="Hidden" x:Name="SongId"></TextBlock>
 
-                                
+                            <Path Data="M2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12M10,17L15,12L10,7V17Z" Stretch="Uniform" Fill="Black" x:Name="playItemButton" Width="20" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Column="4">
+                                <Path.Style>
+                                    <Style TargetType="Path">
+                                        <Style.Setters>
+                                            <Setter Property="Fill" Value="CornflowerBlue" />
+                                        </Style.Setters>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=itemInCur, Path=IsMouseOver}" Value="true">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=itemInCur, Path=IsMouseOver}" Value="false">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Path.Style>
+                            </Path>
 
-                            </Grid>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
 

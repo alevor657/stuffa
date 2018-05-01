@@ -505,6 +505,13 @@ namespace WpfApp2.pages
             container.searchAllMusic(SearchTermTextBox.Text);
 
         }
+
+
+
+        private void InsertPlayButtonInCur(object sender, MouseEventArgs e)
+        {
+            Console.WriteLine("mouse!");
+        }
     }
 }
 
