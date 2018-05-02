@@ -22,7 +22,7 @@
         <Rectangle VerticalAlignment="Stretch" Grid.Column="1" HorizontalAlignment="Stretch" Fill="Black" Opacity="0.3"/>
         <Rectangle VerticalAlignment="Stretch" Grid.Column="2" HorizontalAlignment="Stretch" Fill="Black" Opacity="0.3"/>
             
-                <Path Grid.Column="1" Stretch="Uniform" Fill="#006f62" Data="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" >
+                <Path Grid.Column="1" Stretch="Uniform" Opacity="0.8" Fill="#006f62" Data="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" >
                     
                 </Path>
 
