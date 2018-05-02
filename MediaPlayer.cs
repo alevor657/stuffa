@@ -44,26 +44,28 @@ namespace Stuffa
 			playlists = new List<Playlist>();
             masterPlaylist = new Playlist();
 		 }
-
+        // Sets BPM + range
         public void setBpm(int bpm, int range)
         {
             this.BPM = bpm;
             this.BPMInterval = range;
         }
+        // Gets BPM only
         public int getBPM()
         {
             return this.BPM;
         }
+        // Gets BPM interval only
         public int getInterval()
         {
             return this.BPMInterval;
         }
-
+        // 
         public void MoveMusic(int from, int to)
         {
             this.playlists[currentPlaylist].MoveMusic(from, to);
         }
-
+        // Constructor, initalizes variables and playlist(s)
         public MediaPlayer(Container container)
         {
             master = new MasterPlaylist();
@@ -113,7 +115,7 @@ namespace Stuffa
         {
             this.master.updateMusic(m.getFullPath(), m.Bpm, m.Title, m.Artist);
         }
-
+        // Changes the cuurrent active playlist and resets playlist-specific settings 
         public void SetCurrentPlaylist(int pos)
         {
             this.currentPlaylist = pos - 1;
@@ -124,20 +126,7 @@ namespace Stuffa
             }
         }
 
-        /*
-        public bool AddPlaylist(string playlistName)
-        {
-            // JUST FOR TESTING 
-            // Uncomment this part when there is a search function here
-            bool didAdd = false;
-            // if(!searchPlaylist(playlist.getName())
-            playlists.Add(new Playlist(playlistName));
-            didAdd = true;
-            //}
-
-            return didAdd;
-        }
-        */
+       
         public List<Music> LoadNewMusic(List<string> paths, bool addAll = false)
         {
             if(!this.masterPlaylist.getIfLoaded())
@@ -174,6 +163,7 @@ namespace Stuffa
             return this.playlists[this.currentPlaylist].RemoveMusic(index);
         }
 
+        //Adds a new playlist to the list of playlists and creates files for it
         public bool addNewPlaylist(string name)
         {
             bool created = false;
@@ -190,7 +180,7 @@ namespace Stuffa
 
             return created;
         }
-
+        // Checks for unallowed characters in playlist names
         private bool ValuídPlaylistName(string name)
         {
             bool retVal = false;
@@ -209,6 +199,7 @@ namespace Stuffa
             return retVal;
         }
 
+        // Gets names of playlists 
         public string GetCurrentPlaylistName()
         {
             string name;

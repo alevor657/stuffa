@@ -27,7 +27,7 @@ namespace WpfApp2.pages
         int CurrentInterval;
         int BPM;
         bool hej = false;
-        bool autoState = true;
+        bool autoState = false;
         public Settings(Container container)
         {
             this.container = container;
@@ -56,12 +56,12 @@ namespace WpfApp2.pages
         }
         private void coolChecked(object sender, RoutedEventArgs e)
         {
-            hej = true;
+            autoState = true;
         }
 
         private void coolUnchecked(object sender, RoutedEventArgs e)
         {
-            hej = false;
+            autoState = false;
         }
 
         private void KeyUp(object sender, KeyEventArgs e)
