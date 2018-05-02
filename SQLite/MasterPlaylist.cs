@@ -251,6 +251,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
 
                     res = this.groupByFirstTupleAndAddSecond(res);
+                    res = this.removeLowSearchRes(res);
                     //transform paths to music obj
                     for (int i = 0; i < res.Count; i++)
                     {
@@ -298,6 +299,8 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
 
                     res = this.groupByFirstTupleAndAddSecond(res);
+                    res = this.removeLowSearchRes(res);
+
                     //transform paths to music obj
                     for (int i = 0; i < res.Count; i++)
                     {
