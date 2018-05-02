@@ -27,7 +27,7 @@ namespace WpfApp2.pages
         int CurrentInterval;
         int BPM;
         bool hej = false;
-        bool autoState = false;
+        bool autoState = true;
         public Settings(Container container)
         {
             this.container = container;
@@ -41,6 +41,10 @@ namespace WpfApp2.pages
         public int getBPM()
         {
             return this.BPM;
+        }
+        public void setBPM(int BPM)
+        {
+            this.BPM = BPM;
         }
         public int getInterval()
         {

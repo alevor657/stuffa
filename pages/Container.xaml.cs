@@ -219,7 +219,10 @@ namespace WpfApp2.pages
                         index = mp.getIndexForBPMShuffle();
                         if (settings.GetAutoState())
                         {
-                            mp.changeBPM(settings.getBPM()+settings.getInterval());
+                            int newBPM = settings.getBPM() + settings.getInterval();
+                            settings.setBPM(newBPM);
+                            mp.changeBPM(newBPM);
+                          
                         }
                         ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
                         break;

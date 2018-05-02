@@ -382,7 +382,7 @@ namespace Stuffa
             {
                 validBPM = true;
             }
-            if (temp.Count > 6)
+            if (temp.Count >= 6)
             {
                 while (this.recentlyPlayedIndexes.Contains(index) || !validBPM)
                 {
