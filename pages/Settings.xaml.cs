@@ -66,12 +66,14 @@ namespace WpfApp2.pages
         private void IntervalAdd_Click(object sender, RoutedEventArgs e)
         {
             CurrentInterval++;
+            this.container.setInterval(this.CurrentInterval);
             IntervalInput.Text = CurrentInterval.ToString();
         }
 
         private void IntervalSub_Click(object sender, RoutedEventArgs e)
         {
             CurrentInterval--;
+            this.container.setInterval(this.CurrentInterval);
             IntervalInput.Text = CurrentInterval.ToString();
         }
     }

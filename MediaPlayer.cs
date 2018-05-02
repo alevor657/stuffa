@@ -115,6 +115,11 @@ namespace Stuffa
         public void SetCurrentPlaylist(int pos)
         {
             this.currentPlaylist = pos - 1;
+            this.indexForNonShuffle = 0;
+            for (int i=0; i < 5; i++)
+            {
+                this.recentlyPlayedIndexes[i] = -1;
+            }
         }
 
         /*
@@ -363,7 +368,7 @@ namespace Stuffa
             Random r = new Random();
             List<int> temp = this.playlists[this.currentPlaylist].searchBPMIndex(this.BPM, this.BPMInterval);
             int tempInterval = this.BPMInterval;
-            while (temp.Count() < 6)
+            while (temp.Count() < 6 && ((tempInterval < (this.BPMInterval*2)) || (temp.Count < 1) ))
             {
                 temp = this.playlists[this.currentPlaylist].searchBPMIndex(this.BPM, ++tempInterval);
             }
@@ -374,20 +379,33 @@ namespace Stuffa
             {
                 validBPM = true;
             }
-            while (this.recentlyPlayedIndexes.Contains(index) || !validBPM)
+            if (temp.Count > 6)
             {
-                validBPM = false;
-                randNr = r.Next(0, temp.Count);
-                index = temp.ElementAt<int>(randNr);
-                if (this.playlists[currentPlaylist].getBPM(index) != -1)
+                while (this.recentlyPlayedIndexes.Contains(index) || !validBPM)
                 {
-                    validBPM = true; ;
+                    validBPM = false;
+                    randNr = r.Next(0, temp.Count);
+                    index = temp.ElementAt<int>(randNr);
+                    if (this.playlists[currentPlaylist].getBPM(index) != -1)
+                    {
+                        validBPM = true; ;
+                    }
                 }
             }
-
             return index;
 
 
+        }
+        public List<int> getMarksForBPMShuffle()
+        {
+            Random r = new Random();
+            List<int> temp = this.playlists[this.currentPlaylist].searchBPMIndex(this.BPM, this.BPMInterval);
+            int tempInterval = this.BPMInterval;
+            while (temp.Count() < 6 && ((tempInterval < (this.BPMInterval * 2)) || (temp.Count < 1)))
+            {
+                temp = this.playlists[this.currentPlaylist].searchBPMIndex(this.BPM, ++tempInterval);
+            }
+            return temp;
         }
 
         public int getIndexForNonShuffle()

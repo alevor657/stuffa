@@ -177,8 +177,8 @@ namespace WpfApp2.pages
 
         internal void playBpm(int Bpm, int range)
         {
-            ev.setMarked(mp.GetMusicFromPlaylist(), mp.getAllBpm(Bpm, range));
-            mp.setBpm(Bpm, range);
+            ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
+            this.changeBPM(Bpm);
 
         }
 
@@ -217,6 +217,7 @@ namespace WpfApp2.pages
                         break;
                     case 0:
                         index = mp.getIndexForBPMShuffle();
+                        ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
                         break;
                     default:
                         index = mp.getIndexForNonShuffle();
