@@ -513,6 +513,24 @@ namespace WpfApp2.pages
                 container.PlaySelectedSong();
             }
         }
+
+        private void PlayDatabaseMusic(object sender, MouseButtonEventArgs e)
+        {
+            //play selected music in Database/search
+            container.PlaySelectedSongDb();
+        }
+
+        private void AddDatabaseMusic(object sender, MouseButtonEventArgs e)
+        {
+            List<string> paths = new List<string>
+            {
+                (this.searchRes.SelectedItem as Music).getFullPath()
+            };
+            if(container.LoadNewMusic(paths))
+            {
+                snackBarActivate("Music added");
+            }
+        }
     }
 }
 

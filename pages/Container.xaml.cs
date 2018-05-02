@@ -119,6 +119,11 @@ namespace WpfApp2.pages
             pc.PlaySong(mp.GetSongObj(ev.currentPlaylist.SelectedIndex));
         }
 
+        internal void PlaySelectedSongDb()
+        {
+            pc.PlaySong(ev.searchRes.SelectedItem as Music);
+        }
+
         public void snackBarActivate(string message)
         {
             var messageQueue = SnackBarDialog.MessageQueue;
@@ -200,25 +205,28 @@ namespace WpfApp2.pages
             // Add switch for different shuffle states 
             int index = 0;
             int shuffleVal = pc.getShuffleState();
-            switch (shuffleVal)
+            if (ev.currentPlaylist.Items.Count > 0)
             {
-                case 1:
-                    index = mp.getIndexForNonShuffle();
-                    break;
-                case 2:
-                    index = mp.getIndexForNextSong();
-                    break;
-                case 0:
-                    index = mp.getIndexForBPMShuffle();
-                    break;
-                default:
-                    index = mp.getIndexForNonShuffle();
-                    break;
+                switch (shuffleVal)
+                {
+                    case 1:
+                        index = mp.getIndexForNonShuffle();
+                        break;
+                    case 2:
+                        index = mp.getIndexForNextSong();
+                        break;
+                    case 0:
+                        index = mp.getIndexForBPMShuffle();
+                        break;
+                    default:
+                        index = mp.getIndexForNonShuffle();
+                        break;
+                }
+
+                Music temp = mp.GetSongObj(index);
+                ev.setHighlight(index);
+                pc.PlaySong(temp);
             }
-            
-            Music temp = mp.GetSongObj(index);
-            ev.setHighlight(index);
-            pc.PlaySong(temp);
 		}
         // Sets the interval
         internal void setInterval(int interval)
