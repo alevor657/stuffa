@@ -260,7 +260,7 @@
                 </StackPanel>
             </materialDesign:DialogHost.DialogContent>
 
-        <ListBox Grid.Column="1" AllowDrop="True" MouseEnter="AllowDropSearch"  x:Name="searchRes" DragOver="DragOverShowMaster" dd:DragDrop.IsDragSource="True" Margin="10,139,10,0" SelectedIndex="1" HorizontalContentAlignment="Stretch" SelectionChanged="searchRes_SelectionChanged">
+            <ListBox Grid.Column="1" AllowDrop="True" MouseDoubleClick="PlayDatabaseMusic" MouseEnter="AllowDropSearch"  x:Name="searchRes" DragOver="DragOverShowMaster" dd:DragDrop.IsDragSource="True" Margin="10,139,10,0" SelectedIndex="1" HorizontalContentAlignment="Stretch" SelectionChanged="searchRes_SelectionChanged">
             <ListBox.ContextMenu>
                 <ContextMenu >
                     <MenuItem Header="Add music to library" Click="AddMusicLibrary" />
