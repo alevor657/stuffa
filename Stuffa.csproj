@@ -35,6 +35,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>stuffa-prototype.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
@@ -230,6 +234,10 @@
     <Resource Include="img\right.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="stuffa_prototype_smaller.png" />
+    <Resource Include="stuffa_prototype_small.png" />
+    <Resource Include="stuffa_prototype.png" />
+    <Resource Include="stuffa-prototype.ico" />
     <Resource Include="pages\volume-high.png" />
     <Resource Include="pages\volume_mute.png" />
     <Resource Include="pages\volume_low.png" />
