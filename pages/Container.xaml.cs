@@ -217,6 +217,10 @@ namespace WpfApp2.pages
                         break;
                     case 0:
                         index = mp.getIndexForBPMShuffle();
+                        if (settings.GetAutoState())
+                        {
+                            mp.changeBPM(settings.getBPM()+settings.getInterval());
+                        }
                         ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
                         break;
                     default:
@@ -228,13 +232,15 @@ namespace WpfApp2.pages
                 ev.setHighlight(index);
                 pc.PlaySong(temp);
             }
+           
+
 		}
         // Sets the interval
         internal void setInterval(int interval)
         {
             mp.setInterval(interval);
         }
-        // arguement = the change in the BPM after button-press. 120 and decreaseing BPM should send newBPM with value -1. Better solution for this?
+        // arguement = new BPM
         internal void changeBPM(int newBPM)
         {
             mp.changeBPM(newBPM);

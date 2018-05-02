@@ -25,18 +25,31 @@ namespace WpfApp2.pages
         Container container;
 
         int CurrentInterval;
-
+        int BPM;
         bool hej = false;
+        bool autoState = false;
         public Settings(Container container)
         {
             this.container = container;
             CurrentInterval = 0;
             InitializeComponent();
+            BPM = 0;
 
             IntervalInput.Text = CurrentInterval.ToString();
 
         }
-
+        public int getBPM()
+        {
+            return this.BPM;
+        }
+        public int getInterval()
+        {
+            return this.CurrentInterval;
+        }
+        public bool GetAutoState()
+        {
+            return this.autoState;
+        }
         private void coolChecked(object sender, RoutedEventArgs e)
         {
             hej = true;
@@ -54,14 +67,16 @@ namespace WpfApp2.pages
                 Console.WriteLine("enter key");
                 int givenBpm = Int32.Parse(BpmInput.Text);
                 this.container.playBpm(givenBpm, 0);
+                this.BPM = givenBpm;
             }
         }
+        
 
-    private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-    {
-        Regex regex = new Regex("[^0-9]+");
-        e.Handled = regex.IsMatch(e.Text);
-    }
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
 
         private void IntervalAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -77,4 +92,5 @@ namespace WpfApp2.pages
             IntervalInput.Text = CurrentInterval.ToString();
         }
     }
+    
 }

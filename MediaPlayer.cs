@@ -28,7 +28,8 @@ namespace Stuffa
         MasterPlaylist master;
 
         private int currentPlaylist;
-		private List<int> recentlyPlayedIndexes; 
+		private List<int> recentlyPlayedIndexes;
+        private int mostRecentSong;
         private Container container;
 
         private List<Music> sameMusic;
@@ -73,8 +74,9 @@ namespace Stuffa
 			this.recentlyPlayedIndexes = new List<int>();
             this.BPM = 208;
             this.BPMInterval = 2;
+            this.mostRecentSong = -1;
             // start generate testplaylist
-
+            
             
             playlists = new List<Playlist>();
             // Find solution to populating the list with indexes greater than the maximum number of songs.
@@ -245,7 +247,7 @@ namespace Stuffa
 
         internal void changeBPM(int newBPM)
         {
-            this.BPM = this.BPM + newBPM;
+            this.BPM = newBPM;
         }
 
         internal Music GetSongObj(int selectedIndex)
@@ -260,6 +262,7 @@ namespace Stuffa
                 this.recentlyPlayedIndexes.Insert(0, selectedIndex);
                 this.indexForNonShuffle = selectedIndex;
                 return playlists[currentPlaylist].getMusic(selectedIndex);
+                this.mostRecentSong = selectedIndex;
             }
             else
             {
@@ -390,6 +393,14 @@ namespace Stuffa
                     {
                         validBPM = true; ;
                     }
+                }
+            }
+            else if (temp.Count >= 2)
+            {
+                while (index == mostRecentSong)
+                {
+                    randNr = r.Next(0, temp.Count);
+                    index = temp.ElementAt<int>(randNr);
                 }
             }
             return index;
