@@ -296,7 +296,7 @@ namespace Stuffa
         public bool DeletePlaylist(int index)
         {
             bool ret = false;
-            index--;
+            
             if (index >= 0 && index < playlists.Count)
             {
                 File.Delete(playlists[index].getFullPath());

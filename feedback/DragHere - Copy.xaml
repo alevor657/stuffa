@@ -1,0 +1,38 @@
+﻿<Page x:Class="WpfApp2.feedback.DragHereInstruction"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp2.feedback"
+            xmlns:dd="urn:gong-wpf-dragdrop"
+
+      mc:Ignorable="d" 
+      d:DesignHeight="350" d:DesignWidth="300"
+      Title="DragHere">
+
+    <Grid DragDrop.DragLeave="DragLeave" AllowDrop="True" Drop="DragDrop">
+        <Grid.ContextMenu>
+            <ContextMenu >
+                <MenuItem x:Name="addMusic" Header="Add music" />
+                
+
+            </ContextMenu>
+        </Grid.ContextMenu>
+        <TextBlock HorizontalAlignment="Center" Foreground="#006f62" FontWeight="Bold" FontSize="20" Margin="0,20">Drag music here or right click</TextBlock>
+    <Grid x:Name="Grid1" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition x:Name="middle" Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+
+        </Grid.ColumnDefinitions>
+
+            
+                <Path Grid.Column="1" Stretch="Uniform" Opacity="0.8" Fill="#006f62" Data="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" >
+                    
+                </Path>
+
+
+        </Grid>
+    </Grid>
+</Page>

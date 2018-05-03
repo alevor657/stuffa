@@ -58,6 +58,15 @@ namespace WpfApp2.pages
                 list.Add(new Tuple<Music, Visibility, int>(i, Visibility.Collapsed, index));
                 index++;
             }
+            if(index == 0)
+            {
+                //no music in pl instruct user on how to add to playllist
+                DragHere.Content = new DragHereInstruction(testtest, AddMusic);
+            }
+            else
+            {
+                DragHere.Content = null;
+            }
 
 
             /*
