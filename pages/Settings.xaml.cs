@@ -67,13 +67,11 @@ namespace WpfApp2.pages
 
         private void KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                Console.WriteLine("enter key");
+            
                 int givenBpm = Int32.Parse(BpmInput.Text);
                 this.container.playBpm(givenBpm, 0);
                 this.BPM = givenBpm;
-            }
+            
         }
         
 
