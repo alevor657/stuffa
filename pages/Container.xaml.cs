@@ -130,6 +130,7 @@ namespace WpfApp2.pages
 
             //the message queue can be called from any thread
             Task.Factory.StartNew(() => messageQueue.Enqueue(message, "OKAY", () => { }));
+            pc.setMobileActive();
         }
 
         public void snackBarActivatePlaylistCreated(string name)

@@ -43,6 +43,6 @@
                 </EventTrigger>
             </Image.Triggers>
         </Image>
-        <materialDesign:Snackbar x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="51" Margin="80,0,260,0" Grid.Row="1" HorizontalAlignment="Stretch" Grid.Column="1" Width="420" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Background="#FFD32F2F" Foreground="White" Grid.ColumnSpan="2" />
+        <materialDesign:Snackbar x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="51" Margin="80,0,260,0" Grid.Row="1" HorizontalAlignment="Stretch" Grid.Column="1" Width="420" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Background="#00796b" Foreground="White" Grid.ColumnSpan="2" />
     </Grid>
 </Page>

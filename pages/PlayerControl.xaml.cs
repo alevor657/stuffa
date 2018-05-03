@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -423,6 +424,32 @@ namespace WpfApp2.pages
         public int GetCurrentVolumeAsInt()
         {
             return (int)(VolumeSlider.Value * 100);
+        }
+
+        private void getIp(object sender, ToolTipEventArgs e)
+        {
+            //clear previsus mesage
+                MobileToolTip.Items.Clear();
+
+                //get name of host
+                string hostName = Dns.GetHostName();
+                Console.WriteLine(hostName);
+
+                //get the Ip address
+                string localIp = Dns.GetHostByName(hostName).AddressList[0].ToString();
+                Console.WriteLine("Ip address is : " + localIp);
+                MobileToolTip.Items.Add("mobile key: " + localIp);
+            
+            
+        }
+
+        public void setMobileActive()
+        {
+            BrushConverter conv = new BrushConverter();
+            SolidColorBrush brush = conv.ConvertFromString("#00796b") as SolidColorBrush;
+
+
+            mobile.Fill = brush;
         }
     }
 }

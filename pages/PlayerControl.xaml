@@ -194,12 +194,15 @@
                     </EventTrigger>
                 </Image.Triggers>
             </Image>
-            <Path Grid.Column="4" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Stretch="Uniform" MinWidth="10" Data="M17.25,18H6.75V4H17.25M14,21H10V20H14M16,1H8A3,3 0 0,0 5,4V20A3,3 0 0,0 8,23H16A3,3 0 0,0 19,20V4A3,3 0 0,0 16,1Z" Fill="White" Width="30.4" >
-                <Path.ToolTip>
-                    <ToolBar Foreground="Aqua" VerticalAlignment="Stretch">You´re key is: insert ip here</ToolBar>
-                    
-                </Path.ToolTip>
-            </Path>
+            <Grid ToolTipOpening="getIp" Background="Transparent" ToolTipService.ShowDuration="50000">
+                <Path x:Name="mobile" Grid.Column="4" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" Stretch="Uniform" MinWidth="10" Data="M17.25,18H6.75V4H17.25M14,21H10V20H14M16,1H8A3,3 0 0,0 5,4V20A3,3 0 0,0 8,23H16A3,3 0 0,0 19,20V4A3,3 0 0,0 16,1Z" Fill="White" Width="30.4" />
+
+                <Grid.ToolTip>
+                    <ToolBar x:Name="MobileToolTip"></ToolBar>
+
+                </Grid.ToolTip>
+            </Grid>
+            
         </StackPanel>
     </Grid>
 </Page>
