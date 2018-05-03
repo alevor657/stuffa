@@ -23,7 +23,6 @@ namespace Stuffa
 {
      public class MediaPlayer
 	 {
-        private Playlist masterPlaylist;
 	 	private List<Playlist> playlists;
         MasterPlaylist master;
 
@@ -42,7 +41,6 @@ namespace Stuffa
          public MediaPlayer()
 		 {
 			playlists = new List<Playlist>();
-            masterPlaylist = new Playlist();
 		 }
         // Sets BPM + range
         public void setBpm(int bpm, int range)
@@ -72,7 +70,6 @@ namespace Stuffa
             string folder = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()).ToString();
             this.container = container;
             this.indexForNonShuffle = 0;
-            this.masterPlaylist = new Playlist(folder + "\\playlists\\All music.txt");
 			this.recentlyPlayedIndexes = new List<int>();
             this.BPM = 208;
             this.BPMInterval = 2;
@@ -118,7 +115,7 @@ namespace Stuffa
         // Changes the cuurrent active playlist and resets playlist-specific settings 
         public void SetCurrentPlaylist(int pos)
         {
-            this.currentPlaylist = pos - 1;
+            this.currentPlaylist = pos;
             this.indexForNonShuffle = 0;
             for (int i=0; i < 5; i++)
             {
@@ -129,12 +126,8 @@ namespace Stuffa
        
         public List<Music> LoadNewMusic(List<string> paths, bool addAll = false)
         {
-            if(!this.masterPlaylist.getIfLoaded())
-            {
-                this.masterPlaylist.loadMusic();
-            }
+
             master.InsertNewMusicThread(paths);
-            //this.masterPlaylist.loadNewMusic(paths, false);
 
             sameMusic = this.playlists[this.currentPlaylist].loadNewMusic(paths, addAll);
             return sameMusic;
@@ -156,10 +149,7 @@ namespace Stuffa
 
         public bool RemoveMusic(int index)
         {
-            if (this.currentPlaylist == -1)
-            {
-                return false;// this.masterPlaylist.RemoveMusic(index);
-            }
+
             return this.playlists[this.currentPlaylist].RemoveMusic(index);
         }
 
@@ -202,24 +192,20 @@ namespace Stuffa
         // Gets names of playlists 
         public string GetCurrentPlaylistName()
         {
-            string name;
-            if (this.currentPlaylist == -1)
+            string name = "no playlist selected";
+            if (this.currentPlaylist != -1)
             {
-                name = masterPlaylist.ToString();
-            }
-            else {
                 name = this.playlists[this.currentPlaylist].ToString();
+
             }
+
             return name;
         }
 
         internal string GetSongStr(int selectedIndex)
         {
             
-            if( this.currentPlaylist == -1)
-            {
-                return this.masterPlaylist.getMusic(selectedIndex).getFullPath();
-            }
+
 
             return playlists[currentPlaylist].getMusic(selectedIndex).getFullPath();
         }
@@ -243,10 +229,7 @@ namespace Stuffa
 
         internal Music GetSongObj(int selectedIndex)
         {
-            if (this.currentPlaylist == -1)
-            {
-                return this.masterPlaylist.getMusic(selectedIndex);
-            }
+
             if(currentPlaylist >= 0 && currentPlaylist < playlists.Count)
             {
                 this.recentlyPlayedIndexes.RemoveAt(4);
@@ -268,19 +251,17 @@ namespace Stuffa
             {
                 ret = ret.GetRange(0, 399);
             }
-            return ret;//this.masterPlaylist.searchArtistBpmTitle(searchTerm);
+            return ret;
         }
 
         public List<int> getAllBpm(int Bpm, int range = 1)
         {
-            if (currentPlaylist == -1)
-            {
-                return masterPlaylist.searchBPMIndex(Bpm, range);
-            }
-            else
+            if (currentPlaylist != -1)
             {
                 return this.playlists[currentPlaylist].searchBPMIndex(Bpm, range); ;
             }
+            return null;
+
         }
 
 
@@ -288,7 +269,7 @@ namespace Stuffa
         public List<string> GetPlaylistNames()
         {
             List<string> temp = new List<string>();
-            temp.Add(masterPlaylist.ToString());
+
 
             foreach (Playlist i in playlists)
             {
@@ -300,14 +281,7 @@ namespace Stuffa
         public List<Music> GetMusicFromPlaylist()
         {
            
-            if (this.currentPlaylist == -1)
-            {
-                if(!masterPlaylist.getIfLoaded())
-                {
-                    masterPlaylist.loadMusic();
-                }
-                return this.masterPlaylist.getAllMusic();
-            }
+ 
 
             
             if (!playlists[currentPlaylist].getIfLoaded())
