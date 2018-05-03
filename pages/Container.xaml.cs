@@ -222,6 +222,7 @@ namespace WpfApp2.pages
                         break;
                     case 0:
                         index = mp.getIndexForBPMShuffle();
+                        ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
                         if (settings.GetAutoState())
                         {
                             int newBPM = settings.getBPM() + settings.getInterval();
@@ -229,7 +230,6 @@ namespace WpfApp2.pages
                             mp.changeBPM(newBPM);
                           
                         }
-                        ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
                         break;
                     default:
                         index = mp.getIndexForNonShuffle();
