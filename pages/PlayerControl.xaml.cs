@@ -408,6 +408,13 @@ namespace WpfApp2.pages
             container.SendStateToServerOnUpdate();
 
         }
+        public void SetToBPMShuffle()
+        {
+            shuffleLoop = 2;
+            // BPM SHUFFLE
+            BitmapImage image = new BitmapImage(new Uri("../img/shuffle_bpm_active2.png", UriKind.Relative));
+            ShuffleButton.Source = image;
+        }
 
         private void RestartSong(object sender, MouseButtonEventArgs e)
         {

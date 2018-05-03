@@ -55,6 +55,10 @@ namespace WpfApp2.pages
             //DynamicView.Content = dv;
         }
 
+        internal void TurnOnBPMShuffle()
+        {
+            pc.SetToBPMShuffle();
+        }
 
         [FlagsAttribute]
         private enum EXECUTION_STATE : uint

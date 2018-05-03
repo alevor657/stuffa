@@ -57,6 +57,7 @@ namespace WpfApp2.pages
         private void coolChecked(object sender, RoutedEventArgs e)
         {
             autoState = true;
+            container.TurnOnBPMShuffle();
         }
 
         private void coolUnchecked(object sender, RoutedEventArgs e)
