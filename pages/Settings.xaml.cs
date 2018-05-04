@@ -25,6 +25,7 @@ namespace WpfApp2.pages
         Container container;
 
         int CurrentInterval;
+        int CurrentBPMDjump = 0;
         int BPM;
         bool hej = false;
         bool autoState = false;
@@ -93,6 +94,38 @@ namespace WpfApp2.pages
             CurrentInterval--;
             this.container.setInterval(this.CurrentInterval);
             IntervalInput.Text = CurrentInterval.ToString();
+        }
+
+        private void IncreaseBPMPerSong_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentBPMDjump++;
+            BPMPerSong.Text = CurrentBPMDjump.ToString();
+        }
+
+        private void DecreaseBPMPerSong_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentBPMDjump--;
+            BPMPerSong.Text = CurrentBPMDjump.ToString();
+        }
+
+        private void BPMPerSong_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        public int GetRange()
+        {
+            try
+            {
+                int i = 0;
+                Int32.TryParse(BPMPerSong.Text, out i);
+                return i;
+
+            }
+            catch
+            {
+                return -1;
+            }
         }
     }
     

@@ -225,7 +225,7 @@ namespace WpfApp2.pages
                         ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
                         if (settings.GetAutoState())
                         {
-                            int newBPM = settings.getBPM() + settings.getInterval();
+                            int newBPM = settings.getBPM() + settings.GetRange();
                             settings.setBPM(newBPM);
                             mp.changeBPM(newBPM);
                           

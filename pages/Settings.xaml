@@ -19,7 +19,7 @@
                     </StackPanel>
                 </ToggleButton>
                 <ToggleButton x:Name="toggleButton" Margin="0,49.548,50,0" VerticalAlignment="Top" Height="40" RenderTransformOrigin="0.07,0.49" Checked="coolChecked" Unchecked="coolUnchecked" Width="40" HorizontalAlignment="Right"/>
-                <TextBox x:Name="IntervalInput" KeyUp="KeyUp" Background="{x:Null}" Margin="0,94.548,50,0" VerticalAlignment="Top" Height="45" Width="40" Cursor="IBeam" FontFamily="Roboto Light" FontSize="24" Foreground="White" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="120" HorizontalAlignment="Right"/>
+                <TextBox x:Name="IntervalInput" KeyUp="KeyUp" Background="{x:Null}" Margin="0,94.548,50,0" VerticalAlignment="Top" Height="45" Width="40" Cursor="IBeam" FontFamily="Roboto Light" FontSize="24" Foreground="White" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0" HorizontalAlignment="Right"/>
                 <Label Content="Auto" Margin="10,44.98,0,0" VerticalAlignment="Top" Width="110.88" Height="45" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
                 <Label Content="Incrementing BPM &#xD;&#xA;Per song" x:Name="setBpm" Margin="10,149.98,0,0" VerticalAlignment="Top" Width="110.88" Height="50" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
                 <Label Content="Cool switch" Margin="10,259.98,0,0" VerticalAlignment="Top" Width="110.88" Height="49.4" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
@@ -105,7 +105,7 @@
                         </EventTrigger>
                     </Button.Triggers>
                 </Button>
-                <Button Content="¯" Margin="0,163.98,10,0" VerticalAlignment="Top" Width="35" FontSize="48" FontFamily="Roboto Thin" Height="31" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" HorizontalAlignment="Right">
+                <Button Content="¯" Margin="0,163.98,10,0" VerticalAlignment="Top" Width="35" FontSize="48" FontFamily="Roboto Thin" Height="31" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" HorizontalAlignment="Right" Click="DecreaseBPMPerSong_Click">
                     <Button.Triggers>
                         <EventTrigger RoutedEvent="UIElement.MouseEnter">
                             <BeginStoryboard>
@@ -144,7 +144,7 @@
                         </EventTrigger>
                     </Button.Triggers>
                 </Button>
-                <Button Content="+" Margin="0,159.98,95,0" VerticalAlignment="Top" Width="35" FontSize="24" FontFamily="Roboto Thin" Height="35" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" HorizontalAlignment="Right">
+                <Button Content="+" Margin="0,159.98,95,0" VerticalAlignment="Top" Width="35" FontSize="24" FontFamily="Roboto Thin" Height="35" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" HorizontalAlignment="Right" Click="IncreaseBPMPerSong_Click">
                     <Button.Triggers>
                         <EventTrigger RoutedEvent="UIElement.MouseEnter">
                             <BeginStoryboard>
@@ -185,7 +185,7 @@
                 </Button>
 
                 <Label Content="Base BPM" x:Name="setBpm_Copy" Margin="10,204.98,0,0" VerticalAlignment="Top" Width="110.88" Height="50" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#DDC9C9C9"/>
-                <TextBox x:Name="BpmInput_Copy" KeyUp="KeyUp" Background="{x:Null}" Margin="0,149.98,50,0" VerticalAlignment="Top" Height="45" Width="40" Cursor="IBeam" FontFamily="Roboto Light" FontSize="24" Foreground="White" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" Text="NaN" HorizontalAlignment="Right"/>
+                <TextBox x:Name="BPMPerSong" KeyUp="KeyUp" Background="{x:Null}" Margin="0,149.98,50,0" VerticalAlignment="Top" Height="45" Width="40" Cursor="IBeam" FontFamily="Roboto Light" FontSize="24" Foreground="White" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" Text="0" HorizontalAlignment="Right" TextChanged="BPMPerSong_TextChanged"/>
                 <TextBox x:Name="BpmInput" KeyUp="KeyUp" Background="{x:Null}" Margin="0,214.98,50,0" VerticalAlignment="Top" Height="40" Width="40" Cursor="IBeam" FontFamily="Roboto Light" FontSize="24" Foreground="White" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="240" HorizontalAlignment="Right"/>
                 <!--<Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,60,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
                 <Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,121,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
