@@ -61,7 +61,7 @@ namespace WpfApp2.pages
             labelTimer.Tick += TimerTickerSlideText;
             labelTimer.Start();
 
-            songTimer.Interval = new TimeSpan(500);
+            songTimer.Interval = new TimeSpan(50000);
             songTimer.Tick += SongTimerTicker;
 
             outFadeTimer.Tick += OutFadeTicker;
