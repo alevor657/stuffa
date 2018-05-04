@@ -90,7 +90,7 @@ namespace WpfApp2.pages
         {
             SnackBar.Content = null;
             
-            SnackBar.Content = new MsgWin("dublets spoted", "add", "skipp", leftMsbWinButton, rightMsbWinButton);
+            SnackBar.Content = new MsgWin("Some music already exist in playlist", "ADD", "SKIP", leftMsbWinButton, rightMsbWinButton);
             
             //pop.IsEnabled = true;
             //var messageQueue = SnackBarDialog.MessageQueue;
