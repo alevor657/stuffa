@@ -383,5 +383,10 @@ namespace WpfApp2.pages
                 pc.PlaySong(toEdit);
             }
         }
+
+        public void Replay()
+        {
+            pc.RestartSong();
+        }
     }
 }

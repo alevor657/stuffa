@@ -416,7 +416,7 @@ namespace WpfApp2.pages
             ShuffleButton.Source = image;
         }
 
-        private void RestartSong(object sender, MouseButtonEventArgs e)
+        public void RestartSong(object sender = null, MouseButtonEventArgs e = null)
         {
             this.Player.Stop();
             if(isPlaying)
@@ -425,7 +425,7 @@ namespace WpfApp2.pages
                 fadeIn();
 
             }
-            container.SendStateToServerOnUpdate();
+            //container.SendStateToServerOnUpdate();
         }
 
         public int GetCurrentVolumeAsInt()

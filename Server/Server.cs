@@ -70,6 +70,9 @@ namespace SocketServer
                     Container.Dispatcher.Invoke(Container.GetCurrentVolumeAsInt);
                     Send(ServerMsg.Create(Action.VOLUME_CHANGE));
                     break;
+                case "REPLAY":
+                    Container.Dispatcher.Invoke(Container.Replay);
+                    break;
                 //...
                 default:
                     return;
