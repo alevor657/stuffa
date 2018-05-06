@@ -96,9 +96,9 @@ namespace WpfApp2.pages
 
         private void settingsButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if(!inSettings)
+            if (!inSettings)
             {
-                DynamicView.Content= settings;
+                DynamicView.Content = settings;
                 inSettings = true;
             }
             else
@@ -180,7 +180,7 @@ namespace WpfApp2.pages
             //ev.setMarked(mp.GetMusicFromPlaylist(), mp.getAllBpm(105, 3));
         }
 
-        internal void playBpm(int Bpm, int range)
+        internal void playBpm(int Bpm)
         {
             ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
             this.changeBPM(Bpm);
@@ -196,7 +196,7 @@ namespace WpfApp2.pages
         internal bool newPlaylist(string name)
         {
             bool created = false;
-            if(mp.addNewPlaylist(name))
+            if (mp.addNewPlaylist(name))
             {
                 created = true;
                 pv.updatePlaylists(GetPlaylists());
@@ -205,8 +205,8 @@ namespace WpfApp2.pages
             return created;
 
         }
-		internal void getRandomSong()
-		{
+        internal void getRandomSong()
+        {
             // Add switch for different shuffle states 
             int index = 0;
             int shuffleVal = pc.getShuffleState();
@@ -228,7 +228,7 @@ namespace WpfApp2.pages
                             int newBPM = settings.getBPM() + settings.GetRange();
                             settings.setBPM(newBPM);
                             mp.changeBPM(newBPM);
-                          
+
                         }
                         break;
                     default:
@@ -240,9 +240,9 @@ namespace WpfApp2.pages
                 ev.setHighlight(index);
                 pc.PlaySong(temp);
             }
-           
 
-		}
+
+        }
         // Sets the interval
         internal void setInterval(int interval)
         {
@@ -288,7 +288,7 @@ namespace WpfApp2.pages
 
                     // get file paths
                     return dlg.FileNames.ToList<string>();
-                    
+
 
                 }
 
@@ -312,14 +312,29 @@ namespace WpfApp2.pages
         internal void spacePressed()
         {
             //check if the searchbox is highlited
-            if(!ev.IsSearchBarActive() && !pv.isTextBoxActive())
+            if (!ev.IsSearchBarActive() && !pv.isTextBoxActive())
             {
                 //pause the music
                 this.TogglePlay();
             }
         }
 
-        public Dictionary<string, object> getPlayerState() => pc.getPlayerState();
+        public Dictionary<string, object> getPlayerState()
+        {
+            Dictionary<string, object> send = new Dictionary<string, object>();
+            foreach(var i in pc.getPlayerState())
+            {
+                send.Add(i.Key, i.Value);
+            }
+
+            foreach(var i in settings.getPlayerState())
+            {
+                send.Add(i.Key, i.Value);
+            }
+
+            return send;
+}
+
         public void TogglePlay() => pc.TogglePlay();
         public void NextSong() => pc.NextSong();
         public void GetCurrentVolumeAsInt() => pc.GetCurrentVolumeAsInt();
@@ -387,6 +402,11 @@ namespace WpfApp2.pages
         public void Replay()
         {
             pc.RestartSong();
+        }
+
+        public void ChangeJump(int newVal)
+        {
+            settings.ChangeJump(newVal);
         }
     }
 }

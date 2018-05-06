@@ -70,9 +70,16 @@ namespace WpfApp2.pages
         {
             
                 int givenBpm = Int32.Parse(BpmInput.Text);
-                this.container.playBpm(givenBpm, 0);
+                this.container.playBpm(givenBpm);
                 this.BPM = givenBpm;
+            container.SendStateToServerOnUpdate();
             
+        }
+
+        public void ChangeJump(int val)
+        {
+            BPMPerSong.Text = val.ToString();
+
         }
         
 
@@ -126,6 +133,18 @@ namespace WpfApp2.pages
             {
                 return -1;
             }
+        }
+
+        public Dictionary<string, object> getPlayerState()
+        {
+
+            Dictionary<string, object> d = new Dictionary<string, object>();
+            d.Add("autoBpm", toggleButton.IsChecked);
+            d.Add("bpmJump", BPMPerSong.Text);
+            d.Add("bpmInterval", IntervalInput.Text);
+
+
+            return d;
         }
     }
     

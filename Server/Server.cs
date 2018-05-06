@@ -73,6 +73,12 @@ namespace SocketServer
                 case "REPLAY":
                     Container.Dispatcher.Invoke(Container.Replay);
                     break;
+                case "SET_BPM_STEP":
+                    int nr;
+                    Int32.TryParse(parseMsg.payload, out nr);
+                    Container.Dispatcher.Invoke(new System.Action(() => Container.ChangeJump(nr)));
+                    Container.Dispatcher.Invoke(Container.SendStateToServerOnUpdate);
+                    break;
                 //...
                 default:
                     return;
