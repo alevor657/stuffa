@@ -107,15 +107,15 @@
 
 
 
-            <ListBox x:Name="currentPlaylist" MouseDoubleClick="CurrentPlaylist_SelectionChanged" dd:DragDrop.IsDragSource="True" DragOver="DragOverShow" AllowDrop="True" HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" MouseEnter="dragFromCur" VerticalContentAlignment="Stretch" Grid.IsSharedSizeScope="True">
+            <ListBox x:Name="currentPlaylist" MouseUp="CurMenuFocusList" MouseDoubleClick="CurrentPlaylist_SelectionChanged" dd:DragDrop.IsDragSource="True" DragOver="DragOverShow" AllowDrop="True" HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" MouseEnter="dragFromCur" VerticalContentAlignment="Stretch"  Grid.IsSharedSizeScope="True">
 
 
 
                 <ListBox.ContextMenu>
-                    <ContextMenu >
+                    <ContextMenu Opened="ContextMenuOpen" >
                         <MenuItem Header="Add music" Click="AddMusic" />
-                        <MenuItem Header="Remove" Click="removeSongOnIndex" />
-                        <MenuItem Header="Edit" Click="editMusic" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" />
+                        <MenuItem x:Name="RemoveCur" Header="Remove" Click="removeSongOnIndex" />
+                        <MenuItem x:Name="EditCur" Header="Edit" Click="editMusic" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" />
 
                     </ContextMenu>
                 </ListBox.ContextMenu>
@@ -126,7 +126,7 @@
 
 
 
-                        <Grid Margin="0,0,0,0" x:Name="itemInCur"  AllowDrop="True" Drop="testtest" Mouse.MouseEnter="InsertPlayButtonInCur"  Width="Auto" Height="Auto">
+                        <Grid Margin="0,0,0,0" x:Name="itemInCur" MouseUp="CurMenuFocus"  AllowDrop="True" Drop="testtest" Mouse.MouseEnter="InsertPlayButtonInCur"  Width="Auto" Height="Auto">
 
 
                             
@@ -260,19 +260,19 @@
                 </StackPanel>
             </materialDesign:DialogHost.DialogContent>
 
-            <ListBox Grid.Column="1" AllowDrop="True" MouseDoubleClick="PlayDatabaseMusic" MouseEnter="AllowDropSearch"  x:Name="searchRes" DragOver="DragOverShowMaster" dd:DragDrop.IsDragSource="True" Margin="10,139,10,0" SelectedIndex="1" HorizontalContentAlignment="Stretch" SelectionChanged="searchRes_SelectionChanged">
+            <ListBox Grid.Column="1" AllowDrop="True" MouseUp="SearchMenuFocusList" MouseDoubleClick="PlayDatabaseMusic" MouseEnter="AllowDropSearch"  x:Name="searchRes" DragOver="DragOverShowMaster" dd:DragDrop.IsDragSource="True" Margin="10,139,10,0" SelectedIndex="1" HorizontalContentAlignment="Stretch" SelectionChanged="searchRes_SelectionChanged">
             <ListBox.ContextMenu>
-                <ContextMenu >
+                <ContextMenu Opened="ContextMenuOpenSearch">
                     <MenuItem Header="Add music to library" Click="AddMusicLibrary" />
-                        <MenuItem Header="Remove from library" Click="removeSongLibrary">
+                        <MenuItem x:Name="RemoveSearch" Header="Remove from library" Click="removeSongLibrary">
                         </MenuItem>
-                        <MenuItem Header="Edit" Click="editMusicDatabase"  Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" />
+                        <MenuItem x:Name="EditSearch" Header="Edit" Click="editMusicDatabase"  Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" />
 
                 </ContextMenu>
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid x:Name="itemInSearch" Margin="0,2" MinHeight="22" MouseDown="dragFromSearch">
+                        <Grid x:Name="itemInSearch" MouseUp="SearchMenuFocus" Margin="0,2" MinHeight="22" MouseDown="dragFromSearch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="1*" />

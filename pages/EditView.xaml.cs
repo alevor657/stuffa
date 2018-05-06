@@ -540,7 +540,73 @@ namespace WpfApp2.pages
                 snackBarActivate("Music added");
             }
         }
+
+
+
+        
+
+        int isGridInCurPresed = 0;
+        private void CurMenuFocus(object sender, MouseButtonEventArgs e)
+        {
+            //if a grid in CurrentPlaylist is clicked this will first be called
+            isGridInCurPresed = 1;
+        }
+
+        private void CurMenuFocusList(object sender, MouseButtonEventArgs e)
+        {
+            // when the currentPlaylist is clicked this will ve caled after the "CurMenuFocus" method. And secure that if the user presses outside any grid it is a valid plase to pres
+            isGridInCurPresed++;
+
+        }
+
+        private void ContextMenuOpen(object sender, RoutedEventArgs e)
+        {
+            if(isGridInCurPresed == 2)
+            {
+                EditCur.IsEnabled = true;
+                RemoveCur.IsEnabled = true;
+            }
+            else
+            {
+                EditCur.IsEnabled = false;
+                RemoveCur.IsEnabled = false ;
+
+            }
+        }
+
+
+
+
+        int isGridInSearchPresed = 0;
+        private void SearchMenuFocus(object sender, MouseButtonEventArgs e)
+        {
+            //if a grid in CurrentPlaylist is clicked this will first be called
+            isGridInSearchPresed = 1;
+        }
+
+        private void SearchMenuFocusList(object sender, MouseButtonEventArgs e)
+        {
+            // when the currentPlaylist is clicked this will ve caled after the "CurMenuFocus" method. And secure that if the user presses outside any grid it is a valid plase to pres
+            isGridInSearchPresed++;
+
+        }
+
+        private void ContextMenuOpenSearch(object sender, RoutedEventArgs e)
+        {
+            if (isGridInSearchPresed == 2)
+            {
+                EditSearch.IsEnabled = true;
+                RemoveSearch.IsEnabled = true;
+            }
+            else
+            {
+                EditSearch.IsEnabled = false;
+                RemoveSearch.IsEnabled = false;
+
+            }
+        }
     }
+
 }
 
 public class Songs
