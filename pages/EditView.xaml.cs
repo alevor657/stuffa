@@ -605,6 +605,21 @@ namespace WpfApp2.pages
 
             }
         }
+
+        private void BPMLabelUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void TitleLabelUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void ArtistLabelUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 
 }
