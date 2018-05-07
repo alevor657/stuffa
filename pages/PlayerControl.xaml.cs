@@ -319,9 +319,11 @@ namespace WpfApp2.pages
             int bpm;
             bool result = int.TryParse(BpmLabel.Content as string, out bpm);
 
+
             Dictionary<string, object> d = new Dictionary<string, object>();
             d.Add("song", TitleLabel.Text);
             d.Add("artist", ArtistLabel.Content as string);
+            // Always 0, fix needed?
             d.Add("bpm", result ? bpm : 0);
             d.Add("isPlaying", isPlaying);
             d.Add("soundLevel", Convert.ToInt32(volumeLevel * 100));

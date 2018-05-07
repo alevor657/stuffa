@@ -25,7 +25,7 @@ namespace WpfApp2.pages
         Container container;
 
         int CurrentInterval;
-        int CurrentBPMDjump = 0;
+        int CurrentBPMJump = 0;
         int BPM;
         bool hej = false;
         bool autoState = false;
@@ -79,7 +79,7 @@ namespace WpfApp2.pages
         public void ChangeJump(int val)
         {
             BPMPerSong.Text = val.ToString();
-
+            CurrentBPMJump = val;
         }
         
 
@@ -94,6 +94,7 @@ namespace WpfApp2.pages
             CurrentInterval++;
             this.container.setInterval(this.CurrentInterval);
             IntervalInput.Text = CurrentInterval.ToString();
+            container.SendStateToServerOnUpdate();
         }
 
         private void IntervalSub_Click(object sender, RoutedEventArgs e)
@@ -101,18 +102,29 @@ namespace WpfApp2.pages
             CurrentInterval--;
             this.container.setInterval(this.CurrentInterval);
             IntervalInput.Text = CurrentInterval.ToString();
+            container.SendStateToServerOnUpdate();
+        }
+
+        public void SetInterval(int val)
+        {
+            CurrentInterval = val;
+            this.container.setInterval(val);
+            IntervalInput.Text = CurrentInterval.ToString();
+            container.SendStateToServerOnUpdate();
         }
 
         private void IncreaseBPMPerSong_Click(object sender, RoutedEventArgs e)
         {
-            CurrentBPMDjump++;
-            BPMPerSong.Text = CurrentBPMDjump.ToString();
+            CurrentBPMJump++;
+            BPMPerSong.Text = CurrentBPMJump.ToString();
+            container.SendStateToServerOnUpdate();
         }
 
         private void DecreaseBPMPerSong_Click(object sender, RoutedEventArgs e)
         {
-            CurrentBPMDjump--;
-            BPMPerSong.Text = CurrentBPMDjump.ToString();
+            CurrentBPMJump--;
+            BPMPerSong.Text = CurrentBPMJump.ToString();
+            container.SendStateToServerOnUpdate();
         }
 
         private void BPMPerSong_TextChanged(object sender, TextChangedEventArgs e)

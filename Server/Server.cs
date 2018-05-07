@@ -81,7 +81,9 @@ namespace SocketServer
                     // Container.Dispatcher.Invoke(Container.Replay);
                     break;
                 case "SET_BPM_INTERVAL":
-                    // Container.Dispatcher.Invoke(Container.Replay);
+                    Container.Dispatcher.Invoke(() => Container.SetInterval(
+                            int.Parse(parseMsg.payload)
+                        ));
                     break;
                 case "BPM_AUTOPLAY_TOGGLE":
                     // Container.Dispatcher.Invoke(Container.Replay);

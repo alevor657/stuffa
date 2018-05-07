@@ -416,5 +416,10 @@ namespace WpfApp2.pages
         {
             settings.ChangeJump(newVal);
         }
+
+        public void SetInterval(int val)
+        {
+            settings.SetInterval(val);
+        }
     }
 }
