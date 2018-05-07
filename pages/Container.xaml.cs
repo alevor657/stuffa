@@ -19,6 +19,7 @@ using SocketServer;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
 using WpfApp2.feedback;
+using System.Windows.Media.Animation;
 
 namespace WpfApp2.pages
 {
@@ -52,7 +53,7 @@ namespace WpfApp2.pages
             playerControl.Content = pc;
             DynamicView.Content = ev;
             PlaylistView.Content = pv;
-            //DynamicView.Content = dv;
+            SettingsView.Content = settings;
         }
 
         internal void TurnOnBPMShuffle()
@@ -94,18 +95,74 @@ namespace WpfApp2.pages
             return mp.GetPlaylistNames();
         }
 
-        private void settingsButtonUp(object sender, MouseButtonEventArgs e)
+        private void settingsButtonOpenUp(object sender, MouseButtonEventArgs e)
         {
-            if (!inSettings)
-            {
-                DynamicView.Content = settings;
+            // OLD FUNCTIONALITY
+            //if (!inSettings)
+            //{
+            //    DynamicView.Content = settings;
+            //    inSettings = true;
+            //}
+            //else
+            //{
+            //    DynamicView.Content = ev;
+            //    inSettings = false;
+            //}
+
+            // NEW 
+            DoubleAnimation slideIn = new DoubleAnimation();
+            slideIn.AutoReverse = false;
+            slideIn.Duration = new Duration(TimeSpan.FromMilliseconds(500));
+            var translateTo = new TranslateTransform(100, 0);
+            var translateFrom = new TranslateTransform(0,100);
+            SettingsView.RenderTransform = new TranslateTransform(100, 0);
+
+                slideIn.From = 100.0;
+                slideIn.To = 0.0;
+                SettingsView.BeginAnimation(TranslateTransform.XProperty, slideIn, HandoffBehavior.SnapshotAndReplace);
+                //SettingsView.BeginAnimation(OpacityProperty, slideIn);
+
                 inSettings = true;
-            }
-            else
-            {
-                DynamicView.Content = ev;
+
+            //SettingsButtonClose.Visibility = Visibility.Visible;
+            //SettingsButtonOpen.Visibility = Visibility.Collapsed;
+
+
+        }
+
+        private void settingsButtonCloseUp(object sender, MouseButtonEventArgs e)
+        {
+            // OLD FUNCTIONALITY
+            //if (!inSettings)
+            //{
+            //    DynamicView.Content = settings;
+            //    inSettings = true;
+            //}
+            //else
+            //{
+            //    DynamicView.Content = ev;
+            //    inSettings = false;
+            //}
+
+            // NEW 
+            DoubleAnimation slideIn = new DoubleAnimation();
+            slideIn.AutoReverse = false;
+            slideIn.Duration = new Duration(TimeSpan.FromMilliseconds(500));
+            var translateTo = new TranslateTransform(100, 0);
+            var translateFrom = new TranslateTransform(0, 100);
+            SettingsView.RenderTransform = new TranslateTransform(100, 0);
+
+                slideIn.From = 0.0;
+                slideIn.To = 100.0;
+                SettingsView.BeginAnimation(TranslateTransform.XProperty, slideIn, HandoffBehavior.SnapshotAndReplace);
+                //SettingsView.BeginAnimation(TranslateTransform.XProperty, slideIn);
+                //SettingsView.BeginAnimation(OpacityProperty, slideIn);
+
                 inSettings = false;
-            }
+
+            //settingsButtonClose.Visibility = Visibility.Collapsed;
+            //settingsButtonOpen.Visibility = Visibility.Visible;
+
         }
 
         internal void showSelectedPlaylist()
