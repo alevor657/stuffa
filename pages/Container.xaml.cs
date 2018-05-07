@@ -247,6 +247,7 @@ namespace WpfApp2.pages
         internal void setInterval(int interval)
         {
             mp.setInterval(interval);
+            this.SendStateToServerOnUpdate();
         }
         // arguement = new BPM
         internal void changeBPM(int newBPM)
@@ -331,6 +332,13 @@ namespace WpfApp2.pages
             {
                 send.Add(i.Key, i.Value);
             }
+
+            Console.WriteLine("Populated state is:");
+            foreach (var val in send)
+            {
+                Console.WriteLine(val);
+            }
+            Console.WriteLine("======================");
 
             return send;
 }

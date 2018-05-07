@@ -324,6 +324,7 @@ namespace WpfApp2.pages
             d.Add("artist", ArtistLabel.Content as string);
             d.Add("bpm", result ? bpm : 0);
             d.Add("isPlaying", isPlaying);
+            d.Add("soundLevel", Convert.ToInt32(volumeLevel * 100));
 
             return d;
         }
