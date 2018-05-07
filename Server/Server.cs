@@ -75,13 +75,17 @@ namespace SocketServer
                     Send(ServerMsg.Create(Action.VOLUME_CHANGE));
                     break;
                 case "SET_SOUND":
-                    
+                    float val = (Int32.Parse(parseMsg.payload))/100f;
+                    Container.Dispatcher.Invoke(new System.Action(() => Container.SetVolume(val)));
+                    Container.Dispatcher.Invoke(Container.SendStateToServerOnUpdate);
                     break;
                 case "SET_BPM":
                     // Container.Dispatcher.Invoke(Container.Replay);
                     break;
                 case "SET_BPM_INTERVAL":
-                    // Container.Dispatcher.Invoke(Container.Replay);
+                    Container.Dispatcher.Invoke(() => Container.SetInterval(
+                            int.Parse(parseMsg.payload)
+                        ));
                     break;
                 case "BPM_AUTOPLAY_TOGGLE":
                     // Container.Dispatcher.Invoke(Container.Replay);

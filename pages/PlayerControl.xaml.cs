@@ -228,7 +228,13 @@ namespace WpfApp2.pages
         {
             volumeLevel = VolumeSlider.Value;
             Player.Volume = VolumeSlider.Value;
+            SetVolumeIcon();
 
+
+        }
+
+        private void SetVolumeIcon()
+        {
             if (isLoaded)
             {
                 if (VolumeSlider.Value >= 0.5)
@@ -251,6 +257,14 @@ namespace WpfApp2.pages
                 container.SendStateToServerOnUpdate();
 
             }
+        }
+
+        public void SetVolume(float k)
+        {
+            volumeLevel = k; 
+            VolumeSlider.Value = k;
+            Player.Volume = k;
+            SetVolumeIcon();
         }
 
         public void PlaySong(Music m)
@@ -316,13 +330,14 @@ namespace WpfApp2.pages
 
         public Dictionary<string, object> getPlayerState()
         {
-            int bpm;
-            bool result = int.TryParse(BpmLabel.Content as string, out bpm);
+            int bpm = 0;
+            Int32.TryParse(BpmLabel.Content as string, out bpm);
 
             Dictionary<string, object> d = new Dictionary<string, object>();
             d.Add("song", TitleLabel.Text);
             d.Add("artist", ArtistLabel.Content as string);
-            d.Add("bpm", result ? bpm : 0);
+            // Always 0, fix needed?
+            d.Add("bpm", bpm);
             d.Add("isPlaying", isPlaying);
             d.Add("soundLevel", Convert.ToInt32(volumeLevel * 100));
 
