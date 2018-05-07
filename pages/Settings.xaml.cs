@@ -180,12 +180,14 @@ namespace WpfApp2.pages
         {
             InputBPM++;
             BpmInput.Text = InputBPM.ToString();
+            container.SendStateToServerOnUpdate();
         }
 
         private void DecreaseBaseBPMPerSong_Click(object sender, RoutedEventArgs e)
         {
             InputBPM--;
             BpmInput.Text = InputBPM.ToString();
+            container.SendStateToServerOnUpdate();
         }
 
         public void ToggleAutoplay()
@@ -193,6 +195,13 @@ namespace WpfApp2.pages
             autoState = !autoState;
             container.SendStateToServerOnUpdate();
             toggleButton.IsChecked = autoState;
+        }
+
+        public void SetBaseBpm(int val)
+        {
+            InputBPM = val;
+            BpmInput.Text = InputBPM.ToString();
+            container.SendStateToServerOnUpdate();
         }
     }
     

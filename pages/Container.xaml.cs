@@ -488,5 +488,7 @@ namespace WpfApp2.pages
         {
             settings.ToggleAutoplay();
         }
+
+        public void SetBaseBpm(int val) => settings.SetBaseBpm(val);
     }
 }

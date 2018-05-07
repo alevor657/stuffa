@@ -80,7 +80,7 @@ namespace SocketServer
                     Container.Dispatcher.Invoke(Container.SendStateToServerOnUpdate);
                     break;
                 case "SET_BPM":
-                    // Container.Dispatcher.Invoke(Container.Replay);
+                    Container.Dispatcher.Invoke(() => Container.SetBaseBpm(int.Parse(parseMsg.payload)));
                     break;
                 case "SET_BPM_INTERVAL":
                     Container.Dispatcher.Invoke(() => Container.SetInterval(
