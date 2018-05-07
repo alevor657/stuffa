@@ -10,8 +10,7 @@
     <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Hidden" Height="{Binding WindowHeight, ElementName=page}">
             <Grid Margin="10,0" Height="514.32" VerticalAlignment="Top">
-                <Label Content="Main Settings" HorizontalAlignment="Left" Margin="10,3.04,0,0" VerticalAlignment="Top" Width="463.896" Background="{x:Null}" BorderThickness="1" FontWeight="Bold" FontSize="18"/>
-                <Path Data="M10,77.667 L472.896,80.667" Height="1" Margin="10,38.98,10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top"/>
+                <Label Content="Main Settings" HorizontalAlignment="Left" Margin="10,3.04,0,0" VerticalAlignment="Top" Width="250" Background="{x:Null}" BorderThickness="1" FontWeight="Bold" FontSize="18"/>
                 <!--<Border BorderThickness="10" BorderBrush="#FFAB0000"></Border>-->
                 <!--<ToggleButton Margin="0,271.4,50,0" VerticalAlignment="Top" Height="40" Width="40" Style="{DynamicResource MaterialDesignFlatPrimaryToggleButton}" HorizontalAlignment="Right">
                     <StackPanel>
@@ -201,5 +200,6 @@
             -->
                 </Grid>
         </ScrollViewer>
+        <TextBlock HorizontalAlignment="Left" Height="0.452" Margin="-66,108.548,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="1"/>
     </Grid>
 </Page>
