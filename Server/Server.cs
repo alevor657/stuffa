@@ -88,7 +88,7 @@ namespace SocketServer
                         ));
                     break;
                 case "BPM_AUTOPLAY_TOGGLE":
-                    // Container.Dispatcher.Invoke(Container.Replay);
+                    Container.Dispatcher.Invoke(Container.ToggleAutoplay);
                     break;
                 case "SET_BPM_STEP":
                     int nr;

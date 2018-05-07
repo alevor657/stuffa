@@ -63,11 +63,13 @@ namespace WpfApp2.pages
         {
             autoState = true;
             container.TurnOnBPMShuffle();
+            container.SendStateToServerOnUpdate();
         }
 
         private void coolUnchecked(object sender, RoutedEventArgs e)
         {
             autoState = false;
+            container.SendStateToServerOnUpdate();
         }
 
         private void KeyUp(object sender, KeyEventArgs e)
@@ -163,7 +165,7 @@ namespace WpfApp2.pages
         {
             
             Dictionary<string, object> d = new Dictionary<string, object>();
-            d.Add("autoBpm", toggleButton.IsChecked);
+            d.Add("autoBpm", autoState);
             d.Add("bpmJump", Int32.Parse(BPMPerSong.Text));
             d.Add("bpmInterval", Int32.Parse(IntervalInput.Text));
             d.Add("baseBpm", Int32.Parse(BpmInput.Text));
@@ -182,6 +184,13 @@ namespace WpfApp2.pages
         {
             InputBPM--;
             BpmInput.Text = InputBPM.ToString();
+        }
+
+        public void ToggleAutoplay()
+        {
+            autoState = !autoState;
+            container.SendStateToServerOnUpdate();
+            toggleButton.IsChecked = autoState;
         }
     }
     

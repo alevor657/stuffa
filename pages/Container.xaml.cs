@@ -482,7 +482,11 @@ namespace WpfApp2.pages
         public void SetVolume(float val)
         {
             pc.SetVolume(val);
+        }
 
+        public void ToggleAutoplay()
+        {
+            settings.ToggleAutoplay();
         }
     }
 }
