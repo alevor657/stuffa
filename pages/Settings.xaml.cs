@@ -27,6 +27,9 @@ namespace WpfApp2.pages
         int CurrentInterval;
         int CurrentBPMJump = 0;
         int BPM;
+
+        int InputBPM= 240;
+
         bool hej = false;
         bool autoState = false;
         public Settings(Container container)
@@ -37,6 +40,7 @@ namespace WpfApp2.pages
             BPM = 0;
 
             IntervalInput.Text = CurrentInterval.ToString();
+            BpmInput.Text = InputBPM.ToString();
 
         }
         public int getBPM()
@@ -166,6 +170,18 @@ namespace WpfApp2.pages
 
 
             return d;
+        }
+
+        private void IncreaseBaseBPMPerSong_Click(object sender, RoutedEventArgs e)
+        {
+            InputBPM++;
+            BpmInput.Text = InputBPM.ToString();
+        }
+
+        private void DecreaseBaseBPMPerSong_Click(object sender, RoutedEventArgs e)
+        {
+            InputBPM--;
+            BpmInput.Text = InputBPM.ToString();
         }
     }
     
