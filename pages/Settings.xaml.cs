@@ -74,12 +74,14 @@ namespace WpfApp2.pages
 
         private void KeyUp(object sender, KeyEventArgs e)
         {
-            
+
+            if (!BpmInput.Text.ToString().Contains(" "))
+            {
                 int givenBpm = Int32.Parse(BpmInput.Text);
                 this.container.playBpm(givenBpm);
                 this.BPM = givenBpm;
-            //container.SendStateToServerOnUpdate();
-            
+                //container.SendStateToServerOnUpdate();
+            }
         }
 
         public void ChangeJump(int val)
