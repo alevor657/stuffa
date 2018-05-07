@@ -162,7 +162,7 @@
                                 <TextBlock VerticalAlignment="Center" Text="{Binding Item3}" Visibility="Hidden" x:Name="SongId"></TextBlock>
 
                             <Grid MouseUp="CurrentPlaylist_SelectionChanged" Background="Transparent" MinWidth="20" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Column="4">
-                                <Path  Data="M2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12M10,17L15,12L10,7V17Z" Stretch="Uniform" Fill="#FF1F1F1F"  x:Name="playItemButton">
+                                <Path Stroke="#444444" StrokeThickness="2" Data="M2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12M10,17L15,12L10,7V17Z" Stretch="Uniform" Fill="#FF1F1F1F"  x:Name="playItemButton">
                                     <Path.Style>
                                         <Style TargetType="Path">
 
@@ -291,7 +291,7 @@
                                 </Grid.ColumnDefinitions>
                                 
                             <Grid MouseUp="PlayDatabaseMusic" Background="Transparent" Grid.Column="2" >
-                                <Path  Data="M2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12M10,17L15,12L10,7V17Z" Stretch="Uniform" Fill="#FF1F1F1F"  x:Name="playItemButton">
+                                    <Path Data="M2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12M10,17L15,12L10,7V17Z" Stretch="Uniform" Fill="#FF1F1F1F"  x:Name="playItemButton">
                                     <Path.Style>
                                         <Style TargetType="Path">
 
@@ -308,7 +308,7 @@
                                 </Path>
                                 </Grid>
                                 <Grid MouseUp="AddDatabaseMusic" Background="Transparent" Grid.Column="0" >
-                                    <Path Data="M19,11H15V15H13V11H9V9H13V5H15V9H19M20,2H8A2,2 0 0,0 6,4V16A2,2 0 0,0 8,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M4,6H2V20A2,2 0 0,0 4,22H18V20H4V6Z" Stretch="Uniform" Fill="#FF1F1F1F"  x:Name="addMusic">
+                                    <Path  Data="M19,11H15V15H13V11H9V9H13V5H15V9H19M20,2H8A2,2 0 0,0 6,4V16A2,2 0 0,0 8,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M4,6H2V20A2,2 0 0,0 4,22H18V20H4V6Z" Stretch="Uniform" Fill="#FF1F1F1F"  x:Name="addMusic">
                                         <Path.Style>
                                             <Style TargetType="Path">
 
