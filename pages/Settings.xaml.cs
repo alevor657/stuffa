@@ -63,21 +63,25 @@ namespace WpfApp2.pages
         {
             autoState = true;
             container.TurnOnBPMShuffle();
+            container.SendStateToServerOnUpdate();
         }
 
         private void coolUnchecked(object sender, RoutedEventArgs e)
         {
             autoState = false;
+            container.SendStateToServerOnUpdate();
         }
 
         private void KeyUp(object sender, KeyEventArgs e)
         {
-            
+
+            if (!BpmInput.Text.ToString().Contains(" "))
+            {
                 int givenBpm = Int32.Parse(BpmInput.Text);
                 this.container.playBpm(givenBpm);
                 this.BPM = givenBpm;
-            //container.SendStateToServerOnUpdate();
-            
+                //container.SendStateToServerOnUpdate();
+            }
         }
 
         public void ChangeJump(int val)
@@ -163,7 +167,7 @@ namespace WpfApp2.pages
         {
             
             Dictionary<string, object> d = new Dictionary<string, object>();
-            d.Add("autoBpm", toggleButton.IsChecked);
+            d.Add("autoBpm", autoState);
             d.Add("bpmJump", Int32.Parse(BPMPerSong.Text));
             d.Add("bpmInterval", Int32.Parse(IntervalInput.Text));
             d.Add("baseBpm", Int32.Parse(BpmInput.Text));
@@ -176,12 +180,28 @@ namespace WpfApp2.pages
         {
             InputBPM++;
             BpmInput.Text = InputBPM.ToString();
+            container.SendStateToServerOnUpdate();
         }
 
         private void DecreaseBaseBPMPerSong_Click(object sender, RoutedEventArgs e)
         {
             InputBPM--;
             BpmInput.Text = InputBPM.ToString();
+            container.SendStateToServerOnUpdate();
+        }
+
+        public void ToggleAutoplay()
+        {
+            autoState = !autoState;
+            container.SendStateToServerOnUpdate();
+            toggleButton.IsChecked = autoState;
+        }
+
+        public void SetBaseBpm(int val)
+        {
+            InputBPM = val;
+            BpmInput.Text = InputBPM.ToString();
+            container.SendStateToServerOnUpdate();
         }
     }
     

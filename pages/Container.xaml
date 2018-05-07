@@ -12,7 +12,7 @@
     <Page.Resources>
         <Storyboard x:Key="Open">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="SettingsView">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1000"/>
+                <EasingDoubleKeyFrame KeyTime="0" Value="2000"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <ExponentialEase EasingMode="EaseOut"/>
@@ -31,7 +31,7 @@
         </Storyboard>
         <Storyboard x:Key="Close">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="SettingsView">
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1127">
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="2000">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <CubicEase EasingMode="EaseIn"/>
                     </EasingDoubleKeyFrame.EasingFunction>
@@ -83,12 +83,15 @@
         </Grid.ColumnDefinitions>
         <Frame x:Name="DynamicView" Grid.Column="1" NavigationUIVisibility="Hidden" Grid.ColumnSpan="2"/>
         <Frame x:Name="SettingsView" Grid.Column="2" NavigationUIVisibility="Hidden" Grid.ColumnSpan="1" RenderTransformOrigin="0.5,0.5" Background="Black">
+            <Frame.Effect>
+                <DropShadowEffect Direction="180" Color="#FF1F1F1F" ShadowDepth="0" BlurRadius="7"/>
+            </Frame.Effect>
             <Frame.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
                     <RotateTransform/>
-                    <TranslateTransform X="1000"/>
+                    <TranslateTransform X="2000"/>
                 </TransformGroup>
             </Frame.RenderTransform>
         </Frame>
