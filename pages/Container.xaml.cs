@@ -325,6 +325,16 @@ namespace WpfApp2.pages
         {
             LoadNewMusic(getNewMusicPaths());
         }
+        internal void SortOnChoice(int choice)
+        {
+            // choices:
+            // 0 = BPM
+            // 1 = Artist
+            // 2 = Title
+            mp.sortOnChoice(choice);
+            this.showSelectedPlaylist();
+
+        }
 
         internal List<string> getNewMusicPaths()
         {

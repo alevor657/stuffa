@@ -608,17 +608,17 @@ namespace WpfApp2.pages
 
         private void BPMLabelUp(object sender, MouseButtonEventArgs e)
         {
-
+            container.SortOnChoice(0);
         }
 
         private void TitleLabelUp(object sender, MouseButtonEventArgs e)
         {
-
+            container.SortOnChoice(2);
         }
 
         private void ArtistLabelUp(object sender, MouseButtonEventArgs e)
         {
-
+            container.SortOnChoice(1);
         }
     }
 

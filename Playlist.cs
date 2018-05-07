@@ -503,6 +503,25 @@ namespace WpfApp2
 
             return ret;
         }
+        
+        public void SortListOnBPM()
+        {
+            this.music.Sort((x, y) => x.Bpm.CompareTo(y.Bpm));
+            this.savePlaylist();
+            this.emptyLists();
+        }
+        public void SortListOnTitle()
+        {
+            this.music.Sort((x, y) => x.Title.CompareTo(y.Title));
+            this.savePlaylist();
+            this.emptyLists();
+        }
+        public void SortListOnArtist()
+        {
+            this.music.Sort((x, y) => x.Artist.CompareTo(y.Artist));
+            this.savePlaylist();
+            this.emptyLists();
+        }
 
         //returns a list of indexes witch corresponds to music where some part or the hole search string is defined
         //this function orders the indexes based on the amount matched in the container
