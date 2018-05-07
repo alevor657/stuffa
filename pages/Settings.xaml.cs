@@ -100,6 +100,10 @@ namespace WpfApp2.pages
         private void IntervalSub_Click(object sender, RoutedEventArgs e)
         {
             CurrentInterval--;
+            if (CurrentInterval < 0)
+            {
+                CurrentInterval = 0;
+            }
             this.container.setInterval(this.CurrentInterval);
             IntervalInput.Text = CurrentInterval.ToString();
             container.SendStateToServerOnUpdate();
@@ -123,6 +127,10 @@ namespace WpfApp2.pages
         private void DecreaseBPMPerSong_Click(object sender, RoutedEventArgs e)
         {
             CurrentBPMJump--;
+            if (CurrentBPMJump < 0)
+            {
+                CurrentBPMJump = 0;
+            }
             BPMPerSong.Text = CurrentBPMJump.ToString();
             container.SendStateToServerOnUpdate();
         }
