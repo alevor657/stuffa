@@ -417,9 +417,15 @@ namespace WpfApp2.pages
             settings.ChangeJump(newVal);
         }
 
+
         public void SetInterval(int val)
         {
             settings.SetInterval(val);
+        }
+        public void SetVolume(float val)
+        {
+            pc.SetVolume(val);
+
         }
     }
 }

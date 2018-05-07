@@ -228,7 +228,13 @@ namespace WpfApp2.pages
         {
             volumeLevel = VolumeSlider.Value;
             Player.Volume = VolumeSlider.Value;
+            SetVolumeIcon();
 
+
+        }
+
+        private void SetVolumeIcon()
+        {
             if (isLoaded)
             {
                 if (VolumeSlider.Value >= 0.5)
@@ -251,6 +257,14 @@ namespace WpfApp2.pages
                 container.SendStateToServerOnUpdate();
 
             }
+        }
+
+        public void SetVolume(float k)
+        {
+            volumeLevel = k; 
+            VolumeSlider.Value = k;
+            Player.Volume = k;
+            SetVolumeIcon();
         }
 
         public void PlaySong(Music m)
