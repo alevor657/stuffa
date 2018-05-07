@@ -63,15 +63,28 @@ namespace SocketServer
                     Container.Dispatcher.Invoke(Container.NextSong);
                     SyncState();
                     break;
+                case "REPLAY":
+                    Container.Dispatcher.Invoke(Container.Replay);
+                    break;
                 case "REQUEST_STATE":
                     SyncState();
                     break;
+                // ??
                 case "VOLUME_CHANGE":
                     Container.Dispatcher.Invoke(Container.GetCurrentVolumeAsInt);
                     Send(ServerMsg.Create(Action.VOLUME_CHANGE));
                     break;
-                case "REPLAY":
-                    Container.Dispatcher.Invoke(Container.Replay);
+                case "SET_SOUND":
+                    
+                    break;
+                case "SET_BPM":
+                    // Container.Dispatcher.Invoke(Container.Replay);
+                    break;
+                case "SET_BPM_INTERVAL":
+                    // Container.Dispatcher.Invoke(Container.Replay);
+                    break;
+                case "BPM_AUTOPLAY_TOGGLE":
+                    // Container.Dispatcher.Invoke(Container.Replay);
                     break;
                 case "SET_BPM_STEP":
                     int nr;
