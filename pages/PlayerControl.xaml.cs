@@ -331,7 +331,7 @@ namespace WpfApp2.pages
         public Dictionary<string, object> getPlayerState()
         {
             int bpm = 0;
-            Int32.TryParse(BpmLabel.Content as string, out bpm);
+            Int32.TryParse((BpmLabel.Content as string).Split(' ')[0], out bpm);
 
             Dictionary<string, object> d = new Dictionary<string, object>();
             d.Add("song", TitleLabel.Text);
