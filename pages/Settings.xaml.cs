@@ -26,9 +26,9 @@ namespace WpfApp2.pages
 
         int CurrentInterval;
         int CurrentBPMJump = 0;
-        int BPM;
 
-        int InputBPM= 240;
+
+        int InputBPM= 100;
 
         bool hej = false;
         bool autoState = false;
@@ -37,7 +37,7 @@ namespace WpfApp2.pages
             this.container = container;
             CurrentInterval = 0;
             InitializeComponent();
-            BPM = 0;
+
 
             IntervalInput.Text = CurrentInterval.ToString();
             BpmInput.Text = InputBPM.ToString();
@@ -45,11 +45,12 @@ namespace WpfApp2.pages
         }
         public int getBPM()
         {
-            return this.BPM;
+            return this.InputBPM;
         }
         public void setBPM(int BPM)
         {
-            this.BPM = BPM;
+            this.InputBPM = BPM;
+            this.BpmInput.Text = this.InputBPM.ToString();
         }
         public int getInterval()
         {
@@ -79,7 +80,7 @@ namespace WpfApp2.pages
             {
                 int givenBpm = Int32.Parse(BpmInput.Text);
                 this.container.playBpm(givenBpm);
-                this.BPM = givenBpm;
+                this.InputBPM = givenBpm;
                 //container.SendStateToServerOnUpdate();
             }
         }
