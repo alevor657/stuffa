@@ -169,8 +169,22 @@ namespace WpfApp2.pages
             
             Dictionary<string, object> d = new Dictionary<string, object>();
             d.Add("autoBpm", autoState);
-            d.Add("bpmJump", Int32.Parse(BPMPerSong.Text));
-            d.Add("bpmInterval", Int32.Parse(IntervalInput.Text));
+            try
+            {
+                d.Add("bpmJump", Int32.Parse(BPMPerSong.Text));
+            }
+            catch
+            {
+                d.Add("bpmJump", 0);
+            }
+            try
+            {
+                d.Add("bpmInterval", Int32.Parse(IntervalInput.Text));
+            }
+            catch
+            {
+                d.Add("bpmInterval", 0);
+            }
             try
             {
                 d.Add("baseBpm", Int32.Parse(BpmInput.Text));
