@@ -76,7 +76,7 @@ namespace WpfApp2.pages
         private void KeyUp(object sender, KeyEventArgs e)
         {
 
-            if (!BpmInput.Text.ToString().Contains(" "))
+            if (!BpmInput.Text.ToString().Contains(" ") && BpmInput.Text.ToString() != "")
             {
                 int givenBpm = Int32.Parse(BpmInput.Text);
                 this.container.playBpm(givenBpm);
@@ -171,7 +171,15 @@ namespace WpfApp2.pages
             d.Add("autoBpm", autoState);
             d.Add("bpmJump", Int32.Parse(BPMPerSong.Text));
             d.Add("bpmInterval", Int32.Parse(IntervalInput.Text));
-            d.Add("baseBpm", Int32.Parse(BpmInput.Text));
+            try
+            {
+                d.Add("baseBpm", Int32.Parse(BpmInput.Text));
+            }
+            catch
+            {
+                d.Add("baseBpm", 0);
+
+            }
 
 
             return d;
