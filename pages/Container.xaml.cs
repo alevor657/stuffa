@@ -273,20 +273,24 @@ namespace WpfApp2.pages
                 {
                     case 1:
                         index = mp.getIndexForNonShuffle();
+                        ev.LoadPlaylist(mp.GetMusicFromPlaylist());
+
                         break;
                     case 2:
                         index = mp.getIndexForNextSong();
                         break;
                     case 0:
-                        index = mp.getIndexForBPMShuffle();
-                        ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
-                        if (settings.GetAutoState())
+                        if(settings.GetAutoState())
                         {
+
                             int newBPM = settings.getBPM() + settings.GetRange();
                             settings.setBPM(newBPM);
-                            mp.changeBPM(newBPM);
-
                         }
+                        mp.changeBPM(settings.getBPM());
+
+                        index = mp.getIndexForBPMShuffle();
+                            ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
+                        
                         break;
                     default:
                         index = mp.getIndexForNonShuffle();
@@ -418,6 +422,13 @@ namespace WpfApp2.pages
         {
             string json = JsonConvert.SerializeObject(getPlayerState());
             s.Send(ServerMsg.Create(SocketServer.Action.UPDATE, json));
+        }
+
+        internal void ShowBpmMarking()
+        {
+            mp.changeBPM(settings.getBPM());
+
+            ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
         }
 
         internal void MoveMusic(int from, int to)

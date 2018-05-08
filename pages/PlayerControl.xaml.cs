@@ -406,6 +406,8 @@ namespace WpfApp2.pages
                 // INGEN SHUFFLE
                 BitmapImage image = new BitmapImage(new Uri("../img/shuffle.png", UriKind.Relative));
                 ShuffleButton.Source = image;
+                //do not show markings
+                container.showSelectedPlaylist();
 
             }
             else if (shuffleLoop == 1)
@@ -419,9 +421,11 @@ namespace WpfApp2.pages
                 // BPM SHUFFLE
                 BitmapImage image = new BitmapImage(new Uri("../img/shuffle_bpm_active2.png", UriKind.Relative));
                 ShuffleButton.Source = image;
+                container.ShowBpmMarking();
             }
             shuffleLoop = (shuffleLoop + 1) % 3;
             container.SendStateToServerOnUpdate();
+            
 
         }
         public void SetToBPMShuffle()
