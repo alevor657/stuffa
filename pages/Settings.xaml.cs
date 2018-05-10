@@ -229,6 +229,7 @@ namespace WpfApp2.pages
 
         private void KeyUpTime(object sender, KeyEventArgs e)
         {
+            toggleButton2.IsChecked = true;
             int nr = 0;
             try
             {
