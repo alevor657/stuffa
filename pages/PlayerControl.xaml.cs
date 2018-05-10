@@ -25,6 +25,7 @@ namespace WpfApp2.pages
     public partial class PlayerControl : Page
     {
         Container container;
+        int timer = -1;
 
         bool isLoaded = false;
         bool mediaFileIsOpen;
@@ -97,6 +98,7 @@ namespace WpfApp2.pages
                 if (fadingOutForNextSong)
                 {
                     outFadeTimer.Stop();
+                    NextSong();
                 }
                 stopFadeOut();
             }
@@ -109,13 +111,23 @@ namespace WpfApp2.pages
 
         private void SongTimerTicker(object sender, EventArgs e)
         {
-            TimeSpan currentTime = new TimeSpan(0, Player.Position.Duration().Minutes, Player.Position.Duration().Seconds);
+            
+              TimeSpan currentTime = new TimeSpan(0, Player.Position.Duration().Minutes, Player.Position.Duration().Seconds);
             SongCurrentTime.Content = currentTime.ToString().Substring(3);
 
             if (!draging)
             {
                 trackSlider.Value = Player.Position.TotalSeconds;
             }
+
+            
+            if (currentTime.TotalSeconds > trackSliderTimer.Value - 3 && !fadingOutForNextSong)
+            {
+                fadeOutForNext();
+                fadingOutForNextSong = true;
+            }
+
+
 
             if (Player.NaturalDuration.HasTimeSpan)
             {
@@ -124,7 +136,11 @@ namespace WpfApp2.pages
                     fadeOut(currentTime.TotalSeconds * 100000);
                     fadingOutForNextSong = true;
                 }
+
+
             }
+
+
         }
 
         void TimerTickerSlideText(object sender, EventArgs e)
@@ -147,6 +163,10 @@ namespace WpfApp2.pages
 
             TimeSpan currentTime = new TimeSpan(0, Player.Position.Duration().Minutes, Player.Position.Duration().Seconds);
             SongCurrentTime.Content = currentTime.ToString().Substring(3);
+
+
+
+
         }
 
         public void unloadMusicImmediately()
@@ -173,6 +193,7 @@ namespace WpfApp2.pages
                     fadeOut();
                     isPlaying = false;
                     inFadeTimer.Stop();
+                    fadingOutForNextSong = false;
                 }
                 else
                 {
@@ -197,6 +218,22 @@ namespace WpfApp2.pages
             if (Player.NaturalDuration.HasTimeSpan)
             {
                 TimeSpan ts = Player.NaturalDuration.TimeSpan;
+                trackSliderTimer.Maximum = ts.TotalSeconds;
+                if(timer != -1)
+                {
+                    trackSliderTimer.Value = timer;
+                    BrushConverter conv = new BrushConverter();
+                    SolidColorBrush brush = conv.ConvertFromString("#d3d3d3") as SolidColorBrush;
+                    trackSliderTimer.Foreground = brush;
+                }
+                else
+                {
+                    trackSliderTimer.Value = 99999;
+                    BrushConverter conv = new BrushConverter();
+                    SolidColorBrush brush = conv.ConvertFromString("#00FFFFFF") as SolidColorBrush;
+                    trackSliderTimer.Foreground = brush;
+                }
+
                 trackSlider.Maximum = ts.TotalSeconds;
                 var openDuration = Player.NaturalDuration.TimeSpan;
                 var theDuration = new TimeSpan(0, openDuration.Minutes, openDuration.Seconds);
@@ -204,7 +241,10 @@ namespace WpfApp2.pages
             }
         }
 
-
+        public void SetTimer(int t)
+        {
+            timer = t;
+        }
         private void loadSong(object sender, MouseButtonEventArgs e)
         {
 
@@ -282,13 +322,15 @@ namespace WpfApp2.pages
                 Player.Play();
                 
                 Player.Source = new Uri(m.getFullPath());
+                trackSlider.Value = 0;
 
                 BitmapImage image = new BitmapImage(new Uri("../img/pause-white.png", UriKind.Relative));
                 playButton.Source = image;
                 songTimer.Start();
                 fadeIn();
+                fadingOutForNextSong = false;
 
-                
+
                 container.SendStateToServerOnUpdate();
 
             }
@@ -361,6 +403,26 @@ namespace WpfApp2.pages
             else
             {
                 stopFadeOut();
+
+            }
+        }
+        bool startNewSong = false;
+        private void fadeOutForNext(double secondsLeft = 300000)
+        {
+            if ((Player.Volume != 0) && fadingOutForNextSong != true)
+            {
+                volumeLevel = VolumeSlider.Value;
+                long timeInterval = Convert.ToInt64(300000 / Player.Volume);
+                outFadeTimer.Interval = new TimeSpan(timeInterval);
+                outFadeTimer.Start();
+                startNewSong = true;
+            }
+            else
+            {
+                stopFadeOut();
+
+
+
             }
         }
 
@@ -379,9 +441,19 @@ namespace WpfApp2.pages
             outFadeTimer.Stop();
             Player.Pause();
             songTimer.Stop();
-
-            isPlaying = false;
-            fadingOutForNextSong = false;
+            if (!startNewSong)
+            {
+                isPlaying = false;
+                fadingOutForNextSong = false;
+            }
+            else
+            {
+                startNewSong = false;
+                Player.Play();
+                fadingOutForNextSong = false;
+                isPlaying = true;
+                songTimer.Start();
+            }
         }
 
         private void stopFadeIn()

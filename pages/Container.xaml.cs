@@ -199,6 +199,11 @@ namespace WpfApp2.pages
             ev.snackBarActivate(name + " created!");
         }
 
+        internal void SetTimeToPlay(int nr)
+        {
+            pc.SetTimer(nr);
+        }
+
         internal void getBPM()
         {
             // Add code to delegate data to server then to phone

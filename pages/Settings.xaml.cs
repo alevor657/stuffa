@@ -226,6 +226,40 @@ namespace WpfApp2.pages
             BpmInput.Text = InputBPM.ToString();
             container.SendStateToServerOnUpdate();
         }
+
+        private void KeyUpTime(object sender, KeyEventArgs e)
+        {
+            int nr = 0;
+            try
+            {
+                nr = Int32.Parse(TimeInput.Text);
+                }
+            catch
+            {
+                nr = 0;
+            }
+            container.SetTimeToPlay(nr);
+        }
+
+        private void TimerActive(object sender, RoutedEventArgs e)
+        {
+            int nr = 0;
+            try
+            {
+                nr = Int32.Parse(TimeInput.Text);
+            }
+            catch
+            {
+                nr = 0;
+            }
+            container.SetTimeToPlay(nr);
+        }
+
+        private void TimerUnactive(object sender, RoutedEventArgs e)
+        {
+
+            container.SetTimeToPlay(-1);
+        }
     }
     
 }
