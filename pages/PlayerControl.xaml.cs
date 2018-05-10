@@ -419,7 +419,7 @@ namespace WpfApp2.pages
 
         private void fadeOut(double secondsLeft = 300000)
         {
-            if ((VolumeSlider.Value != 0 || Player.Volume != 0) && fadingOutForNextSong != true)
+            if ((VolumeSlider.Value != 0 && Player.Volume > 0) && fadingOutForNextSong != true)
             {
                 volumeLevel = VolumeSlider.Value;
                 long timeInterval = Convert.ToInt64(300000 / Player.Volume);
@@ -435,7 +435,7 @@ namespace WpfApp2.pages
         bool startNewSong = false;
         private void fadeOutForNext(double secondsLeft = 300000)
         {
-            if ((Player.Volume > 0) && fadingOutForNextSong != true)
+            if ((VolumeSlider.Value != 0 && Player.Volume > 0) && fadingOutForNextSong != true)
             {
                 volumeLevel = VolumeSlider.Value;
                 long timeInterval = Convert.ToInt64(300000 / Player.Volume);
