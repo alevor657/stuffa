@@ -229,6 +229,11 @@ namespace WpfApp2.pages
             return retVal;
         }
 
+        internal void PauseBetweenMusic(int time)
+        {
+            pc.PauseBetweenMusic(time);
+        }
+
         internal void removeMusic(int index)
         {
             mp.RemoveMusic(index);

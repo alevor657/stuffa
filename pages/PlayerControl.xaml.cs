@@ -32,6 +32,8 @@ namespace WpfApp2.pages
         bool isPlaying = false;
 
         bool fadingOutForNextSong;
+        int pauseBetween = -1;
+
 
         double volumeLevel;
 
@@ -356,8 +358,32 @@ namespace WpfApp2.pages
 
         public void NextSong()
         {
-            container.getRandomSong();
-            container.SendStateToServerOnUpdate();
+            if(pauseBetween > 0)
+            {
+                fadeOut();
+                System.Threading.Thread myThread;
+
+                myThread = new System.Threading.Thread(new
+   System.Threading.ThreadStart(NextSongThread));
+                myThread.Start();
+            }
+            else
+            {
+                container.getRandomSong();
+                container.SendStateToServerOnUpdate();
+            }
+
+        }
+
+        private void NextSongThread()
+        {
+            System.Threading.Thread.Sleep(pauseBetween*1000+3000);
+            container.Dispatcher.Invoke(container.getRandomSong);
+            container.Dispatcher.Invoke(container.SendStateToServerOnUpdate);
+        }
+        public void PauseBetweenMusic(int pause)
+        {
+            pauseBetween = pause;
         }
 
         private void EndDraging(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
@@ -409,7 +435,7 @@ namespace WpfApp2.pages
         bool startNewSong = false;
         private void fadeOutForNext(double secondsLeft = 300000)
         {
-            if ((Player.Volume != 0) && fadingOutForNextSong != true)
+            if ((Player.Volume > 0) && fadingOutForNextSong != true)
             {
                 volumeLevel = VolumeSlider.Value;
                 long timeInterval = Convert.ToInt64(300000 / Player.Volume);

@@ -261,6 +261,42 @@ namespace WpfApp2.pages
 
             container.SetTimeToPlay(-1);
         }
+
+        private void DonotPauseBetween(object sender, RoutedEventArgs e)
+        {
+
+            container.PauseBetweenMusic(-1);
+        }
+
+        private void PauseBetween(object sender, RoutedEventArgs e)
+        {
+            int nr;
+            try
+            {
+                nr = Int32.Parse(PauseInput.Text);
+            }
+            catch
+            {
+                nr = 0;
+            }
+            container.PauseBetweenMusic(nr);
+
+        }
+
+        private void KeyUpPause(object sender, KeyEventArgs e)
+        {
+            toggleButton3.IsChecked = true;
+            int nr;
+            try
+            {
+                nr = Int32.Parse(PauseInput.Text);
+            }
+            catch
+            {
+                nr = 0;
+            }
+            container.PauseBetweenMusic(nr);
+        }
     }
     
 }
