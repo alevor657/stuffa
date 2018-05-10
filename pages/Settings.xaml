@@ -27,7 +27,7 @@
 
 
 
-                <Button x:Name="IntervalAdd" Content="+" Margin="0,104.548,95,0" VerticalAlignment="Top" Width="35" FontSize="24" FontFamily="Roboto Thin" Height="35" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Click="IntervalAdd_Click" Opacity="0.5" HorizontalAlignment="Right">
+                <Button x:Name="IntervalAdd" Content="+" Margin="0,104.548,10,0" VerticalAlignment="Top" Width="35" FontSize="24" FontFamily="Roboto Thin" Height="35" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Click="IntervalAdd_Click" Opacity="0.5" HorizontalAlignment="Right">
                     <Button.Triggers>
                         <EventTrigger RoutedEvent="UIElement.MouseEnter">
                             <BeginStoryboard>
@@ -66,7 +66,7 @@
                         </EventTrigger>
                     </Button.Triggers>
                 </Button>
-                <Button x:Name="IntervalSub" Content="¯" Margin="0,108.548,10,0" VerticalAlignment="Top" Width="35" FontSize="48" FontFamily="Roboto Thin" Height="31" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Click="IntervalSub_Click" Opacity="0.495" HorizontalAlignment="Right">
+                <Button x:Name="IntervalSub" Content="¯" Margin="0,108.548,95,0" VerticalAlignment="Top" Width="35" FontSize="48" FontFamily="Roboto Thin" Height="31" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Click="IntervalSub_Click" Opacity="0.495" HorizontalAlignment="Right">
                     <Button.Triggers>
                         <EventTrigger RoutedEvent="UIElement.MouseEnter">
                             <BeginStoryboard>
@@ -105,7 +105,7 @@
                         </EventTrigger>
                     </Button.Triggers>
                 </Button>
-                <Button Content="¯" Margin="0,163.98,10,0" VerticalAlignment="Top" Width="35" FontSize="48" FontFamily="Roboto Thin" Height="31" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" HorizontalAlignment="Right" Click="DecreaseBPMPerSong_Click">
+                <Button Content="¯" Margin="0,163.98,95,0" VerticalAlignment="Top" FontSize="48" FontFamily="Roboto Thin" Height="31" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" Click="DecreaseBPMPerSong_Click" HorizontalAlignment="Right" Width="35">
                     <Button.Triggers>
                         <EventTrigger RoutedEvent="UIElement.MouseEnter">
                             <BeginStoryboard>
@@ -144,7 +144,7 @@
                         </EventTrigger>
                     </Button.Triggers>
                 </Button>
-                <Button Content="+" Margin="0,159.98,95,0" VerticalAlignment="Top" Width="35" FontSize="24" FontFamily="Roboto Thin" Height="35" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" HorizontalAlignment="Right" Click="IncreaseBPMPerSong_Click">
+                <Button Content="+" Margin="0,164.98,10,0" VerticalAlignment="Top" Width="35" FontSize="24" FontFamily="Roboto Thin" Height="35" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" HorizontalAlignment="Right" Click="IncreaseBPMPerSong_Click">
                     <Button.Triggers>
                         <EventTrigger RoutedEvent="UIElement.MouseEnter">
                             <BeginStoryboard>
@@ -192,8 +192,8 @@
                 <TextBox x:Name="BpmInput" KeyUp="KeyUp" Background="{x:Null}" Margin="0,214.98,50,0" VerticalAlignment="Top" Height="40" Width="40" Cursor="IBeam" FontFamily="Roboto Light" FontSize="24" Foreground="White" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="240" HorizontalAlignment="Right"/>
                 <TextBox x:Name="TimeInput" KeyUp="KeyUpTime" Background="{x:Null}" Margin="0,261.98,50,0" VerticalAlignment="Top" Height="40" Width="40" Cursor="IBeam" FontFamily="Roboto Light" FontSize="24" Foreground="White" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="45" HorizontalAlignment="Right"/>
 
-                <Button Content="+" Margin="0,219.98,95,0" VerticalAlignment="Top" Width="35" FontSize="24" FontFamily="Roboto Thin" Height="35" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" HorizontalAlignment="Right" Click="IncreaseBaseBPMPerSong_Click"/>
-                <Button Content="¯" Margin="0,223.98,10,0" VerticalAlignment="Top" Width="35" FontSize="48" FontFamily="Roboto Thin" Height="31" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" HorizontalAlignment="Right" Click="DecreaseBaseBPMPerSong_Click"/>
+                <Button Content="+" Margin="0,219.98,10,0" VerticalAlignment="Top" Width="35" FontSize="24" FontFamily="Roboto Thin" Height="35" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" HorizontalAlignment="Right" Click="IncreaseBaseBPMPerSong_Click"/>
+                <Button Content="¯" Margin="0,223.98,95,0" VerticalAlignment="Top" Width="35" FontSize="48" FontFamily="Roboto Thin" Height="31" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}" Foreground="White" Opacity="0.495" HorizontalAlignment="Right" Click="DecreaseBaseBPMPerSong_Click"/>
                 <!--<Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,60,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
                 <Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,121,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>
                 <Path Data="M5,140.32258 L694.032,141.93548" Height="1" Margin="10,182,-10,0" Stretch="Fill" Stroke="#FF191919" VerticalAlignment="Top" Width="684.032" Grid.ColumnSpan="2"/>

@@ -378,7 +378,7 @@ namespace WpfApp2.pages
             Dictionary<string, object> d = new Dictionary<string, object>();
             d.Add("song", TitleLabel.Text);
             d.Add("artist", ArtistLabel.Content as string);
-            // Always 0, fix needed?
+            // Always 0, fix needed? --------------------------------------------------------------------------------------- Is this still true?
             d.Add("bpm", bpm);
             d.Add("isPlaying", isPlaying);
             d.Add("soundLevel", Convert.ToInt32(volumeLevel * 100));
