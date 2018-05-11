@@ -522,5 +522,11 @@ namespace WpfApp2.pages
         }
 
         public void SetBaseBpm(int val) => settings.SetBaseBpm(val);
+
+        internal void RemoveMusicLibrary(Music music)
+        {
+            mp.RemoveMusicLibrary(music);
+            //throw new NotImplementedException();
+        }
     }
 }

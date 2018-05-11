@@ -454,5 +454,9 @@ namespace Stuffa
             return files;
         }
 
+        internal void RemoveMusicLibrary(Music m)
+        {
+            master.Remove(m);
+        }
     }
 }

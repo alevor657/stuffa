@@ -465,7 +465,8 @@ namespace WpfApp2.pages
 
         private void removeSongLibrary(object sender, RoutedEventArgs e)
         {
-            snackBarActivate("To be implemented...");
+            container.RemoveMusicLibrary(searchRes.SelectedItem as Music);
+            //snackBarActivate("To be implemented...");
         }
 
         private void editMusic(object sender, RoutedEventArgs e)

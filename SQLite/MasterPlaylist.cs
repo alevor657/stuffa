@@ -490,6 +490,29 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
         }
 
+        internal void Remove(Music m)
+        {
+            string sql = "begin; " +
+            "DELETE FROM BPM where Bpm.songNr = ; " +
+            "DELETE FROM table_2 where unique_col_id = 3; " +
+            "DELETE FROM table_3 where unique_col_id = 3; " +
+            "commit;";
+            /*string sql = 
+                 "DELETE Bpm, Titles, SongPaths FROM Bpm" +
+                 " INNER JOIN" +
+                 " Titles ON Titles.songNr = Bpm.songNr" +
+                 " INNER JOIN"+
+                 " SongPaths ON SongPaths.songNr = "+
+                 " WHERE" +
+                 " Bpm.bpm = ?; ";*/
+
+            List<string> l = new List<string>
+            {
+                m.getBpm().ToString()
+            };
+            this.createCmd(sql, l);
+        }
+
         public void InsertNewMusicThread(List<string> paths)
         {
             if (paths != null)
