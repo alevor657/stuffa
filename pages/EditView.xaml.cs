@@ -2,6 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -187,11 +189,36 @@ namespace WpfApp2.pages
 
                     for (int i = 0; i < paths.Count; i++)
                     {
-                        if (!paths[i].EndsWith(".mp3") && !paths[i].EndsWith(".m4a"))
+                        CultureInfo ci;
+                        ci = new CultureInfo("en-US");
+                        if (!paths[i].EndsWith(".mp3", true, ci) && !paths[i].EndsWith(".m4a", true, ci) && !paths[i].EndsWith(".flac", true, ci))
                         {
-                            Console.WriteLine(paths[i] + " <--wrong filetype");
+                            if (paths[i].LastIndexOf('.') > paths[i].LastIndexOf('\\')) //files have . after the last \
+                            {
+                                Console.WriteLine(paths[i] + " <--wrong filetype");
 
-                            paths.RemoveAt(i);
+                                paths.RemoveAt(i);
+                                i--;
+                            }
+                            else //directory
+                            {
+                                List<string> files = new List<string>();
+                                // Process the list of files found in the directory.
+                                try
+                                {
+                                    //get all files in directory
+                                    string[] fileEntries = Directory.GetFiles(paths[i]);
+
+                                    paths.AddRange(fileEntries);
+
+
+                                }
+                                catch { }
+                                paths.RemoveAt(i);
+                                i--;
+
+
+                            }
                         }
                         else
                         {
@@ -313,11 +340,37 @@ namespace WpfApp2.pages
 
                     for (int i = 0; i < paths.Count; i++)
                     {
-                        if (!paths[i].EndsWith(".mp3") && !paths[i].EndsWith(".m4a"))
-                        {
-                            Console.WriteLine(paths[i] + " <--wrong filetype");
 
-                            paths.RemoveAt(i);
+                        CultureInfo ci;
+                        ci = new CultureInfo("en-US");
+                        if (!paths[i].EndsWith(".mp3", true, ci)  && !paths[i].EndsWith(".m4a", true, ci) && !paths[i].EndsWith(".flac", true, ci))
+                        {
+                            if (paths[i].LastIndexOf('.') > paths[i].LastIndexOf('\\')) //files have . after the last \
+                            {
+                                Console.WriteLine(paths[i] + " <--wrong filetype");
+
+                                paths.RemoveAt(i);
+                                i--;
+                            }
+                            else //directory
+                            {
+                                List<string> files = new List<string>();
+                                // Process the list of files found in the directory.
+                                try
+                                {
+                                    //get all files in directory
+                                    string[] fileEntries = Directory.GetFiles(paths[i]);
+
+                                    paths.AddRange(fileEntries);
+
+
+                                }
+                                catch { }
+                                paths.RemoveAt(i);
+                                i--;
+
+
+                            }
                         }
                         else
                         {
@@ -351,11 +404,36 @@ namespace WpfApp2.pages
 
                 for (int i = 0; i < paths.Count; i++)
                 {
-                    if (!paths[i].EndsWith(".mp3") && !paths[i].EndsWith(".m4a"))
+                    CultureInfo ci;
+                    ci = new CultureInfo("en-US");
+                    if (!paths[i].EndsWith(".mp3", true, ci) && !paths[i].EndsWith(".m4a", true, ci) && !paths[i].EndsWith(".flac", true, ci))
                     {
-                        Console.WriteLine(paths[i] + " <--wrong filetype");
+                        if (paths[i].LastIndexOf('.') > paths[i].LastIndexOf('\\')) //files have . after the last \
+                        {
+                            Console.WriteLine(paths[i] + " <--wrong filetype");
 
-                        paths.RemoveAt(i);
+                            paths.RemoveAt(i);
+                            i--;
+                        }
+                        else //directory
+                        {
+                            List<string> files = new List<string>();
+                            // Process the list of files found in the directory.
+                            try
+                            {
+                                //get all files in directory
+                                string[] fileEntries = Directory.GetFiles(paths[i]);
+
+                                paths.AddRange(fileEntries);
+
+
+                            }
+                            catch { }
+                            paths.RemoveAt(i);
+                            i--;
+
+
+                        }
                     }
                     else
                     {
