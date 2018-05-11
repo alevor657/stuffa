@@ -742,8 +742,9 @@ namespace WpfApp2
                 Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
                 dlg.DefaultExt = ".mp3";
-                dlg.Filter = "MP3 Files | *.mp3; *.m4a; *.flac";
-                //dlg.Filter = "MP3 Files (*.mp3)|*.mp3|M4A Files (*.m4a)|*.m4a|FLAC Files (*.flac)|*.flac";
+
+                
+                dlg.Filter = "MP3 Files (*.mp3)|*.mp3|M4A Files (*.m4a)|*.m4a|FLAC Files (*.flac)|*.flac";
                 dlg.Multiselect = true;
 
                 // Display OpenFileDialog by calling ShowDialog method 
