@@ -151,39 +151,21 @@ namespace WpfApp2.pages
         private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
         private const int MOUSEEVENTF_RIGHTUP = 0x10;
 
-        private void DragDrop(object sender, DragEventArgs e)
+        /*private void DragDrop(object sender, DragEventArgs e)
         {
             try
             {
                 if (sender.GetType() == typeof(ListBox))
                 {
 
-                    /*
-                    Music m = (this.currentPlaylist.SelectedItem as Tuple<Music, System.Windows.Visibility, int>).Item1;
-
-
-                    Console.WriteLine("1 " + m.getTitle() + " : " + m.getArtist());
-
-
-                    ListBox lb = (sender as ListBox);
-                    //Call the imported function with the cursor's current position
-                    uint X = (uint)e.GetPosition(lb).X;
-                    uint Y = (uint)e.GetPosition(lb).Y;
-                    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
-                    
-
-                    m = (this.currentPlaylist.SelectedItem as Tuple<Music, System.Windows.Visibility, int>).Item1;
-
-                    
-                    Console.WriteLine("2 " + m.getTitle() + " : " + m.getArtist());*/
                 }
                 else
                 {
-                    /*foreach(string s in e.Data.GetFormats())
-                    {
-                        Console.WriteLine(s);
-                    }
-                    Console.WriteLine("------");*/
+                    //foreach(string s in e.Data.GetFormats())
+                    //{
+                    //    Console.WriteLine(s);
+                    //}
+                    //Console.WriteLine("------");
 
                     List<string> paths = ((string[])e.Data.GetData(DataFormats.FileDrop, false)).ToList<string>();
 
@@ -232,7 +214,7 @@ namespace WpfApp2.pages
                 
             }
             catch { }
-        }
+        }*/
 
         public void leftMsbWinButton(object sender, MouseButtonEventArgs e)
         {
@@ -279,6 +261,7 @@ namespace WpfApp2.pages
 
         private void testtest(object sender, DragEventArgs e)
         {
+            bool wrongFileType = false;
             try
             {
 
@@ -348,7 +331,7 @@ namespace WpfApp2.pages
                             if (paths[i].LastIndexOf('.') > paths[i].LastIndexOf('\\')) //files have . after the last \
                             {
                                 Console.WriteLine(paths[i] + " <--wrong filetype");
-
+                                wrongFileType = true;
                                 paths.RemoveAt(i);
                                 i--;
                             }
@@ -387,6 +370,10 @@ namespace WpfApp2.pages
                     }
                 }
 
+                if(wrongFileType)
+                {
+                    snackBarActivate("only folders, mp3, flac, m4a or .wav files");
+                }
 
             }
             catch
