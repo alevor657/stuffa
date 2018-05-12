@@ -104,6 +104,7 @@ namespace WpfApp2.pages
                 }
                 stopFadeOut();
             }
+
         }
 
         private void SliderTicker(object sender, EventArgs e)
@@ -199,6 +200,13 @@ namespace WpfApp2.pages
                 }
                 else
                 {
+                    if(timer > 0)
+                    {
+                        if(this.trackSlider.Value > timer)
+                        {
+                            NextSong();
+                        }
+                    }
                     stopFadeOut();
                     BitmapImage image = new BitmapImage(new Uri("../img/pause-white.png", UriKind.Relative));
                     playButton.Source = image;
@@ -335,6 +343,8 @@ namespace WpfApp2.pages
 
                 container.SendStateToServerOnUpdate();
 
+
+
             }
 
         }
@@ -360,7 +370,10 @@ namespace WpfApp2.pages
         {
             if(pauseBetween > 0)
             {
-                fadeOut();
+                if (!(Player.Volume < 0.01))
+                {
+                    fadeOut();
+                }
                 System.Threading.Thread myThread;
 
                 myThread = new System.Threading.Thread(new
@@ -377,7 +390,10 @@ namespace WpfApp2.pages
 
         private void NextSongThread()
         {
-            System.Threading.Thread.Sleep(pauseBetween*1000+3000);
+
+                System.Threading.Thread.Sleep(pauseBetween * 1000 + 3000);
+            
+
             container.Dispatcher.Invoke(container.getRandomSong);
             container.Dispatcher.Invoke(container.SendStateToServerOnUpdate);
         }
@@ -446,7 +462,7 @@ namespace WpfApp2.pages
             else
             {
                 stopFadeOut();
-
+                startNewSong = true;
 
 
             }
