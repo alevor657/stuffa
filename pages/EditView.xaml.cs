@@ -243,7 +243,7 @@ namespace WpfApp2.pages
 
         }
 
-        private void search(object sender, KeyEventArgs e)
+        private void search(object sender = null, KeyEventArgs e = null)
         {
 
             container.searchAllMusic(SearchTermTextBox.Text);
@@ -466,6 +466,7 @@ namespace WpfApp2.pages
         private void removeSongLibrary(object sender, RoutedEventArgs e)
         {
             container.RemoveMusicLibrary(searchRes.SelectedItem as Music);
+            search();
             //snackBarActivate("To be implemented...");
         }
 
