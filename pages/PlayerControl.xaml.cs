@@ -316,7 +316,7 @@ namespace WpfApp2.pages
             Player.Volume = k;
             SetVolumeIcon();
         }
-
+        bool firstTime = true;
         public void PlaySong(Music m)
         {
             if (m != null)
@@ -343,9 +343,29 @@ namespace WpfApp2.pages
 
                 container.SendStateToServerOnUpdate();
 
+                if(firstTime)
+                {
+                    System.Threading.Thread myThread;
+
+                    myThread = new System.Threading.Thread(new
+       System.Threading.ThreadStart(firstTimePlay));
+                    myThread.Start();
+
+                    firstTime = false;
+                }
 
 
             }
+
+        }
+
+        private void firstTimePlay()
+        {
+
+            System.Threading.Thread.Sleep(2000);
+
+
+            Dispatcher.Invoke(() => TogglePlay());
 
         }
 
