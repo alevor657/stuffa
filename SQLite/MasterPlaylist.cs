@@ -100,20 +100,20 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 sql = "INSERT INTO Titles (title, songNr) VALUES (?, ?)";
                 SQLParams = new List<string>()
                 {
-                    m.getArtist(),lastIdStr
+                    m.getArtist() + ' ' + m.getTitle(),lastIdStr
                 };
 
                 createCmd(sql, SQLParams).ExecuteNonQuery();
                 
 
 
-                sql = "INSERT INTO Titles (title, songNr) VALUES ( ?, ?)";
+                /*sql = "INSERT INTO Titles (title, songNr) VALUES ( ?, ?)";
                 SQLParams = new List<string>()
                 {
                     m.getTitle(),lastIdStr
                 };
 
-                createCmd(sql, SQLParams).ExecuteNonQuery();
+                createCmd(sql, SQLParams).ExecuteNonQuery();*/
                 
                 Console.WriteLine("completed inserting music into DB");
 
@@ -492,11 +492,12 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
         internal void Remove(Music m)
         {
-            string sql = "begin; " +
+            string sql = "Select songNr, Paths from SongPaths Where Paths = ?";
+            /*string sql = "begin; " +
             "DELETE FROM BPM where Bpm.songNr = ; " +
             "DELETE FROM table_2 where unique_col_id = 3; " +
             "DELETE FROM table_3 where unique_col_id = 3; " +
-            "commit;";
+            "commit;";*/
             /*string sql = 
                  "DELETE Bpm, Titles, SongPaths FROM Bpm" +
                  " INNER JOIN" +
@@ -508,9 +509,38 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
             List<string> l = new List<string>
             {
-                m.getBpm().ToString()
+                m.getFullPath()
             };
-            this.createCmd(sql, l);
+            
+
+            SQLiteDataReader reader = this.createCmd(sql, l).ExecuteReader();
+            Console.WriteLine(m.getFullPath() + '\n' + "--------------");
+            int id = -1;
+            if (reader.HasRows)
+            {
+                //read the result
+                while (reader.Read() )
+                {
+                    id = Int32.Parse(reader["songNr"].ToString());
+                    //add the result to res with a 1
+                    Console.WriteLine(id + ": " + reader["paths"].ToString());
+                }
+            }
+
+            if(id != -1)
+            {
+                sql = "begin; DELETE FROM Titles Where songNr = ?; DELETE FROM BPM where songNr = ?; commit;";
+                l = new List<string>
+            {
+                    id.ToString(), id.ToString()
+
+            };
+
+                
+                this.createCmd(sql, l).ExecuteNonQuery();
+                
+            }
+
         }
 
         public void InsertNewMusicThread(List<string> paths)
@@ -579,17 +609,11 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
             List<string> SQLParams = new List<string>()
                 {
-                   Title, path
+                   Artist + ' ' + Title, path
                 };
             createCmd(sql, SQLParams).ExecuteNonQuery();
 
-            sql = "UPDATE Titles SET title = ? WHERE (SELECT songNr FROM SongPaths WHERE songNr = Titles.songNr AND SongPaths.paths = ?); ";
 
-            SQLParams = new List<string>()
-                {
-                   Artist, path
-                };
-            createCmd(sql, SQLParams).ExecuteNonQuery();
 
         }
 
