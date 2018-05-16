@@ -170,8 +170,11 @@ namespace WpfApp2.pages
             if (pv != null)
             {
                 mp.SetCurrentPlaylist(pv.PlaylistList.SelectedIndex);
-                ev.LoadPlaylist(mp.GetMusicFromPlaylist());
-                ev.PlaylistName.Content = mp.GetCurrentPlaylistName();
+                if (mp.IsPlaylistSelected())
+                {
+                    ev.LoadPlaylist(mp.GetMusicFromPlaylist());
+                    ev.PlaylistName.Content = mp.GetCurrentPlaylistName();
+                }
             }
         }
 
@@ -217,14 +220,18 @@ namespace WpfApp2.pages
         internal bool LoadNewMusic(List<string> paths)
         {
             bool retVal = true;
-            //load new music into current playlist
-            List<Music> same = mp.LoadNewMusic(paths, false);
-            this.showSelectedPlaylist();
 
-            if (same.Count > 0)
+            if (mp.IsPlaylistSelected())
             {
-                retVal = false;
-                ev.snackBarActivate();
+                //load new music into current playlist
+                List<Music> same = mp.LoadNewMusic(paths, false);
+                this.showSelectedPlaylist();
+
+                if (same.Count > 0)
+                {
+                    retVal = false;
+                    ev.snackBarActivate();
+                }
             }
             return retVal;
         }
@@ -249,8 +256,12 @@ namespace WpfApp2.pages
 
         internal void playBpm(int Bpm)
         {
-            ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
+            if (mp.IsPlaylistSelected())
+            {
+                ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
+            }
             this.changeBPM(Bpm);
+
 
         }
 
@@ -283,7 +294,10 @@ namespace WpfApp2.pages
                 {
                     case 1:
                         index = mp.getIndexForNonShuffle();
-                        ev.LoadPlaylist(mp.GetMusicFromPlaylist());
+                        if(mp.IsPlaylistSelected())
+                            {
+                            ev.LoadPlaylist(mp.GetMusicFromPlaylist());
+                        }
 
                         break;
                     case 2:
@@ -299,8 +313,10 @@ namespace WpfApp2.pages
                         mp.changeBPM(settings.getBPM());
 
                         index = mp.getIndexForBPMShuffle();
+                        if (mp.IsPlaylistSelected())
+                        {
                             ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
-                        
+                        }
                         break;
                     default:
                         index = mp.getIndexForNonShuffle();
@@ -438,8 +454,10 @@ namespace WpfApp2.pages
         internal void ShowBpmMarking()
         {
             mp.changeBPM(settings.getBPM());
-
-            ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
+            if (mp.IsPlaylistSelected())
+            {
+                ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
+            }
         }
 
         internal void MoveMusic(int from, int to)

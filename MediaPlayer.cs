@@ -281,16 +281,19 @@ namespace Stuffa
         // Call this function to populate the list showing all music in a playlist after selecting a playlist to edit
         public List<Music> GetMusicFromPlaylist()
         {
-           
- 
 
-            
-            if (!playlists[currentPlaylist].getIfLoaded())
+
+            if (currentPlaylist != -1)
             {
-                //loads music from memory
-                playlists[currentPlaylist].loadMusic();
+
+                if (!playlists[currentPlaylist].getIfLoaded())
+                {
+                    //loads music from memory
+                    playlists[currentPlaylist].loadMusic();
+                }
+                return playlists[currentPlaylist].getAllMusic();
             }
-            return playlists[currentPlaylist].getAllMusic();
+            return null;
 
         }
 
@@ -452,6 +455,15 @@ namespace Stuffa
             }
             catch { }
             return files;
+        }
+
+        internal bool IsPlaylistSelected()
+        {
+            if(currentPlaylist >= 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         internal void RemoveMusicLibrary(Music m)
