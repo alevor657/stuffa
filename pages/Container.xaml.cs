@@ -224,10 +224,15 @@ namespace WpfApp2.pages
             if (mp.IsPlaylistSelected())
             {
                 //load new music into current playlist
+                
                 List<Music> same = mp.LoadNewMusic(paths, false);
-                this.showSelectedPlaylist();
 
-                if (same.Count > 0)
+                this.showSelectedPlaylist();
+                if (mp.CountMusic() >= 1499)
+                {
+                    ev.SnackBarErr("Playlist limit reached");
+                }
+                else if (same.Count > 0)
                 {
                     retVal = false;
                     ev.snackBarActivate();

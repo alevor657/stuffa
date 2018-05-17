@@ -230,6 +230,15 @@ namespace WpfApp2.pages
 
         }
 
+        internal void SnackBarErr(string message)
+        {
+            var messageQueue = SnackBarDialogErr.MessageQueue;
+
+            //the message queue can be called from any thread
+            Task.Factory.StartNew(() => messageQueue.Enqueue(message, "OKAY", () => { }));
+
+        }
+
         public void rightMsbWinButton(object sender, MouseButtonEventArgs e)
         {
             Console.WriteLine("right");
@@ -378,7 +387,7 @@ namespace WpfApp2.pages
             }
             catch
             {
-
+                int i = 0;
             }
         }
 

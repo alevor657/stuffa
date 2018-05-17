@@ -503,7 +503,7 @@ namespace WpfApp2
 
             return ret;
         }
-        
+
         public void SortListOnBPM()
         {
             this.music.Sort((x, y) => x.Bpm.CompareTo(y.Bpm));
@@ -743,7 +743,7 @@ namespace WpfApp2
 
                 dlg.DefaultExt = ".mp3";
 
-                
+
                 dlg.Filter = "MP3 Files (*.mp3)|*.mp3|M4A Files (*.m4a)|*.m4a|FLAC Files (*.flac)|*.flac";
                 dlg.Multiselect = true;
 
@@ -841,7 +841,7 @@ namespace WpfApp2
 
 
 
-                    if (container.Count != 0)
+                    if (container.Count != 0 && container.Count < 1500)
                     {
                         //get the postition of a title. This position is not garantid to contain the title name
                         int pos = TupleBinarySearch(container, s.getTitle());
@@ -892,7 +892,7 @@ namespace WpfApp2
 
                     }
 
-                    else
+                    else if (container.Count == 0 && container.Count < 1500)
                     {
                         addMusic(s);
 
@@ -901,7 +901,9 @@ namespace WpfApp2
                     }
                 }
             }
+        
 
+    
 
             return ret;
         }
@@ -937,11 +939,11 @@ namespace WpfApp2
 
             if (addAll)
             {
-
-                foreach (Music oneMusic in m)
+                for(int i = 0; i < m.Count && this.getSize() < 1500; i++)
                 {
-                    addMusic(oneMusic);
+                    addMusic(m[i]);
                 }
+
 
 
             }

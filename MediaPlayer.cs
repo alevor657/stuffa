@@ -124,6 +124,16 @@ namespace Stuffa
             }
         }
 
+        public int  CountMusic()
+        {
+            int count = 0;
+            if (currentPlaylist != -1)
+            {
+                count = playlists[currentPlaylist].getSize();
+            }
+            return count;
+        }
+
        
         public List<Music> LoadNewMusic(List<string> paths, bool addAll = false)
         {
