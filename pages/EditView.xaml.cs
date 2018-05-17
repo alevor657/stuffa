@@ -335,7 +335,7 @@ namespace WpfApp2.pages
 
                         CultureInfo ci;
                         ci = new CultureInfo("en-US");
-                        if (!paths[i].EndsWith(".mp3", true, ci)  && !paths[i].EndsWith(".m4a", true, ci) && !paths[i].EndsWith(".flac", true, ci))
+                        if (!paths[i].EndsWith(".mp3", true, ci)  && !paths[i].EndsWith(".m4a", true, ci) && !paths[i].EndsWith(".wav", true, ci) && !paths[i].EndsWith(".flac", true, ci))
                         {
                             if (paths[i].LastIndexOf('.') > paths[i].LastIndexOf('\\')) //files have . after the last \
                             {
@@ -381,13 +381,12 @@ namespace WpfApp2.pages
 
                 if(wrongFileType)
                 {
-                    snackBarActivate("only folders, mp3, flac, m4a or .wav files");
+                    SnackBarErr("only folders, mp3, flac, m4a or .wav files");
                 }
 
             }
             catch
             {
-                int i = 0;
             }
         }
 
