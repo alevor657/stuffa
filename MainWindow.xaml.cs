@@ -169,7 +169,7 @@ namespace Stuffa
 
         private void setTitle()
         {
-            Title.Text = "Title";
+            Title.Text = "BPlay";
         }
 
         private void dragWindow(object sender, MouseEventArgs e)

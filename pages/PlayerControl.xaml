@@ -197,13 +197,51 @@
                 </Image.Triggers>
             </Image>
             <Rectangle Width="7"></Rectangle>
-            <Grid ToolTipOpening="getIp" Background="Transparent" ToolTipService.ShowDuration="50000">
+            <Grid ToolTipOpening="getIp" Background="Transparent" ToolTipService.ShowDuration="50000" Opacity="0.9">
                 <Path x:Name="mobile" Grid.Column="4" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" Stretch="Uniform" MinWidth="10" Data="M17.25,18H6.75V4H17.25M14,21H10V20H14M16,1H8A3,3 0 0,0 5,4V20A3,3 0 0,0 8,23H16A3,3 0 0,0 19,20V4A3,3 0 0,0 16,1Z" Fill="White" Width="30.4" />
+                
 
                 <Grid.ToolTip>
                     <ToolBar x:Name="MobileToolTip"></ToolBar>
 
                 </Grid.ToolTip>
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetProperty="Opacity">
+                                <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="UIElement.MouseDown">
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                <DoubleAnimation To="0.25"
+                                                     Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="UIElement.MouseUp">
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                <DoubleAnimation To="0.9"
+                                                     Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Grid.Triggers>
             </Grid>
 
         </StackPanel>
