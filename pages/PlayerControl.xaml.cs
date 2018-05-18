@@ -354,6 +354,9 @@ namespace WpfApp2.pages
                     firstTime = false;
                 }
 
+                Player.Volume = 0;
+                fadeIn();
+
 
             }
 
