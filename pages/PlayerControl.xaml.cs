@@ -599,7 +599,7 @@ namespace WpfApp2.pages
                 //get the Ip address
                 string localIp = Dns.GetHostByName(hostName).AddressList[0].ToString();
                 Console.WriteLine("Ip address is : " + localIp);
-                MobileToolTip.Items.Add("mobile key: " + localIp);
+                MobileToolTip.Items.Add("IP addess: " + localIp);
             
             
         }
