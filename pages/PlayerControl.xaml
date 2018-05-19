@@ -23,6 +23,8 @@
         </ScrollViewer>
         <!--<TextBlock x:Name="TitleLabel" Content="Way Back" HorizontalAlignment="Left" Margin="100.048,9.577,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="122.608" FontSize="18" Height="34"/>-->
         <Grid Grid.Column="2">
+            <Slider x:Name="trackSliderTimer" Margin="10,0,10,12.673" Value="0"  DataContext="" Foreground="LightGray" RenderTransformOrigin="0.5,0.5" Height="20.917" VerticalAlignment="Bottom" MinHeight="20" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Maximum="204" />
+
             <Slider x:Name="trackSlider" Margin="10,0,10,12.673" Value="0" Thumb.DragDelta="Draging" Thumb.DragCompleted="EndDraging" Thumb.DragStarted="StartDraging"  DataContext=""  RenderTransformOrigin="0.5,0.5" Height="20.917" VerticalAlignment="Bottom" MinHeight="20" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Maximum="204" />
             <Grid Height="54.749" Margin="0,10,0,0" Width="220" VerticalAlignment="Top" HorizontalAlignment="Center">
 
@@ -152,9 +154,9 @@
         </Grid>
         <MediaElement x:Name="Player" HorizontalAlignment="Left" Height="80" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" ScrubbingEnabled="True" MediaEnded="Player_MediaEnded" MediaOpened="Player_MediaOpened" Volume="0.7" LoadedBehavior="Manual"/>
         <Image x:Name="AlbumArt" Margin="10,10,183,10" Source="../img/albumart_placeholder.png" MinWidth="80" MinHeight="80" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Slider x:Name="VolumeSlider" Grid.Column="4" HorizontalAlignment="Center" Margin="44.8,68,128,14" VerticalAlignment="Center" Width="100" ValueChanged="VolumeSlider_ValueChanged" Maximum="1" Value="0.7" Opacity="0.8" LargeChange="0.1" SmallChange="0.01" TickFrequency="0.01"/>
-        <Image x:Name="VolumeButton" Grid.Column="4" Height="18" Margin="17.8,68,237,14" Width="18" Source="volume-high.png" Opacity="0.795" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" HorizontalAlignment="Center"/>
-        <StackPanel Grid.Column="4" Orientation="Horizontal" Margin="0,6,0,37">
+        <Slider x:Name="VolumeSlider" Grid.Column="4" HorizontalAlignment="Center" Margin="62.233,67,56.5,11" VerticalAlignment="Center" Width="130" ValueChanged="VolumeSlider_ValueChanged" Maximum="1" Value="0.7" Opacity="0.8" LargeChange="0.1" SmallChange="0.01" TickFrequency="0.01" Height="22"/>
+        <Image x:Name="VolumeButton" Grid.Column="4" Height="18" Margin="0,67,152,15" Width="18" Source="volume-high.png" Opacity="0.795" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" HorizontalAlignment="Center"/>
+        <StackPanel Grid.Column="4" Orientation="Horizontal" Margin="0,6,0,37" VerticalAlignment="Center" Width="180">
             <Image x:Name="ShuffleButton" HorizontalAlignment="Center" Height="64"  VerticalAlignment="Center" Width="63" Source="../img/shuffle.png" RenderTransformOrigin="-0.808,-0.869" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" Opacity="0.9" MouseUp="ShuffleButton_MouseUp">
                 <Image.Triggers>
                     <EventTrigger RoutedEvent="UIElement.MouseEnter">
@@ -194,15 +196,54 @@
                     </EventTrigger>
                 </Image.Triggers>
             </Image>
-            <Grid ToolTipOpening="getIp" Background="Transparent" ToolTipService.ShowDuration="50000">
+            <Rectangle Width="7"></Rectangle>
+            <Grid ToolTipOpening="getIp" Background="Transparent" ToolTipService.ShowDuration="50000" Opacity="0.9">
                 <Path x:Name="mobile" Grid.Column="4" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" Stretch="Uniform" MinWidth="10" Data="M17.25,18H6.75V4H17.25M14,21H10V20H14M16,1H8A3,3 0 0,0 5,4V20A3,3 0 0,0 8,23H16A3,3 0 0,0 19,20V4A3,3 0 0,0 16,1Z" Fill="White" Width="30.4" />
+                
 
                 <Grid.ToolTip>
                     <ToolBar x:Name="MobileToolTip"></ToolBar>
 
                 </Grid.ToolTip>
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetProperty="Opacity">
+                                <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="UIElement.MouseDown">
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                <DoubleAnimation To="0.25"
+                                                     Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="UIElement.MouseUp">
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                <DoubleAnimation To="1"
+                                                     Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetProperty="Opacity"
+                                           >
+                                <DoubleAnimation To="0.9"
+                                                     Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Grid.Triggers>
             </Grid>
-            
+
         </StackPanel>
     </Grid>
 </Page>

@@ -2,6 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -149,49 +151,56 @@ namespace WpfApp2.pages
         private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
         private const int MOUSEEVENTF_RIGHTUP = 0x10;
 
-        private void DragDrop(object sender, DragEventArgs e)
+        /*private void DragDrop(object sender, DragEventArgs e)
         {
             try
             {
                 if (sender.GetType() == typeof(ListBox))
                 {
 
-                    /*
-                    Music m = (this.currentPlaylist.SelectedItem as Tuple<Music, System.Windows.Visibility, int>).Item1;
-
-
-                    Console.WriteLine("1 " + m.getTitle() + " : " + m.getArtist());
-
-
-                    ListBox lb = (sender as ListBox);
-                    //Call the imported function with the cursor's current position
-                    uint X = (uint)e.GetPosition(lb).X;
-                    uint Y = (uint)e.GetPosition(lb).Y;
-                    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
-                    
-
-                    m = (this.currentPlaylist.SelectedItem as Tuple<Music, System.Windows.Visibility, int>).Item1;
-
-                    
-                    Console.WriteLine("2 " + m.getTitle() + " : " + m.getArtist());*/
                 }
                 else
                 {
-                    /*foreach(string s in e.Data.GetFormats())
-                    {
-                        Console.WriteLine(s);
-                    }
-                    Console.WriteLine("------");*/
+                    //foreach(string s in e.Data.GetFormats())
+                    //{
+                    //    Console.WriteLine(s);
+                    //}
+                    //Console.WriteLine("------");
 
                     List<string> paths = ((string[])e.Data.GetData(DataFormats.FileDrop, false)).ToList<string>();
 
                     for (int i = 0; i < paths.Count; i++)
                     {
-                        if (!paths[i].EndsWith(".mp3") && !paths[i].EndsWith(".m4a"))
+                        CultureInfo ci;
+                        ci = new CultureInfo("en-US");
+                        if (!paths[i].EndsWith(".mp3", true, ci) && !paths[i].EndsWith(".m4a", true, ci) && !paths[i].EndsWith(".flac", true, ci))
                         {
-                            Console.WriteLine(paths[i] + " <--wrong filetype");
+                            if (paths[i].LastIndexOf('.') > paths[i].LastIndexOf('\\')) //files have . after the last \
+                            {
+                                Console.WriteLine(paths[i] + " <--wrong filetype");
 
-                            paths.RemoveAt(i);
+                                paths.RemoveAt(i);
+                                i--;
+                            }
+                            else //directory
+                            {
+                                List<string> files = new List<string>();
+                                // Process the list of files found in the directory.
+                                try
+                                {
+                                    //get all files in directory
+                                    string[] fileEntries = Directory.GetFiles(paths[i]);
+
+                                    paths.AddRange(fileEntries);
+
+
+                                }
+                                catch { }
+                                paths.RemoveAt(i);
+                                i--;
+
+
+                            }
                         }
                         else
                         {
@@ -205,7 +214,7 @@ namespace WpfApp2.pages
                 
             }
             catch { }
-        }
+        }*/
 
         public void leftMsbWinButton(object sender, MouseButtonEventArgs e)
         {
@@ -218,6 +227,15 @@ namespace WpfApp2.pages
             currentPlaylist.SelectedIndex = currentPlaylist.Items.Count - 1;
 
             //pop.IsOpen = false;
+
+        }
+
+        internal void SnackBarErr(string message)
+        {
+            var messageQueue = SnackBarDialogErr.MessageQueue;
+
+            //the message queue can be called from any thread
+            Task.Factory.StartNew(() => messageQueue.Enqueue(message, "OKAY", () => { }));
 
         }
 
@@ -234,7 +252,7 @@ namespace WpfApp2.pages
 
         }
 
-        private void search(object sender, KeyEventArgs e)
+        private void search(object sender = null, KeyEventArgs e = null)
         {
 
             container.searchAllMusic(SearchTermTextBox.Text);
@@ -252,6 +270,7 @@ namespace WpfApp2.pages
 
         private void testtest(object sender, DragEventArgs e)
         {
+            bool wrongFileType = false;
             try
             {
 
@@ -313,11 +332,37 @@ namespace WpfApp2.pages
 
                     for (int i = 0; i < paths.Count; i++)
                     {
-                        if (!paths[i].EndsWith(".mp3") && !paths[i].EndsWith(".m4a"))
-                        {
-                            Console.WriteLine(paths[i] + " <--wrong filetype");
 
-                            paths.RemoveAt(i);
+                        CultureInfo ci;
+                        ci = new CultureInfo("en-US");
+                        if (!paths[i].EndsWith(".mp3", true, ci)  && !paths[i].EndsWith(".m4a", true, ci) && !paths[i].EndsWith(".wav", true, ci) && !paths[i].EndsWith(".flac", true, ci))
+                        {
+                            if (paths[i].LastIndexOf('.') > paths[i].LastIndexOf('\\')) //files have . after the last \
+                            {
+                                Console.WriteLine(paths[i] + " <--wrong filetype");
+                                wrongFileType = true;
+                                paths.RemoveAt(i);
+                                i--;
+                            }
+                            else //directory
+                            {
+                                List<string> files = new List<string>();
+                                // Process the list of files found in the directory.
+                                try
+                                {
+                                    //get all files in directory
+                                    string[] fileEntries = Directory.GetFiles(paths[i]);
+
+                                    paths.AddRange(fileEntries);
+
+
+                                }
+                                catch { }
+                                paths.RemoveAt(i);
+                                i--;
+
+
+                            }
                         }
                         else
                         {
@@ -334,11 +379,14 @@ namespace WpfApp2.pages
                     }
                 }
 
+                if(wrongFileType)
+                {
+                    SnackBarErr("only folders, mp3, flac, m4a or .wav files");
+                }
 
             }
             catch
             {
-
             }
         }
 
@@ -351,11 +399,36 @@ namespace WpfApp2.pages
 
                 for (int i = 0; i < paths.Count; i++)
                 {
-                    if (!paths[i].EndsWith(".mp3") && !paths[i].EndsWith(".m4a"))
+                    CultureInfo ci;
+                    ci = new CultureInfo("en-US");
+                    if (!paths[i].EndsWith(".mp3", true, ci) && !paths[i].EndsWith(".m4a", true, ci) && !paths[i].EndsWith(".flac", true, ci))
                     {
-                        Console.WriteLine(paths[i] + " <--wrong filetype");
+                        if (paths[i].LastIndexOf('.') > paths[i].LastIndexOf('\\')) //files have . after the last \
+                        {
+                            Console.WriteLine(paths[i] + " <--wrong filetype");
 
-                        paths.RemoveAt(i);
+                            paths.RemoveAt(i);
+                            i--;
+                        }
+                        else //directory
+                        {
+                            List<string> files = new List<string>();
+                            // Process the list of files found in the directory.
+                            try
+                            {
+                                //get all files in directory
+                                string[] fileEntries = Directory.GetFiles(paths[i]);
+
+                                paths.AddRange(fileEntries);
+
+
+                            }
+                            catch { }
+                            paths.RemoveAt(i);
+                            i--;
+
+
+                        }
                     }
                     else
                     {
@@ -400,7 +473,9 @@ namespace WpfApp2.pages
 
         private void removeSongLibrary(object sender, RoutedEventArgs e)
         {
-            snackBarActivate("To be implemented...");
+            container.RemoveMusicLibrary(searchRes.SelectedItem as Music);
+            search();
+            //snackBarActivate("To be implemented...");
         }
 
         private void editMusic(object sender, RoutedEventArgs e)
@@ -540,7 +615,88 @@ namespace WpfApp2.pages
                 snackBarActivate("Music added");
             }
         }
+
+
+
+        
+
+        int isGridInCurPresed = 0;
+        private void CurMenuFocus(object sender, MouseButtonEventArgs e)
+        {
+            //if a grid in CurrentPlaylist is clicked this will first be called
+            isGridInCurPresed = 1;
+        }
+
+        private void CurMenuFocusList(object sender, MouseButtonEventArgs e)
+        {
+            // when the currentPlaylist is clicked this will ve caled after the "CurMenuFocus" method. And secure that if the user presses outside any grid it is a valid plase to pres
+            isGridInCurPresed++;
+
+        }
+
+        private void ContextMenuOpen(object sender, RoutedEventArgs e)
+        {
+            if(isGridInCurPresed == 2)
+            {
+                EditCur.IsEnabled = true;
+                RemoveCur.IsEnabled = true;
+            }
+            else
+            {
+                EditCur.IsEnabled = false;
+                RemoveCur.IsEnabled = false ;
+
+            }
+        }
+
+
+
+
+        int isGridInSearchPresed = 0;
+        private void SearchMenuFocus(object sender, MouseButtonEventArgs e)
+        {
+            //if a grid in CurrentPlaylist is clicked this will first be called
+            isGridInSearchPresed = 1;
+        }
+
+        private void SearchMenuFocusList(object sender, MouseButtonEventArgs e)
+        {
+            // when the currentPlaylist is clicked this will ve caled after the "CurMenuFocus" method. And secure that if the user presses outside any grid it is a valid plase to pres
+            isGridInSearchPresed++;
+
+        }
+
+        private void ContextMenuOpenSearch(object sender, RoutedEventArgs e)
+        {
+            if (isGridInSearchPresed == 2)
+            {
+                EditSearch.IsEnabled = true;
+                RemoveSearch.IsEnabled = true;
+            }
+            else
+            {
+                EditSearch.IsEnabled = false;
+                RemoveSearch.IsEnabled = false;
+
+            }
+        }
+
+        private void BPMLabelUp(object sender, MouseButtonEventArgs e)
+        {
+            container.SortOnChoice(0);
+        }
+
+        private void TitleLabelUp(object sender, MouseButtonEventArgs e)
+        {
+            container.SortOnChoice(2);
+        }
+
+        private void ArtistLabelUp(object sender, MouseButtonEventArgs e)
+        {
+            container.SortOnChoice(1);
+        }
     }
+
 }
 
 public class Songs

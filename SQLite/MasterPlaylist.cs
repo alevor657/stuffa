@@ -100,20 +100,20 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 sql = "INSERT INTO Titles (title, songNr) VALUES (?, ?)";
                 SQLParams = new List<string>()
                 {
-                    m.getArtist(),lastIdStr
+                    m.getArtist() + ' ' + m.getTitle(),lastIdStr
                 };
 
                 createCmd(sql, SQLParams).ExecuteNonQuery();
                 
 
 
-                sql = "INSERT INTO Titles (title, songNr) VALUES ( ?, ?)";
+                /*sql = "INSERT INTO Titles (title, songNr) VALUES ( ?, ?)";
                 SQLParams = new List<string>()
                 {
                     m.getTitle(),lastIdStr
                 };
 
-                createCmd(sql, SQLParams).ExecuteNonQuery();
+                createCmd(sql, SQLParams).ExecuteNonQuery();*/
                 
                 Console.WriteLine("completed inserting music into DB");
 
@@ -187,7 +187,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             {
                 foreach (string searchWordAdd in s.Split(spliters))
                 {
-                    searchWordList.Add(searchWordAdd + "*");
+                    searchWordList.Add(searchWordAdd);
 
                 }
             }
@@ -201,6 +201,11 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 //(string searchWord in searchWordList)
             {
                 searchWord = searchWordList[i];
+
+                if(!searchExact)
+                {
+                    searchWord += "*";
+                }
                 //sql code for search
                 sql = "SELECT sp.paths as path FROM SongPaths AS sp " +
                 "INNER JOIN Titles AS t ON t.songNr  = sp.songNr " +
@@ -225,7 +230,8 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 }
                 else if(searchWord.Length > 3 && !searchExact)
                 {
-                    searchWordList.Add(searchWord.Substring(0, searchWord.Length - 1));
+                    // remove the * and a char
+                    searchWordList.Add(searchWord.Substring(0, searchWord.Length - 2));
                 }
             }
 
@@ -382,7 +388,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 m = new Music(s);
                 List<Music> sameTitle = new List<Music>();
 
-                if(!(search(m.Artist, true).Count > 0 && search(m.getTitle(), true).Count > 0))
+                if(!(search(m.Artist + " " + m.getTitle(), true).Count > 0))
                 {
                     bool add = true;
                     foreach(Music same in sameTitle)
@@ -490,6 +496,59 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
         }
 
+        internal void Remove(Music m)
+        {
+            string sql = "Select songNr, Paths from SongPaths Where Paths = ?";
+            /*string sql = "begin; " +
+            "DELETE FROM BPM where Bpm.songNr = ; " +
+            "DELETE FROM table_2 where unique_col_id = 3; " +
+            "DELETE FROM table_3 where unique_col_id = 3; " +
+            "commit;";*/
+            /*string sql = 
+                 "DELETE Bpm, Titles, SongPaths FROM Bpm" +
+                 " INNER JOIN" +
+                 " Titles ON Titles.songNr = Bpm.songNr" +
+                 " INNER JOIN"+
+                 " SongPaths ON SongPaths.songNr = "+
+                 " WHERE" +
+                 " Bpm.bpm = ?; ";*/
+
+            List<string> l = new List<string>
+            {
+                m.getFullPath()
+            };
+            
+
+            SQLiteDataReader reader = this.createCmd(sql, l).ExecuteReader();
+            Console.WriteLine(m.getFullPath() + '\n' + "--------------");
+            int id = -1;
+            if (reader.HasRows)
+            {
+                //read the result
+                while (reader.Read() )
+                {
+                    id = Int32.Parse(reader["songNr"].ToString());
+                    //add the result to res with a 1
+                    Console.WriteLine(id + ": " + reader["paths"].ToString());
+                }
+            }
+
+            if(id != -1)
+            {
+                sql = "begin; DELETE FROM Titles Where songNr = ?; DELETE FROM BPM where songNr = ?; commit;";
+                l = new List<string>
+            {
+                    id.ToString(), id.ToString()
+
+            };
+
+                
+                this.createCmd(sql, l).ExecuteNonQuery();
+                
+            }
+
+        }
+
         public void InsertNewMusicThread(List<string> paths)
         {
             if (paths != null)
@@ -556,17 +615,11 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
             List<string> SQLParams = new List<string>()
                 {
-                   Title, path
+                   Artist + ' ' + Title, path
                 };
             createCmd(sql, SQLParams).ExecuteNonQuery();
 
-            sql = "UPDATE Titles SET title = ? WHERE (SELECT songNr FROM SongPaths WHERE songNr = Titles.songNr AND SongPaths.paths = ?); ";
 
-            SQLParams = new List<string>()
-                {
-                   Artist, path
-                };
-            createCmd(sql, SQLParams).ExecuteNonQuery();
 
         }
 

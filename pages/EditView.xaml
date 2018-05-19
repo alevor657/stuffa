@@ -107,15 +107,15 @@
 
 
 
-            <ListBox x:Name="currentPlaylist" MouseDoubleClick="CurrentPlaylist_SelectionChanged" dd:DragDrop.IsDragSource="True" DragOver="DragOverShow" AllowDrop="True" HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" MouseEnter="dragFromCur" VerticalContentAlignment="Stretch" Grid.IsSharedSizeScope="True">
+            <ListBox x:Name="currentPlaylist" MouseUp="CurMenuFocusList" MouseDoubleClick="CurrentPlaylist_SelectionChanged" dd:DragDrop.IsDragSource="True" DragOver="DragOverShow" AllowDrop="True" HorizontalContentAlignment="Stretch"  Margin="10,107,5,0" FontSize="16" MouseEnter="dragFromCur" VerticalContentAlignment="Stretch"  Grid.IsSharedSizeScope="True">
 
 
 
                 <ListBox.ContextMenu>
-                    <ContextMenu >
+                    <ContextMenu Opened="ContextMenuOpen" >
                         <MenuItem Header="Add music" Click="AddMusic" />
-                        <MenuItem Header="Remove" Click="removeSongOnIndex" />
-                        <MenuItem Header="Edit" Click="editMusic" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" />
+                        <MenuItem x:Name="RemoveCur" Header="Remove" Click="removeSongOnIndex" />
+                        <MenuItem x:Name="EditCur" Header="Edit" Click="editMusic" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" />
 
                     </ContextMenu>
                 </ListBox.ContextMenu>
@@ -126,7 +126,7 @@
 
 
 
-                        <Grid Margin="0,0,0,0" x:Name="itemInCur"  AllowDrop="True" Drop="testtest" Mouse.MouseEnter="InsertPlayButtonInCur"  Width="Auto" Height="Auto">
+                        <Grid Margin="0,0,0,0" x:Name="itemInCur" MouseUp="CurMenuFocus"  AllowDrop="True" Drop="testtest" Mouse.MouseEnter="InsertPlayButtonInCur"  Width="Auto" Height="Auto">
 
 
                             
@@ -162,7 +162,7 @@
                                 <TextBlock VerticalAlignment="Center" Text="{Binding Item3}" Visibility="Hidden" x:Name="SongId"></TextBlock>
 
                             <Grid MouseUp="CurrentPlaylist_SelectionChanged" Background="Transparent" MinWidth="20" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Column="4">
-                                <Path  Data="M2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12M10,17L15,12L10,7V17Z" Stretch="Uniform" Fill="#FF1F1F1F"  x:Name="playItemButton">
+                                <Path Stroke="#444444" StrokeThickness="2" Data="M2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12M10,17L15,12L10,7V17Z" Stretch="Uniform" Fill="#FF1F1F1F"  x:Name="playItemButton">
                                     <Path.Style>
                                         <Style TargetType="Path">
 
@@ -218,6 +218,7 @@
         <Frame x:Name="DragHere" HorizontalContentAlignment="Stretch"  Margin="0,107,5,0" VerticalContentAlignment="Stretch" />
         <Frame x:Name="SnackBar"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="60"></Frame>
         <materialDesign:Snackbar x:Name="SnackBarDialog" Margin="0 0 0 -9" MessageQueue="{materialDesign:MessageQueue}" Height="60" HorizontalAlignment="Stretch" Background="#00796b" Foreground="White" />
+        <materialDesign:Snackbar x:Name="SnackBarDialogErr" Margin="0 0 0 -9" MessageQueue="{materialDesign:MessageQueue}" Height="60" HorizontalAlignment="Stretch" Background="#FFD32F2F" Foreground="White" />
 
         <!--<materialDesign:Snackbar Grid.Column="0" x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="61" Margin="0,0,0,-7" HorizontalAlignment="Stretch"  VerticalContentAlignment="Bottom" HorizontalContentAlignment="Stretch" Background="#FFD32F2F" Foreground="White" />
 -->
@@ -260,19 +261,19 @@
                 </StackPanel>
             </materialDesign:DialogHost.DialogContent>
 
-            <ListBox Grid.Column="1" AllowDrop="True" MouseDoubleClick="PlayDatabaseMusic" MouseEnter="AllowDropSearch"  x:Name="searchRes" DragOver="DragOverShowMaster" dd:DragDrop.IsDragSource="True" Margin="10,139,10,0" SelectedIndex="1" HorizontalContentAlignment="Stretch" SelectionChanged="searchRes_SelectionChanged">
+            <ListBox Grid.Column="1" AllowDrop="True" MouseUp="SearchMenuFocusList" MouseDoubleClick="PlayDatabaseMusic" MouseEnter="AllowDropSearch"  x:Name="searchRes" DragOver="DragOverShowMaster" dd:DragDrop.IsDragSource="True" Margin="10,139,10,0" SelectedIndex="1" HorizontalContentAlignment="Stretch" SelectionChanged="searchRes_SelectionChanged">
             <ListBox.ContextMenu>
-                <ContextMenu >
+                <ContextMenu Opened="ContextMenuOpenSearch">
                     <MenuItem Header="Add music to library" Click="AddMusicLibrary" />
-                        <MenuItem Header="Remove from library" Click="removeSongLibrary">
+                        <MenuItem x:Name="RemoveSearch" Header="Remove from library" Click="removeSongLibrary">
                         </MenuItem>
-                        <MenuItem Header="Edit" Click="editMusicDatabase"  Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" />
+                        <MenuItem x:Name="EditSearch" Header="Edit" Click="editMusicDatabase"  Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" />
 
                 </ContextMenu>
             </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid x:Name="itemInSearch" Margin="0,2" MinHeight="22" MouseDown="dragFromSearch">
+                        <Grid x:Name="itemInSearch" MouseUp="SearchMenuFocus" Margin="0,2" MinHeight="22" MouseDown="dragFromSearch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="1*" />
@@ -291,7 +292,7 @@
                                 </Grid.ColumnDefinitions>
                                 
                             <Grid MouseUp="PlayDatabaseMusic" Background="Transparent" Grid.Column="2" >
-                                <Path  Data="M2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12M10,17L15,12L10,7V17Z" Stretch="Uniform" Fill="#FF1F1F1F"  x:Name="playItemButton">
+                                    <Path Data="M2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12M10,17L15,12L10,7V17Z" Stretch="Uniform" Fill="#FF1F1F1F"  x:Name="playItemButton">
                                     <Path.Style>
                                         <Style TargetType="Path">
 
@@ -308,7 +309,7 @@
                                 </Path>
                                 </Grid>
                                 <Grid MouseUp="AddDatabaseMusic" Background="Transparent" Grid.Column="0" >
-                                    <Path Data="M19,11H15V15H13V11H9V9H13V5H15V9H19M20,2H8A2,2 0 0,0 6,4V16A2,2 0 0,0 8,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M4,6H2V20A2,2 0 0,0 4,22H18V20H4V6Z" Stretch="Uniform" Fill="#FF1F1F1F"  x:Name="addMusic">
+                                    <Path  Data="M19,11H15V15H13V11H9V9H13V5H15V9H19M20,2H8A2,2 0 0,0 6,4V16A2,2 0 0,0 8,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M4,6H2V20A2,2 0 0,0 4,22H18V20H4V6Z" Stretch="Uniform" Fill="#FF1F1F1F"  x:Name="addMusic">
                                         <Path.Style>
                                             <Style TargetType="Path">
 
@@ -363,9 +364,9 @@
         </Button>-->
         <Label x:Name="PlaylistName"  Content="No Playlist Loaded" HorizontalAlignment="Center" Margin="61.088,5,51.088,0" VerticalAlignment="Top" FontSize="24" HorizontalContentAlignment="Center" FontFamily="Roboto Light" FontWeight="Normal" Height="42.5" Width="241.824"/>
         <Grid Margin="15,47.5,5,0" VerticalAlignment="Top">
-            <Label Content="BPM" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Opacity="0.795" Width="43.377" HorizontalContentAlignment="Center" FontSize="14"/>
-            <Label Content="Title" HorizontalAlignment="Left" Margin="51.127,10,0,0" VerticalAlignment="Top" Opacity="0.795" FontSize="14"/>
-            <Label Content="Artist" Margin="170.11,10,93.708,0" VerticalAlignment="Top" Opacity="0.795" HorizontalContentAlignment="Center" FontSize="14"/>
+            <Label Content="BPM" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Opacity="0.795" Width="43.377" HorizontalContentAlignment="Center" FontSize="14" MouseUp="BPMLabelUp"/>
+            <Label Content="Title" HorizontalAlignment="Left" Margin="51.127,10,0,0" VerticalAlignment="Top" Opacity="0.795" FontSize="14" MouseUp="TitleLabelUp"/>
+            <Label Content="Artist" Margin="170.11,10,93.708,0" VerticalAlignment="Top" Opacity="0.795" HorizontalContentAlignment="Center" FontSize="14" MouseUp="ArtistLabelUp"/>
             <Border BorderBrush="#FF191919" BorderThickness="5" Height="1" Margin="1.25,39,5.75,-0.5" VerticalAlignment="Top">
                 <Border.Effect>
                     <BlurEffect/>

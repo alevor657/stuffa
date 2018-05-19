@@ -25,12 +25,15 @@ namespace WpfApp2.pages
     public partial class PlayerControl : Page
     {
         Container container;
+        int timer = -1;
 
         bool isLoaded = false;
         bool mediaFileIsOpen;
         bool isPlaying = false;
 
         bool fadingOutForNextSong;
+        int pauseBetween = -1;
+
 
         double volumeLevel;
 
@@ -97,9 +100,11 @@ namespace WpfApp2.pages
                 if (fadingOutForNextSong)
                 {
                     outFadeTimer.Stop();
+                    NextSong();
                 }
                 stopFadeOut();
             }
+
         }
 
         private void SliderTicker(object sender, EventArgs e)
@@ -109,13 +114,23 @@ namespace WpfApp2.pages
 
         private void SongTimerTicker(object sender, EventArgs e)
         {
-            TimeSpan currentTime = new TimeSpan(0, Player.Position.Duration().Minutes, Player.Position.Duration().Seconds);
+            
+              TimeSpan currentTime = new TimeSpan(0, Player.Position.Duration().Minutes, Player.Position.Duration().Seconds);
             SongCurrentTime.Content = currentTime.ToString().Substring(3);
 
             if (!draging)
             {
                 trackSlider.Value = Player.Position.TotalSeconds;
             }
+
+            
+            if (currentTime.TotalSeconds > trackSliderTimer.Value - 3 && !fadingOutForNextSong)
+            {
+                fadeOutForNext();
+                fadingOutForNextSong = true;
+            }
+
+
 
             if (Player.NaturalDuration.HasTimeSpan)
             {
@@ -124,7 +139,11 @@ namespace WpfApp2.pages
                     fadeOut(currentTime.TotalSeconds * 100000);
                     fadingOutForNextSong = true;
                 }
+
+
             }
+
+
         }
 
         void TimerTickerSlideText(object sender, EventArgs e)
@@ -147,6 +166,10 @@ namespace WpfApp2.pages
 
             TimeSpan currentTime = new TimeSpan(0, Player.Position.Duration().Minutes, Player.Position.Duration().Seconds);
             SongCurrentTime.Content = currentTime.ToString().Substring(3);
+
+
+
+
         }
 
         public void unloadMusicImmediately()
@@ -173,9 +196,17 @@ namespace WpfApp2.pages
                     fadeOut();
                     isPlaying = false;
                     inFadeTimer.Stop();
+                    fadingOutForNextSong = false;
                 }
                 else
                 {
+                    if(timer > 0)
+                    {
+                        if(this.trackSlider.Value > timer)
+                        {
+                            NextSong();
+                        }
+                    }
                     stopFadeOut();
                     BitmapImage image = new BitmapImage(new Uri("../img/pause-white.png", UriKind.Relative));
                     playButton.Source = image;
@@ -197,6 +228,22 @@ namespace WpfApp2.pages
             if (Player.NaturalDuration.HasTimeSpan)
             {
                 TimeSpan ts = Player.NaturalDuration.TimeSpan;
+                trackSliderTimer.Maximum = ts.TotalSeconds;
+                if(timer != -1)
+                {
+                    trackSliderTimer.Value = timer;
+                    BrushConverter conv = new BrushConverter();
+                    SolidColorBrush brush = conv.ConvertFromString("#d3d3d3") as SolidColorBrush;
+                    trackSliderTimer.Foreground = brush;
+                }
+                else
+                {
+                    trackSliderTimer.Value = 99999;
+                    BrushConverter conv = new BrushConverter();
+                    SolidColorBrush brush = conv.ConvertFromString("#00FFFFFF") as SolidColorBrush;
+                    trackSliderTimer.Foreground = brush;
+                }
+
                 trackSlider.Maximum = ts.TotalSeconds;
                 var openDuration = Player.NaturalDuration.TimeSpan;
                 var theDuration = new TimeSpan(0, openDuration.Minutes, openDuration.Seconds);
@@ -204,7 +251,10 @@ namespace WpfApp2.pages
             }
         }
 
-
+        public void SetTimer(int t)
+        {
+            timer = t;
+        }
         private void loadSong(object sender, MouseButtonEventArgs e)
         {
 
@@ -228,7 +278,13 @@ namespace WpfApp2.pages
         {
             volumeLevel = VolumeSlider.Value;
             Player.Volume = VolumeSlider.Value;
+            SetVolumeIcon();
 
+
+        }
+
+        private void SetVolumeIcon()
+        {
             if (isLoaded)
             {
                 if (VolumeSlider.Value >= 0.5)
@@ -253,6 +309,14 @@ namespace WpfApp2.pages
             }
         }
 
+        public void SetVolume(float k)
+        {
+            volumeLevel = k; 
+            VolumeSlider.Value = k;
+            Player.Volume = k;
+            SetVolumeIcon();
+        }
+        bool firstTime = true;
         public void PlaySong(Music m)
         {
             if (m != null)
@@ -268,16 +332,43 @@ namespace WpfApp2.pages
                 Player.Play();
                 
                 Player.Source = new Uri(m.getFullPath());
+                trackSlider.Value = 0;
 
                 BitmapImage image = new BitmapImage(new Uri("../img/pause-white.png", UriKind.Relative));
                 playButton.Source = image;
                 songTimer.Start();
                 fadeIn();
+                fadingOutForNextSong = false;
 
-                
+
                 container.SendStateToServerOnUpdate();
 
+                if(firstTime)
+                {
+                    System.Threading.Thread myThread;
+
+                    myThread = new System.Threading.Thread(new
+       System.Threading.ThreadStart(firstTimePlay));
+                    myThread.Start();
+
+                    firstTime = false;
+                }
+
+                Player.Volume = 0;
+                fadeIn();
+
+
             }
+
+        }
+
+        private void firstTimePlay()
+        {
+
+            System.Threading.Thread.Sleep(2000);
+
+
+            Dispatcher.Invoke(() => TogglePlay());
 
         }
 
@@ -300,8 +391,38 @@ namespace WpfApp2.pages
 
         public void NextSong()
         {
-            container.getRandomSong();
-            container.SendStateToServerOnUpdate();
+            if(pauseBetween > 0)
+            {
+                if (!(Player.Volume < 0.01))
+                {
+                    fadeOut();
+                }
+                System.Threading.Thread myThread;
+
+                myThread = new System.Threading.Thread(new
+   System.Threading.ThreadStart(NextSongThread));
+                myThread.Start();
+            }
+            else
+            {
+                container.getRandomSong();
+                container.SendStateToServerOnUpdate();
+            }
+
+        }
+
+        private void NextSongThread()
+        {
+
+                System.Threading.Thread.Sleep(pauseBetween * 1000 + 3000);
+            
+
+            container.Dispatcher.Invoke(container.getRandomSong);
+            container.Dispatcher.Invoke(container.SendStateToServerOnUpdate);
+        }
+        public void PauseBetweenMusic(int pause)
+        {
+            pauseBetween = pause;
         }
 
         private void EndDraging(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
@@ -316,14 +437,16 @@ namespace WpfApp2.pages
 
         public Dictionary<string, object> getPlayerState()
         {
-            int bpm;
-            bool result = int.TryParse(BpmLabel.Content as string, out bpm);
+            int bpm = 0;
+            Int32.TryParse((BpmLabel.Content as string).Split(' ')[0], out bpm);
 
             Dictionary<string, object> d = new Dictionary<string, object>();
             d.Add("song", TitleLabel.Text);
             d.Add("artist", ArtistLabel.Content as string);
-            d.Add("bpm", result ? bpm : 0);
+            // Always 0, fix needed? --------------------------------------------------------------------------------------- Is this still true?
+            d.Add("bpm", bpm);
             d.Add("isPlaying", isPlaying);
+            d.Add("soundLevel", Convert.ToInt32(volumeLevel * 100));
 
             return d;
         }
@@ -335,7 +458,7 @@ namespace WpfApp2.pages
 
         private void fadeOut(double secondsLeft = 300000)
         {
-            if ((VolumeSlider.Value != 0 || Player.Volume != 0) && fadingOutForNextSong != true)
+            if ((VolumeSlider.Value != 0 && Player.Volume > 0) && fadingOutForNextSong != true)
             {
                 volumeLevel = VolumeSlider.Value;
                 long timeInterval = Convert.ToInt64(300000 / Player.Volume);
@@ -345,6 +468,26 @@ namespace WpfApp2.pages
             else
             {
                 stopFadeOut();
+
+            }
+        }
+        bool startNewSong = false;
+        private void fadeOutForNext(double secondsLeft = 300000)
+        {
+            if ((VolumeSlider.Value != 0 && Player.Volume > 0) && fadingOutForNextSong != true)
+            {
+                volumeLevel = VolumeSlider.Value;
+                long timeInterval = Convert.ToInt64(300000 / Player.Volume);
+                outFadeTimer.Interval = new TimeSpan(timeInterval);
+                outFadeTimer.Start();
+                startNewSong = true;
+            }
+            else
+            {
+                stopFadeOut();
+                startNewSong = true;
+
+
             }
         }
 
@@ -363,9 +506,19 @@ namespace WpfApp2.pages
             outFadeTimer.Stop();
             Player.Pause();
             songTimer.Stop();
-
-            isPlaying = false;
-            fadingOutForNextSong = false;
+            if (!startNewSong)
+            {
+                isPlaying = false;
+                fadingOutForNextSong = false;
+            }
+            else
+            {
+                startNewSong = false;
+                Player.Play();
+                fadingOutForNextSong = false;
+                isPlaying = true;
+                songTimer.Start();
+            }
         }
 
         private void stopFadeIn()
@@ -390,6 +543,8 @@ namespace WpfApp2.pages
                 // INGEN SHUFFLE
                 BitmapImage image = new BitmapImage(new Uri("../img/shuffle.png", UriKind.Relative));
                 ShuffleButton.Source = image;
+                //do not show markings
+                container.showSelectedPlaylist();
 
             }
             else if (shuffleLoop == 1)
@@ -403,9 +558,11 @@ namespace WpfApp2.pages
                 // BPM SHUFFLE
                 BitmapImage image = new BitmapImage(new Uri("../img/shuffle_bpm_active2.png", UriKind.Relative));
                 ShuffleButton.Source = image;
+                container.ShowBpmMarking();
             }
             shuffleLoop = (shuffleLoop + 1) % 3;
             container.SendStateToServerOnUpdate();
+            
 
         }
         public void SetToBPMShuffle()
@@ -416,7 +573,7 @@ namespace WpfApp2.pages
             ShuffleButton.Source = image;
         }
 
-        private void RestartSong(object sender, MouseButtonEventArgs e)
+        public void RestartSong(object sender = null, MouseButtonEventArgs e = null)
         {
             this.Player.Stop();
             if(isPlaying)
@@ -425,7 +582,7 @@ namespace WpfApp2.pages
                 fadeIn();
 
             }
-            container.SendStateToServerOnUpdate();
+            //container.SendStateToServerOnUpdate();
         }
 
         public int GetCurrentVolumeAsInt()
@@ -445,7 +602,7 @@ namespace WpfApp2.pages
                 //get the Ip address
                 string localIp = Dns.GetHostByName(hostName).AddressList[0].ToString();
                 Console.WriteLine("Ip address is : " + localIp);
-                MobileToolTip.Items.Add("mobile key: " + localIp);
+                MobileToolTip.Items.Add("IP addess: " + localIp);
             
             
         }

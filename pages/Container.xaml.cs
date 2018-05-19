@@ -19,6 +19,7 @@ using SocketServer;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
 using WpfApp2.feedback;
+using System.Windows.Media.Animation;
 
 namespace WpfApp2.pages
 {
@@ -52,7 +53,7 @@ namespace WpfApp2.pages
             playerControl.Content = pc;
             DynamicView.Content = ev;
             PlaylistView.Content = pv;
-            //DynamicView.Content = dv;
+            SettingsView.Content = settings;
         }
 
         internal void TurnOnBPMShuffle()
@@ -94,18 +95,74 @@ namespace WpfApp2.pages
             return mp.GetPlaylistNames();
         }
 
-        private void settingsButtonUp(object sender, MouseButtonEventArgs e)
+        private void settingsButtonOpenUp(object sender, MouseButtonEventArgs e)
         {
-            if(!inSettings)
-            {
-                DynamicView.Content= settings;
+            // OLD FUNCTIONALITY
+            //if (!inSettings)
+            //{
+            //    DynamicView.Content = settings;
+            //    inSettings = true;
+            //}
+            //else
+            //{
+            //    DynamicView.Content = ev;
+            //    inSettings = false;
+            //}
+
+            // NEW 
+            DoubleAnimation slideIn = new DoubleAnimation();
+            slideIn.AutoReverse = false;
+            slideIn.Duration = new Duration(TimeSpan.FromMilliseconds(500));
+            var translateTo = new TranslateTransform(100, 0);
+            var translateFrom = new TranslateTransform(0,100);
+            SettingsView.RenderTransform = new TranslateTransform(100, 0);
+
+                slideIn.From = 100.0;
+                slideIn.To = 0.0;
+                SettingsView.BeginAnimation(TranslateTransform.XProperty, slideIn, HandoffBehavior.SnapshotAndReplace);
+                //SettingsView.BeginAnimation(OpacityProperty, slideIn);
+
                 inSettings = true;
-            }
-            else
-            {
-                DynamicView.Content = ev;
+
+            //SettingsButtonClose.Visibility = Visibility.Visible;
+            //SettingsButtonOpen.Visibility = Visibility.Collapsed;
+
+
+        }
+
+        private void settingsButtonCloseUp(object sender, MouseButtonEventArgs e)
+        {
+            // OLD FUNCTIONALITY
+            //if (!inSettings)
+            //{
+            //    DynamicView.Content = settings;
+            //    inSettings = true;
+            //}
+            //else
+            //{
+            //    DynamicView.Content = ev;
+            //    inSettings = false;
+            //}
+
+            // NEW 
+            DoubleAnimation slideIn = new DoubleAnimation();
+            slideIn.AutoReverse = false;
+            slideIn.Duration = new Duration(TimeSpan.FromMilliseconds(500));
+            var translateTo = new TranslateTransform(100, 0);
+            var translateFrom = new TranslateTransform(0, 100);
+            SettingsView.RenderTransform = new TranslateTransform(100, 0);
+
+                slideIn.From = 0.0;
+                slideIn.To = 100.0;
+                SettingsView.BeginAnimation(TranslateTransform.XProperty, slideIn, HandoffBehavior.SnapshotAndReplace);
+                //SettingsView.BeginAnimation(TranslateTransform.XProperty, slideIn);
+                //SettingsView.BeginAnimation(OpacityProperty, slideIn);
+
                 inSettings = false;
-            }
+
+            //settingsButtonClose.Visibility = Visibility.Collapsed;
+            //settingsButtonOpen.Visibility = Visibility.Visible;
+
         }
 
         internal void showSelectedPlaylist()
@@ -113,8 +170,11 @@ namespace WpfApp2.pages
             if (pv != null)
             {
                 mp.SetCurrentPlaylist(pv.PlaylistList.SelectedIndex);
-                ev.LoadPlaylist(mp.GetMusicFromPlaylist());
-                ev.PlaylistName.Content = mp.GetCurrentPlaylistName();
+                if (mp.IsPlaylistSelected())
+                {
+                    ev.LoadPlaylist(mp.GetMusicFromPlaylist());
+                    ev.PlaylistName.Content = mp.GetCurrentPlaylistName();
+                }
             }
         }
 
@@ -142,6 +202,11 @@ namespace WpfApp2.pages
             ev.snackBarActivate(name + " created!");
         }
 
+        internal void SetTimeToPlay(int nr)
+        {
+            pc.SetTimer(nr);
+        }
+
         internal void getBPM()
         {
             // Add code to delegate data to server then to phone
@@ -155,16 +220,30 @@ namespace WpfApp2.pages
         internal bool LoadNewMusic(List<string> paths)
         {
             bool retVal = true;
-            //load new music into current playlist
-            List<Music> same = mp.LoadNewMusic(paths, false);
-            this.showSelectedPlaylist();
 
-            if (same.Count > 0)
+            if (mp.IsPlaylistSelected())
             {
-                retVal = false;
-                ev.snackBarActivate();
+                //load new music into current playlist
+                
+                List<Music> same = mp.LoadNewMusic(paths, false);
+
+                this.showSelectedPlaylist();
+                if (mp.CountMusic() >= 1499)
+                {
+                    ev.SnackBarErr("Playlist limit reached");
+                }
+                else if (same.Count > 0)
+                {
+                    retVal = false;
+                    ev.snackBarActivate();
+                }
             }
             return retVal;
+        }
+
+        internal void PauseBetweenMusic(int time)
+        {
+            pc.PauseBetweenMusic(time);
         }
 
         internal void removeMusic(int index)
@@ -180,10 +259,14 @@ namespace WpfApp2.pages
             //ev.setMarked(mp.GetMusicFromPlaylist(), mp.getAllBpm(105, 3));
         }
 
-        internal void playBpm(int Bpm, int range)
+        internal void playBpm(int Bpm)
         {
-            ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
+            if (mp.IsPlaylistSelected())
+            {
+                ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
+            }
             this.changeBPM(Bpm);
+
 
         }
 
@@ -196,7 +279,7 @@ namespace WpfApp2.pages
         internal bool newPlaylist(string name)
         {
             bool created = false;
-            if(mp.addNewPlaylist(name))
+            if (mp.addNewPlaylist(name))
             {
                 created = true;
                 pv.updatePlaylists(GetPlaylists());
@@ -205,8 +288,8 @@ namespace WpfApp2.pages
             return created;
 
         }
-		internal void getRandomSong()
-		{
+        internal void getRandomSong()
+        {
             // Add switch for different shuffle states 
             int index = 0;
             int shuffleVal = pc.getShuffleState();
@@ -216,19 +299,28 @@ namespace WpfApp2.pages
                 {
                     case 1:
                         index = mp.getIndexForNonShuffle();
+                        if(mp.IsPlaylistSelected())
+                            {
+                            ev.LoadPlaylist(mp.GetMusicFromPlaylist());
+                        }
+
                         break;
                     case 2:
                         index = mp.getIndexForNextSong();
                         break;
                     case 0:
-                        index = mp.getIndexForBPMShuffle();
-                        ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
-                        if (settings.GetAutoState())
+                        if(settings.GetAutoState())
                         {
+
                             int newBPM = settings.getBPM() + settings.GetRange();
                             settings.setBPM(newBPM);
-                            mp.changeBPM(newBPM);
-                          
+                        }
+                        mp.changeBPM(settings.getBPM());
+
+                        index = mp.getIndexForBPMShuffle();
+                        if (mp.IsPlaylistSelected())
+                        {
+                            ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
                         }
                         break;
                     default:
@@ -240,13 +332,14 @@ namespace WpfApp2.pages
                 ev.setHighlight(index);
                 pc.PlaySong(temp);
             }
-           
 
-		}
+
+        }
         // Sets the interval
         internal void setInterval(int interval)
         {
             mp.setInterval(interval);
+            this.SendStateToServerOnUpdate();
         }
         // arguement = new BPM
         internal void changeBPM(int newBPM)
@@ -267,6 +360,16 @@ namespace WpfApp2.pages
         {
             LoadNewMusic(getNewMusicPaths());
         }
+        internal void SortOnChoice(int choice)
+        {
+            // choices:
+            // 0 = BPM
+            // 1 = Artist
+            // 2 = Title
+            mp.sortOnChoice(choice);
+            this.showSelectedPlaylist();
+
+        }
 
         internal List<string> getNewMusicPaths()
         {
@@ -275,7 +378,8 @@ namespace WpfApp2.pages
                 Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
                 dlg.DefaultExt = ".mp3";
-                dlg.Filter = "MP3 Files (*.mp3)|*.mp3|M4A Files (*.m4a)|*.m4a|FLAC Files (*.flac)|*.flac";
+                //dlg.Filter = "*.mp3; *.m4a";
+                dlg.Filter = "Files (*.mp3, *.m4a, *.flac, *.wav)|*.mp3; *.MP3; *M4A; *.m4a; *flac; *.wav; *.WAV|All files (*.*)|*.*";
                 dlg.Multiselect = true;
 
                 // Display OpenFileDialog by calling ShowDialog method 
@@ -288,7 +392,7 @@ namespace WpfApp2.pages
 
                     // get file paths
                     return dlg.FileNames.ToList<string>();
-                    
+
 
                 }
 
@@ -312,14 +416,36 @@ namespace WpfApp2.pages
         internal void spacePressed()
         {
             //check if the searchbox is highlited
-            if(!ev.IsSearchBarActive() && !pv.isTextBoxActive())
+            if (!ev.IsSearchBarActive() && !pv.isTextBoxActive())
             {
                 //pause the music
                 this.TogglePlay();
             }
         }
 
-        public Dictionary<string, object> getPlayerState() => pc.getPlayerState();
+        public Dictionary<string, object> getPlayerState()
+        {
+            Dictionary<string, object> send = new Dictionary<string, object>();
+            foreach(var i in pc.getPlayerState())
+            {
+                send.Add(i.Key, i.Value);
+            }
+
+            foreach(var i in settings.getPlayerState())
+            {
+                send.Add(i.Key, i.Value);
+            }
+
+            Console.WriteLine("Populated state is:");
+            foreach (var val in send)
+            {
+                Console.WriteLine(val);
+            }
+            Console.WriteLine("======================");
+
+            return send;
+}
+
         public void TogglePlay() => pc.TogglePlay();
         public void NextSong() => pc.NextSong();
         public void GetCurrentVolumeAsInt() => pc.GetCurrentVolumeAsInt();
@@ -328,6 +454,15 @@ namespace WpfApp2.pages
         {
             string json = JsonConvert.SerializeObject(getPlayerState());
             s.Send(ServerMsg.Create(SocketServer.Action.UPDATE, json));
+        }
+
+        internal void ShowBpmMarking()
+        {
+            mp.changeBPM(settings.getBPM());
+            if (mp.IsPlaylistSelected())
+            {
+                ev.setMarked(mp.GetMusicFromPlaylist(), mp.getMarksForBPMShuffle());
+            }
         }
 
         internal void MoveMusic(int from, int to)
@@ -382,6 +517,39 @@ namespace WpfApp2.pages
             {
                 pc.PlaySong(toEdit);
             }
+        }
+
+        public void Replay()
+        {
+            pc.RestartSong();
+        }
+
+        public void ChangeJump(int newVal)
+        {
+            settings.ChangeJump(newVal);
+        }
+
+
+        public void SetInterval(int val)
+        {
+            settings.SetInterval(val);
+        }
+        public void SetVolume(float val)
+        {
+            pc.SetVolume(val);
+        }
+
+        public void ToggleAutoplay()
+        {
+            settings.ToggleAutoplay();
+        }
+
+        public void SetBaseBpm(int val) => settings.SetBaseBpm(val);
+
+        internal void RemoveMusicLibrary(Music music)
+        {
+            mp.RemoveMusicLibrary(music);
+            //throw new NotImplementedException();
         }
     }
 }

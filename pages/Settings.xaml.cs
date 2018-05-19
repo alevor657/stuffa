@@ -25,8 +25,11 @@ namespace WpfApp2.pages
         Container container;
 
         int CurrentInterval;
-        int CurrentBPMDjump = 0;
-        int BPM;
+        int CurrentBPMJump = 0;
+
+
+        int InputBPM= 100;
+
         bool hej = false;
         bool autoState = false;
         public Settings(Container container)
@@ -34,18 +37,20 @@ namespace WpfApp2.pages
             this.container = container;
             CurrentInterval = 0;
             InitializeComponent();
-            BPM = 0;
+
 
             IntervalInput.Text = CurrentInterval.ToString();
+            BpmInput.Text = InputBPM.ToString();
 
         }
         public int getBPM()
         {
-            return this.BPM;
+            return this.InputBPM;
         }
         public void setBPM(int BPM)
         {
-            this.BPM = BPM;
+            this.InputBPM = BPM;
+            this.BpmInput.Text = this.InputBPM.ToString();
         }
         public int getInterval()
         {
@@ -59,20 +64,31 @@ namespace WpfApp2.pages
         {
             autoState = true;
             container.TurnOnBPMShuffle();
+            container.SendStateToServerOnUpdate();
         }
 
         private void coolUnchecked(object sender, RoutedEventArgs e)
         {
             autoState = false;
+            container.SendStateToServerOnUpdate();
         }
 
         private void KeyUp(object sender, KeyEventArgs e)
         {
-            
+
+            if (!BpmInput.Text.ToString().Contains(" ") && BpmInput.Text.ToString() != "")
+            {
                 int givenBpm = Int32.Parse(BpmInput.Text);
-                this.container.playBpm(givenBpm, 0);
-                this.BPM = givenBpm;
-            
+                this.container.playBpm(givenBpm);
+                this.InputBPM = givenBpm;
+                //container.SendStateToServerOnUpdate();
+            }
+        }
+
+        public void ChangeJump(int val)
+        {
+            BPMPerSong.Text = val.ToString();
+            CurrentBPMJump = val;
         }
         
 
@@ -87,25 +103,45 @@ namespace WpfApp2.pages
             CurrentInterval++;
             this.container.setInterval(this.CurrentInterval);
             IntervalInput.Text = CurrentInterval.ToString();
+            container.SendStateToServerOnUpdate();
         }
 
         private void IntervalSub_Click(object sender, RoutedEventArgs e)
         {
             CurrentInterval--;
+            if (CurrentInterval < 0)
+            {
+                CurrentInterval = 0;
+            }
             this.container.setInterval(this.CurrentInterval);
             IntervalInput.Text = CurrentInterval.ToString();
+            container.SendStateToServerOnUpdate();
+        }
+
+        public void SetInterval(int val)
+        {
+            CurrentInterval = val;
+            this.container.setInterval(val);
+            IntervalInput.Text = CurrentInterval.ToString();
+            container.SendStateToServerOnUpdate();
         }
 
         private void IncreaseBPMPerSong_Click(object sender, RoutedEventArgs e)
         {
-            CurrentBPMDjump++;
-            BPMPerSong.Text = CurrentBPMDjump.ToString();
+            CurrentBPMJump++;
+            BPMPerSong.Text = CurrentBPMJump.ToString();
+            container.SendStateToServerOnUpdate();
         }
 
         private void DecreaseBPMPerSong_Click(object sender, RoutedEventArgs e)
         {
-            CurrentBPMDjump--;
-            BPMPerSong.Text = CurrentBPMDjump.ToString();
+            CurrentBPMJump--;
+            if (CurrentBPMJump < 0)
+            {
+                CurrentBPMJump = 0;
+            }
+            BPMPerSong.Text = CurrentBPMJump.ToString();
+            container.SendStateToServerOnUpdate();
         }
 
         private void BPMPerSong_TextChanged(object sender, TextChangedEventArgs e)
@@ -126,6 +162,140 @@ namespace WpfApp2.pages
             {
                 return -1;
             }
+        }
+
+        public Dictionary<string, object> getPlayerState()
+        {
+            
+            Dictionary<string, object> d = new Dictionary<string, object>();
+            d.Add("autoBpm", autoState);
+            try
+            {
+                d.Add("bpmJump", Int32.Parse(BPMPerSong.Text));
+            }
+            catch
+            {
+                d.Add("bpmJump", 0);
+            }
+            try
+            {
+                d.Add("bpmInterval", Int32.Parse(IntervalInput.Text));
+            }
+            catch
+            {
+                d.Add("bpmInterval", 0);
+            }
+            try
+            {
+                d.Add("baseBpm", Int32.Parse(BpmInput.Text));
+            }
+            catch
+            {
+                d.Add("baseBpm", 0);
+
+            }
+
+
+            return d;
+        }
+
+        private void IncreaseBaseBPMPerSong_Click(object sender, RoutedEventArgs e)
+        {
+            InputBPM++;
+            BpmInput.Text = InputBPM.ToString();
+            container.SendStateToServerOnUpdate();
+        }
+
+        private void DecreaseBaseBPMPerSong_Click(object sender, RoutedEventArgs e)
+        {
+            InputBPM--;
+            BpmInput.Text = InputBPM.ToString();
+            container.SendStateToServerOnUpdate();
+        }
+
+        public void ToggleAutoplay()
+        {
+            autoState = !autoState;
+            container.SendStateToServerOnUpdate();
+            toggleButton.IsChecked = autoState;
+        }
+
+        public void SetBaseBpm(int val)
+        {
+            InputBPM = val;
+            BpmInput.Text = InputBPM.ToString();
+            container.SendStateToServerOnUpdate();
+        }
+
+        private void KeyUpTime(object sender, KeyEventArgs e)
+        {
+            toggleButton2.IsChecked = true;
+            int nr = 0;
+            try
+            {
+                nr = Int32.Parse(TimeInput.Text);
+                }
+            catch
+            {
+                nr = 0;
+            }
+            container.SetTimeToPlay(nr);
+        }
+
+        private void TimerActive(object sender, RoutedEventArgs e)
+        {
+            int nr = 0;
+            try
+            {
+                nr = Int32.Parse(TimeInput.Text);
+            }
+            catch
+            {
+                nr = 0;
+            }
+            container.SetTimeToPlay(nr);
+        }
+
+        private void TimerUnactive(object sender, RoutedEventArgs e)
+        {
+
+            container.SetTimeToPlay(-1);
+        }
+
+        private void DonotPauseBetween(object sender, RoutedEventArgs e)
+        {
+
+            container.PauseBetweenMusic(-1);
+        }
+
+        private void PauseBetween(object sender, RoutedEventArgs e)
+        {
+            int nr;
+            try
+            {
+                nr = Int32.Parse(PauseInput.Text);
+            }
+            catch
+            {
+                nr = 0;
+            }
+            container.PauseBetweenMusic(nr);
+
+        }
+
+        private void KeyUpPause(object sender, KeyEventArgs e)
+        {
+            toggleButton3.IsChecked = true;
+            int nr;
+            try
+            {
+                nr = Int32.Parse(PauseInput.Text);
+            }
+            catch
+            {
+                nr = 0;
+            }
+            container.PauseBetweenMusic(nr);
         }
     }
     

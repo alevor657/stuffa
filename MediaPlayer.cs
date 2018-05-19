@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 using WpfApp2;
 using System.Windows.Threading;
@@ -78,7 +79,7 @@ namespace Stuffa
             
             
             playlists = new List<Playlist>();
-            // Find solution to populating the list with indexes greater than the maximum number of songs.
+           
             for (int i=0; i < 5; i++)
             {
                 this.recentlyPlayedIndexes.Insert(i, -1);
@@ -121,6 +122,16 @@ namespace Stuffa
             {
                 this.recentlyPlayedIndexes[i] = -1;
             }
+        }
+
+        public int  CountMusic()
+        {
+            int count = 0;
+            if (currentPlaylist != -1)
+            {
+                count = playlists[currentPlaylist].getSize();
+            }
+            return count;
         }
 
        
@@ -280,17 +291,20 @@ namespace Stuffa
         // Call this function to populate the list showing all music in a playlist after selecting a playlist to edit
         public List<Music> GetMusicFromPlaylist()
         {
-           
- 
 
-            
-            if (!playlists[currentPlaylist].getIfLoaded())
+
+            if (currentPlaylist != -1)
             {
-                //loads music from memory
-                playlists[currentPlaylist].loadMusic();
-            }
 
-            return playlists[currentPlaylist].getAllMusic();
+                if (!playlists[currentPlaylist].getIfLoaded())
+                {
+                    //loads music from memory
+                    playlists[currentPlaylist].loadMusic();
+                }
+                return playlists[currentPlaylist].getAllMusic();
+            }
+            return null;
+
         }
 
         public bool DeletePlaylist(int index)
@@ -304,6 +318,25 @@ namespace Stuffa
                 ret = true;
             }
             return ret;
+        }
+
+        public void sortOnChoice(int choice)
+        {
+            switch(choice)
+            {
+                case 0:
+                    this.playlists[currentPlaylist].SortListOnBPM();
+                    break;
+                case 1:
+                    this.playlists[currentPlaylist].SortListOnArtist();
+                    break;
+                case 2:
+                    this.playlists[currentPlaylist].SortListOnTitle();
+                    break;
+                default:
+                    break;
+            }
+
         }
 
 		public int getIndexForNextSong()
@@ -434,5 +467,18 @@ namespace Stuffa
             return files;
         }
 
+        internal bool IsPlaylistSelected()
+        {
+            if(currentPlaylist >= 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        internal void RemoveMusicLibrary(Music m)
+        {
+            master.Remove(m);
+        }
     }
 }

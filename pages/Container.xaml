@@ -9,6 +9,67 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="Container" MinWidth="950" MinHeight="600"
       UseLayoutRounding="True">
+    <Page.Resources>
+        <Storyboard x:Key="Open">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="SettingsView">
+                <EasingDoubleKeyFrame KeyTime="0" Value="2000"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ExponentialEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="SettingsButtonOpen">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="120"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SettingsButtonOpen">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Collapsed}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SettingsButtonClose">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="Close">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="SettingsView">
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="2000">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="SettingsButtonClose">
+                <EasingDoubleKeyFrame KeyTime="0" Value="120"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="SettingsButtonClose">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="SettingsButtonClose">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SettingsButtonOpen">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SettingsButtonClose">
+                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Button.Click" SourceName="SettingsButtonOpen">
+            <BeginStoryboard x:Name="Open_BeginStoryboard" Storyboard="{StaticResource Open}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="Button.Click" SourceName="SettingsButtonClose">
+            <BeginStoryboard x:Name="Close_BeginStoryboard" Storyboard="{StaticResource Close}"/>
+        </EventTrigger>
+    </Page.Triggers>
 
     <Grid KeyUp="CheckIfSpace">
         <Grid.RowDefinitions>
@@ -17,13 +78,27 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <Frame x:Name="DynamicView" Grid.Column="1" NavigationUIVisibility="Hidden"/>
+        <Frame x:Name="DynamicView" Grid.Column="1" NavigationUIVisibility="Hidden" Grid.ColumnSpan="2"/>
+        <Frame x:Name="SettingsView" Grid.Column="2" NavigationUIVisibility="Hidden" Grid.ColumnSpan="1" RenderTransformOrigin="0.5,0.5" Background="Black">
+            <Frame.Effect>
+                <DropShadowEffect Direction="180" Color="#FF1F1F1F" ShadowDepth="0" BlurRadius="7"/>
+            </Frame.Effect>
+            <Frame.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="2000"/>
+                </TransformGroup>
+            </Frame.RenderTransform>
+        </Frame>
         <Frame x:Name="PlaylistView" NavigationUIVisibility="Hidden"/>
         <Frame x:Name="playerControl" Grid.ColumnSpan="3" VerticalAlignment="Bottom" MinHeight="100" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderBrush="#FF01AA28" MinWidth="900" Grid.Row="1" NavigationUIVisibility="Hidden"/>
 
-        <Image x:Name="settignsButton"  Source="../img/settings-white.png" Grid.Column="1" Margin="0,0,10,25" Width="48" Height="48" MouseUp="settingsButtonUp" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="1" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor">
+        <!--<Image x:Name="settingsButtonOpen"  Source="../img/settings-white.png" Grid.Column="2" Margin="0,0,10,25" Width="48" Height="48" MouseUp="settingsButtonOpenUp" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="1" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -35,14 +110,74 @@
             <Image.Triggers>
                 <EventTrigger RoutedEvent="UIElement.MouseUp">
                     <BeginStoryboard>
-                        <Storyboard Storyboard.TargetName="settignsButton"
+                        <Storyboard Storyboard.TargetName="settingsButton"
                                     Storyboard.TargetProperty="(RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
-                            <DoubleAnimation From="0" To="120" Duration="00:00:00.2" AutoReverse="False"/>
+                            <DoubleAnimation From="0" To="180" Duration="00:00:00.2" AutoReverse="False"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
             </Image.Triggers>
         </Image>
+        <Image x:Name="settingsButtonClose"  Source="../img/settings-white.png" Grid.Column="2" Margin="0,0,10,25" Width="48" Height="48" MouseUp="settingsButtonCloseUp" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="1" UseLayoutRounding="True" ClipToBounds="True" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor" Visibility="Collapsed">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="180"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseUp">
+                    <BeginStoryboard>
+                        <Storyboard Storyboard.TargetName="settingsButton"
+                                    Storyboard.TargetProperty="(RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                            <DoubleAnimation From="180" To="0" Duration="00:00:00.2" AutoReverse="False"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>-->
+
         <materialDesign:Snackbar x:Name="SnackBarDialog" MessageQueue="{materialDesign:MessageQueue}" Height="51" Margin="80,0,260,0" Grid.Row="1" HorizontalAlignment="Stretch" Grid.Column="1" Width="420" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Background="#00796b" Foreground="White" Grid.ColumnSpan="2" />
+        <Grid Grid.Row="2" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="91*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="118*"/>
+            <ColumnDefinition Width="20"/>
+
+            <ColumnDefinition Width="91*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="4" Orientation="Horizontal" Margin="0,6,0,37" VerticalAlignment="Center" Width="190">
+                <Rectangle VerticalAlignment="Stretch" MinWidth="115"></Rectangle>
+
+                <Button x:Name="SettingsButtonOpen" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Grid.Column="2" HorizontalAlignment="Right"  Grid.Row="1" VerticalAlignment="Bottom" Width="48" Background="{x:Null}" BorderBrush="{x:Null}" Height="48" RenderTransformOrigin="0.52,0.52">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="0"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <materialDesign:PackIcon Kind="Settings" Width="48" Height="48"></materialDesign:PackIcon>
+                </Button>
+                <Button x:Name="SettingsButtonClose" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Grid.Column="2" HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Bottom" Width="48" Background="{x:Null}" BorderBrush="{x:Null}" Height="48" ScrollViewer.CanContentScroll="True" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"  RenderTransformOrigin="0.52,0.52" Visibility="Collapsed">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="120"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <materialDesign:PackIcon Kind="Settings" Width="48" Height="48"></materialDesign:PackIcon>
+                </Button>
+            </StackPanel>
+            
+        </Grid>
+        
     </Grid>
 </Page>
