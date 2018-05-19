@@ -187,7 +187,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             {
                 foreach (string searchWordAdd in s.Split(spliters))
                 {
-                    searchWordList.Add(searchWordAdd + "*");
+                    searchWordList.Add(searchWordAdd);
 
                 }
             }
@@ -201,6 +201,11 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 //(string searchWord in searchWordList)
             {
                 searchWord = searchWordList[i];
+
+                if(!searchExact)
+                {
+                    searchWord += "*";
+                }
                 //sql code for search
                 sql = "SELECT sp.paths as path FROM SongPaths AS sp " +
                 "INNER JOIN Titles AS t ON t.songNr  = sp.songNr " +
@@ -225,7 +230,8 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 }
                 else if(searchWord.Length > 3 && !searchExact)
                 {
-                    searchWordList.Add(searchWord.Substring(0, searchWord.Length - 1));
+                    // remove the * and a char
+                    searchWordList.Add(searchWord.Substring(0, searchWord.Length - 2));
                 }
             }
 
@@ -382,7 +388,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 m = new Music(s);
                 List<Music> sameTitle = new List<Music>();
 
-                if(!(search(m.Artist, true).Count > 0 && search(m.getTitle(), true).Count > 0))
+                if(!(search(m.Artist + " " + m.getTitle(), true).Count > 0))
                 {
                     bool add = true;
                     foreach(Music same in sameTitle)
