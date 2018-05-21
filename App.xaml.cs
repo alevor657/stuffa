@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.HockeyApp;
+
 
 namespace DesignPrototype
 {
@@ -13,5 +15,19 @@ namespace DesignPrototype
     /// </summary>
     public partial class App : Application
     {
+
+        protected override async void OnStartup(StartupEventArgs e)
+        {
+            HockeyClient.Current.Configure("4a22a1a0433f4b8fa0ff57c69c6db259");
+
+
+            await HockeyClient.Current.SendCrashesAsync();
+
+
+
+        }
+
     }
+
+
 }

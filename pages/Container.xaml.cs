@@ -56,6 +56,7 @@ namespace WpfApp2.pages
             SettingsView.Content = settings;
         }
 
+
         internal void TurnOnBPMShuffle()
         {
             pc.SetToBPMShuffle();
