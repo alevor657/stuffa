@@ -405,6 +405,16 @@ namespace Stuffa
 
 
         }
+
+        internal List<Music> searchPlaylist(int pos, string searchTerm)
+        {
+            if(pos < playlists.Count && pos >= 0)
+            {
+                return playlists[pos].searchArtistBpmTitle(searchTerm);
+            }
+            return null;
+        }
+
         public List<int> getMarksForBPMShuffle()
         {
             Random r = new Random();

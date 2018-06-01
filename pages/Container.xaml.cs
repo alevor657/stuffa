@@ -336,6 +336,12 @@ namespace WpfApp2.pages
 
 
         }
+
+        internal void SearchPlaylist(int pos, string searchTerm)
+        {
+            ev.LoadSearch(mp.searchPlaylist(pos, searchTerm));
+        }
+
         // Sets the interval
         internal void setInterval(int interval)
         {

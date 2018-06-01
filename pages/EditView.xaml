@@ -66,6 +66,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
+        
         <materialDesign:DialogHost x:Name="DialogHost1" Margin="0,0,0,0" DialogClosing="EditMusicCurPlaylist_OnDialogClosing">
             <materialDesign:DialogHost.DialogContent>
 
@@ -129,16 +130,16 @@
                         <Grid Margin="0,0,0,0" x:Name="itemInCur" MouseUp="CurMenuFocus"  AllowDrop="True" Drop="testtest" Mouse.MouseEnter="InsertPlayButtonInCur"  Width="Auto" Height="Auto">
 
 
-                            
-                            
+
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="7" />
 
                                 <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="1*" />
-                                </Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="4"/>
@@ -157,9 +158,9 @@
                             <Rectangle Fill="#FF191919" Grid.Row="1" Visibility="{Binding Item2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="4"  />
 
                             <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{Binding Item1.Bpm}" />
-                                <TextBlock VerticalAlignment="Center" Grid.Column="2" Text="{Binding Item1.Title}" FontWeight="Bold"/>
-                                <TextBlock VerticalAlignment="Center" Grid.Column="4" Text="{Binding Item1.Artist}"/>
-                                <TextBlock VerticalAlignment="Center" Text="{Binding Item3}" Visibility="Hidden" x:Name="SongId"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Grid.Column="2" Text="{Binding Item1.Title}" FontWeight="Bold"/>
+                            <TextBlock VerticalAlignment="Center" Grid.Column="4" Text="{Binding Item1.Artist}"/>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Item3}" Visibility="Hidden" x:Name="SongId"></TextBlock>
 
                             <Grid MouseUp="CurrentPlaylist_SelectionChanged" Background="Transparent" MinWidth="20" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Column="4">
                                 <Path Stroke="#444444" StrokeThickness="2" Data="M2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12M10,17L15,12L10,7V17Z" Stretch="Uniform" Fill="#FF1F1F1F"  x:Name="playItemButton">
@@ -341,7 +342,12 @@
         <materialDesign:Snackbar x:Name="SnackBarDialogdatabase" Grid.Column="1" Margin="0 0 0 -9" MessageQueue="{materialDesign:MessageQueue}" Height="60" HorizontalAlignment="Stretch" Background="#00796b" Foreground="White" />
 
 
-        <TextBox  VerticalAlignment="Top" x:Name="SearchTermTextBox"  Foreground="White" Margin="10,62.04,10,0" Grid.Column="1" KeyUp="search"/>
+        <TextBox ContextMenuService.Placement="Bottom"  VerticalAlignment="Top" x:Name="SearchTermTextBox"  Foreground="White" Margin="10,62.04,10,0" Grid.Column="1" KeyUp="search"/>
+
+
+
+
+
         <TextBlock IsHitTestVisible="False" Text="Search" VerticalAlignment="Top" Margin="10.75,68.041,0,0" Foreground="DarkGray" Grid.Column="1" Width="40.263" Height="17.126" HorizontalAlignment="Left">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
@@ -354,6 +360,10 @@
                 </Style>
             </TextBlock.Style>
         </TextBlock>
+
+        <Button Click="AddPl" Width="20" VerticalAlignment="Top" Height="20"  Style="{DynamicResource MaterialDesignRaisedDarkButton}" Margin="10,62.04,15,0" Background="DarkGray" FontSize="10"  HorizontalAlignment="Right" Grid.Column="1">
+            <TextBlock Text="pl:" Margin="-11,-3,0,0"/>
+        </Button>
         <!--<Button Grid.Column="1" HorizontalAlignment="Left" Margin="313.5,10,0,0" VerticalAlignment="Top" Width="50" Style="{DynamicResource MaterialDesignFloatingActionDarkButton}" Height="50">
             <Button.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="100"/>
@@ -385,6 +395,8 @@
         </Grid>
         <Path Grid.Column="1" Data="M354,417.16667 L354,35.333333" HorizontalAlignment="Left" Margin="0,10" Stretch="Fill" Width="1" Stroke="#FF191919">
         </Path>
+        <ListBox x:Name="playlists" MouseUp="PlaylistSearchSelected" Grid.Column="1" Width="180" Background="#303030" Visibility="Visible" Height="220" Margin="12,90,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></ListBox>
+
         <!--</Grid>-->
     </Grid>
 </Page>

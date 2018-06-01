@@ -254,8 +254,45 @@ namespace WpfApp2.pages
 
         private void search(object sender = null, KeyEventArgs e = null)
         {
+            bool show = true;
+            if (SearchTermTextBox.Text.StartsWith("pl:"))
+            {
 
-            container.searchAllMusic(SearchTermTextBox.Text);
+                string plName = SearchTermTextBox.Text;
+                List<string> pl = container.GetPlaylists();
+
+
+                for (int i = 0; i < pl.Count(); i++)
+                {
+                    if(plName.Contains(pl[i]))
+                    {
+                        container.SearchPlaylist(i, plName.Substring(3 + pl[i].Length +1 /*mellanslag*/));
+                        i = plName.Count();
+                        playlists.Visibility = Visibility.Hidden;
+
+                        show = false;
+                    }
+
+                }
+
+                if(show)
+                {
+                    if(playlists.ItemsSource == null)
+                    {
+                        playlists.ItemsSource = container.GetPlaylists();
+                    }
+                    playlists.Visibility = Visibility.Visible;
+                }
+
+            }
+            else
+            {
+                playlists.Visibility = Visibility.Hidden;
+            }
+            if(show)
+            {
+                container.searchAllMusic(SearchTermTextBox.Text);
+            }
         }
 
         private void AddMusic(object sender, RoutedEventArgs e)
@@ -694,6 +731,23 @@ namespace WpfApp2.pages
         private void ArtistLabelUp(object sender, MouseButtonEventArgs e)
         {
             container.SortOnChoice(1);
+        }
+
+
+        private void AddPl(object sender, RoutedEventArgs e)
+        {
+            this.SearchTermTextBox.Text = "pl:";
+            Console.WriteLine("click!");
+            this.playlists.ItemsSource = container.GetPlaylists();
+            playlists.Visibility = Visibility.Visible;
+
+        }
+
+        private void PlaylistSearchSelected(object sender, MouseButtonEventArgs e)
+        {
+            SearchTermTextBox.Text = "pl:" + (sender as ListBox).SelectedItem.ToString() + " ";
+            search();
+            playlists.Visibility = Visibility.Hidden;
         }
     }
 

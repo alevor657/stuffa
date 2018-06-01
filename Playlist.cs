@@ -439,45 +439,55 @@ namespace WpfApp2
 
             List<Tuple<int, int>> indexes = similarSentence(artistsWords, search);
             indexes.AddRange(similarSentence(titlesWords, search));
-            //get a combined score
-            indexes = groupByFirstTupleAndAddSecond(indexes);
 
             int searchBpm = getInt(search);
-            if (searchBpm != -1)
+            if (indexes.Count == 0 && searchBpm == -1)
             {
-                if (this.BPM.Count == 0)
+                ret = this.music;
+            }
+            else
+            {
+                //get a combined score
+                indexes = groupByFirstTupleAndAddSecond(indexes);
+
+                
+                if (searchBpm != -1)
                 {
-                    //fill the bpm list
-                    loadBPM();
-                }
-                //if there is songs that have been found previusly
-                if (indexes.Count > 0 || search.Contains(' '))
-                {
-                    //check if there is any with the bpm or title artist with number
-                    for (int i = 0; i < indexes.Count; i++)
+                    if (this.BPM.Count == 0)
                     {
-                        //if it does not contain the number
-                        if (!(this.music[indexes[i].Item1].getBpm() == searchBpm || this.music[indexes[i].Item1].getArtist().Contains(searchBpm.ToString()) || this.music[indexes[i].Item1].getTitle().Contains(searchBpm.ToString())))
+                        //fill the bpm list
+                        loadBPM();
+                    }
+                    //if there is songs that have been found previusly
+                    if (indexes.Count > 0 || search.Contains(' '))
+                    {
+                        //check if there is any with the bpm or title artist with number
+                        for (int i = 0; i < indexes.Count; i++)
                         {
-                            indexes.RemoveAt(i);
+                            //if it does not contain the number
+                            if (!(this.music[indexes[i].Item1].getBpm() == searchBpm || this.music[indexes[i].Item1].getArtist().Contains(searchBpm.ToString()) || this.music[indexes[i].Item1].getTitle().Contains(searchBpm.ToString())))
+                            {
+                                indexes.RemoveAt(i);
+                            }
                         }
                     }
+                    else
+                    {
+                        ret = searchBPM(searchBpm, 0);
+                        return ret;
+                    }
                 }
-                else
-                {
-                    ret = searchBPM(searchBpm, 0);
-                    return ret;
-                }
-            }
 
-            //for every index
-            foreach (Tuple<int, int> i in indexes)
-            {
-                Console.WriteLine("search res: " + music[i.Item1].getArtist() + " : " + i.Item2);
-                // ... add the music on index
-                ret.Add(music[i.Item1]);
+                //for every index
+                foreach (Tuple<int, int> i in indexes)
+                {
+                    Console.WriteLine("search res: " + music[i.Item1].getArtist() + " : " + i.Item2);
+                    // ... add the music on index
+                    ret.Add(music[i.Item1]);
+                }
             }
             return ret;
+            
         }
 
         private int getInt(string str)
