@@ -264,7 +264,7 @@ namespace WpfApp2.pages
 
                 for (int i = 0; i < pl.Count(); i++)
                 {
-                    if(plName.Contains(pl[i]))
+                    if(plName.Contains(pl[i]) && plName.Length >= 3 + pl[i].Length + 1)
                     {
                         container.SearchPlaylist(i, plName.Substring(3 + pl[i].Length +1 /*mellanslag*/));
                         i = plName.Count();
