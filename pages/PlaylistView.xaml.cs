@@ -176,5 +176,7 @@ namespace WpfApp2.pages
         {
             return this.PlaylistName.IsSelectionActive;
         }
+
+
     }
 }

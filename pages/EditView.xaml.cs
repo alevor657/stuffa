@@ -744,6 +744,8 @@ namespace WpfApp2.pages
             Console.WriteLine("click!");
             this.playlists.ItemsSource = container.GetPlaylists();
             playlists.Visibility = Visibility.Visible;
+            SearchTermTextBox.Focus();
+            SearchTermTextBox.CaretIndex = 3;
 
         }
 
@@ -756,8 +758,10 @@ namespace WpfApp2.pages
 
         private void ViewNew(object sender, RoutedEventArgs e)
         {
-            SearchTermTextBox.Text = "new: ";
+            SearchTermTextBox.Text = "new:";
             search();
+            SearchTermTextBox.Focus();
+            SearchTermTextBox.CaretIndex = 4;
         }
     }
 
