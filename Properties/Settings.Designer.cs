@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BPlay.Properties {
+namespace StudffaDJ.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BPlay")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("StuffaDJ")]
+[assembly: AssemblyDescription("Software made for Stuffa in Karlshamn, Sweden")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BPlay")]
+[assembly: AssemblyProduct("StuffaDJ")]
 [assembly: AssemblyCopyright("Copyright Fredrik ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

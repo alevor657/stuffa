@@ -130,36 +130,36 @@ namespace Stuffa
             double randNr = rand.NextDouble();
             if(randNr < 0.2)
             {
-                smilie += ";";
+                smilie += "🎺";
             }
-            else if(randNr > 0.7)
+            else if(randNr > 0.9)
             {
-                smilie += ":";
+                smilie += "🎸";
+            }
+            else if (randNr > 0.7)
+            {
+                smilie = "😎";
+            }
+            else if (randNr > 0.55)
+            {
+                smilie = "💃🏼";
+            }
+            else if (randNr > 0.5)
+            {
+                smilie = "🔊";
+            }
+            else if (randNr > 0.4)
+            {
+                smilie = "🎶";
             }
             else 
             {
-                smilie += "B";
+                smilie += "🎵";
             }
 
-            randNr = rand.NextDouble();
-            if (randNr < 0.2)
-            {
-                smilie += ")";
-            }
-            else if (randNr > 0.7 && smilie != "B")
-            {
-                smilie += "D";
-            }
-            else if (randNr > 0.5 && smilie != "B")
-            {
-                smilie += "P";
-            }
-            else 
-            {
-                smilie += "-)";
-            }
 
-            Title.Text = smilie + "    ";
+
+            Title.Text = "   " + smilie + "        ";
         }
 
         private void setTitle(object sender, MouseEventArgs e)
@@ -169,7 +169,7 @@ namespace Stuffa
 
         private void setTitle()
         {
-            Title.Text = "BPlay";
+            Title.Text = "StuffaDJ";
         }
 
         private void dragWindow(object sender, MouseEventArgs e)
