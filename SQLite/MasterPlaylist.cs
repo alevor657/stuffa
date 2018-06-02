@@ -158,7 +158,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             List<Music> m = new List<Music>();
 
 
-            Console.WriteLine("nr of titles : " + this.nrOfTitles());
+            //Console.WriteLine("nr of titles : " + this.nrOfTitles());
             Console.WriteLine("searching...");
 
             List<Tuple<string, int>> res = new List<Tuple<string, int>>();
@@ -385,7 +385,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                     {
                         //add the result to res with a 1
                         m.Add(new Music(reader["path"].ToString()));
-                        Console.WriteLine(reader["date"].ToString());
+                        //Console.WriteLine(reader["date"].ToString());
                     }
                 }
             }
