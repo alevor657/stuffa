@@ -280,11 +280,14 @@ namespace WpfApp2.pages
         internal bool newPlaylist(string name)
         {
             bool created = false;
-            if (mp.addNewPlaylist(name))
+            if (name != "pl" && name != "p" && name != "l")
             {
-                created = true;
-                pv.updatePlaylists(GetPlaylists());
-                snackBarActivatePlaylistCreated(name);
+                if (mp.addNewPlaylist(name))
+                {
+                    created = true;
+                    pv.updatePlaylists(GetPlaylists());
+                    snackBarActivatePlaylistCreated(name);
+                }
             }
             return created;
 
