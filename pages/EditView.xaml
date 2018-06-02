@@ -127,7 +127,7 @@
 
 
 
-                        <Grid Margin="0,0,0,0" x:Name="itemInCur" MouseUp="CurMenuFocus"  AllowDrop="True" Drop="testtest" Mouse.MouseEnter="InsertPlayButtonInCur"  Width="Auto" Height="Auto">
+                        <Grid Margin="0,0,0,0" x:Name="itemInCur" MouseUp="CurMenuFocus"  AllowDrop="True" Drop="testtest"  Width="Auto" Height="Auto">
 
 
 
