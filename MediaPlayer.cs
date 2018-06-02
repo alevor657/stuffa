@@ -255,9 +255,9 @@ namespace Stuffa
             }
         }
 
-        public List<Music> searchAllMusic(string searchTerm)
+        public List<Music> searchAllMusic(string searchTerm, bool searchNew = false)
         {
-            List<Music> ret = master.search(searchTerm);
+            List<Music> ret = master.search(searchTerm, false, searchNew);
             if(ret.Count > 400)
             {
                 ret = ret.GetRange(0, 399);

@@ -36,7 +36,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
             command.ExecuteNonQuery();
 
-            sql = "CREATE TABLE IF NOT EXISTS SongPaths (paths varchar(100), songNr INTEGER PRIMARY KEY AUTOINCREMENT)";
+            sql = "CREATE TABLE IF NOT EXISTS SongPaths (paths varchar(100), date Date, songNr INTEGER PRIMARY KEY AUTOINCREMENT)";
             command = new SQLiteCommand(sql, dbConnection);
             command.ExecuteNonQuery();
 
@@ -62,7 +62,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
         }
         public void insertNewMusic(Music m)
         {
-            string sql = "INSERT INTO SongPaths(paths) VALUES(?)";
+            string sql = "INSERT INTO SongPaths(paths, date) VALUES(?, DateTime('now'))";
             List<string> SQLParams = new List<string>()
             {
                 m.getFullPath()
@@ -152,7 +152,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             return ret;
         }
 
-        public List<Music> search(string s, bool searchExact = false)
+        public List<Music> search(string s, bool searchExact = false, bool searchNew = false)
         {
 
             List<Music> m = new List<Music>();
@@ -207,9 +207,19 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                     searchWord += "*";
                 }
                 //sql code for search
-                sql = "SELECT sp.paths as path FROM SongPaths AS sp " +
-                "INNER JOIN Titles AS t ON t.songNr  = sp.songNr " +
-                "AND t.title MATCH ?";
+                if(searchNew)
+                {
+                    sql = "SELECT sp.date as date, sp.paths as path FROM SongPaths AS sp " +
+                    "INNER JOIN Titles AS t ON t.songNr  = sp.songNr " +
+                    "AND t.title MATCH ? ORDER BY date ASC";
+                }
+                else
+                {
+                    sql = "SELECT sp.paths as path FROM SongPaths AS sp " +
+                    "INNER JOIN Titles AS t ON t.songNr  = sp.songNr " +
+                    "AND t.title MATCH ?";
+                }
+
 
                 //insert sql command
                 command = new SQLiteCommand(sql, dbConnection);
@@ -255,9 +265,18 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                         }
                     }
 
-
-                    res = this.groupByFirstTupleAndAddSecond(res);
-                    res = this.removeLowSearchRes(res);
+                    if (!searchNew)
+                    {
+                        res = this.groupByFirstTupleAndAddSecond(res);
+                        res = this.removeLowSearchRes(res);
+                    }
+                    else
+                    {
+                        if(res.Count() > 300)
+                        {
+                             res.RemoveRange(300, res.Count() - 300);
+                        }
+                    }
                     //transform paths to music obj
                     for (int i = 0; i < res.Count; i++)
                     {
@@ -343,6 +362,31 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 for (int i = 0; i < res.Count; i++)
                 {
                     m.Add(new Music(res[i].Item1));
+                }
+            }
+
+            if(m.Count == 0 && searchNew)
+            {
+                sql = "SELECT sp.date as date, sp.paths as path FROM SongPaths AS sp " +
+                    "ORDER BY date DESC LIMIT 300";
+
+                //insert sql command
+                command = new SQLiteCommand(sql, dbConnection);
+
+                //insert parameter.
+                command.Parameters.Add(new SQLiteParameter("param1", bpm));
+
+                //execute the command
+                SQLiteDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    //read the result
+                    while (reader.Read())
+                    {
+                        //add the result to res with a 1
+                        m.Add(new Music(reader["path"].ToString()));
+                        Console.WriteLine(reader["date"].ToString());
+                    }
                 }
             }
 

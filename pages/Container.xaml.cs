@@ -254,9 +254,9 @@ namespace WpfApp2.pages
 
         }
 
-        internal void searchAllMusic(string searchTerm)
+        internal void searchAllMusic(string searchTerm, bool searchNew = false)
         {
-            ev.LoadSearch(mp.searchAllMusic(searchTerm));
+            ev.LoadSearch(mp.searchAllMusic(searchTerm, searchNew));
             //ev.setMarked(mp.GetMusicFromPlaylist(), mp.getAllBpm(105, 3));
         }
 

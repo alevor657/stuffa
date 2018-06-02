@@ -364,6 +364,9 @@
         <Button Click="AddPl" Width="20" VerticalAlignment="Top" Height="20"  Style="{DynamicResource MaterialDesignRaisedDarkButton}" Margin="10,62.04,15,0" Background="DarkGray" FontSize="10"  HorizontalAlignment="Right" Grid.Column="1">
             <TextBlock Text="pl:" Margin="-11,-3,0,0"/>
         </Button>
+        <Button Click="ViewNew" Width="27" VerticalAlignment="Top" Height="20"  Style="{DynamicResource MaterialDesignRaisedDarkButton}" Margin="10,62.04,40,0" Background="DarkGray" FontSize="10"  HorizontalAlignment="Right" Grid.Column="1">
+            <TextBlock Text="new:" Margin="-13,-3,-9,0"/>
+        </Button>
         <!--<Button Grid.Column="1" HorizontalAlignment="Left" Margin="313.5,10,0,0" VerticalAlignment="Top" Width="50" Style="{DynamicResource MaterialDesignFloatingActionDarkButton}" Height="50">
             <Button.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="100"/>

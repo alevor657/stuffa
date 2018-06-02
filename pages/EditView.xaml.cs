@@ -289,6 +289,12 @@ namespace WpfApp2.pages
             else
             {
                 playlists.Visibility = Visibility.Hidden;
+                if(SearchTermTextBox.Text.StartsWith("new:"))
+                {
+                    show = false;
+                    container.searchAllMusic(SearchTermTextBox.Text.Substring(4), true);
+
+                }
             }
             if(show)
             {
@@ -748,7 +754,11 @@ namespace WpfApp2.pages
             playlists.Visibility = Visibility.Hidden;
         }
 
-
+        private void ViewNew(object sender, RoutedEventArgs e)
+        {
+            SearchTermTextBox.Text = "new: ";
+            search();
+        }
     }
 
 }
