@@ -35,10 +35,11 @@ namespace WpfApp2.pages
         //public List<Music> currentMusic;
         public EditView(Container container)
         {
-
             this.container = container;
             InitializeComponent();
-           
+            playlists.Visibility = Visibility.Hidden;
+
+
             //SnackBar.Content = new MsgWin("dublets spoted", "add", "skipp", leftMsbWinButton, rightMsbWinButton);
 
 
