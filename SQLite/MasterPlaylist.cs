@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using WpfApp2.SQLite;
+using Newtonsoft.Json;
+using System.IO;
+using StuffaDJ.feedback;
 
 namespace WpfApp2
 {
@@ -16,6 +19,10 @@ namespace WpfApp2
 
         public MasterPlaylist()
         {
+           
+
+
+
 
             //create/ connect
             dbConnection =
@@ -46,7 +53,57 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
 
 
-            
+
+            int warning = 0;
+            try
+            {
+                using (StreamReader r = new StreamReader((Directory.GetCurrentDirectory() + "\\ProgramInfo.txt")))
+                {
+                    string info = r.ReadToEnd();
+                    warning = Int32.Parse(info);
+                    if (warning > 0)
+                    {
+                        //Test if it is the wrong database
+                        try
+                        {
+                            sql = "SELECT date FROM SongPaths LIMIT 1";
+                            SQLiteDataReader reader = command.ExecuteReader();
+                            string g = reader["date"].ToString();
+                        }
+                        catch
+                        {
+                            if (nrOfTitles() > 0)
+                            {
+                                Window1 win = new Window1("Unable to save new music to database and search with the \"new\" command" +
+                                    ". To fix this please remove "
+                                    + (Directory.GetCurrentDirectory() + "\\MasterPlaylist.sqlite") +
+                                    ".");
+                            }
+                        }
+                    }
+
+
+                }
+            }
+            catch
+            {
+                Console.WriteLine("could not acces text files on " + Directory.GetCurrentDirectory() + "\\ProgramInfo.txt" + " or the file is not properly writen");
+                warning = 1;
+            }
+
+            try
+            {
+
+                // package Newtonsoft.Json (Json.Net) need to be installed. 
+                // to install go to "project" > "manage NuGet packages..." > "Brows" > type "Newtonsoft.Json" / "Json.Net" > "install"
+
+                // convert the musicTracks to a JSON object and save it ass a .txt file where this playlist file exists
+                warning--;
+                System.IO.File.WriteAllText(Directory.GetCurrentDirectory() + "\\ProgramInfo.txt", (warning).ToString());
+            }
+            catch { }
+
+
 
 
 
@@ -58,7 +115,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             while (reader.Read())
                 Console.WriteLine("Name: " + reader["name"] + "\tScore: " + reader["score"]);
 */
-            
+
         }
         public void insertNewMusic(Music m)
         {

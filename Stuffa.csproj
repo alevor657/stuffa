@@ -131,6 +131,9 @@
     <Compile Include="feedback\MsgWin.xaml.cs">
       <DependentUpon>MsgWin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="feedback\Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MediaPlayer.cs" />
     <Compile Include="pages\Container.xaml.cs">
       <DependentUpon>Container.xaml</DependentUpon>
@@ -170,6 +173,10 @@
     <Page Include="feedback\MsgWin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="feedback\Window1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="pages\Container.xaml">
       <SubType>Designer</SubType>
