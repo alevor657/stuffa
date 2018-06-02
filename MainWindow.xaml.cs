@@ -130,11 +130,11 @@ namespace Stuffa
             double randNr = rand.NextDouble();
             if(randNr < 0.2)
             {
-                smilie += "🎺";
+                smilie = "🎺";
             }
             else if(randNr > 0.9)
             {
-                smilie += "🎸";
+                smilie = "🎸";
             }
             else if (randNr > 0.7)
             {
@@ -152,9 +152,21 @@ namespace Stuffa
             {
                 smilie = "🎶";
             }
-            else 
+            else if (randNr > 0.36)
             {
-                smilie += "🎵";
+                smilie = "👨‍🎤";
+            }
+            else if (randNr > 0.32)
+            {
+                smilie = "👩‍🎤";
+            }
+            else if (randNr > 0.24)
+            {
+                smilie = "🎵";
+            }
+            else
+            {
+                smilie = "Made by BTH students!";
             }
 
 

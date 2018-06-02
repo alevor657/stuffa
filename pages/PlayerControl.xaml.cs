@@ -145,16 +145,24 @@ namespace WpfApp2.pages
 
 
         }
-
+        int preventSleepCounter = 30;
         void TimerTickerSlideText(object sender, EventArgs e)
         {
             if (DelayCounter < 50)
+            {
                 DelayCounter++;
+                preventSleepCounter--;
+            }
 
 
             if (DelayCounter == 50)
             {
-                container.PreventSleep();
+                if(preventSleepCounter <= 0)
+                {
+                    container.PreventSleep();
+                    preventSleepCounter = 30;
+                    Console.WriteLine("preventingSleep");
+                }
                 if (lengthcounter == maxLengthOfTitle)
                 {
                     lengthcounter = 0;
