@@ -9,7 +9,6 @@ using System.Threading;
 using WpfApp2.SQLite;
 using Newtonsoft.Json;
 using System.IO;
-using StuffaDJ.feedback;
 
 namespace WpfApp2
 {
@@ -67,6 +66,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                         try
                         {
                             sql = "SELECT date FROM SongPaths LIMIT 1";
+                            command = new SQLiteCommand(sql, dbConnection);
                             SQLiteDataReader reader = command.ExecuteReader();
                             string g = reader["date"].ToString();
                         }
@@ -74,10 +74,11 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                         {
                             if (nrOfTitles() > 0)
                             {
-                                Window1 win = new Window1("Unable to save new music to database and search with the \"new\" command" +
-                                    ". To fix this please remove "
-                                    + (Directory.GetCurrentDirectory() + "\\MasterPlaylist.sqlite") +
-                                    ".");
+
+                                sql = "ALTER TABLE SongPaths ADD COLUMN date Date";
+                                command = new SQLiteCommand(sql, dbConnection);
+                                command.ExecuteNonQuery();
+                                
                             }
                         }
                     }
