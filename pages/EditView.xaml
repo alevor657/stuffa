@@ -398,7 +398,7 @@
         </Grid>
         <Path Grid.Column="1" Data="M354,417.16667 L354,35.333333" HorizontalAlignment="Left" Margin="0,10" Stretch="Fill" Width="1" Stroke="#FF191919">
         </Path>
-        <ListBox x:Name="playlists" MouseUp="PlaylistSearchSelected" Grid.Column="1" Width="180" Background="#303030" Visibility="Visible" Height="220" Margin="12,90,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></ListBox>
+        <ListBox x:Name="playlists" MouseUp="PlaylistSearchSelected" BorderBrush="#FF191919" BorderThickness="1,0,1,1" Grid.Column="1" Width="180" Background="#303030" Visibility="Visible" Height="220" Margin="12,90,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></ListBox>
 
         <!--</Grid>-->
     </Grid>
