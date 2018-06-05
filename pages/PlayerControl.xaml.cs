@@ -1,9 +1,14 @@
-﻿using Stuffa;
+﻿using IdSharp.Tagging.ID3v2;
+using IdSharp.Tagging.ID3v2.Frames;
+using Stuffa;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -368,7 +373,77 @@ namespace WpfApp2.pages
 
             }
 
+            LoadPicture(m.getFullPath());
+
         }
+
+        private void LoadPicture(string path)
+        {
+            IID3v2Tag file = new ID3v2Tag(path);
+
+            if (file.PictureList != null && file.PictureList.Count > 0)
+            {
+                IAttachedPicture picture = file.PictureList[0];
+
+                System.Threading.Thread myThread;
+
+                myThread = new System.Threading.Thread(new
+   System.Threading.ThreadStart(() => Dispatcher.Invoke(() => SetAlbumSource(Picture(picture)))));
+                myThread.Start();
+
+                //AlbumArt.Source = Picture(picture);
+
+                
+            }
+            else
+            {
+
+                AlbumArt.Source = new BitmapImage(new Uri("../img/albumart_placeholder.png", UriKind.Relative));// new Uri("../img/albumart_placeholder.png", UriKind.Relative);
+            }
+
+
+
+        }
+
+        private void SetAlbumSource(ImageSource IS)
+        {
+            AlbumArt.Source = IS;
+        }
+
+
+
+        private ImageSource Picture(IAttachedPicture attachedPicture)
+        {
+            byte[] PictureBytes;
+            ImageSource IS = null;
+            if (attachedPicture == null)
+                throw new ArgumentNullException("attachedPicture");
+
+
+           PictureType  PictureType = attachedPicture.PictureType;
+
+            byte[] pictureData = attachedPicture.PictureData;
+            PictureBytes = pictureData;
+            if (pictureData != null)
+            {
+                try
+                {
+                    MemoryStream memoryStream = new MemoryStream(pictureData);
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+                    BitmapImage bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = memoryStream;
+                    bitmapImage.EndInit();
+
+                    IS = bitmapImage;
+                }
+                catch (NotSupportedException)
+                {
+                }
+            }
+            return IS;
+        }
+
 
         private void firstTimePlay()
         {

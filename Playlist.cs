@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using Stuffa;
+using static System.Net.Mime.MediaTypeNames;
+using IdSharp.Tagging.ID3v2;
+
 
 namespace WpfApp2
 {
@@ -1013,7 +1016,11 @@ namespace WpfApp2
             {
                 Console.WriteLine("could not acces text files on " + path + " or the file is not properly writen");
             }
+
+
+
         }
+
 
         public bool getIfLoaded()
         {

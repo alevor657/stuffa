@@ -52,7 +52,6 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
 
 
 
-
             int warning = 0;
             try
             {
@@ -68,6 +67,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                             sql = "SELECT date FROM SongPaths LIMIT 1";
                             command = new SQLiteCommand(sql, dbConnection);
                             SQLiteDataReader reader = command.ExecuteReader();
+                            reader.Read();
                             string g = reader["date"].ToString();
                         }
                         catch
