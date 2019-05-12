@@ -29,7 +29,7 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 Console.WriteLine("Connecting to db file...");
             }
 
-            //insert
+            //create tables
             string sql = "CREATE VIRTUAL TABLE IF NOT EXISTS Titles USING fts3(title TEXT, songNr INTEGER)";
             SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
             command.ExecuteNonQuery();
@@ -41,23 +41,10 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             sql = "CREATE TABLE IF NOT EXISTS Bpm (bpm INTEGER, songNr INTEGER)";
             command = new SQLiteCommand(sql, dbConnection);
             command.ExecuteNonQuery();
-
-
-
-            
-
-
-
-            //--------
-            /*
-            sql = "select * from highscores order by score desc";
-            command = new SQLiteCommand(sql, dbConnection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-                Console.WriteLine("Name: " + reader["name"] + "\tScore: " + reader["score"]);
-*/
             
         }
+        
+        
         public void insertNewMusic(Music m)
         {
             string sql = "INSERT INTO SongPaths(paths) VALUES(?)";
@@ -68,8 +55,6 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             SQLiteCommand cmd = createCmd(sql, SQLParams);
             cmd.ExecuteNonQuery();
             
-            
-
             sql = "SELECT last_insert_rowid() AS id";
 
             cmd = new SQLiteCommand(dbConnection);
@@ -137,14 +122,6 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
             Console.WriteLine("searching...");
 
             List<Music> res = new List<Music>();
-            /*
-            string sql = "SELECT paths FROM SongPaths WHERE paths LIKE '%" + s + "%'";
-            SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
-            SQLiteDataReader reader = command.ExecuteReader();
-
-            while (reader.Read())
-                res.Add(reader["paths"].ToString());
-                */
 
             string sql = "SELECT sp.paths as path FROM SongPaths AS sp " +
                 "INNER JOIN Titles AS t ON t.songNr  = sp.songNr " +
@@ -163,23 +140,6 @@ new SQLiteConnection("Data Source=MasterPlaylist.sqlite;Version=3;");
                 res.Add(new Music(reader["path"].ToString()));
                 Console.WriteLine(res[res.Count - 1].ToString());
             }
-            /*
-            //* test
-            Console.WriteLine("start test...");
-
-            sql = "SELECT paths AS path FROM SongPaths";
-
-            command = new SQLiteCommand(sql, dbConnection);
-            reader = command.ExecuteReader();
-
-            while (reader.Read())
-            {
-                Console.WriteLine(reader["path"].ToString());
-            }
-            Console.WriteLine("end test...");
-
-            ///test
-            */
 
             return res;
 
